@@ -404,5 +404,13 @@
       "texte": "##Dis-le à personne.##"
     }
   ],
-  "phraseFinale": "Maintenant, tu le sais. __Ne le dis à personne.__"
+  "phraseFinale": "Maintenant, tu le sais. __Ne le dis à personne.__",
+  "question": {
+    "texte": "La prochaine nuit, tu veux l’horreur…",
+    "choix": [
+      "Lente, qui s’installe",
+      "Brutale, sans prévenir",
+      "Si proche qu’elle pourrait être vraie"
+    ]
+  }
 }
