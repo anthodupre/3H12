@@ -230,7 +230,7 @@ W = avert.append
 MEPS = ['manuscrit', 'journal_intime', 'rapport', 'sms', 'transcription', 'forum', 'lettre', 'recit', 'terminal', 'coupure']
 EFFETS_FOND = ['pluie', 'neige', 'brouillard', 'poussiere', 'braises', 'statique', 'lucioles', 'cendres', 'etoiles', 'bulles', 'aucun']
 EFFETS_EV = ['glitch', 'noir', 'flash', 'tremblement', 'epier', 'notification', 'appel', 'aucun']
-SONS = ['chute', 'crac', 'garage', 'coups_garage', 'coup', 'craquement', 'chuchotement', 'respiration', 'porte', 'silence', 'pas', 'grattement', 'coeur', 'statique', 'cloche', 'vibration', 'goutte', 'texto', 'mouches', 'aucun']
+SONS = ['chute', 'crac', 'garage', 'coups_garage', 'video_colis', 'coup', 'craquement', 'chuchotement', 'respiration', 'porte', 'silence', 'pas', 'grattement', 'coeur', 'statique', 'cloche', 'vibration', 'goutte', 'texto', 'mouches', 'aucun']
 AMBIANCES = ['frigo', 'douche', 'gouttes', 'voiture', 'horloge', 'vent', 'climatiseur', 'neon', 'mouches', 'souffle', 'aucune']
 ENTREES = ['fondu', 'zoom', 'tourner', 'baisser', 'ouvrir', 'photo']
 COUCHES = ['drone', 'pad', 'cloche', 'pulsation', 'bruit', 'boite_a_musique', 'cordes', 'choeur', 'piano']
@@ -257,7 +257,7 @@ def verifier_svg(svg, ou):
     if not svg.strip().endswith('</svg>'): E(f'{ou}: must end with </svg>')
     if re.search(r'<script|<foreignObject|\son\w+\s*=|href\s*=\s*["\']https?:|<image', svg, re.I): E(f'{ou}: forbidden content (script, foreignObject, on… attribute, external link, image)')
     # (an animated decor carries its movements: a little more room)
-    if len(svg) > 32000: E(f'{ou}: too big ({len(svg)} characters, max 32000)')
+    if len(svg) > 40000: E(f'{ou}: too big ({len(svg)} characters, max 40000)')
     elif len(svg) > 22000: W(f'{ou}: big ({len(svg)} characters), aim for under 22000')
     if svg.count('<') != svg.count('>'): W(f'{ou}: number of < and > differs, check the tags')
 def verifier_balisage(t, ou):
@@ -383,7 +383,7 @@ for i, b in enumerate(blocs):
             else: E(f'{ou} (geste): vue with neither decor nor svg')
             if v.get('entree', 'fondu') not in ENTREES: E(f'{ou} (geste): vue.entree must be one of {", ".join(ENTREES)}')
             if v.get('son', 'aucun') not in SONS: E(f'{ou} (geste): invalid vue.son')
-            if 'duree' in v and not num(v['duree'], 1200, 12000): E(f'{ou} (geste): vue.duree between 1200 and 12000 ms')
+            if 'duree' in v and not num(v['duree'], 1200, 30000): E(f'{ou} (geste): vue.duree between 1200 and 30000 ms')
     if t == 'scene':
         nb_scenes += 1
         if b.get('decor'):

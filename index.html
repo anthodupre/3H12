@@ -18,7 +18,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -78,6 +78,7 @@ html {
   background: var(--fond);
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  touch-action: pan-x pan-y;            /* pas de zoom (pincer, toucher deux fois) : l'immersion d'abord ; la taille du texte se règle dans les paramètres */
 }
 body {
   margin: 0;
@@ -1546,7 +1547,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
    1. CONFIGURATION — les réglages faciles à modifier
    ===================================================================== */
 const CONFIG = {
-  version: '2.2',
+  version: '2.3',
   fuseau: 'America/Toronto',          // toutes les dates sont calculées à Toronto
   dossierHistoires: 'stories/',       // dossier des fichiers JSON
   cleSauvegarde: '3h12-sauvegarde-v1',// clé dans localStorage
@@ -1575,7 +1576,7 @@ const TYPES_BLOCS = ['paragraphe', 'titre', 'dialogue', 'sms', 'note', 'citation
 const EFFETS_FOND = ['pluie', 'neige', 'brouillard', 'poussiere', 'braises', 'statique', 'lucioles', 'cendres', 'etoiles', 'bulles', 'aucun'];
 const EFFETS_EVENEMENT = ['glitch', 'noir', 'flash', 'tremblement', 'epier', 'notification', 'appel', 'aucun'];
 const COTES_EPIER = ['droite', 'gauche', 'bas', 'haut'];
-const SONS_EVENEMENT = ['chute', 'crac', 'garage', 'coups_garage', 'coup', 'craquement', 'chuchotement', 'respiration', 'porte', 'silence', 'pas', 'grattement', 'coeur', 'statique', 'cloche', 'vibration', 'goutte', 'texto', 'mouches', 'aucun'];
+const SONS_EVENEMENT = ['chute', 'crac', 'garage', 'coups_garage', 'video_colis', 'coup', 'craquement', 'chuchotement', 'respiration', 'porte', 'silence', 'pas', 'grattement', 'coeur', 'statique', 'cloche', 'vibration', 'goutte', 'texto', 'mouches', 'aucun'];
 // Ambiances : sons en boucle qui suivent le lieu de l'histoire (blocs « scene »)
 const NOMS_AMBIANCES = ['frigo', 'douche', 'gouttes', 'voiture', 'horloge', 'vent', 'climatiseur', 'neon', 'mouches', 'souffle'];
 // Entrée d'une « vue » (ce que le lecteur voit après un geste)
@@ -2042,7 +2043,7 @@ function normaliserVue(v, r, ou) {
     svg: typeof v.svg === 'string' ? v.svg : '',
     decor: chaine(v.decor),
     son: SONS_EVENEMENT.includes(son) ? son : (r.av(`${ou}: unknown vue sound "${v.son}".`), 'aucun'),
-    duree: nombre(v.duree, 3400, 1200, 12000),
+    duree: nombre(v.duree, 3400, 1200, 30000),
     entree: ENTREES_VUE.includes(entree) ? entree : 'fondu',
     titre: chaine(v.titre),
     texte: chaine(v.texte),
@@ -3935,6 +3936,100 @@ function claquement(t, v) {
   o.onended = () => { try { sortie.disconnect(); } catch (e) {} };
 }
 
+
+/* --- La vidéo du voisin (VID_0347.MP4) : voix étouffée, rire, ambiances, bruitages --- */
+// Une voix d'homme qu'on n'entend pas bien (un portable, à la police) : des syllabes, des voyelles qui changent,
+// une intonation qui descend en fin de phrase, des consonnes (petits souffles) ; chuchote : sans la voix, juste le souffle
+function voixMarmonnee(t, fin, dest, { f0 = 112, v = .5, chuchote = false } = {}) {
+  if (fin - t < .15) return;
+  const VOY = [[730, 1090, 2440], [530, 1840, 2480], [320, 2150, 2900], [570, 860, 2410], [340, 920, 2240], [500, 1450, 2500]];
+  const fs = [A.filtre('bandpass', 600, 7), A.filtre('bandpass', 1400, 9), A.filtre('bandpass', 2500, 11)];
+  const gf = [A.gain(1), A.gain(.6), A.gain(.28)].map((g, k) => (fs[k].connect(g), g));
+  const env = A.gain(0), lp = A.filtre('lowpass', 3200, .7);
+  gf.forEach(g => g.connect(env)); A.relier(env, lp, dest);
+  const souffle = A.bruit(t, fin - t + .3), gs = A.gain(chuchote ? 2.4 : .12);
+  souffle.connect(gs); fs.forEach(f => gs.connect(f));
+  let src = null;
+  if (!chuchote) { src = A.osc('sawtooth', f0); fs.forEach(f => src.connect(f)); src.start(t); src.stop(fin + .3); }
+  let x = t, debutPhrase = t;
+  while (x < fin - .1) {
+    const syl = hasard(.12, .25), voy = choisir(VOY);
+    fs.forEach((f, k) => f.frequency.setTargetAtTime(voy[k] * hasard(.93, 1.07), x, .025));
+    if (src) {
+      // l'intonation descend dans la phrase ; un léger tremblement (une vraie voix n'est jamais droite)
+      const p = borner((x - debutPhrase) / 1.6, 0, 1), f = f0 * (1 + hasard(-.06, .14) - .12 * p);
+      src.frequency.setTargetAtTime(f, x, .04);
+      src.detune.setValueAtTime(hasard(-18, 18), x + syl * .5);
+    }
+    env.gain.setTargetAtTime(v * hasard(.65, 1), x + .01, .02);
+    env.gain.setTargetAtTime(0, x + syl * .78, .03);
+    if (Math.random() < .5) {
+      const c = A.bruit(x - .02, .07), bp = A.filtre('bandpass', hasard(2600, 5200), 1.5), gc = A.gain(0);
+      A.enveloppe(gc.gain, x - .02, .005, v * (chuchote ? .9 : .35), .05);
+      A.relier(c, bp, gc, lp);
+    }
+    x += syl + (Math.random() < .2 ? hasard(.1, .24) : hasard(0, .035));
+    if (Math.random() < .12) debutPhrase = x;
+  }
+  env.gain.setTargetAtTime(0, fin, .03);
+  souffle.onended = () => [env, lp, gs, ...fs, ...gf].forEach(n => { try { n.disconnect(); } catch (e) {} });
+}
+// Un rire (étouffé) : des « ha » rapides, voisés et soufflés, qui descendent, puis on reprend son souffle
+function rireMarmonne(t, fin, dest, { f0 = 185, v = .6 } = {}) {
+  const fs = [A.filtre('bandpass', 820, 6), A.filtre('bandpass', 1250, 8), A.filtre('bandpass', 2600, 10)];
+  const gf = [A.gain(1), A.gain(.55), A.gain(.25)].map((g, k) => (fs[k].connect(g), g));
+  const env = A.gain(0), lp = A.filtre('lowpass', 3400, .7);
+  gf.forEach(g => g.connect(env)); A.relier(env, lp, dest);
+  const o = A.osc('sawtooth', f0), souffle = A.bruit(t, fin - t + .6), gs = A.gain(.9);
+  fs.forEach(f => o.connect(f)); souffle.connect(gs); fs.forEach(f => gs.connect(f));
+  let x = t, k = 0;
+  while (x < fin) {
+    const d = hasard(.1, .15), p = (x - t) / Math.max(.3, fin - t);
+    o.frequency.setValueAtTime(f0 * (1.12 - .3 * p) * hasard(.95, 1.06), x);
+    env.gain.setTargetAtTime(v * (k === 0 ? .75 : hasard(.8, 1)) * (1 - .3 * p), x, .012);
+    env.gain.setTargetAtTime(0, x + d * .5, .03);
+    x += d + hasard(.035, .07); k++;
+  }
+  // on reprend son souffle
+  const r = A.bruit(x, .35), bp = A.filtre('bandpass', 1300, 1.2), gr = A.gain(0);
+  gr.gain.setValueAtTime(0, x); gr.gain.linearRampToValueAtTime(v * .45, x + .2); gr.gain.linearRampToValueAtTime(0, x + .34);
+  bp.frequency.setValueAtTime(900, x); bp.frequency.linearRampToValueAtTime(1900, x + .34);
+  A.relier(r, bp, gr, lp);
+  o.start(t); o.stop(x + .4);
+  o.onended = () => [env, lp, gs, ...fs, ...gf].forEach(n => { try { n.disconnect(); } catch (e) {} });
+}
+// Bruit filtré, de t à fin (vent, grondement, souffle) ; lfo : il ondule
+function bruitFiltre(t, fin, dest, type, f, q, v, rose = true, lfo = 0) {
+  const b = A.bruit(t, fin - t + .1, rose), fl = A.filtre(type, f, q), g = A.gain(0);
+  g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(v, t + .15);
+  g.gain.setValueAtTime(v, Math.max(t + .15, fin - .15)); g.gain.linearRampToValueAtTime(0, fin);
+  A.relier(b, fl, g, dest);
+  if (lfo) { const l = A.osc('sine', lfo), lg = A.gain(v * .5); A.relier(l, lg, g.gain); l.start(t); l.stop(fin + .1); }
+  b.onended = () => { try { g.disconnect(); fl.disconnect(); } catch (e) {} };
+}
+// Bips (un camion qui recule, un chariot élévateur)
+function bips(t, fin, dest, f = 1020, v = .05, periode = .9) {
+  for (let x = t; x < fin; x += periode) {
+    const o = A.osc('square', f), bp = A.filtre('bandpass', f, 6), g = A.gain(0);
+    g.gain.setValueAtTime(0, x); g.gain.linearRampToValueAtTime(v, x + .01); g.gain.setValueAtTime(v, x + periode * .45); g.gain.linearRampToValueAtTime(0, x + periode * .47);
+    A.relier(o, bp, g, dest); o.start(x); o.stop(x + periode * .5);
+  }
+}
+// Du plastique froissé (une bouteille vide, un emballage)
+function froissement(t, d, dest, v = .3) {
+  for (let k = 0, n = Math.round(d * 40); k < n; k++) {
+    const x = t + hasard(0, d), b = A.bruit(x, .03), hp = A.filtre('highpass', hasard(2500, 5000)), g = A.gain(0);
+    A.enveloppe(g.gain, x, .002, v * hasard(.3, 1), hasard(.008, .03));
+    A.relier(b, hp, g, dest);
+  }
+}
+// Une bosse sourde (la route, un pas, la boîte qu'on soulève)
+function bosse(t, dest, v = .6, f = 58) {
+  const o = A.osc('sine', f), g = A.gain(0);
+  o.frequency.setValueAtTime(f, t); o.frequency.exponentialRampToValueAtTime(f * .6, t + .2);
+  A.enveloppe(g.gain, t, .006, v, .25); A.relier(o, g, dest); o.start(t); o.stop(t + .4);
+}
+
 // Chaque son : fonction (t, options). options = { duree (ms), nombre, pan }
 const SONS = {
   coup(t, o) {
@@ -4048,8 +4143,8 @@ const SONS = {
   // Une vieille porte de garage qu'on décoince puis qui s'enroule : on tire, on tape (ça cliquette), elle cède
   // d'un coup ; les ressorts grincent, les roulettes claquent à chaque joint du rail, une charnière hurle
   // (deux fois, elle proteste), puis elle cogne en haut
-  garage(t) {
-    const sortie = sortieEffet(0, .28), d0 = 1.6, fin = 4.2;
+  garage(t, o = {}) {
+    const sortie = o.sortie || sortieEffet(0, .28), d0 = 1.6, fin = 4.2;
     [.2, .62, 1.1].forEach((d, k) => coupTole(t + d, sortie, .45 + k * .15));
     // elle cède : un « pop » de tôle
     coupTole(t + d0, sortie, .8, 1.25);
@@ -4080,7 +4175,65 @@ const SONS = {
     });
     // en haut : elle cogne contre les butées
     coupTole(t + fin, sortie, .9, 1.4);
-    setTimeout(() => { try { sortie.disconnect(); } catch (e) {} }, (fin + 2) * 1000);
+    if (!o.sortie) setTimeout(() => { try { sortie.disconnect(); } catch (e) {} }, (fin + 2) * 1000);
+  },
+  // La vidéo du voisin, du début à la fin (les instants suivent le dessin « vue-video » : 0 = la vue s'ouvre).
+  // Dehors, au centre d'expédition : le vent, un camion qui recule, sa voix, ses rires ; on referme les rabats, le ruban ;
+  // le camion (grondement, bosses), il chuchote ; l'entrepôt (bourdonnement), il parle, la barre tendre ; la dernière
+  // entrée : il respire, on soulève la boîte, on marche, trois coups de pied dans une porte de garage, la chute, le
+  // craquement. Plus rien. Puis, à travers le carton, la porte de garage qui grince.
+  'video_colis'(t0) {
+    const T = x => t0 + x - .33;
+    if (MoteurAudio.musique) MoteurAudio.musique.silence(27);
+    const sortie = sortieEffet(0, .04);
+    const hp = A.filtre('highpass', 140, .7), lp = A.filtre('lowpass', 7200, .7), sat = MoteurAudio.ctx.createWaveShaper();
+    sat.curve = courbeSaturation(1.4);
+    A.relier(hp, lp, sat, sortie);
+    const hautParleur = hp;
+    const etouffe = A.filtre('lowpass', 1300, .7); etouffe.connect(hautParleur);     // ce qui vient de l'autre côté du carton
+    const fini = T(26.2);
+    bruitFiltre(T(0), fini, hautParleur, 'highpass', 3500, .7, .012, false);          // le souffle de la caméra
+    // 1. dehors
+    bruitFiltre(T(0), T(6.6), hautParleur, 'lowpass', 600, .7, .13, true, .4);        // le vent dans le micro
+    bruitFiltre(T(0), T(6.6), hautParleur, 'lowpass', 180, .7, .18);                 // la circulation, au loin
+    bips(T(.9), T(6.4), hautParleur, 1020, .035, .95);                               // un camion qui recule
+    [[.25, 1.5], [2.5, 3.0], [4.0, 4.6], [6.05, 6.5]].forEach(([a, b]) => voixMarmonnee(T(a), T(b), hautParleur, { f0: 118, v: .95 }));
+    [[1.55, 2.2], [3.0, 3.9], [4.7, 5.9]].forEach(([a, b], k) => rireMarmonne(T(a), T(b), hautParleur, { f0: 175 + k * 12, v: .85 }));
+    bruitFiltre(T(2.45), T(2.95), hautParleur, 'bandpass', 700, .8, .25);             // la caméra qui bouge dans sa main
+    bruitFiltre(T(4.25), T(4.7), hautParleur, 'bandpass', 700, .8, .25);
+    froissement(T(3.0), .9, hautParleur, .35);                                       // la bouteille vide qu'il secoue
+    // 2. on referme : les rabats, le ruban ; dedans, ça devient sourd
+    rireMarmonne(T(6.7), T(7.1), hautParleur, { f0: 170, v: .45 });
+    [7.15, 7.7].forEach(x => { modesResonants(T(x), [[105, .5, .14], [170, .3, .09], [260, .15, .06]], hautParleur); bruitFiltre(T(x - .08), T(x + .05), hautParleur, 'bandpass', 520, 1.2, .3); });
+    { const b = A.bruit(T(8.0), .65), bp = A.filtre('bandpass', 3000, 1.3), am = A.gain(0), mod = A.osc('square', 68), mg = A.gain(.5), g = A.gain(0);
+      A.relier(mod, mg, am.gain); g.gain.setValueAtTime(0, T(8.0)); g.gain.linearRampToValueAtTime(.4, T(8.1)); g.gain.linearRampToValueAtTime(.25, T(8.55)); g.gain.linearRampToValueAtTime(0, T(8.65));
+      A.relier(b, bp, am, g, etouffe); mod.start(T(8.0)); mod.stop(T(8.7)); }
+    // les coupures : un petit grésillement numérique
+    [8.8, 12.8, 16.4].forEach(x => { bruitFiltre(T(x), T(x + .3), hautParleur, 'highpass', 900, .7, .16, false); const o = A.osc('square', 50), g = A.gain(.04); A.relier(o, g, hautParleur); o.start(T(x)); o.stop(T(x + .3)); });
+    // 3. le camion
+    bruitFiltre(T(9.2), T(12.8), hautParleur, 'lowpass', 130, .8, .5);
+    { const o = A.osc('sine', 44), g = A.gain(0); g.gain.setValueAtTime(0, T(9.2)); g.gain.linearRampToValueAtTime(.25, T(9.4)); g.gain.setValueAtTime(.25, T(12.6)); g.gain.linearRampToValueAtTime(0, T(12.8)); A.relier(o, g, hautParleur); o.start(T(9.2)); o.stop(T(12.9)); }
+    for (let x = 9.6; x < 12.6; x += hasard(.5, 1.1)) bosse(T(x), hautParleur, hasard(.3, .6));
+    [[9.5, 11.3], [11.8, 12.6]].forEach(([a, b]) => voixMarmonnee(T(a), T(b), hautParleur, { v: .7, chuchote: true }));
+    // 4. l'entrepôt
+    [[60, .05], [120, .03], [180, .015]].forEach(([f, v]) => { const o = A.osc('sine', f), g = A.gain(0); g.gain.setValueAtTime(0, T(13.1)); g.gain.linearRampToValueAtTime(v, T(13.3)); g.gain.setValueAtTime(v, T(16.2)); g.gain.linearRampToValueAtTime(0, T(16.4)); A.relier(o, g, hautParleur); o.start(T(13.1)); o.stop(T(16.5)); });
+    bruitFiltre(T(13.1), T(16.4), etouffe, 'bandpass', 380, .6, .16);
+    bips(T(14.9), T(15.6), etouffe, 2300, .02, .35);
+    [[13.4, 14.7], [15.3, 16.2]].forEach(([a, b]) => voixMarmonnee(T(a), T(b), hautParleur, { f0: 104, v: .8 }));
+    froissement(T(14.2), .5, hautParleur, .3);
+    // 5. la dernière entrée
+    respirer(T(16.8), T(18.2), { dest: hautParleur, rauque: .3 });
+    bruitFiltre(T(16.85), T(17.05), hautParleur, 'bandpass', 400, .8, .5); bosse(T(16.9), hautParleur, .8, 64);   // on soulève la boîte
+    for (let x = 17.25; x < 17.95; x += .3) bosse(T(x), hautParleur, .45, 52);                                    // on la porte
+    [.03, .4, .76].forEach((d, k) => coupTole(T(18.0 + d), etouffe, .9 - k * .05));                              // trois coups de pied
+    [.05, .42, .78].forEach(d => bosse(T(18.0 + d), hautParleur, .5, 70));
+    chuteCarton(T(19.45), hautParleur, 1.2);                                                                      // la chute
+    modesResonants(T(19.47), [[880, .7, .035], [1460, .45, .025], [2280, .25, .018]], hautParleur, { v: 1 });      // le craquement
+    modesResonants(T(19.479), [[900, .5, .03], [1500, .3, .02]], hautParleur, { v: .8 });
+    modesResonants(T(19.47), [[120, .6, .09], [190, .25, .06]], hautParleur, { v: .7 });
+    bruitFiltre(T(19.5), T(19.9), hautParleur, 'lowpass', 900, .7, .12);                                          // la lampe qui roule
+    SONS.garage(T(21.0), { sortie: etouffe });                                                                    // … et la porte de garage
+    setTimeout(() => { try { sortie.disconnect(); hp.disconnect(); lp.disconnect(); sat.disconnect(); etouffe.disconnect(); } catch (e) {} }, 30000);
   },
   porte(t) {
     SONS.craquement(t, { duree: 700, pan: .3 });
@@ -6676,6 +6829,11 @@ function installerEcouteurs() {
     enAttente = true;
     requestAnimationFrame(() => { enAttente = false; Lecture.surDefilement(); });
   }, { passive: true });
+  // Pas de zoom : pincer (Safari : gesture*), deux doigts, Ctrl + molette, Ctrl/Cmd + +/-/0
+  ['gesturestart', 'gesturechange', 'gestureend'].forEach(t => document.addEventListener(t, e => e.preventDefault(), { passive: false }));
+  document.addEventListener('touchmove', e => { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
+  window.addEventListener('wheel', e => { if (e.ctrlKey) e.preventDefault(); }, { passive: false });
+  window.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && ['+', '=', '-', '_', '0'].includes(e.key)) e.preventDefault(); });
   // Doigt qui fait défiler l'écran : la conversation SMS ne fait pas bouger la page sous le doigt
   window.addEventListener('touchmove', () => { Lecture.toucheEnCours = true; }, { passive: true });
   ['touchend', 'touchcancel'].forEach(t => window.addEventListener(t, () => { setTimeout(() => { Lecture.toucheEnCours = false; }, 350); }, { passive: true }));

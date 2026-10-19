@@ -410,7 +410,7 @@ A gesture that only lets the reading continue is useless: **every gesture has a 
 | `decor` | string | — | Name of a decor in `fond.decors` (or `svg` directly). Portrait `0 0 400 860`, except for `photo` (landscape, e.g. `0 0 320 220`). |
 | `entree` | string | `fondu` | How it is discovered: `fondu` (fade), `zoom` (the eyes adjust to the dark), `tourner` (you turn your head), `baisser` (you lean down, you look down), `ouvrir` (two doors open), `photo` (like a photo received on a phone, with `titre` at the top). |
 | `son` | string | `aucun` | Sound played when the view appears (`respiration`, `coeur`, `mouches`, `silence`…). |
-| `duree` | 1200 to 12000 ms | 3400 | Time before it closes by itself. |
+| `duree` | 1200 to 30000 ms | 3400 | Time before it closes by itself (long only for a whole "video", like a montage of clips). |
 | `titre` | string | — | With `photo`: the sender shown at the top ("Unknown number"). |
 | `texte` | string | — | (optional) A short line at the bottom of the view. |
 
@@ -490,6 +490,7 @@ Example: `{ "type": "paragraphe", "texte": "It's still here.", "style": "centre 
 | `crac` | A small dry crack, muffled (something breaking inside a box). |
 | `garage` | An old garage door: tugged and whacked (it rattles), it gives, springs creak, rollers clack over the track joints, a hinge squeals twice, it bangs at the top (about 4.3 s). |
 | `coups_garage` | Three kicks into a sheet-metal garage door (boom, wobble, rattle), then a heavy box slipping and landing flat on concrete (about 1.6 s). |
+| `video_colis` | The soundtrack of the neighbor's footage in No. 2 (about 26 s, timed to the `vue-video` drawing): wind and a reversing truck, his muffled voice and laughs, flaps and tape, a truck, a warehouse, then three kicks, the drop, the crack, silence… and the garage door. Silences the music while it plays. |
 | `coup` | Knocks on wood (door, wall). |
 | `craquement` | A floor or door that creaks. |
 | `chuchotement` | An unintelligible whispered voice moving from left to right. |
