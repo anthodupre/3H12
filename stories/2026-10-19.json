@@ -1,0 +1,671 @@
+{
+  "version": 1,
+  "numero": 2,
+  "date": "2026-10-19",
+  "titre": "Trois petits points",
+  "sousTitre": "Ixelles, 2 h 47",
+  "sousGenre": "rêve et paralysie du sommeil",
+  "lieu": "Ixelles, Bruxelles (Belgique)",
+  "epoque": "aujourd’hui",
+  "auQuebec": false,
+  "format": "Conversation iMessage entre Inès et Thomas, une nuit de paralysie du sommeil",
+  "resume": "Paralysée dans son lit, Inès écrit à Thomas, en voyage à Montréal. Il la rassure. Il répond très vite.",
+  "avertissement": "",
+  "miseEnPage": "sms",
+  "retournement": "celui qui rassure est la menace ; la victime devient la chose, et ça se transmet",
+  "theme": {
+    "palette": {
+      "fond": "#07060c",
+      "surface": "#0c0b12",
+      "texte": "#ecebf3",
+      "accent": "#4f5bd5",
+      "secondaire": "#2c2a37"
+    },
+    "polices": {
+      "titre": "Space Grotesk",
+      "texte": "system-ui",
+      "notes": "system-ui"
+    },
+    "cssPersonnalise": ".carton-titre { letter-spacing: .02em; }"
+  },
+  "document": {
+    "contact": "Thomas",
+    "reference": "iMessage"
+  },
+  "fond": {
+    "effet": "statique",
+    "intensite": 0.18,
+    "vignette": 0.85,
+    "grain": 0.35,
+    "scintillement": 0.08,
+    "svgOpacite": 0.26,
+    "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 860' preserveAspectRatio='xMidYMax slice'><defs><linearGradient id='mur' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#05040a'/><stop offset='1' stop-color='#0e0c18'/></linearGradient><radialGradient id='lampadaire' cx='.5' cy='.35' r='.65'><stop offset='0' stop-color='#e9b562' stop-opacity='.5'/><stop offset='1' stop-color='#e9b562' stop-opacity='0'/></radialGradient><radialGradient id='ecran' cx='.5' cy='.5' r='.5'><stop offset='0' stop-color='#dbe6ff' stop-opacity='.9'/><stop offset='.28' stop-color='#9fb8ff' stop-opacity='.32'/><stop offset='1' stop-color='#9fb8ff' stop-opacity='0'/></radialGradient><linearGradient id='couette' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#262434'/><stop offset='1' stop-color='#474462'/></linearGradient></defs><rect width='400' height='860' fill='url(#mur)'/><rect x='268' y='168' width='114' height='254' fill='#17142a'/><rect x='268' y='168' width='114' height='254' fill='url(#lampadaire)'/><line x1='325' y1='168' x2='325' y2='422' stroke='#0a0912' stroke-width='5'/><line x1='268' y1='295' x2='382' y2='295' stroke='#0a0912' stroke-width='5'/><path d='M258 158 Q284 290 266 432 L246 432 L246 158 Z' fill='#0a0913'/><path d='M392 158 Q374 300 394 432 L400 432 L400 158 Z' fill='#0a0913'/><path d='M282 424 L372 424 L336 644 L166 644 Z' fill='#e9b562' opacity='.045'/><rect x='30' y='186' width='100' height='336' fill='#08070e' stroke='#15131f' stroke-width='4'/><circle cx='118' cy='364' r='3' fill='#2b283a'/><rect x='148' y='420' width='100' height='94' fill='#0a0913'/><rect x='144' y='413' width='108' height='9' fill='#0f0d18'/><circle cx='186' cy='500' r='1.7' fill='#b9f27a' opacity='.85'/><circle cx='197' cy='500' r='1.7' fill='#b9f27a' opacity='.85'/><g fill='#020105'><path d='M186 534 C182 512 190 488 207 486 C224 486 231 506 228 528 C226 540 218 548 206 549 C196 549 189 543 186 534 Z'/><path d='M146 648 C148 590 160 562 182 552 C196 546 218 546 232 552 C254 562 266 590 268 648 Z'/></g><circle cx='207' cy='604' r='74' fill='url(#ecran)' opacity='.55'/><ellipse cx='207' cy='540' rx='15' ry='8' fill='#9fb8ff' opacity='.14'/><rect x='197' y='598' width='21' height='13' rx='2' fill='#e6eeff' opacity='.9'/><path d='M0 860 L0 702 Q62 652 142 642 L272 642 Q342 652 400 692 L400 860 Z' fill='url(#couette)'/><path d='M62 860 Q112 762 152 702 M332 860 Q302 772 272 702 M196 860 Q200 780 206 700' stroke='#1c1a28' stroke-width='3' fill='none' opacity='.8'/></svg>"
+  },
+  "musique": {
+    "tempo": 46,
+    "tonique": "F#",
+    "gamme": "ton_par_ton",
+    "reverb": 0.85,
+    "desaccord": 0.35,
+    "evolution": "rupture",
+    "rupture": 0.7,
+    "finale": "silence",
+    "couches": [
+      {
+        "type": "pad",
+        "onde": "sine",
+        "octave": 3,
+        "volume": 0.45,
+        "filtre": 1200,
+        "densite": 0.5
+      },
+      {
+        "type": "drone",
+        "onde": "sine",
+        "octave": 2,
+        "volume": 0.45,
+        "filtre": 420,
+        "densite": 0.4
+      },
+      {
+        "type": "bruit",
+        "volume": 0.2,
+        "filtre": 3400,
+        "densite": 0.3
+      },
+      {
+        "type": "choeur",
+        "onde": "sawtooth",
+        "octave": 4,
+        "volume": 0.14,
+        "filtre": 2200,
+        "densite": 0.3,
+        "seuil": 0.5
+      },
+      {
+        "type": "pulsation",
+        "onde": "sine",
+        "octave": 2,
+        "volume": 0.4,
+        "filtre": 380,
+        "densite": 0.6,
+        "seuil": 0.62
+      }
+    ]
+  },
+  "blocs": [
+    {
+      "type": "titre",
+      "texte": "Mardi"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Bien arrivé à l’hôtel 🙌 Il neige déjà ici, en octobre, tu te rends compte ? Les Montréalais ont l’air de trouver ça parfaitement normal.",
+      "heure": "22:14"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "Des photos !!! Ici il pleut, évidemment. Pruneau t’a cherché dans tout l’appart, il a fini par dormir sur ton pull gris.",
+      "heure": "22:16"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Mon pull gris ? Il est dans ma valise, gros malin de chat 😄 Il a dû se coucher sur ta vieille écharpe."
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "Ah bon. Bref, il t’aime plus que moi."
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Évidemment, je suis plus drôle que toi. Et ta journée ?"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "Longue. Réunion jusqu’à 19 h, puis le tram en panne à Flagey, j’ai marché sous la flotte. Je vais me coucher à neuf heures comme une mamie."
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Pas de cauchemars, hein ? Pas comme à Namur."
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "Plus depuis des mois. Je touche du bois."
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Je touche le bureau de la chambre d’hôtel, ça compte ? 😄"
+    },
+    {
+      "type": "image",
+      "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 220'><defs><linearGradient id='ciel' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#26385a'/><stop offset='1' stop-color='#5b6d8e'/></linearGradient><radialGradient id='lampe' cx='.5' cy='.5' r='.5'><stop offset='0' stop-color='#ffd98a' stop-opacity='.8'/><stop offset='1' stop-color='#ffd98a' stop-opacity='0'/></radialGradient></defs><rect width='320' height='220' fill='url(#ciel)'/><g fill='#121a2c'><rect x='0' y='62' width='70' height='95'/><rect x='80' y='32' width='60' height='125'/><rect x='150' y='78' width='80' height='80'/><rect x='240' y='48' width='80' height='110'/></g><rect x='6' y='70' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='6' y='84' width='5' height='7' fill='#f3cf7a' opacity='0.8'/><rect x='6' y='98' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='6' y='112' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='6' y='126' width='5' height='7' fill='#f3cf7a' opacity='0.35'/><rect x='18' y='70' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='18' y='84' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='18' y='98' width='5' height='7' fill='#f3cf7a' opacity='0.8'/><rect x='18' y='112' width='5' height='7' fill='#f3cf7a' opacity='0.8'/><rect x='18' y='126' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='30' y='70' width='5' height='7' fill='#f3cf7a' opacity='0.35'/><rect x='30' y='84' width='5' height='7' fill='#f3cf7a' opacity='0.35'/><rect x='30' y='98' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='30' y='112' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='30' y='126' width='5' height='7' fill='#f3cf7a' opacity='0.35'/><rect x='42' y='70' width='5' height='7' fill='#f3cf7a' opacity='0.35'/><rect x='42' y='84' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='42' y='98' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='42' y='112' width='5' height='7' fill='#f3cf7a' opacity='0.35'/><rect x='42' y='126' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='54' y='70' width='5' height='7' fill='#f3cf7a' opacity='0.35'/><rect x='54' y='84' width='5' height='7' fill='#f3cf7a' opacity='0.35'/><rect x='54' y='98' width='5' height='7' fill='#f3cf7a' opacity='0.35'/><rect x='54' y='112' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='54' y='126' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='86' y='40' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='86' y='54' width='5' height='7' fill='#f3cf7a' opacity='0.8'/><rect x='86' y='68' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='86' y='82' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='86' y='96' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='86' y='110' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='86' y='124' width='5' height='7' fill='#f3cf7a' opacity='0.8'/><rect x='86' y='138' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='98' y='40' width='5' height='7' fill='#f3cf7a' opacity='0.9'/><rect x='98' y='54' width='5' height='7' fill='#f3cf7a' opacity='0.35'/><rect x='98' y='68' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='98' y='82' width='5' height='7' fill='#f3cf7a' opacity='0.8'/><rect x='98' y='96' width='5' height='7' fill='#f3cf7a' opacity='0.35'/><rect x='98' y='110' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='98' y='124' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='98' y='138' width='5' height='7' fill='#f3cf7a' opacity='0.9'/><rect x='110' y='40' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='110' y='54' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='110' y='68' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='110' y='82' width='5' height='7' fill='#f3cf7a' opacity='0.9'/><rect x='110' y='96' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='110' y='110' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='110' y='124' width='5' height='7' fill='#f3cf7a' opacity='0.8'/><rect x='110' y='138' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='122' y='40' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='122' y='54' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='122' y='68' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='122' y='82' width='5' height='7' fill='#f3cf7a' opacity='0.8'/><rect x='122' y='96' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='122' y='110' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='122' y='124' width='5' height='7' fill='#f3cf7a' opacity='0.9'/><rect x='122' y='138' width='5' height='7' fill='#f3cf7a' opacity='0.35'/><rect x='156' y='86' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='156' y='100' width='5' height='7' fill='#f3cf7a' opacity='0.9'/><rect x='156' y='114' width='5' height='7' fill='#f3cf7a' opacity='0.9'/><rect x='156' y='128' width='5' height='7' fill='#f3cf7a' opacity='0.9'/><rect x='168' y='86' width='5' height='7' fill='#f3cf7a' opacity='0.9'/><rect x='168' y='100' width='5' height='7' fill='#f3cf7a' opacity='0.35'/><rect x='168' y='114' width='5' height='7' fill='#f3cf7a' opacity='0.8'/><rect x='168' y='128' width='5' height='7' fill='#f3cf7a' opacity='0.8'/><rect x='180' y='86' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='180' y='100' width='5' height='7' fill='#f3cf7a' opacity='0.35'/><rect x='180' y='114' width='5' height='7' fill='#f3cf7a' opacity='0.9'/><rect x='180' y='128' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='192' y='86' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='192' y='100' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='192' y='114' width='5' height='7' fill='#f3cf7a' opacity='0.35'/><rect x='192' y='128' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='204' y='86' width='5' height='7' fill='#f3cf7a' opacity='0.35'/><rect x='204' y='100' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='204' y='114' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='204' y='128' width='5' height='7' fill='#f3cf7a' opacity='0.8'/><rect x='216' y='86' width='5' height='7' fill='#f3cf7a' opacity='0.35'/><rect x='216' y='100' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='216' y='114' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='216' y='128' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='246' y='56' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='246' y='70' width='5' height='7' fill='#f3cf7a' opacity='0.35'/><rect x='246' y='84' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='246' y='98' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='246' y='112' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='246' y='126' width='5' height='7' fill='#f3cf7a' opacity='0.9'/><rect x='246' y='140' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='258' y='56' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='258' y='70' width='5' height='7' fill='#f3cf7a' opacity='0.8'/><rect x='258' y='84' width='5' height='7' fill='#f3cf7a' opacity='0.8'/><rect x='258' y='98' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='258' y='112' width='5' height='7' fill='#f3cf7a' opacity='0.8'/><rect x='258' y='126' width='5' height='7' fill='#f3cf7a' opacity='0.9'/><rect x='258' y='140' width='5' height='7' fill='#f3cf7a' opacity='0.8'/><rect x='270' y='56' width='5' height='7' fill='#f3cf7a' opacity='0.9'/><rect x='270' y='70' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='270' y='84' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='270' y='98' width='5' height='7' fill='#f3cf7a' opacity='0.9'/><rect x='270' y='112' width='5' height='7' fill='#f3cf7a' opacity='0.9'/><rect x='270' y='126' width='5' height='7' fill='#f3cf7a' opacity='0.35'/><rect x='270' y='140' width='5' height='7' fill='#f3cf7a' opacity='0.9'/><rect x='282' y='56' width='5' height='7' fill='#f3cf7a' opacity='0.35'/><rect x='282' y='70' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='282' y='84' width='5' height='7' fill='#f3cf7a' opacity='0.8'/><rect x='282' y='98' width='5' height='7' fill='#f3cf7a' opacity='0.35'/><rect x='282' y='112' width='5' height='7' fill='#f3cf7a' opacity='0.9'/><rect x='282' y='126' width='5' height='7' fill='#f3cf7a' opacity='0.9'/><rect x='282' y='140' width='5' height='7' fill='#f3cf7a' opacity='0.9'/><rect x='294' y='56' width='5' height='7' fill='#f3cf7a' opacity='0.9'/><rect x='294' y='70' width='5' height='7' fill='#f3cf7a' opacity='0.8'/><rect x='294' y='84' width='5' height='7' fill='#f3cf7a' opacity='0.9'/><rect x='294' y='98' width='5' height='7' fill='#f3cf7a' opacity='0.9'/><rect x='294' y='112' width='5' height='7' fill='#f3cf7a' opacity='0.8'/><rect x='294' y='126' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='294' y='140' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='306' y='56' width='5' height='7' fill='#f3cf7a' opacity='0.35'/><rect x='306' y='70' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='306' y='84' width='5' height='7' fill='#f3cf7a' opacity='0.35'/><rect x='306' y='98' width='5' height='7' fill='#f3cf7a' opacity='0.9'/><rect x='306' y='112' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='306' y='126' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect x='306' y='140' width='5' height='7' fill='#f3cf7a' opacity='0'/><rect y='152' width='320' height='68' fill='#d7e0ec'/><path d='M0 186 Q160 172 320 190' stroke='#aab6c8' stroke-width='3' fill='none'/><line x1='262' y1='152' x2='262' y2='92' stroke='#0d1220' stroke-width='3'/><circle cx='262' cy='92' r='26' fill='url(#lampe)'/><circle cx='107' cy='178' r='1.0' fill='#fff' opacity='0.75'/><circle cx='153' cy='96' r='1.0' fill='#fff' opacity='0.87'/><circle cx='47' cy='76' r='1.0' fill='#fff' opacity='0.77'/><circle cx='154' cy='193' r='1.1' fill='#fff' opacity='0.53'/><circle cx='130' cy='147' r='0.6' fill='#fff' opacity='0.90'/><circle cx='282' cy='3' r='0.8' fill='#fff' opacity='0.80'/><circle cx='230' cy='61' r='1.0' fill='#fff' opacity='0.63'/><circle cx='118' cy='169' r='1.0' fill='#fff' opacity='0.69'/><circle cx='195' cy='88' r='0.9' fill='#fff' opacity='0.41'/><circle cx='182' cy='116' r='1.0' fill='#fff' opacity='0.64'/><circle cx='142' cy='67' r='0.8' fill='#fff' opacity='0.57'/><circle cx='268' cy='147' r='1.6' fill='#fff' opacity='0.84'/><circle cx='194' cy='188' r='0.9' fill='#fff' opacity='0.50'/><circle cx='287' cy='133' r='1.3' fill='#fff' opacity='0.77'/><circle cx='41' cy='182' r='1.4' fill='#fff' opacity='0.64'/><circle cx='122' cy='90' r='1.5' fill='#fff' opacity='0.58'/><circle cx='175' cy='59' r='1.4' fill='#fff' opacity='0.60'/><circle cx='279' cy='162' r='0.9' fill='#fff' opacity='0.63'/><circle cx='63' cy='122' r='1.6' fill='#fff' opacity='0.60'/><circle cx='133' cy='190' r='0.8' fill='#fff' opacity='0.90'/><circle cx='249' cy='166' r='1.2' fill='#fff' opacity='0.79'/><circle cx='98' cy='110' r='1.4' fill='#fff' opacity='0.60'/><circle cx='224' cy='90' r='0.7' fill='#fff' opacity='0.68'/><circle cx='311' cy='130' r='1.4' fill='#fff' opacity='0.51'/><circle cx='161' cy='133' r='1.7' fill='#fff' opacity='0.60'/><circle cx='220' cy='76' r='1.4' fill='#fff' opacity='0.43'/><circle cx='280' cy='36' r='0.6' fill='#fff' opacity='0.77'/><circle cx='92' cy='111' r='1.0' fill='#fff' opacity='0.53'/><circle cx='142' cy='147' r='1.3' fill='#fff' opacity='0.56'/><circle cx='144' cy='27' r='1.0' fill='#fff' opacity='0.41'/><circle cx='300' cy='4' r='1.4' fill='#fff' opacity='0.44'/><circle cx='121' cy='8' r='1.5' fill='#fff' opacity='0.87'/><circle cx='301' cy='187' r='1.7' fill='#fff' opacity='0.87'/><circle cx='176' cy='87' r='1.8' fill='#fff' opacity='0.88'/><circle cx='311' cy='63' r='1.3' fill='#fff' opacity='0.70'/><circle cx='255' cy='105' r='1.8' fill='#fff' opacity='0.41'/><circle cx='272' cy='113' r='1.0' fill='#fff' opacity='0.72'/><circle cx='45' cy='98' r='1.7' fill='#fff' opacity='0.56'/><circle cx='304' cy='209' r='1.4' fill='#fff' opacity='0.83'/><circle cx='208' cy='171' r='1.4' fill='#fff' opacity='0.54'/><circle cx='88' cy='123' r='1.0' fill='#fff' opacity='0.78'/><circle cx='95' cy='27' r='1.5' fill='#fff' opacity='0.83'/><circle cx='101' cy='165' r='0.9' fill='#fff' opacity='0.78'/><circle cx='150' cy='6' r='1.7' fill='#fff' opacity='0.66'/><circle cx='123' cy='152' r='0.7' fill='#fff' opacity='0.67'/><circle cx='305' cy='126' r='1.1' fill='#fff' opacity='0.83'/><circle cx='82' cy='81' r='0.8' fill='#fff' opacity='0.57'/><circle cx='86' cy='124' r='0.9' fill='#fff' opacity='0.65'/><circle cx='235' cy='150' r='1.1' fill='#fff' opacity='0.75'/><circle cx='98' cy='203' r='1.8' fill='#fff' opacity='0.57'/><circle cx='40' cy='4' r='1.2' fill='#fff' opacity='0.52'/><circle cx='76' cy='73' r='1.5' fill='#fff' opacity='0.48'/><circle cx='203' cy='48' r='1.0' fill='#fff' opacity='0.56'/><circle cx='51' cy='202' r='1.3' fill='#fff' opacity='0.82'/><circle cx='179' cy='160' r='1.6' fill='#fff' opacity='0.71'/><circle cx='279' cy='69' r='1.0' fill='#fff' opacity='0.43'/><circle cx='203' cy='97' r='1.8' fill='#fff' opacity='0.55'/><circle cx='91' cy='30' r='1.6' fill='#fff' opacity='0.88'/><circle cx='245' cy='38' r='1.7' fill='#fff' opacity='0.52'/><circle cx='95' cy='62' r='1.3' fill='#fff' opacity='0.51'/><circle cx='251' cy='74' r='1.7' fill='#fff' opacity='0.68'/><circle cx='288' cy='11' r='1.6' fill='#fff' opacity='0.45'/><circle cx='207' cy='190' r='0.7' fill='#fff' opacity='0.53'/><circle cx='223' cy='176' r='1.8' fill='#fff' opacity='0.71'/><circle cx='62' cy='191' r='1.3' fill='#fff' opacity='0.53'/><circle cx='221' cy='86' r='1.3' fill='#fff' opacity='0.57'/><circle cx='279' cy='32' r='1.5' fill='#fff' opacity='0.49'/><circle cx='66' cy='24' r='0.9' fill='#fff' opacity='0.77'/><circle cx='210' cy='133' r='0.8' fill='#fff' opacity='0.52'/><circle cx='264' cy='132' r='1.6' fill='#fff' opacity='0.59'/></svg>",
+      "legende": "Vue de ma chambre, 16 h 20. Ils déneigent déjà."
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "C’est magnifique. Ramène-moi un flocon. Six jours sans toi, c’est long, l’appart est trop grand et trop silencieux."
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Promis. Bon, je m’écroule, le décalage me tue. Je t’appelle demain à ton réveil. Verrouille bien la porte, hein ❤️"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "Oui chef. Dors bien.",
+      "vu": "Vu à 22:31"
+    },
+    {
+      "type": "titre",
+      "texte": "Mercredi"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "tu dors ?",
+      "heure": "02:47"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "thomas"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "réponds stp"
+    },
+    {
+      "type": "pause"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Je suis là. Il est 20 h 49 ici. Qu’est-ce qui se passe ?",
+      "heure": "02:49"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "je peux pas bouger"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "juste les doigts. le gsm était sous l’oreiller, je tape sans regarder l’écran"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "D’accord. Respire. C’est une paralysie du sommeil. Tu en faisais souvent quand on habitait à Namur, tu te souviens ? Ça passe toujours."
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "il y a quelqu’un au pied du lit"
+    },
+    {
+      "type": "evenement",
+      "effet": "aucun",
+      "son": "vibration",
+      "nombre": 1
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Il n’y a personne. Ton cerveau rêve encore un peu, c’est tout. Décris-moi ce que tu vois. Ça aide à revenir."
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "une forme assise sur le coffre. le coffre de ta grand-mère. elle bouge pas"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "pruneau crache sous la commode. il crache jamais"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Pruneau crache quand il rêve, lui aussi. Qu’est-ce que tu vois d’autre ?"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "le réveil dit 02:51. la lumière du lampadaire passe par les rideaux. la forme est plus noire que le reste de la chambre"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "C’est ton manteau sur la chaise, sans doute. Dans le noir, tout a une tête."
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "le manteau est dans l’entrée"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "et ça sent ton parfum. le vieux, celui que je t’ai offert à noël"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Le flacon est sur l’étagère de la salle de bain. L’odeur reste dans les draps, c’est normal. Ton cerveau cherche ce qui est rassurant."
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "c’est pas rassurant"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "j’essaie de t’appeler"
+    },
+    {
+      "type": "paragraphe",
+      "texte": "Appel sortant — Thomas — sans réponse"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Je ne peux pas décrocher, je suis dans le hall de l’hôtel, il y a trop de bruit. Écris-moi. Je reste avec toi, d’accord ? Je ne bouge pas."
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "j’ai essayé de crier. rien sort. j’ai la bouche ouverte et rien sort"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "j’entends le frigo. la pluie. le tram de nuit sur la chaussée. tout est normal sauf lui"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "C’est normal. Le corps dort encore, seule la tête est réveillée. Ne te bats pas contre lui. Laisse-moi faire."
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "elle a bougé"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "elle s’est assise sur le lit. le matelas s’est enfoncé à côté de mes pieds. je l’ai senti thomas je l’ai SENTI"
+    },
+    {
+      "type": "evenement",
+      "effet": "aucun",
+      "son": "craquement",
+      "duree": 1600
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Écoute-moi. On respire ensemble. Tu inspires sur quatre temps."
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Un. Deux. Trois. Quatre."
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "il respire en même temps que moi"
+    },
+    {
+      "type": "evenement",
+      "effet": "noir",
+      "son": "respiration",
+      "duree": 3000
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "C’est ton propre souffle que tu entends. Continue. Tu t’en sors très bien."
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "non. quand je retiens le mien, il continue"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "sa main est sur ma cheville. froide. les doigts font deux fois le tour"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "C’est le drap qui s’est enroulé. Ne bouge pas. Ça passe."
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Tu veux que je réveille quelqu’un ? Ta sœur ? Les voisins du dessus ?"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "non arrête pas d’écrire. tant que tu écris il bouge pas"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Alors je n’arrête pas. Je vais te raconter mon voyage, d’accord ? Jusqu’à ce que ça passe."
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "oui"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "L’avion était plein. Les douanes, une heure. Le taxi sentait le petit sapin en carton. Le chauffeur m’a demandé si quelqu’un m’attendait à la maison. J’ai dit oui."
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "le réveil dit 02:58. ça fait dix minutes. d’habitude ça dure trente secondes"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Ton réveil retarde de quatre minutes. Il est 03:02, en vrai."
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "il s’est penché vers moi. le lit bascule de son côté"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "son haleine sent la terre mouillée. comme une cave"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Ferme les yeux. Les ombres s’en vont quand on arrête de les regarder."
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "si je ferme les yeux il sera plus près quand je vais les rouvrir"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Alors garde-les ouverts. Regarde le lampadaire. Pas lui."
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Ton pied gauche dépasse de la couette, rentre-le, tu vas prendre froid."
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "comment tu sais"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Tu fais toujours ça. Depuis six ans, ton pied gauche dort dehors. Raconte-moi ton fantôme, qu’on se moque un peu de lui. Il porte quoi ?"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "un pull gris. le col est décousu à gauche"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Comme le mien. Tu vois ? Ton cerveau fait des collages avec ce qu’il aime. Il prend des morceaux de moi pour te faire peur."
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "t’as dit que ton pull était dans ta valise"
+    },
+    {
+      "type": "pause"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Je me suis trompé."
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "tu te trompes jamais. tu fais tes valises avec une liste. tu coches"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "J’étais pressé. Le taxi attendait. Ce n’est pas important, Inès. Reste avec moi."
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "il y a une lumière"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "dans ses mains. une petite lumière blanche. elle s’allume chaque fois qu’un de tes messages arrive"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "C’est le reflet de ton écran dans la fenêtre."
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "la fenêtre est derrière moi"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "thomas écris quelque chose"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "maintenant"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "il tape"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "je vois ses pouces bouger en même temps que les trois petits points"
+    },
+    {
+      "type": "evenement",
+      "effet": "aucun",
+      "son": "silence",
+      "duree": 7000
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Oui.",
+      "style": "gros"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Tu as bien verrouillé la porte, comme je te l’avais demandé. C’est bien."
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Personne ne viendra nous déranger."
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "où est thomas",
+      "vu": "Vu à 03:11"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Ferme les yeux. ^^Ça passe toujours.^^",
+      "heure": "03:12"
+    },
+    {
+      "type": "evenement",
+      "effet": "noir",
+      "son": "chuchotement",
+      "duree": 3200,
+      "texte": "##Dors.##"
+    },
+    {
+      "type": "titre",
+      "texte": "Mercredi, 07:41"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "inès ??? je viens de me réveiller. c’est quoi tous ces messages",
+      "heure": "07:41"
+    },
+    {
+      "type": "evenement",
+      "effet": "aucun",
+      "son": "vibration",
+      "nombre": 2
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "j’ai rien écrit de tout ça. je dormais depuis 20 h, le décalage"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "et c’est quoi cette histoire de pull ?? il est dans ma valise. je l’ai sous les yeux"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "réponds stp"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "j’appelle camille, elle a un double des clés"
+    },
+    {
+      "type": "paragraphe",
+      "texte": "Appels manqués — Thomas (43)"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Camille est entrée. La porte était verrouillée de l’intérieur, la chaîne mise. Le lit est vide. Pruneau ne veut pas sortir de sous la commode.",
+      "heure": "09:02"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Elle dit qu’il y a un pull gris plié sur le coffre."
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Inès, où es-tu ?"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "Je suis là.",
+      "vu": "Vu à 09:04"
+    },
+    {
+      "type": "sms",
+      "de": "eux",
+      "nom": "Thomas",
+      "texte": "Où ??"
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "Au pied du lit."
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "Dis à Camille de rester dormir ce soir. ^^Ça passe toujours.^^"
+    }
+  ],
+  "phraseFinale": "Camille est restée dormir. __Elle a bien verrouillé la porte.__"
+}

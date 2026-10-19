@@ -26,7 +26,36 @@
         "texte": "Courier Prime",
         "notes": "Reenie Beanie"
       },
-      "evenements": 6
+      "evenements": 6,
+      "retournement": "la malédiction se transmet par la parole : le rapport lui-même la propage (et le lecteur l'a lu)"
+    },
+    {
+      "date": "2026-10-19",
+      "numero": 2,
+      "titre": "Trois petits points",
+      "sousGenre": "rêve et paralysie du sommeil",
+      "lieu": "Ixelles, Bruxelles (Belgique)",
+      "auQuebec": false,
+      "epoque": "aujourd’hui",
+      "format": "Conversation iMessage entre Inès et Thomas, une nuit de paralysie du sommeil",
+      "miseEnPage": "sms",
+      "tonique": "F#",
+      "gamme": "ton_par_ton",
+      "effetFond": "statique",
+      "palette": {
+        "fond": "#07060c",
+        "surface": "#0c0b12",
+        "texte": "#ecebf3",
+        "accent": "#4f5bd5",
+        "secondaire": "#2c2a37"
+      },
+      "polices": {
+        "titre": "Space Grotesk",
+        "texte": "system-ui",
+        "notes": "system-ui"
+      },
+      "evenements": 6,
+      "retournement": "celui qui rassure est la menace ; la victime devient la chose, et ça se transmet"
     }
   ]
 }
