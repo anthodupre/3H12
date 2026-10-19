@@ -68,8 +68,8 @@ EOF
 ```
 
 À éviter absolument :
-- la **même mise en page que l'histoire précédente** (interdit) ;
-- une mise en page utilisée dans les **3 dernières** histoires (fortement déconseillé) ;
+- la **même mise en page que l'histoire précédente** (interdit), **sauf `recit`** : c'est la seule où le texte est posé directement sur le décor, donc celle où l'environnement (scènes, décors) se voit le mieux ; elle peut revenir. Les autres (papier, téléphone, écran) cachent le décor derrière l'objet : choisis-les seulement quand le document lui-même fait peur ;
+- une autre mise en page que `recit` utilisée dans les **3 dernières** histoires (fortement déconseillé) ;
 - un sous-genre utilisé dans les **7 dernières** ;
 - un lieu, une palette (surtout la couleur `accent`), une combinaison tonique + gamme ou un effet de fond utilisés récemment ;
 - les mêmes ressorts (même type de monstre, même chute, même narrateur) que les histoires récentes ;
@@ -132,7 +132,7 @@ Chaque histoire **doit** finir sur un retournement majeur qui **change le sens d
 - **Interactivité (obligatoire)** : le lecteur doit vivre l'histoire, pas seulement la lire.
   - **L'environnement suit l'histoire** (blocs `scene`, SCHEMA.md §9 bis) : **chaque fois que le lieu change** (cuisine, douche, voiture, motel…), une scène change le décor (illustration en fondu), la teinte, le fond animé et l'**ambiance sonore en boucle** (`frigo`, `douche`, `gouttes`, `voiture`, `horloge`, `vent`, `climatiseur`, `neon`, `mouches`, `souffle`). Et quand la créature apparaît dans le lieu, une **variante du décor où on la voit** (fondu lent pour qu'elle apparaisse doucement ; `"fondu": 0` pour qu'elle disparaisse d'un coup). 4 à 20 scènes par histoire. Les décors sont dessinés une fois dans `fond.decors` et nommés.
   - **2 à 5 gestes** (bloc `geste`, SCHEMA.md §9) aux moments où le personnage hésite : « Regarder sous la porte », « Tourner la tête », « Ouvrir la garde-robe », « Se retourner », « Ouvrir la photo ». **Un geste doit toujours MONTRER quelque chose** : chaque geste a une `vue` (une image plein écran de ce que le personnage voit, avec une entrée `baisser`, `tourner`, `ouvrir`, `zoom`, `photo` ou `fondu`, et un son). Un bouton qui ne fait que laisser continuer la lecture ne sert à rien : pas de geste sans `vue`. `"mode": "maintenir"` (garder le doigt appuyé, 1,5 à 2,5 s) pour les gestes qu'on redoute ; `"toucher"` pour les autres. Le geste se place **juste avant** la révélation ; le texte qui suit raconte ce que la vue vient de montrer.
-  - **`epier`** (un visage sort d'un bord de l'écran, `cote` : droite, gauche, bas, haut) : 1 à 3 fois, **seulement quand le texte parle de la créature (ou d'être regardé) à ce moment-là**. Jamais pendant que les personnages la cherchent sans la trouver : ça gâche la découverte (même règle pour les variantes de décor où on la voit). Le dernier peut être tout à la fin.
+  - **`epier`** (un visage sort d'un bord de l'écran, `cote` : droite, gauche, bas, haut) : 1 à 3 fois, **seulement quand le texte parle de la créature (ou d'être regardé) à ce moment-là**. Jamais pendant que les personnages la cherchent sans la trouver : ça gâche la découverte (même règle pour les variantes de décor où on la voit). Le dernier peut être tout à la fin. **Le visage qui sort est celui de la créature de l'histoire** : dessine-le dans `fond.decors.epieur` (`viewBox='0 0 160 260'`, le visage centré, les cheveux qui descendent), sinon c'est le visage par défaut du moteur qui apparaît.
   - **`notification`** (des textos qui arrivent en haut de l'écran, avec le son du téléphone : `"son": "texto"`) : quand un message arrive dans l'histoire. **Quand quelqu'un écrit plusieurs fois, mets-les TOUS** dans `messages` (ils s'empilent, un compteur « et N autres » monte, `reste` en ajoute d'un coup) ; `"app": "telephone"` pour des appels manqués.
   - **`appel`** (le téléphone du lecteur sonne, plein écran, `titre` = qui appelle ; Refuser ou Accepter, et si on accepte, on entend respirer) : quand quelqu'un appelle dans l'histoire. Une fois par histoire au plus.
   - **`epier` avec `"attaque": true`** : le visage se rapproche lentement ; si le lecteur ne le touche pas à temps, il bondit sur l'écran. Pas avant le milieu de l'histoire (le premier `epier` doit être inoffensif, pour apprendre), 1 à 3 fois, dont souvent le dernier tout à la fin.
@@ -434,7 +434,8 @@ elif nb_gestes > 6: W(f'{nb_gestes} gestes : c’est beaucoup (2 à 5 conseillé
 if nb_scenes < 4: E(f'{nb_scenes} scène(s) : il en faut au moins 4 (le décor suit l’histoire, un lieu = une scène)')
 elif nb_scenes > 40: W(f'{nb_scenes} scènes : c’est beaucoup')
 for nom in decors:
-    if nom not in utilises and decors[nom] != f.get('svg'): W(f'fond.decors.{nom} n’est utilisé par aucune scène ni vue')
+    if nom not in utilises and nom != 'epieur' and decors[nom] != f.get('svg'): W(f'fond.decors.{nom} n’est utilisé par aucune scène ni vue')
+if any(isinstance(b, dict) and b.get('effet') == 'epier' for b in blocs) and 'epieur' not in decors: W('epier sans fond.decors.epieur : c’est le visage du moteur (Lynn) qui sortira, pas la créature de l’histoire')
 if trad:
     if mots < 300: E(f'{mots} mots : traduction incomplète ?')
 elif mots < 850 or mots > 1700: E(f'{mots} mots (il en faut 900 à 1600)')
@@ -450,14 +451,14 @@ if entree:
 recentes = sorted(avant, key=lambda x: x.get('date', ''))[-30:]
 if recentes:
     prec = recentes[-1]
-    if prec.get('miseEnPage') == mep: E(f'même mise en page que l’histoire précédente ({mep}) : interdit')
+    if prec.get('miseEnPage') == mep and mep != 'recit': E(f'même mise en page que l’histoire précédente ({mep}) : interdit')
     if prec.get('effetFond') == f.get('effet'): W('même effet de fond que l’histoire précédente')
     if h.get('sousGenre') in [x.get('sousGenre') for x in recentes[-7:]]: W(f'sous-genre « {h.get("sousGenre")} » déjà utilisé dans les 7 dernières histoires')
     if h.get('lieu') in [x.get('lieu') for x in recentes]: W('lieu identique à une des 30 dernières histoires')
     if (m.get('tonique'), m.get('gamme')) in [(x.get('tonique'), x.get('gamme')) for x in recentes[-5:]]: W('même tonique + gamme qu’une des 5 dernières histoires')
     if m.get('gamme') == prec.get('gamme'): W('même gamme que l’histoire précédente')
     if pal.get('accent') in [(x.get('palette') or {}).get('accent') for x in recentes[-10:]]: W('même couleur accent qu’une des 10 dernières histoires')
-    if mep in [x.get('miseEnPage') for x in recentes[-3:]]: W(f'mise en page « {mep} » utilisée dans les 3 dernières histoires')
+    if mep != 'recit' and mep in [x.get('miseEnPage') for x in recentes[-3:]]: W(f'mise en page « {mep} » utilisée dans les 3 dernières histoires')
     if h.get('retournement') and h.get('retournement') in [x.get('retournement') for x in recentes[-10:]]: E('même type de retournement qu’une des 10 dernières histoires : en choisir un autre')
     q = [x.get('auQuebec') for x in recentes[-3:]]
     if len(q) == 3 and not any(q) and not h.get('auQuebec'): W('aucune des 4 dernières histoires au Québec : la prochaine devrait l’être (environ 1 sur 3)')
@@ -559,7 +560,7 @@ Ta **réponse finale** (le message que la personne lira) contient, dans cet ordr
 - [ ] Le format est utilisé pour vrai (le document ressemble au document).
 - [ ] 3 à 8 événements (14 pour une traduction), bien placés ; 2 à 5 gestes, **chacun avec sa vue** ; une scène à chaque changement de lieu (décor + ambiance) ; `epier` quand il sert ; **toutes** les rafales de textos en `notification` avec `"son": "texto"` ; effets de texte avec parcimonie.
 - [ ] Français simple et facile à lire, compréhensible au Québec, sans québécois écrit ni argot de France.
-- [ ] Mise en page différente de l'histoire précédente ; sous-genre, lieu, palette et musique variés.
+- [ ] Mise en page différente de l'histoire précédente (sauf `recit`, qui peut revenir) ; sous-genre, lieu, palette, polices et musique variés.
 - [ ] Contraste texte/surface ≥ 7 ; polices de la liste vérifiée.
 - [ ] Illustration SVG originale et décors des scènes, avec un détail inquiétant discret ; vues des gestes soignées (pas de visage « dessin animé »).
 - [ ] Validation : **VALIDE ✔**.

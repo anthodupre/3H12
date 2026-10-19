@@ -30,7 +30,7 @@ Sommaire : [1. Fichiers](#1-fichiers) · [2. index.json](#2-storiesindexjson) ·
 
 ```json
 {
-  "moteur": "1.5",
+  "moteur": "1.6",
   "version": 1,
   "histoires": [
     {
@@ -264,7 +264,7 @@ Palettes par défaut (utilisées si `theme.palette` est absent ; à titre d'insp
 | `svg` | chaîne | — | **Illustration originale** affichée derrière le texte, semi-transparente (voir ci-dessous). |
 | `svgOpacite` | 0 à 1 | 0.22 | Opacité de l'illustration pendant la lecture (elle est ~2× plus visible sur le carton d'ouverture). 0.15 à 0.3 sans scènes ; **0.35 à 0.5 avec des scènes** (le texte reçoit alors une ombre qui le garde lisible, et le décor s'illumine quelques secondes à chaque changement de lieu). |
 | `couleur` | `#rrggbb` | selon l'effet | (optionnel) Couleur des particules. |
-| `decors` | objet | `{}` | **Décors nommés** : `{ "nom": "<svg…>" }`. Utilisés par les blocs `scene` (le lieu change) et par les `vue` des gestes (ce que le personnage voit). Mêmes règles que `svg`. Un décor = un lieu ; une variante (`cuisine-elle`) = le même lieu, dessiné pareil, avec la créature en plus. |
+| `decors` | objet | `{}` | **Décors nommés** : `{ "nom": "<svg…>" }`. Utilisés par les blocs `scene` (le lieu change) et par les `vue` des gestes (ce que le personnage voit). Mêmes règles que `svg`. Un décor = un lieu ; une variante (`cuisine-elle`) = le même lieu, dessiné pareil, avec la créature en plus. Le nom réservé **`epieur`** (`viewBox='0 0 160 260'`) remplace le visage qui sort des bords de l'écran (`epier`) et qui bondit. |
 | `teinte`, `teinteOpacite` | `#rrggbb`, 0 à 0.8 | aucune, 0.25 | (optionnel) Couleur posée sur le décor, sous le texte, au début de l'histoire. |
 | `ambiance`, `volumeAmbiance` | chaîne ou tableau, 0 à 1 | aucune, 0.6 | (optionnel) Ambiance sonore du début (voir `scene`). |
 

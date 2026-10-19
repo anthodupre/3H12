@@ -1524,7 +1524,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
    1. CONFIGURATION — les réglages faciles à modifier
    ===================================================================== */
 const CONFIG = {
-  version: '1.5',
+  version: '1.6',
   fuseau: 'America/Toronto',          // toutes les dates sont calculées à Toronto
   dossierHistoires: 'stories/',       // dossier des fichiers JSON
   cleSauvegarde: '3h12-sauvegarde-v1',// clé dans localStorage
@@ -4691,6 +4691,18 @@ const Rendu = {
       if (premier) premier.classList.add('lettrine');
     }
     ameliorerTexte(art);
+    this.ajusterTitre();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => this.ajusterTitre());
+  },
+  // Le titre du carton rapetisse s'il est trop large pour l'écran (mots longs, majuscules)
+  ajusterTitre() {
+    const t = $('#histoire .carton-titre');
+    if (!t) return;
+    t.style.fontSize = '';
+    // (le mot le plus long ne se coupe pas : c'est lui qui dépasse de la colonne)
+    const largeur = t.parentElement.clientWidth;
+    let taille = parseFloat(getComputedStyle(t).fontSize) || 48;
+    while (t.scrollWidth > largeur && taille > 22) { taille -= 2; t.style.fontSize = `${taille}px`; }
   },
   // Le carton d'ouverture : le numéro et le titre, seuls (rien d'autre ne doit le distraire)
   carton(h) {
@@ -5482,13 +5494,18 @@ const VISAGE_EPIEUR = `<svg viewBox="0 0 160 260" aria-hidden="true">
   <path d="M30 70 Q20 150 28 260 M130 70 Q142 150 132 260" stroke="#040303" stroke-width="13" fill="none" stroke-linecap="round" opacity=".95"/>
   <path d="M50 52 Q40 104 46 150 Q48 180 42 214 M62 56 Q54 100 60 140 M96 58 Q106 108 100 160 Q98 186 104 222 M110 60 Q122 110 116 150 M78 54 Q74 84 79 100" stroke="#040303" stroke-width="2.4" fill="none" opacity=".92"/>
 </svg>`;
+// Le visage qui épie : celui de l'histoire (décor nommé « epieur ») s'il y en a un, sinon celui du moteur
+function visageEpieur() {
+  const propre = etat.histoire && etat.histoire.fond.decors.epieur ? nettoyerSVG(etat.histoire.fond.decors.epieur) : '';
+  return propre || VISAGE_EPIEUR.replace(/-ID/g, `-e${Date.now().toString(36)}`);
+}
 Object.assign(Effets, {
   // Elle sort la tête d'un bord de l'écran, te regarde sans cligner, puis se cache.
   // Si on la touche, elle se cache tout de suite.
   epier(duree, cote = 'droite', attaque = false) {
     const el = document.createElement('div');
     el.className = `epieur epieur-${cote}`;
-    el.innerHTML = VISAGE_EPIEUR.replace(/-ID/g, `-e${Date.now().toString(36)}`);
+    el.innerHTML = visageEpieur();
     if (cote === 'droite' || cote === 'gauche') el.style.top = `${Math.round(hasard(24, 58))}%`;
     else el.style.left = `${Math.round(hasard(18, 62))}%`;
     document.body.appendChild(el);
@@ -5523,7 +5540,7 @@ Object.assign(Effets, {
     const intenses = P().effetsIntenses;
     const s = document.createElement('div');
     s.className = `epieur-saut${intenses ? '' : ' doux'}`;
-    s.innerHTML = VISAGE_EPIEUR.replace(/-ID/g, `-s${Date.now().toString(36)}`);
+    s.innerHTML = visageEpieur();
     document.body.appendChild(s);
     if (intenses) { this.noir(650, ''); this.tremblement(600, true); }
     jouerSon('coup', { nombre: 1 });
