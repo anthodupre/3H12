@@ -664,8 +664,22 @@
     {
       "type": "sms",
       "de": "moi",
-      "texte": "Dis à Camille de rester dormir ce soir. ^^Ça passe toujours.^^"
+      "texte": "Dis à Camille que je suis là. Au pied du lit."
+    },
+    {
+      "type": "sms",
+      "de": "moi",
+      "texte": "Et dis-lui de dormir. ^^Ça passe toujours.^^"
     }
   ],
-  "phraseFinale": "Camille est restée dormir. __Elle a bien verrouillé la porte.__"
+  "phraseFinale": "Camille est restée dormir. __Elle a bien verrouillé la porte.__",
+  "question": {
+    "texte": "La prochaine nuit, tu veux avoir peur de quoi ?",
+    "choix": [
+      "Quelque chose dans la maison",
+      "Quelqu’un que tu connais",
+      "Un endroit perdu au Québec",
+      "Une voix au téléphone"
+    ]
+  }
 }
