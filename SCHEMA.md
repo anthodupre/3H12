@@ -30,7 +30,7 @@ Sommaire : [1. Fichiers](#1-fichiers) · [2. index.json](#2-storiesindexjson) ·
 
 ```json
 {
-  "moteur": "1.3",
+  "moteur": "1.4",
   "version": 1,
   "histoires": [
     {
@@ -93,14 +93,14 @@ Fichier `stories/AAAA-MM-JJ.json` :
 | `numero` | entier ≥ 1 | oui | `0` | Numéro de l'histoire (identique à l'index). |
 | `date` | `AAAA-MM-JJ` | oui | nom du fichier | Doit être égal au nom du fichier. |
 | `titre` | chaîne | oui | « Sans titre » | Court et marquant (1 à 5 mots, idéalement). |
-| `sousTitre` | chaîne | non | — | Affiché sous le titre (carton d'ouverture, chapeau d'une coupure de journal). |
+| `sousTitre` | chaîne | non | — | Chapeau d'une coupure de journal (mise en page `coupure`). Le carton d'ouverture n'affiche que le numéro et le titre. |
 | `sousGenre` | chaîne | oui | — | Ex. « horreur maritime ». |
 | `lieu` | chaîne | oui | — | Lieu précis (ville, région, pays). |
 | `epoque` | chaîne | oui | — | Année ou période. |
 | `auQuebec` | booléen | oui | — | Comme dans l'index. |
 | `format` | chaîne | oui | — | Description humaine du document. |
 | `resume` | chaîne | oui | — | Une phrase de résumé (sans divulgâcher la fin). |
-| `avertissement` | chaîne | non | — | Court avertissement de contenu, affiché sur le carton d'ouverture (ex. « Contient la mort d'un animal. »). |
+| `avertissement` | chaîne | non | — | Court avertissement de contenu (ex. « Contient la mort d'un animal. »), gardé dans le fichier ; plus affiché dans l'app. |
 | `retournement` | chaîne | oui | — | Type du gros retournement final, en quelques mots (ex. « celui qui rassure est la menace ; transmission »). Jamais affiché dans l'app : sert à ne pas répéter le même retournement (voir DAILY.md). |
 | `miseEnPage` | chaîne | oui | `recit` | Une des 10 mises en page (section 6). |
 | `theme` | objet | oui | selon la mise en page | Palette, polices, CSS (section 4). |
