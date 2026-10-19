@@ -2,18 +2,17 @@
   "version": 1,
   "numero": 1,
   "date": "2026-10-20",
-  "titre": "Elle me regarde",
-  "sousTitre": "Ma femme me regarde en cachette, derrière les coins et les meubles. C’est passé de bizarre à terrifiant.",
-  "sousGenre": "horreur psychologique",
-  "lieu": "Une maison de banlieue, aux États-Unis",
-  "epoque": "aujourd’hui",
+  "titre": "My wife has been peeking at me from around corners and behind furniture. It's gone from weird to terrifying",
+  "sousGenre": "psychological horror",
+  "lieu": "A suburban house, in the United States",
+  "epoque": "today",
   "auQuebec": false,
-  "format": "Témoignage écrit d’un seul coup, dans une chambre de motel",
-  "resume": "Depuis deux mois, Lynn regarde son mari en cachette, derrière les coins et les meubles. Au début, il trouvait ça drôle.",
-  "avertissement": "Sang, mutilation d’animaux (hors champ).",
+  "format": "A testimony typed in one go, from a motel room",
+  "resume": "For two months, Lynn has been peeking at her husband from around corners and behind furniture. At first, he found it funny.",
+  "avertissement": "Blood, animal mutilation (off-page).",
   "miseEnPage": "recit",
-  "origine": "traduction",
-  "retournement": "ce n’est plus vraiment elle ; la chasse ne finit pas : elle l’a trouvé",
+  "origine": "choisie",
+  "retournement": "it isn't really her anymore; the hunt doesn't end: she found him",
   "theme": {
     "palette": {
       "fond": "#0d0b0c",
@@ -135,23 +134,23 @@
   "blocs": [
     {
       "type": "paragraphe",
-      "texte": "Ma femme, « Lynn », et moi sommes ensemble depuis six ans, et mariés depuis onze mois. Notre vie ensemble a toujours été parfaitement normale. Je n’ai jamais rien remarqué d’étrange chez elle, aucun signe inquiétant. Je ne le répéterai jamais assez : rien de tout ça ne lui ressemble."
+      "texte": "My wife \"Lynn\" and I have been together for six years and married for 11 months. Our entire history together has been very normal and never once have I noticed any weird behaviors or red flags. I can't stress enough how out of character this whole thing is for her."
     },
     {
       "type": "paragraphe",
-      "texte": "Lynn est gentille, intelligente et attentionnée. Elle a toujours été quelqu’un de sérieux, les deux pieds sur terre. Faire l’enfant ou essayer de me faire peur, ce n’est pas du tout elle."
+      "texte": "Lynn is very kind, intelligent and thoughtful. She's always been the no nonsense type of person. Being childish, or trying to scare me is not something she'd normally do."
     },
     {
       "type": "paragraphe",
-      "texte": "Elle n’aime même pas les films d’horreur. Au début de notre relation, elle avait accepté de regarder *Shining* avec moi parce qu’elle savait à quel point j’adore l’horreur. Elle a eu tellement peur qu’on a dû arrêter le film avant la moitié. Elle n’aime rien de ce qui fait peur, et elle n’a jamais aimé les mauvais tours. Ce n’est juste pas son genre. Et c’est correct. Mais c’est justement pour ça que tout ça était si étrange. Ça ne lui ressemble tellement pas."
+      "texte": "She doesn't even like watching horror movies. When we first started dating she agreed to watch The Shining with me because she knew how much I loved horror. She was so scared that she didn't even make it through half of the movie before we had to turn it off. She isn't into anything creepy, and has never been into pranks. It's just not her cup of tea. And that's fine. But that's what was so strange about this. It's just so unlike her."
     },
     {
       "type": "paragraphe",
-      "texte": "Je dois aussi préciser qu’elle n’a jamais eu de problèmes de santé mentale et, à ma connaissance, il n’y en a pas dans sa famille. Je sais que certaines personnes arrivent à cacher ce genre de problèmes, mais en six ans, je pense que j’aurais remarqué quelque chose."
+      "texte": "I should also add that she never had any mental health issues and as far as I'm aware it doesn't run in her family. I know some people are able to hide their mental health problems, but in the six years we've been together I think I'd have seen some sort of sign."
     },
     {
       "type": "paragraphe",
-      "texte": "Il y a deux mois, j’étais dans la cuisine à me faire un café avant d’aller travailler. J’étais un peu en retard ce matin-là, et je savais que je n’aurais pas le temps de m’arrêter au Dunkin’ Donuts comme d’habitude."
+      "texte": "Two months ago, I was in the kitchen making myself some coffee before work. I was running a bit late that morning and knew I wouldn't be able to make it to Dunkin Donuts for my usual morning fix."
     },
     {
       "type": "scene",
@@ -161,11 +160,11 @@
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai pris une gorgée de café en marchant vite dans le couloir vers la porte d’entrée, quand j’ai vu Lynn qui me regardait en cachette, au coin du mur, devant moi. Je ne voyais que ses yeux, et une mèche de ses longs cheveux foncés qui pendait contre le mur. Le reste de son corps était caché derrière le coin. J’ai failli renverser mon café en la voyant. Par contre, je me suis vraiment brûlé les lèvres."
+      "texte": "I took a sip of my coffee as I hurried down the hall towards the front door, when I happened to notice Lynn peeking at me from around the corner ahead of me. I could only see her eyes, and a strand of her long dark hair hanging against the wall. The rest of her body was concealed behind the corner. I nearly spilled my coffee when I saw her. I did burn the shit out of my lips."
     },
     {
       "type": "paragraphe",
-      "texte": "« Mon Dieu, Lynn, j’ai dit en essuyant quelques gouttes de café sur mon pantalon. Tu m’as fait tellement peur. »"
+      "texte": "\"Geeze, Lynn.\" I said, wiping a few drops of coffee from my pants. \"You scared the shit out of me.\""
     },
     {
       "type": "scene",
@@ -174,15 +173,15 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Elle a tout de suite disparu, comme une petite fille prise sur le fait. Je l’ai entendue partir en courant vers le salon et, le temps que j’arrive à la porte d’entrée, je ne la voyais plus."
+      "texte": "She immediately popped out of view like a little kid that had been caught. I heard her scurry off towards the living room, and by the time I got to the front door she was out of sight."
     },
     {
       "type": "paragraphe",
-      "texte": "C’était vraiment bizarre, et pas du tout son genre, comme je disais, mais je trouvais ça plutôt drôle qu’elle soit un peu plus joueuse et un peu moins sérieuse. Je lui ai crié que je l’aimais, et je l’ai traitée de folle. En fermant la porte derrière moi, je l’ai entendue rire."
+      "texte": "It was really weird, and just totally out of character for her like I said, but I also found it kind of funny that she was being more playful and a little less serious. I shouted that I loved her, and called her a weirdo. As I shut the door behind me I heard her laughing."
     },
     {
       "type": "paragraphe",
-      "texte": "Son comportement était un peu étrange, mais il n’y avait certainement pas de quoi appeler un prêtre. À midi, je n’y pensais déjà plus et, quand je suis rentré, elle était redevenue comme d’habitude. Je n’en ai pas parlé, elle non plus, et la vie a continué."
+      "texte": "Her behavior was a bit odd, but it certainly wasn't something to call a priest over. I forgot about it by lunch and by the time I got home she was her normal self. I didn't bring it up and neither did she, and life went on."
     },
     {
       "type": "scene",
@@ -190,14 +189,14 @@
       "ambiance": [
         "frigo"
       ],
+      "fondu": 2600,
       "teinte": "#14263a",
       "teinteOpacite": 0.22,
-      "fondu": 2600,
       "volume": 0.55
     },
     {
       "type": "paragraphe",
-      "texte": "La deuxième fois, c’est arrivé trois jours plus tard. Il était environ deux heures du matin, et je m’étais levé pour boire quelque chose. J’étais debout devant l’îlot de la cuisine, le pot de jus d’orange à la main, quand j’ai eu la forte impression qu’on me regardait."
+      "texte": "The next incident happened three days later. It was around 2am and I had woken up to get a drink. I was standing at the kitchen island, jug of Oj in hand, when I felt a strong feeling that I was being watched."
     },
     {
       "type": "scene",
@@ -206,18 +205,18 @@
         "frigo"
       ],
       "opacite": 0.54,
+      "fondu": 3600,
       "teinte": "#14263a",
       "teinteOpacite": 0.22,
-      "fondu": 3600,
       "volume": 0.55
     },
     {
       "type": "paragraphe",
-      "texte": "Je ne sais pas pourquoi, j’ai baissé les yeux vers le plancher, et j’ai vu le visage souriant de ma femme qui me fixait. Elle me regardait de l’autre côté de l’îlot, les yeux levés vers moi, grands ouverts, sans cligner, avec un grand sourire. Un sourire comme celui du chat d’*Alice au pays des merveilles*."
+      "texte": "For whatever reason I looked down at the floor and saw my wife's smiling face staring back. She was peeking at me from the other side of the island, staring up at me with wide unblinking eyes and grinning. Grinning like the Cheshire cat."
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai crié, je l’avoue. Pas parce que j’étais fâché : parce que j’avais peur. Je ne sais pas pourquoi, mais à ce moment-là, j’avais peur."
+      "texte": "I screamed, I'll admit it. Not out of irritation but fear. For some reason at that moment I was scared."
     },
     {
       "type": "scene",
@@ -225,14 +224,14 @@
       "ambiance": [
         "frigo"
       ],
+      "fondu": 250,
       "teinte": "#14263a",
       "teinteOpacite": 0.22,
-      "fondu": 250,
       "volume": 0.55
     },
     {
       "type": "paragraphe",
-      "texte": "Quand j’ai crié, Lynn a reculé très vite, hors de ma vue. J’entendais ses mains et ses pieds taper sur le plancher de céramique pendant qu’elle sortait de la cuisine à quatre pattes. Je ne lui ai pas couru après, je ne l’ai même pas appelée. Je suis resté là, figé, à me demander ce qui avait bien pu lui prendre."
+      "texte": "At the sound of my scream Lynn scuttled backwards out of my view, her hands and feet smacking the tile floor as she hurried out of the kitchen on all fours. I didn't run after her, or even yell after her. I just stood there frozen in shock, wondering what fuck had possessed her to do that."
     },
     {
       "type": "evenement",
@@ -249,11 +248,11 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Il m’a fallu plus de temps que j’aimerais l’avouer pour remonter, mais j’ai fini par le faire. Quand je suis arrivé dans notre chambre, Lynn était couchée sur le côté, endormie. Ou alors elle faisait semblant. Je suis resté là un bon moment à regarder sa respiration, pour être sûr qu’elle dormait vraiment."
+      "texte": "It took me a little longer than I'd like to admit to go back upstairs, but I eventually did. When I got to our bedroom, Lynn was lying on her side, asleep. Or at least pretending to be. I stood there for a while, watching her breathing to be sure she really was asleep."
     },
     {
       "type": "paragraphe",
-      "texte": "J’avais l’impression qu’elle allait me sauter dessus dès que je me coucherais. Mais non. Je me suis glissé dans le lit, et elle n’a même pas bougé. Elle respirait doucement, profondément, et je commençais à me demander si je n’avais pas rêvé tout ça."
+      "texte": "I had the feeling she might jump out at me the moment I got into bed. But she didn't. I climbed into bed and she didn't even move. Her breathing was soft and deep and I was starting to wonder if I'd dreamt the whole thing."
     },
     {
       "type": "scene",
@@ -262,39 +261,39 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Le lendemain matin, j’ai attendu qu’elle descende prendre son café. Je lui ai donné une tasse, je l’ai embrassée sur la joue, et j’ai décidé de lui en parler."
+      "texte": "The next morning I waited for her to come down for coffee and after handing her a mug and kissing her cheek I decided to ask her about it."
     },
     {
       "type": "paragraphe",
-      "texte": "« C’était quoi, ça, cette nuit ? » je lui ai demandé, sur un ton léger, pour ne pas la vexer ni la gêner."
+      "texte": "\"What was that about last night?\" I asked, keeping my tone light so I didn't offend or embarrass her."
     },
     {
       "type": "paragraphe",
-      "texte": "Elle a froncé les sourcils au-dessus de sa tasse en secouant la tête, comme si elle ne savait pas du tout de quoi je parlais."
+      "texte": "She frowned over her cup of coffee, shaking her head like she had no clue what I was referring to."
     },
     {
       "type": "paragraphe",
-      "texte": "« Tu me regardais encore en cachette. De là-bas », j’ai dit en montrant l’endroit sur le plancher, près de l’îlot."
+      "texte": "\"You were peeking at me again. From over there.\" I said, pointing to the spot on the floor by the kitchen island."
     },
     {
       "type": "paragraphe",
-      "texte": "Elle a regardé l’endroit et, quand elle s’est retournée vers moi, elle a éclaté de rire. Elle riait tellement que j’ai fini par rire avec elle."
+      "texte": "She followed my gaze, and when she looked back at me she burst out laughing. She laughed so hard that I couldn't help but join her."
     },
     {
       "type": "paragraphe",
-      "texte": "« Tu me fais peur, des fois, tu le sais ? » j’ai dit. Elle a ri, elle a posé sa tasse sur le comptoir et elle a passé ses bras autour de mon cou."
+      "texte": "\"You creep me the fuck out sometimes, you know that?\" I said. She giggled and set her cup on the counter and wrapped her arms around my neck."
     },
     {
       "type": "paragraphe",
-      "texte": "« Toi, tu me fais peur tout le temps. Alors on est quittes », elle a dit pour me taquiner."
+      "texte": "\"You creep me out all the time. So I guess we're even.\" She teased."
     },
     {
       "type": "paragraphe",
-      "texte": "On s’est dit au revoir et on est partis travailler. En conduisant, je repensais sans arrêt à quel point c’était inquiétant de la voir me sourire comme ça, derrière l’îlot. Au bruit de ses mains sur le plancher pendant qu’elle s’éloignait à quatre pattes. Je me disais qu’elle voulait juste être drôle. Qu’elle essayait de partager mon amour pour tout ce qui fait peur…"
+      "texte": "We said our goodbyes and left for work. As I drove I kept thinking about how creepy it had been seeing her grinning at me from behind the island like that. The sounds her hands made on the floor as she crawled away. I told myself she was just trying to be silly. Just trying to join me in my love of all things horror…."
     },
     {
       "type": "paragraphe",
-      "texte": "Ce n’est pas que j’avais peur d’elle. Mais quelque chose me dérangeait."
+      "texte": "It's not like I was afraid of her. But it still didn't sit right with me."
     },
     {
       "type": "scene",
@@ -303,11 +302,11 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Je l’ai surprise à me regarder en cachette de plus en plus souvent. Parfois derrière le divan, ou derrière les rideaux du salon. Une fois, elle a même réussi à se cacher dans le vieux coffre de sa grand-mère, celui qui est au pied de notre lit."
+      "texte": "I started seeing her peeking at me more and more. Sometimes she'd be peeking out from behind the couch or living room curtains. Once she even managed to get inside her grandmother's old trunk that sits at the foot of our bed."
     },
     {
       "type": "paragraphe",
-      "texte": "Je ne l’aurais peut-être jamais su si les vieilles charnières du coffre n’avaient pas grincé."
+      "texte": "I might not have even known she was there at all had the trunk's old hinges not given her away."
     },
     {
       "type": "evenement",
@@ -322,11 +321,11 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Elle avait soulevé le couvercle juste assez pour qu’on voie la moitié de son visage. Elle souriait comme une petite enfant tout excitée. C’était troublant. Je ne savais même pas quoi lui dire. Je ne pouvais que la regarder. Quand j’ai enfin retrouvé ma voix, je lui ai demandé pourquoi elle faisait ça. Elle n’a pas répondu, mais elle a refermé le couvercle tout doucement, et elle est restée enfermée dans le coffre. Je suis parti, secoué."
+      "texte": "She'd had the lid propped up just enough so that only half of her face peeked through. She'd been grinning like an excited toddler. It was unnerving. I didn't even know what to say to her. All I could do was stare. When I finally found my voice, I asked her why on earth was she doing this. She didn't answer, but she had slowly closed the lid, shutting herself inside the trunk. I just walked away, feeling disturbed."
     },
     {
       "type": "paragraphe",
-      "texte": "Je ne comprenais pas pourquoi elle faisait ça, mais on voyait bien que ça la rendait heureuse. J’espérais seulement qu’elle se lasserait vite de son jeu."
+      "texte": "I didn't understand why she was doing it, but it clearly made her happy. I just hoped she would tire of the game quickly."
     },
     {
       "type": "scene",
@@ -338,7 +337,7 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Pendant les deux semaines suivantes, Lynn ne m’a plus regardé en cachette. Je commençais à croire qu’elle avait arrêté son jeu bizarre, et j’étais soulagé. Un soir, pendant qu’on regardait une série sur Netflix, je lui ai dit en riant que je ne l’avais pas vue me surveiller depuis un bout de temps, et qu’elle avait dû abandonner son jeu d’espionne. Elle a levé les yeux vers moi avec un petit sourire et elle a dit : « Ou alors, je suis juste devenue meilleure. »"
+      "texte": "Lynn didn't peek at me for the next two weeks. I started to think she was done with her weird prank and I was relieved. We were watching a show on Netflix one night and I jokingly said that I hadn't seen her peeking at me lately, and that she must have given up on her spy game. She looked up at me with a small smile and said, \"Maybe I've just gotten better at it.\""
     },
     {
       "type": "evenement",
@@ -349,22 +348,22 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Je n’ai rien répondu, mais je me suis demandé si elle blaguait."
+      "texte": "I didn't say anything but I wondered whether or not she was joking."
     },
     {
       "type": "paragraphe",
-      "texte": "Les jours suivants, je n’arrêtais pas d’y penser. Est-ce qu’elle me regardait encore en cachette quand je ne regardais pas, sans que je m’en rende compte ? Et si oui, qu’est-ce que ça pouvait bien lui apporter ? Je suis devenu méfiant, à vérifier sans arrêt si elle me regardait au coin d’un mur ou derrière une porte. Je sursautais pour un rien dès que j’étais à la maison et qu’elle n’était pas devant moi. Je me sentais stupide, et un peu fou."
+      "texte": "For the next few days I couldn't stop thinking about what she'd said. Was she still peeking at me when I wasn't looking and I just hadn't noticed? And if so, what the hell was she getting out of this? I started to feel paranoid, constantly checking whether she was watching from around the corner, or behind a door. I was jumpy whenever I was home and she wasn't in full view of me. I felt stupid and a little crazy."
     },
     {
       "type": "paragraphe",
-      "texte": "Mais après quelques semaines sans que rien n’arrive, j’ai commencé à me détendre. J’ai arrêté de vérifier derrière les meubles et les murs, et je me suis dit que ce n’était qu’un mauvais souvenir."
+      "texte": "But after a few weeks without another incident, I began to relax. I stopped checking behind furniture and walls and told myself it was just a bad memory."
     },
     {
       "type": "pause"
     },
     {
       "type": "paragraphe",
-      "texte": "Puis, il y a quelques jours, tout a empiré. Beaucoup."
+      "texte": "Then a few days ago things got so much worse...."
     },
     {
       "type": "scene",
@@ -376,7 +375,7 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Lynn était partie chez une amie, et j’étais tranquille sur le divan, à jouer à des jeux sur mon ordinateur portable."
+      "texte": "Lynn left to go to a friend's, and I lounged on the couch and played a couple games on my laptop."
     },
     {
       "type": "scene",
@@ -384,17 +383,17 @@
       "ambiance": [
         "douche"
       ],
-      "effet": "brouillard",
       "intensite": 0.55,
+      "fondu": 2400,
+      "effet": "brouillard",
       "couleur": "#c9d2d8",
       "teinte": "#1b2228",
       "teinteOpacite": 0.15,
-      "fondu": 2400,
       "volume": 0.7
     },
     {
       "type": "paragraphe",
-      "texte": "Vers 21 h, je suis allé prendre une douche et, pendant que je rinçais le savon de mes cheveux, j’ai eu cette horrible impression qu’on me regardait. J’ai ouvert les yeux lentement, et j’ai failli faire une crise cardiaque."
+      "texte": "Around 9pm I hopped in the shower and as I was washing the soap from my hair, I felt that awful feeling that I was being watched. I slowly opened my eyes and almost had a fucking heart attack."
     },
     {
       "type": "scene",
@@ -403,17 +402,17 @@
         "douche"
       ],
       "opacite": 0.56,
-      "effet": "brouillard",
       "intensite": 0.55,
+      "fondu": 1400,
+      "effet": "brouillard",
       "couleur": "#c9d2d8",
       "teinte": "#1b2228",
       "teinteOpacite": 0.15,
-      "fondu": 1400,
       "volume": 0.7
     },
     {
       "type": "paragraphe",
-      "texte": "Lynn me regardait derrière le rideau de douche, la tête entière à l’intérieur de la douche, le corps resté dehors. Ses longs cheveux foncés pendaient contre le rideau, les pointes mouillées. Sa bouche était grande ouverte sur un sourire horrible, les yeux rouges et écarquillés, comme si elle n’avait pas cligné depuis longtemps. J’ai crié et je me suis collé contre le mur. Elle n’a pas bougé, et son sourire est resté le même. Son maquillage coulait sur ses joues en deux lignes noires. Elle avait l’air ravie, et complètement folle. J’étais terrorisé."
+      "texte": "Lynn was peeking from behind the shower curtain, her entire head stretched into the shower, leaving just her body outside. Her long dark hair hung against the curtain, the ends dripping with water. Her mouth hung open in a terrible grin, eyes wide and red, as if she hadn't blinked in a while. I screamed and jumped back against the wall. She didn't move nor did her smile waver. Her makeup ran down her cheeks in two black streaks. She looked giddy and completely deranged. I was fucking terrified."
     },
     {
       "type": "scene",
@@ -421,21 +420,21 @@
       "ambiance": [
         "douche"
       ],
-      "effet": "brouillard",
       "intensite": 0.5,
+      "fondu": 2800,
+      "effet": "brouillard",
       "couleur": "#c9d2d8",
       "teinte": "#1b2228",
       "teinteOpacite": 0.15,
-      "fondu": 2800,
       "volume": 0.7
     },
     {
       "type": "paragraphe",
-      "texte": "On est restés comme ça un moment, sans rien dire, ni l’un ni l’autre. Finalement, après ce qui m’a semblé une éternité, elle a sorti sa tête de la douche, lentement, et j’ai vu sa silhouette floue, derrière le rideau, reculer vers la porte de la salle de bain."
+      "texte": "We stood like that for a few moments, neither of us saying a word. Finally after what felt like forever, she slowly pulled her head back out of the shower, and I watched her blurry figure through the curtain as she moved backwards towards the bathroom door."
     },
     {
       "type": "paragraphe",
-      "texte": "Une seconde plus tard, la porte de la salle de bain a claqué, assez fort pour faire trembler le miroir."
+      "texte": "A second later the bathroom door slammed shut, hard enough to rattle the mirror."
     },
     {
       "type": "evenement",
@@ -449,54 +448,54 @@
       "ambiance": [
         "gouttes"
       ],
+      "fondu": 900,
+      "volume": 0.6,
       "effet": "poussiere",
       "intensite": 0.15,
       "teinte": "#2a2014",
-      "teinteOpacite": 0.12,
-      "fondu": 900,
-      "volume": 0.6
+      "teinteOpacite": 0.12
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai crié encore, et je suis sorti de la douche en vitesse pour verrouiller la porte. Je suis resté enfermé dans la salle de bain pendant plus d’une heure. Certains d’entre vous vont peut-être trouver que j’ai exagéré. Mais que ce soit une blague ou non, je n’allais plus endurer ces folies. C’est ce que je me répétais en tournant en rond dans la salle de bain, en m’arrêtant toutes les quelques minutes pour écouter à la porte."
+      "texte": "I screamed again, and jumped out of the shower to lock the door. I stayed inside the bathroom for over an hour. Maybe I overreacted to some of you. But joke or not, I wasn't going to put up with the crazy shit anymore. That's what I kept telling myself as I paced in my bathroom, stopping to listen at the door every few minutes."
     },
     {
       "type": "paragraphe",
-      "texte": "Tout à coup, j’ai entendu un petit bruit, et j’ai collé mon oreille contre la porte pour écouter. Je n’entendais rien, mais j’imaginais Lynn debout de l’autre côté, en train de rire tout bas de sa blague."
+      "texte": "Suddenly I heard a muffled sound, and I pressed my ear against the bathroom door, straining to listen. I couldn't hear anything but I envisioned Lynn standing on the other side of the door, giggling at her joke."
     },
     {
       "type": "paragraphe",
-      "texte": "La colère est montée d’un coup. J’étais hors de moi : on me faisait peur dans ma propre maison, on m’obligeait à me cacher une heure dans la salle de bain. Pourquoi ? Pour une blague ? Si c’en était une, elle était horrible."
+      "texte": "I felt a surge of anger. I was beyond pissed at being made to feel scared in my own house, and made to hide in the bathroom for an hour. All for what? Some joke? If it was a joke it was an awful one."
     },
     {
       "type": "paragraphe",
-      "texte": "« C’est quoi ton problème, Lynn ? j’ai crié. Ça commence à être vraiment fatigant, tes folies. » J’ai attendu qu’elle s’excuse, ou qu’elle me traite d’idiot. Mais à la place, j’ai entendu un petit gémissement, tellement faible que je me suis demandé si je l’avais vraiment entendu. Puis plus rien."
+      "texte": "\"What the fuck Lynn!\" I snapped. \"This shit is getting really fucking annoying.\" I waited for her to apologize, or to call me a jerk. But instead I heard a faint moan, so quiet I wondered if I heard it at all, and then complete silence."
     },
     {
       "type": "paragraphe",
-      "texte": "« Lynn ? » j’ai appelé, sans réussir à cacher que ma voix tremblait. Pas de réponse. Juste ma propre respiration, lourde."
+      "texte": "\"Lynn?\" I called out, not able to even hide the shakiness in my voice. I got no response. Just my own heavy breathing."
     },
     {
       "type": "paragraphe",
-      "texte": "« Je te le jure, arrête ça tout de suite ! » j’ai hurlé en frappant la porte avec mon poing."
+      "texte": "\"I swear to God, just fucking stop it!\" I yelled, pounding my fist on the door."
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai attendu qu’elle m’engueule. C’est ce qu’elle aurait fait, d’habitude, si je lui avais parlé comme ça. Je ne lui avais jamais crié dessus avant."
+      "texte": "I waited for her to cuss me out, something I would expect from me talking to her like that. I never screamed at her before."
     },
     {
       "type": "paragraphe",
-      "texte": "Mais rien. Juste, de temps en temps, une goutte qui tombait de la douche."
+      "texte": "But there was nothing. Just the occasional drip from the shower head."
     },
     {
       "type": "paragraphe",
-      "texte": "Je ne vais pas mentir : j’avais peur. Trop peur pour ouvrir la porte et me retrouver face à ma propre femme. J’ai attendu encore une trentaine de minutes, et une demi-heure, ça dure une éternité quand on a peur. Finalement, j’ai décidé que je n’allais pas passer la nuit caché dans ma salle de bain. Je me suis mis à genoux pour regarder sous la porte."
+      "texte": "I won't deny that I was scared. Too afraid to open the damn door and face my own wife. I waited another 30 minutes or so, which feels like a fucking lifetime when you're scared. Finally I decided I wasn't going to spend the night hiding in my bathroom, so I got down on my knees and peered under the door."
     },
     {
       "type": "geste",
-      "texte": "Regarder sous la porte",
+      "texte": "Look under the door",
       "mode": "toucher",
-      "aide": "Toucher pour se pencher",
+      "aide": "Tap to look",
       "vue": {
         "decor": "vue-sous-porte",
         "entree": "baisser",
@@ -506,26 +505,22 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Je m’attendais presque à voir son visage me regarder de l’autre côté mais, Dieu merci, non. Je voyais tout le couloir jusqu’en haut de l’escalier, et pas de Lynn. Je ne savais pas si je devais être content ou non. J’ai regardé plusieurs minutes, en attendant de voir sa tête apparaître en haut des marches, mais ce n’est jamais arrivé."
+      "texte": "I almost expected to see her face peeking back at me but thankfully I didn't. I could see straight down the hallway to the top of the stairs, but no Lynn. I didn't know if I should be happy about that or not. I looked for a few minutes, waiting to see her head pop up over the top step, but it never came."
     },
     {
       "type": "paragraphe",
-      "texte": "Je me suis relevé, la main au-dessus de la poignée, et je me suis préparé à ouvrir. J’ai déverrouillé la porte lentement, les doigts tremblants."
+      "texte": "I stood up, my hand hovering over the door and mentally prepared myself to open it. I slowly turned the lock with shaky fingers, and was about to yank it open when I heard a sound that still makes me feel nauseous when I think about it."
     },
     {
       "type": "paragraphe",
-      "texte": "J’allais ouvrir la porte d’un coup quand j’ai entendu un son qui me donne encore envie de vomir quand j’y repense."
-    },
-    {
-      "type": "paragraphe",
-      "texte": "Un gémissement, plus fort que le premier. Mais cette fois, je savais exactement d’où il venait."
+      "texte": "A moan, louder than before, but this time I was able to tell just where it was coming from."
     },
     {
       "type": "geste",
-      "texte": "Tourner la tête",
+      "texte": "Turn your head",
       "mode": "maintenir",
       "duree": 2000,
-      "aide": "Garder le doigt appuyé, lentement",
+      "aide": "Press and hold, slowly",
       "vue": {
         "decor": "vue-garde-robe",
         "entree": "tourner",
@@ -540,24 +535,24 @@
         "gouttes"
       ],
       "opacite": 0.54,
+      "fondu": 600,
+      "volume": 0.4,
       "effet": "poussiere",
       "intensite": 0.15,
       "teinte": "#2a2014",
-      "teinteOpacite": 0.12,
-      "fondu": 600,
-      "volume": 0.4
+      "teinteOpacite": 0.12
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai tourné la tête vers la porte de la garde-robe, comme au ralenti, et mes yeux ont croisé ceux de ma femme, qui me regardait par la porte entrouverte."
+      "texte": "I turned my head to the closet door as if in slow motion, and locked eyes with my wife who was peeking out at me from the slight gap."
     },
     {
       "type": "paragraphe",
-      "texte": "Ses yeux étaient toujours aussi grands ouverts, et sa bouche était ouverte sur le pire sourire que j’aie jamais vu. Je n’ai même pas crié. J’avais trop peur, même pour ça. Elle tenait ses mains jointes contre sa poitrine, et tout son corps tremblait de joie, comme si elle avait du mal à contenir son excitation. Un petit gémissement rauque est sorti de sa gorge, grave et étrange, et j’ai eu un frisson dans tout le corps."
+      "texte": "Her eyes were still wide as ever and her mouth was hanging open in the most grotesque gaping smile I'd ever seen. I didn't even scream. I was too scared for even that. Her hands were clasped to her chest, body trembling with sheer delight, as if she could barely contain her excitement. A short raspy moan bubbled up from her throat, deep and raw, sending a shiver through my entire body."
     },
     {
       "type": "paragraphe",
-      "texte": "Je ne sais pas comment, j’ai trouvé la force d’ouvrir la porte de la salle de bain. J’ai couru aussi vite que j’ai pu jusqu’en bas de l’escalier, j’ai attrapé mes clés et mon téléphone sur la table du salon, puis je suis sorti en courant jusqu’à ma voiture. J’entendais son rire aigu derrière moi, mais je ne l’entendais pas se rapprocher. Je n’ai même pas fermé la porte d’entrée."
+      "texte": "Somehow I found the ability to pull the bathroom door open and ran as fast as I could all the way down the steps, snagging my keys and phone from the table in the living room before running outside to my car. I could hear her shrill laughter behind me but I didn't hear her getting closer. I didn't bother shutting the front door."
     },
     {
       "type": "scene",
@@ -572,11 +567,11 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Je me suis éloigné de la maison beaucoup plus vite que la limite permise, en grelottant tout le long, de peur ou de froid. Sûrement un peu des deux. Je n’avais pas pris de manteau, pas même une paire de chaussures. J’étais encore en boxer, les cheveux mouillés."
+      "texte": "I drove away from the house faster than I legally should have, shivering the entire time, either from fear or the cold. Maybe a little of both. I hadn't grabbed a coat or even a pair of shoes. I was still in my boxers and my hair was still damp."
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai roulé directement jusque chez mon frère Chris, à une quarantaine de minutes, sans répondre à aucun appel ni aucun texto."
+      "texte": "I drove straight to my brother Chris's house about 40 minutes away, ignoring any and every call and text I got."
     },
     {
       "type": "evenement",
@@ -587,7 +582,7 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Je n’ai pas regardé mon téléphone avant d’être garé dans son entrée."
+      "texte": "I didn't check my phone until I was safely parked in my brother's driveway."
     },
     {
       "type": "scene",
@@ -607,31 +602,31 @@
         {
           "app": "telephone",
           "titre": "Lynn",
-          "texte": "Appel manqué"
+          "texte": "Missed Call"
         },
         {
           "app": "telephone",
           "titre": "Lynn",
-          "texte": "Appel manqué"
+          "texte": "Missed Call"
         },
         {
           "app": "telephone",
           "titre": "Lynn",
-          "texte": "Appel manqué"
+          "texte": "Missed Call"
         },
         {
           "app": "telephone",
           "titre": "Lynn",
-          "texte": "Appel manqué"
+          "texte": "Missed Call"
         },
-        "Où es-tu ?",
-        "Ben ?",
-        "Pourquoi tu es parti comme ça ?",
-        "Où es-tu ?",
-        "Réponds-moi.",
-        "Pourquoi tu es parti comme ça ?",
-        "Ben, où es-tu ?",
-        "Où es-tu ?"
+        "Where are you?",
+        "Ben?",
+        "Why did you leave like that?",
+        "Where are you?",
+        "Answer me.",
+        "Why did you leave like that?",
+        "Ben where are you?",
+        "Where are you?"
       ],
       "intervalle": 520,
       "reste": 17,
@@ -639,11 +634,11 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Lynn avait appelé quatre fois et m’avait envoyé une avalanche de textos, tous pour me demander où j’étais et pourquoi j’étais parti « comme ça »."
+      "texte": "Lynn had called 4 times and sent a flurry of texts, all wondering where I'd gone and why I left \"like that.\""
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai lancé mon téléphone sur le tableau de bord, enragé qu’elle fasse comme si de rien n’était. Mon frère et sa femme ont été surpris de me voir, surtout en boxer, mais ils m’ont dit de rester aussi longtemps que j’en avais besoin. Chris m’a prêté des vêtements et m’a demandé ce qui s’était passé. Je lui ai dit que Lynn et moi, on s’était disputés, sans entrer dans les détails. Je ne voulais pas qu’il pense que j’exagérais, à quitter ma femme pour une blague, même bizarre. Après tout, je l’avais encouragée pendant des années à se détendre, à être moins sérieuse, non ? Je voulais qu’elle lâche prise un peu, mais ce n’était vraiment pas ce que j’avais en tête."
+      "texte": "I threw my phone at the dash in a rage, furious at her nonchalant attitude. My brother and his wife were surprised to see me, especially dressed in just a pair of boxers, but told me to stay as long as I needed. Chris lent me some clothes and asked me what happened. I told him Lynn and I had a fight, but didn't get into the details. I didn't want him to think I was overreacting, leaving my wife over a prank, even if it was a strange one. I mean, hadn't I encouraged her for years to lighten up instead of being so serious all the time? I had wanted her to relax and loosen up, but this was definitely not what I'd had in mind."
     },
     {
       "type": "scene",
@@ -658,44 +653,44 @@
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai essayé de dormir sur leur divan, mais mon cerveau refusait. Chaque fois que je fermais les yeux, je voyais le visage de Lynn qui me regardait depuis la garde-robe. Savoir qu’elle avait été là, avec moi, tout ce temps, me donnait la chair de poule. Elle n’était jamais sortie de la salle de bain. Elle s’était cachée dans la garde-robe et elle avait claqué la porte pour me faire croire qu’elle était partie."
+      "texte": "I tried to sleep on their sofa, but my brain wouldn't let me sleep. Every time I closed my eyes I saw Lynn's face staring at me from inside the closet. Knowing she'd been in there with me the entire time made my skin crawl. She'd never left the fucking bathroom at all. Instead she slipped inside the closet and slammed the bathroom door shut to fool me."
     },
     {
       "type": "paragraphe",
-      "texte": "Juste l’idée de rentrer à la maison me rendait anxieux. Je me tournais et me retournais, incapable de dormir. Chris a fini par me donner une pilule pour dormir, et j’ai pu me reposer un peu. J’ai fait des cauchemars horribles. Tous avec le visage souriant de Lynn."
+      "texte": "The mere thought of going back home gave me anxiety. I tossed and turned, unable to sleep. Chris ended up giving me a sleeping pill so I was able to get a little rest. My sleep was filled with terrible dreams. All of Lynn's smiling face."
     },
     {
       "type": "scene",
       "decor": "salon-chris-aube",
       "ambiance": [],
+      "fondu": 4000,
       "teinte": "#3a3f52",
-      "teinteOpacite": 0.12,
-      "fondu": 4000
+      "teinteOpacite": 0.12
     },
     {
       "type": "paragraphe",
-      "texte": "Je me suis réveillé au lever du soleil. J’avais mal partout à cause du divan, et je me sentais vidé. Je savais que je devrais appeler Lynn à un moment donné, mais je ne savais pas quoi lui dire. Je ne rentrerais pas à la maison tant qu’elle ne m’aurait pas promis d’arrêter ses folies inquiétantes."
+      "texte": "I woke up just as the sun started to rise. My sore body ached from the sofa, and I felt drained. I knew I'd have to call Lynn at some point, but I didn't know what to say to her. I wouldn't be going home unless she gave me her word she'd never do anymore creepy shit."
     },
     {
       "type": "paragraphe",
-      "texte": "Je voulais juste retrouver ma femme. Elle qui était si sérieuse, avant… Ça ne m’avait jamais autant manqué."
+      "texte": "I just wanted my wife back. Her normal serious self never looked so good to me."
     },
     {
       "type": "paragraphe",
-      "texte": "J’étais en train de me décider à l’appeler pour lui dire tout ça quand j’ai senti cette impression familière. On me regardait. Je fixais le plafond, le cœur dans la gorge. Je ne voulais pas regarder ailleurs, mais plus j’essayais d’ignorer cette impression, plus elle devenait forte."
+      "texte": "I was contemplating calling her and telling her that, when that familiar feeling came over me. I was being watched. I was staring at the ceiling, my heart in my throat. I didn't want to look away but the longer I ignored the feeling the worse it got."
     },
     {
       "type": "scene",
       "decor": "fenetre-elle",
       "ambiance": [],
       "opacite": 0.56,
+      "fondu": 2600,
       "teinte": "#3a3f52",
-      "teinteOpacite": 0.12,
-      "fondu": 2600
+      "teinteOpacite": 0.12
     },
     {
       "type": "paragraphe",
-      "texte": "Mes yeux ont quitté le plafond presque tout seuls. Son visage était collé contre la fenêtre à côté du divan, penché sur moi, avec le même sourire immense. De la bave coulait de ses lèvres et laissait deux longues traces sur la vitre. Je ne savais pas depuis combien de temps elle était là, mais quelque chose me disait que ça faisait longtemps. Peut-être toute la nuit."
+      "texte": "My eyes drifted away from the ceiling almost on their own. Her face was pressed up against the window beside the couch, staring down at me with that same gaping smile. Drool dribbled down her lips, leaving two long streaks down the glass. I didn't know how long she'd been there, but something told me she'd been there quite a while, possibly all night."
     },
     {
       "type": "evenement",
@@ -705,35 +700,35 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Je n’ai même pas crié. À ce moment-là, j’étais plus en colère qu’effrayé. J’ai sauté du divan et j’ai frappé la vitre avec ma main."
+      "texte": "I didn't bother screaming, though I was afraid anger trumped any fear I felt at that moment. I jumped up from the couch and pounded my palm against the glass."
     },
     {
       "type": "paragraphe",
-      "texte": "« Lynn ! Es-tu folle ? Qu’est-ce qui ne va pas chez toi ? Rentre à la maison ! j’ai crié. Tout de suite ! »"
+      "texte": "\"Lynn! Are you crazy? What the hell is wrong with you? Just go home!\" I shouted. \"Now!\""
     },
     {
       "type": "paragraphe",
-      "texte": "Elle n’a pas bougé, et son visage horrible n’a pas changé. Au contraire, son sourire est devenu encore plus grand, comme si elle n’avait jamais été aussi heureuse."
+      "texte": "She didn't move, and her ghastly expression never changed. If anything her smile only grew, as if she had never been more elated."
     },
     {
       "type": "paragraphe",
-      "texte": "J’entendais Chris et sa femme bouger en haut. Comme si Lynn pouvait les entendre de dehors, sa tête a fait un petit mouvement brusque dans leur direction, et elle a commencé à refermer la bouche, lentement."
+      "texte": "I could hear Chris and his wife moving around upstairs. As if Lynn could hear them from her place outside, her head twitched slightly in their direction, and she began to close her mouth slowly."
     },
     {
       "type": "paragraphe",
-      "texte": "Chris a crié mon nom d’en haut, visiblement inquiet. Je me suis retourné et je l’ai vu descendre l’escalier en vitesse avec sa femme, Rebecca. Quand je me suis retourné vers la fenêtre, Lynn n’était plus là. La seule preuve qu’elle avait été là, c’était les deux traces de bave qui coulaient encore sur la vitre."
+      "texte": "Chris called my name from upstairs, obviously concerned. I turned to see him and his wife Rebecca hurrying down the steps. When I turned back to the window Lynn was gone. The only sign she'd been there at all was the two streaks of drool still dripping down the glass."
     },
     {
       "type": "scene",
       "decor": "fenetre-bave",
       "ambiance": [],
+      "fondu": 300,
       "teinte": "#3a3f52",
-      "teinteOpacite": 0.12,
-      "fondu": 300
+      "teinteOpacite": 0.12
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai essayé d’expliquer à Chris et à Rebecca que je m’étais réveillé et que Lynn me regardait par leur fenêtre. Ils ne me croyaient pas trop. Qui m’aurait cru ? Chris et moi, on est sortis devant la fenêtre, mais il n’y avait aucune trace de pas dans la terre, juste un léger creux. Sûrement un animal, a dit Chris, et je n’ai pas discuté. Rebecca et lui pensaient que j’avais rêvé, mais ils ne comprenaient pas, et j’étais trop fatigué pour leur expliquer."
+      "texte": "I tried explaining to Chris and Rebecca about waking up to see Lynn watching me through their window. They were skeptical, who wouldn't be? Chris and I went outside to the spot in front of the window but there were no footprints in the dirt, just a slight indent. Animal probably, Chris guessed, and I didn't argue. He and Rebecca assumed I dreamt the entire episode but they didn't understand, and I was too tired to explain it to them."
     },
     {
       "type": "evenement",
@@ -745,7 +740,7 @@
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai appelé au travail pour dire que je ne rentrerais pas, et j’ai fermé mon téléphone. Je ne voulais pas faire face à Lynn. Juste lui parler, c’était trop pour moi à ce moment-là. Je commençais vraiment à croire que quelque chose s’était brisé en elle, pour de bon. Que peu importe ce qu’elle me promettrait, on ne serait plus jamais comme avant. Ça me rendait profondément triste. J’ai pleuré presque toute la matinée. Vers midi, je me suis dit que j’étais prêt à lui parler. À lui donner une dernière chance de s’expliquer. Après six ans, je lui devais au moins ça. J’ai rallumé mon téléphone, et j’ai vu les dizaines de textos qu’elle m’avait envoyés, tous d’une femme qui avait l’air inquiète."
+      "texte": "I called out of work that day and turned my cell off. I didn't want to face Lynn. Just talking to her was too much for me at that point. I really started to believe something was irreversibly wrong with her. That no matter what promises she made we'd never be the same again. The thought saddened me to my core. I cried most of the morning. By noon I figured I was ready to confront her. Give her one last chance to explain herself. I could at least give her that after 6 years I told myself. I turned my phone on and saw the dozens of texts she'd sent, all from a seemingly concerned wife."
     },
     {
       "type": "evenement",
@@ -754,20 +749,20 @@
       "titre": "Lynn",
       "app": "messages",
       "messages": [
-        "On peut se parler ?",
-        "Je t’aime.",
-        "S’il te plaît, appelle-moi.",
-        "Je suis vraiment inquiète.",
-        "Tu peux répondre ?",
-        "Reviens à la maison, c’est tout.",
-        "Je t’aime.",
-        "On peut se parler ?",
-        "Je suis inquiète.",
-        "Appelle-moi.",
-        "Je t’aime, Ben.",
-        "Reviens.",
-        "S’il te plaît.",
-        "Tu peux répondre ?"
+        "Can we talk?",
+        "I love you.",
+        "Please call me.",
+        "I'm really worried.",
+        "Can you answer?",
+        "Just come home.",
+        "I love you.",
+        "Can we talk?",
+        "I'm worried.",
+        "Call me.",
+        "I love you Ben.",
+        "Come home.",
+        "Please.",
+        "Can you answer?"
       ],
       "intervalle": 430,
       "reste": 31,
@@ -775,15 +770,39 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Et plein d’autres du même genre. Tous pour me dire qu’elle m’aimait, qu’elle voulait que je revienne. À quel point elle était inquiète… Pas un seul ne parlait des choses folles qu’elle avait faites. Comme si elle ne s’était pas comportée comme un personnage de Stephen King."
+      "texte": "\"Can we talk?\""
     },
     {
       "type": "paragraphe",
-      "texte": "Même ses textos étaient différents. D’habitude, elle m’écrit des romans juste pour me demander d’acheter du pain ! On aurait pu croire qu’elle aurait eu plus de choses à me dire, après ce qu’elle avait fait."
+      "texte": "\"I love you.\""
     },
     {
       "type": "paragraphe",
-      "texte": "Je sais que ma réaction peut sembler exagérée pour certains d’entre vous, qui êtes loin de tout ça. Mais si vous aviez vu la façon dont Lynn me regardait, comment elle se sauvait à quatre pattes comme un animal sauvage, comment elle me souriait dans la garde-robe comme une folle… je pense que vous me comprendriez."
+      "texte": "\"Please call me.\""
+    },
+    {
+      "type": "paragraphe",
+      "texte": "\"I'm really worried.\""
+    },
+    {
+      "type": "paragraphe",
+      "texte": "\"Can you answer?\""
+    },
+    {
+      "type": "paragraphe",
+      "texte": "\"Just come home.\""
+    },
+    {
+      "type": "paragraphe",
+      "texte": "And more of the same. All texts telling me she loved me, and she wanted me home. How worried she was….Not a damn one addressing the crazy shit she pulled. Like she hadn't been acting like a character from a Stephen King book."
+    },
+    {
+      "type": "paragraphe",
+      "texte": "Even her texts were different. She normally texted novels just to tell me to pick up a loaf of bread! You'd think she'd have more to say to me after her bizarre shenanigans."
+    },
+    {
+      "type": "paragraphe",
+      "texte": "I know it probably seems childish to some of you who are miles away from this situation. But if you saw the way Lynn had looked at me, how she scampered away on all fours like some wild animal, grinning at me from inside the closet like a lunatic…..then I think you'd find my reaction was warranted."
     },
     {
       "type": "scene",
@@ -793,87 +812,87 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Je suis finalement resté chez Chris et Rebecca une nuit de plus. Hier, je ne me suis réveillé qu’après midi et, Dieu merci, je n’ai pas vu le visage de Lynn me regarder par la fenêtre."
+      "texte": "I ended up staying with Chris and Rebecca for another night. I didn't wake up yesterday until after noon, and thankfully I didn't see Lynn's face watching me through the window."
     },
     {
       "type": "paragraphe",
-      "texte": "« Je ne veux pas me mêler de ce qui ne me regarde pas. Mais est-ce que votre dispute, ça peut s’arranger ? » m’a demandé Rebecca. Elle nous avait fait des sandwichs pour le dîner, et je savais qu’elle voulait aborder le sujet sans avoir l’air de fouiner."
+      "texte": "\"I don't want to pry, because it's not my place. But is this fight something that can be mended?\" Rebecca asked. She'd made us both a sandwich for lunch and I knew she wanted to breach the subject without seeming to be nosy."
     },
     {
       "type": "paragraphe",
-      "texte": "« Je ne sais pas. C’est juste que… on dirait une autre personne », j’ai dit en choisissant bien mes mots. Je n’étais pas encore prêt à leur raconter à quel point c’était fou, ce que je vivais."
+      "texte": "\"I don't know. I just….. She's like a different person.\" I said, choosing my words carefully. I still wasn't ready for her or Chris to know the full extent of the bat shit craziness I had been dealing with."
     },
     {
       "type": "paragraphe",
-      "texte": "« Les gens changent, Ben. Mais c’est encore la même femme que tu as mariée. Vous avez peut-être juste besoin de vous parler. Peu importe ce qui se passe, je suis sûre que ça peut s’arranger », a-t-elle dit. Rebecca voulait toujours que tout le monde s’entende."
+      "texte": "\"People change Ben. But she's still the same woman you married. Maybe you both just need to talk through your issues. Whatever's going on, I'm sure it can be fixed.\" She said, ever the peacemaker."
     },
     {
       "type": "paragraphe",
-      "texte": "« Je pense que c’est rendu plus grave que ça. Je ne pense pas que parler va aider. Je n’ai plus confiance en elle, c’est tout », j’ai dit. Ces mots me faisaient mal au cœur. Ma femme me manquait, je l’aimais. Mais comment vivre avec quelqu’un comme ça ? Avoir peur tout le temps, ce n’était pas une vie."
+      "texte": "\"I think it's beyond that now. I don't think talking would help. I just don't trust her.\" I said. The words stung in my heart. I missed and loved my wife. But how could I live with someone like that? Living in constant fear didn't sound too appealing."
     },
     {
       "type": "paragraphe",
-      "texte": "« Lynn t’aime. Elle doit avoir tellement de peine », a-t-elle dit."
+      "texte": "\"Lynn loves you. She has to be absolutely crushed.\" She said."
     },
     {
       "type": "paragraphe",
-      "texte": "« Je ne suis pas sûr de ça », j’ai répondu."
+      "texte": "\"I don't know about that.\" I said."
     },
     {
       "type": "paragraphe",
-      "texte": "« En tout cas, c’est ce qu’elle avait l’air. Je ne l’ai jamais vue aussi bouleversée. Ça ne ressemble pas du tout à la Lynn que je connais », a dit Rebecca en secouant tristement la tête."
+      "texte": "\"Well she certainly seemed like it to me. I've never seen her so upset. Very much unlike the Lynn I know.\" Rebecca said, shaking her head sadly."
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai mis une bonne minute à comprendre ce qu’elle venait de dire. Et quand j’ai compris, j’ai senti la peur entrer sous ma peau."
+      "texte": "It took a full minute for her words to really sink in and when they did, I felt dread worming its way through my skin."
     },
     {
       "type": "paragraphe",
-      "texte": "« Attends. Qu’est-ce que tu veux dire ? Tu l’as vue ? Tu as vu Lynn ? » j’ai demandé, la bouche tout à coup sèche."
+      "texte": "\"Wait. What do you mean? You saw her? You saw Lynn?\" I asked, my mouth suddenly dry."
     },
     {
       "type": "paragraphe",
-      "texte": "Rebecca a fait oui de la tête, comme si de rien n’était. Comme si ce n’était pas une histoire de cauchemar. Pour elle, ce n’en était peut-être pas une."
+      "texte": "Rebecca nodded casually as if that fact wasn't nightmare fuel. Maybe for her it wasn't."
     },
     {
       "type": "paragraphe",
-      "texte": "« Elle est passée ce matin, juste après que Chris est parti travailler, a-t-elle dit en ramassant les assiettes. Je n’ai pas vu sa voiture, par contre. Elle a peut-être pris un Uber, je ne sais pas. »"
+      "texte": "\"She stopped by this morning just after Chris left for work.\" She said, cleaning the plates from the table. \"I didn't see her car though. Maybe she took an uber or something.\""
     },
     {
       "type": "paragraphe",
-      "texte": "« Becca. Qu’est-ce qu’elle a dit ? Est-ce qu’elle… est-ce qu’elle est entrée ? » j’ai demandé, la sueur au front. Je me suis mis à regarder partout autour de moi, à surveiller les coins des murs, comme si un prédateur se cachait derrière."
+      "texte": "\"Becc. What did she say? Did..did she come inside?\" I asked, sweat starting to break out on my forehead. I began looking around, examining corners as though a predator lurked behind them."
     },
     {
       "type": "paragraphe",
-      "texte": "« Non. Elle m’a juste demandé si tu étais réveillé, et j’ai dit que non. Je lui ai demandé si elle voulait que je te réveille, mais elle a dit non. Elle a juste dit de te laisser dormir », a-t-elle répondu en lavant la vaisselle."
+      "texte": "\"No. She just asked if you were awake yet and I said that you weren't. I asked if she wanted me to wake you but she said no. Just said to let you sleep.\" She said as she washed the dishes."
     },
     {
       "type": "paragraphe",
-      "texte": "« C’est tout ? Elle n’a rien dit d’autre ? » j’ai demandé."
+      "texte": "\"That's all? She didn't say anything else?\" I asked."
     },
     {
       "type": "paragraphe",
-      "texte": "« Non. Par contre, elle avait l’air vraiment mal. Comme si elle n’avait pas dormi depuis des jours. Je pense que tu devrais l’appeler. »"
+      "texte": "\"No. She looked awful though. Like she hadn't slept in days. I think you should call her.\""
     },
     {
       "type": "paragraphe",
-      "texte": "Je me suis levé de table et j’ai remercié Rebecca pour le repas."
+      "texte": "I got up from the table and thanked Rebecca for lunch."
     },
     {
       "type": "paragraphe",
-      "texte": "Ça me rassurait un peu de savoir qu’au moins, elle n’était pas entrée. Mais je voulais quand même vérifier que les portes étaient bien verrouillées."
+      "texte": "I felt a little bit better at the knowledge that at least she hadn't come inside. Still, I needed to double check that the doors were locked."
     },
     {
       "type": "paragraphe",
-      "texte": "Je suis resté assis un bon moment à essayer de savoir quoi faire. Je ne voulais pas rentrer à la maison, mais je sentais que je devais aider Lynn, si je le pouvais. Je lui avais juré de l’aimer, dans la maladie comme dans la santé. Et de toute évidence, elle était très malade."
+      "texte": "I sat for a while trying to figure out what to do next. I didn't want to go home, but I felt that I owed it to Lynn to help her if I could. Hadn't I swore an oath to love and honor her through sickness and in health? Clearly she was very sick."
     },
     {
       "type": "paragraphe",
-      "texte": "Si elle était malade, et j’y croyais vraiment, je devais essayer de lui trouver de l’aide. Mais je ne savais même pas par où commencer. Je ne voulais pas appeler la police et, de toute façon, qu’est-ce que je leur aurais dit ? Que ma femme me regardait en cachette ? Qu’elle me faisait peur ? Aussi bizarre qu’elle ait été, elle n’avait commis aucun crime. Pas encore, en tout cas. La police m’aurait sûrement dit que j’exagérais. Mais ce n’était pas une blague. Quelque chose n’allait pas. C’était même dangereux. Comme si quelque chose de mauvais se cachait derrière son sourire."
+      "texte": "If she was sick, which I truly believed she was, I had to try and get her the help she needed. But I didn't even know where to start. I didn't want to call the police, and besides, what the hell was I going to tell them? That my wife was peeking at me? That she was being creepy? As bizarre as she'd been, she still hadn't committed any crime. Not yet anyway. The police would have probably said that I was overreacting. But this wasn't some prank. It felt wrong. Dangerous even. Like something sinister lurked beneath her smile."
     },
     {
       "type": "paragraphe",
-      "texte": "Je savais qu’en tant que mari, j’avais le droit de la faire hospitaliser de force. Mais si elle agissait normalement devant les médecins ? Elle avait bien réussi à faire croire à Rebecca qu’elle n’était qu’une femme inquiète. Tant que les médecins ne la trouveraient pas dangereuse, pour elle-même ou pour les autres, ils devraient la laisser sortir au bout de 72 heures. Je me sentais perdu et dépassé."
+      "texte": "I knew as her husband I was well within my rights to have her committed, but what if she simply acted normal in their presence? She'd obviously been able to fool Rebecca into thinking she was just a concerned wife. As long as the doctors didn't find her a danger to herself or others, they'd have no choice but to release her after 72 hours. I felt lost and overwhelmed."
     },
     {
       "type": "pause"
@@ -891,92 +910,96 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Alors, j’ai fait ce que n’importe quel mari aurait fait à ma place."
+      "texte": "So I did what any husband in my position would do."
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai appelé sa mère.",
+      "texte": "I called her mother.",
       "style": "centre espace"
     },
     {
       "type": "paragraphe",
-      "texte": "Je ne voulais pas, croyez-moi."
+      "texte": "I didn't want to, believe me."
     },
     {
       "type": "paragraphe",
-      "texte": "Sa mère, Marianne, et moi, on ne s’est jamais très bien entendus. On ne s’est jamais disputés, rien de ça. C’est juste qu’elle n’était pas une personne chaleureuse, ni facile à vivre. Elle ne souriait presque jamais et, quand elle le faisait, seules ses lèvres bougeaient, en un petit sourire mince, et ses yeux restaient vides. On avait l’impression qu’elle était toujours prête à attaquer."
+      "texte": "Her mother, Marianne and I were never on the best of terms. We'd never fought or anything like that."
     },
     {
       "type": "paragraphe",
-      "texte": "Je ne l’avais rencontrée que deux fois, et les deux fois pour de très courtes visites. J’avais l’impression qu’elle ne me trouvait pas assez bien pour sa fille. Lynn nous faisait toujours partir vite, parce qu’elle ne voulait pas que je sois mal à l’aise, et je lui en étais reconnaissant. Être avec sa mère, c’était presque insupportable. Comme marcher sur du verre. J’étais content qu’on ait déménagé à trois États de chez elle, pour ne pas avoir à la voir souvent. J’étais très heureux d’éviter cette femme, mais là, j’avais besoin de son aide."
+      "texte": "She just wasn't a very warm person, and wasn't really easy to get along with. She hardly ever smiled and when she did, only her lips would move into a thin lipped smile, leaving her eyes as blank as before. She gave off this aura that felt like she was permanently on the offensive."
     },
     {
       "type": "paragraphe",
-      "texte": "Je n’avais vraiment pas envie de lui parler, mais il fallait que je parle à quelqu’un. À quelqu’un qui connaissait Lynn mieux que moi. Alors j’ai serré les dents et je l’ai fait."
+      "texte": "I'd only met her twice and both times were for such short visits. I got the impression she didn't approve of me for her daughter. Lynn always ushered us out quickly, as she didn't want me to feel uncomfortable which I was grateful for. Being in her mother's company felt almost unbearable. Like walking on glass. I was glad when we moved three states away so we didn't have to see her often. I was happy to avoid the woman, but I needed her help."
     },
     {
       "type": "paragraphe",
-      "texte": "« Oui ? » a-t-elle répondu, déjà agacée."
+      "texte": "I really didn't want to talk to her at all but I had to talk to someone and someone who knew Lynn better than I did. So I grit my teeth and did what I had to."
     },
     {
       "type": "paragraphe",
-      "texte": "« Marianne, c’est moi, Ben. Auriez-vous une minute pour parler ? » j’ai demandé. Je l’ai entendue claquer la langue, irritée."
+      "texte": "\"Yes?\" She answered, already sounding irritated."
     },
     {
       "type": "paragraphe",
-      "texte": "« Je suis en train de faire des chèques mais, si vous insistez, je peux vous accorder un moment. De quoi voulez-vous parler, Benjamin ? » a-t-elle dit, froidement."
+      "texte": "\"Marianne, it's me Ben. Do you have a minute to talk?\" I asked. I could hear her cluck her tongue in irritation."
     },
     {
       "type": "paragraphe",
-      "texte": "« C’est à propos de Lynn. Elle est… bizarre, ces temps-ci, et je me demandais si vous auriez une idée, s’il y a quelque chose qui… » Elle m’a coupé tout de suite."
+      "texte": "\"I'm in the middle of writing some checks, but if you insist, I suppose I can spare a moment. What is it that you want to discuss Benjamin?\" She said, coolly?"
     },
     {
       "type": "paragraphe",
-      "texte": "« J’ai du mal à vous suivre, Benjamin. Qu’est-ce que vous voulez de moi, au juste ? » a-t-elle demandé. Je pouvais presque la voir, debout dans son petit chandail mince et son pantalon bien droit, à tapoter la table avec ses ongles, impatiente."
+      "texte": "\"It's about Lynn. She's been... acting strangely and I was wondering if you had any idea whether there was something - \" I was quickly interrupted."
     },
     {
       "type": "paragraphe",
-      "texte": "« Je voulais savoir si vous aviez déjà remarqué un comportement bizarre ? Ou peut-être des problèmes de santé mentale ? » j’ai demandé. Il y a eu un long silence, un silence gênant, et je ne savais pas si elle réfléchissait, ou… autre chose. Finalement, au bout de quelques secondes, elle a parlé."
+      "texte": "\"It's a bit difficult to follow your rambling Benjamin, what is that you want from me?\" She asked. I could almost see her standing there in her thin sweater and slacks, tapping her fingernails impatiently on the table."
     },
     {
       "type": "paragraphe",
-      "texte": "« Je ne sais pas si c’est une de vos blagues, Benjamin, mais si c’est le cas, je ne la trouve pas drôle. J’ai des choses à faire, comme je vous l’ai dit, alors si vous permettez… » Je l’ai coupée avant qu’elle puisse se débarrasser de moi."
+      "texte": "\"I wanted to know if you'd ever noticed any odd behavior? Or possibly any mental health issues?\" I asked. There was a long, uncomfortable pause that I couldn't tell was because she was just thinking, or ….something else. Finally after a few seconds she spoke."
     },
     {
       "type": "paragraphe",
-      "texte": "« Marianne, ce n’est pas une blague. Je m’inquiète vraiment pour la santé mentale de Lynn. Elle agit de façon très étrange depuis quelque temps. Je suis très inquiet pour elle, et je me disais que vous, sa mère, vous le seriez aussi », j’ai dit, sans pouvoir cacher que j’étais à bout."
+      "texte": "\"I'm not sure if this is one of your jokes Benjamin, but if so I don't find the humor in it. Now I do have business to attend to as I've said, so if you don't mind -\" she said, but I cut her off before she could get rid of me."
     },
     {
       "type": "paragraphe",
-      "texte": "« Si vous êtes vraiment inquiet, je vous conseille d’appeler des professionnels de la santé. Je ne sais pas ce que vous attendez de moi », a-t-elle répondu sèchement. Je sentais qu’elle allait raccrocher d’une seconde à l’autre et, je ne sais pas pourquoi, je voulais à tout prix l’en empêcher. J’avais l’impression qu’elle en savait beaucoup plus qu’elle ne voulait le dire."
+      "texte": "\"Marianne, it's not a joke. I'm sincerely concerned about Lynn's mental health. Her behavior has been very erratic lately. I'm very worried about her and I figured as her mother you would be as well.\" I said, my frustration evident in my voice."
     },
     {
       "type": "paragraphe",
-      "texte": "« S’il vous plaît. Si ce n’est pas pour moi, faites-le pour Lynn », j’ai essayé."
+      "texte": "\"If you're truly concerned then I suggest you get the health professionals involved. I don't know what you expect of me.\" She snapped. I could tell she was seconds away from hanging up and for some reason I was desperate not to let her. I had the feeling that she knew a lot more than she was letting on."
     },
     {
       "type": "paragraphe",
-      "texte": "Je l’ai entendue respirer un petit coup, d’une respiration qui tremblait, comme si elle essayait de rester froide et dure, sans y arriver."
+      "texte": "\"Please. If not for me, do it for Lynn.\" I tried."
     },
     {
       "type": "paragraphe",
-      "texte": "« Marianne ? Qu’est-ce qui ne va p… », j’ai commencé."
+      "texte": "I heard a faint shaky intake of breath, as if she were trying to hold her steely persona together but failing."
     },
     {
       "type": "paragraphe",
-      "texte": "« Benjamin, je ne sais pas quoi vous dire. Mon seul conseil, c’est d’aller chercher de l’aide professionnelle. Ne rappelez plus ici. Au revoir. » J’ai essayé de la retenir, mais elle avait raccroché."
+      "texte": "\"Marianne? What's wr-\" I started."
     },
     {
       "type": "paragraphe",
-      "texte": "J’essayais de comprendre cet appel, et pourquoi elle refusait de m’aider. Même si elle ne m’aimait pas, pourquoi est-ce qu’elle ne voudrait pas aider sa propre fille ? Je ne comprenais pas. J’ai repassé la conversation dans ma tête, en cherchant désespérément ce que j’avais manqué."
+      "texte": "\"Benjamin, I don't know what to tell you. My only advice would be to seek professional help. Do not call here again. Goodbye.\" I tried to call out to her but she'd hung up."
     },
     {
       "type": "paragraphe",
-      "texte": "J’étais sur le point d’abandonner quand je me suis souvenu de ses derniers mots. « Aller chercher de l’aide professionnelle. » Elle avait dit ça avec une sorte d’urgence. Peut-être que je m’accrochais à n’importe quoi mais non, j’étais sûr que sa voix avait changé, juste un peu, quand elle avait dit ces mots-là. Comme s’ils étaient très importants."
+      "texte": "I tried to wrap my head around the call and her refusal to help me. Even if she didn't like me, why wouldn't she want to help her own daughter? I couldn't understand that. I tried to replay the conversation, desperate to find something I missed."
     },
     {
       "type": "paragraphe",
-      "texte": "Qu’est-ce qu’elle avait voulu dire ? J’avais pensé qu’elle parlait de médecins, mais peut-être qu’elle parlait de quelqu’un d’autre. De quelqu’un qu’elle n’osait pas nommer, pour une raison ou une autre. Ou peut-être que j’étais juste désespéré."
+      "texte": "After a while I almost gave up, until I remembered her last last words to me. 'Seek professional help' she'd said those words with a bit of urgency. I could have just been grasping at straws but no, I was sure her voice had changed ever so slightly when she'd said that. As if they were very important."
+    },
+    {
+      "type": "paragraphe",
+      "texte": "What had she meant? I assumed she'd been referring to medical professionals, but maybe she was referring to someone else. Someone that she didn't, for some reason, feel comfortable saying directly. Or maybe I was just desperate."
     },
     {
       "type": "scene",
@@ -986,15 +1009,15 @@
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai attendu que Chris rentre et, après une très longue conversation épuisante avec Rebecca et lui, je les ai convaincus que Lynn avait vraiment besoin de l’aide d’un psychiatre. Je ne leur ai pas tout dit. Je n’étais pas prêt, mais je leur ai raconté la dernière fois. Comment elle s’était cachée dans la salle de bain, comment elle m’avait regardé depuis la garde-robe."
+      "texte": "I waited for Chris to get home and after a very long and exhausting conversation with him and Rebecca, I convinced them that Lynn truly needed psychiatric help. I didn't tell them everything. I wasn't prepared to go into it yet, but I told them about our last encounter. How she'd hidden in the bathroom, peeking at me from the closet."
     },
     {
       "type": "paragraphe",
-      "texte": "Évidemment, ils étaient sous le choc mais, heureusement, ils m’ont cru. Eux aussi voulaient juste l’aider. Mais ils ne pensaient pas que c’était si grave. Bizarre, peut-être, mais pas dangereux. Ils répétaient que Lynn devait faire une sorte de blague étrange. « Pour YouTube, peut-être ? » a dit Rebecca, sans trop y croire."
+      "texte": "They were obviously shocked but thankfully they believed me. They too just wanted to help her. Still they didn't think it was all that serious. Weird, maybe but not dangerous. They just kept saying that Lynn had to be playing some kind of weird joke. \"Maybe for YouTube?\" Rebecca offered, if only half-heartedly."
     },
     {
       "type": "paragraphe",
-      "texte": "Chris ne voulait pas appeler la police tout de suite. Il m’a plutôt offert de venir avec moi, et j’ai accepté sans hésiter. Selon lui, le mieux, c’était de lui parler calmement et de la convaincre de venir d’elle-même. J’ai accepté de faire comme il disait. Au moins, je n’entrerais pas tout seul dans cette maison."
+      "texte": "Chris didn't think we should involve the police just yet. He offered instead to go with me, and I readily accepted. He reasoned that calmly talking to her, trying to coax her into going willingly was the best recourse. I agreed to do it his way. At least I wouldn't be going into that house alone."
     },
     {
       "type": "pause"
@@ -1010,11 +1033,11 @@
     },
     {
       "type": "paragraphe",
-      "texte": "On y est allés ce matin, juste après le déjeuner. Pas question que j’y aille de nuit. Quand on est arrivés dans l’entrée, j’avais l’estomac à l’envers. Sa voiture n’était pas là, mais je suis resté sur mes gardes."
+      "texte": "We drove over this morning, just after breakfast. There was no way I was going at night. When we pulled into the driveway my stomach began doing somersaults. Her car wasn't there, but I still didn't let my guard down."
     },
     {
       "type": "paragraphe",
-      "texte": "La porte d’entrée était entrouverte et, une fraction de seconde, j’ai cru qu’on allait voir ses yeux nous regarder par l’ouverture. Je tremblais, et je commençais à transpirer. Chris, lui, était parfaitement calme. Il attendait que j’ouvre la porte, les mains dans les poches, comme s’il partait se promener au parc. J’aurais aimé être aussi ignorant que lui."
+      "texte": "The front door was ajar, and for a split second I thought we'd see her eyes staring through the gap. I was shaking and starting to sweat. Chris however was fine. He waited for me to open the door, his hands in his pockets like he was going on a fucking stroll through the park. I envied his ignorance."
     },
     {
       "type": "scene",
@@ -1032,27 +1055,27 @@
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai poussé la porte, et une odeur de pourriture nous a pris à la gorge. Chris l’a sentie aussi, et il est entré derrière moi en plissant le nez."
+      "texte": "I pushed the door open and was immediately hit with the stench of rot. Chris smelled it too, and he walked in the house behind me with his nose scrunched up."
     },
     {
       "type": "paragraphe",
-      "texte": "« Vous lavez vos planchers avec quoi, ici ? Avec de la merde ? » a marmonné Chris."
+      "texte": "\"What do you guys use to clean the floors around here, shit?\" Chris mumbled."
     },
     {
       "type": "paragraphe",
-      "texte": "« Tais-toi », j’ai dit, en cherchant Lynn des yeux partout."
+      "texte": "\"Shut up.\" I said, my eyes darting around for any signs of Lynn."
     },
     {
       "type": "paragraphe",
-      "texte": "La maison était silencieuse comme une tombe, et sombre, même s’il était dix heures du matin. Tous les rideaux étaient bien fermés et ne laissaient pas entrer la lumière du jour. Si je n’étais pas parti de là deux jours plus tôt, j’aurais cru que la maison était abandonnée."
+      "texte": "The house was deadly quiet and dark despite being 10 in the morning. All the curtains were closed up tight, refusing to allow any sunlight inside. If I hadn't left it just two days prior I'd have thought the house to be abandoned."
     },
     {
       "type": "paragraphe",
-      "texte": "On a fait toutes les pièces, en vérifiant chaque endroit où elle aurait pu se cacher, et en l’appelant de temps en temps."
+      "texte": "We moved through each room, carefully checking any place that she might hide, occasionally calling her name."
     },
     {
       "type": "paragraphe",
-      "texte": "« Pourquoi tu regardes en dessous du divan ? a fini par demander Chris. C’est bien ta femme qu’on cherche, non ? » Il me regardait comme si j’étais un idiot."
+      "texte": "\"Why the fuck are you looking under the couch?\" Chris asked eventually. \"Aren't we looking for your wife?\" He was looking at me like I was a moron."
     },
     {
       "type": "evenement",
@@ -1062,15 +1085,15 @@
     },
     {
       "type": "paragraphe",
-      "texte": "« On monte, c’est tout », j’ai chuchoté. Il a secoué la tête, mais il m’a suivi dans l’escalier pour vérifier la salle de bain et la chambre d’amis. En montant, j’ai entendu craquer sous mes chaussures des morceaux de verre éparpillés sur quelques marches."
+      "texte": "\"Let's just go upstairs.\" I whispered. He shook his head but followed me up the stairs to check the bathroom and spare bedroom. On the way up my shoes crunched over pieces of glass that looked to be littered over a few of the steps."
     },
     {
       "type": "paragraphe",
-      "texte": "Une de nos photos de mariage, accrochée au mur le long de l’escalier, avait été fracassée. Le cadre pendait de travers, et il n’y avait plus de vitre. J’ai regardé la photo, la gorge serrée. On l’avait prise juste à la sortie de l’église, après nos vœux. Elle était tellement belle, dans sa robe blanche. J’ai regardé le beau visage de Lynn. Jamais je n’aurais imaginé que ce visage-là me ferait un jour aussi peur."
+      "texte": "I noticed that one of Lynn and my wedding portraits that hung on the wall along the staircase had been smashed. The frame hung crookedly, all the glass removed. I stared at the picture, a lump forming in my throat. We had taken the photo just after leaving the church, after saying our vows. She looked so beautiful in her white gown. I looked at Lynn's beautiful face. I never dreamed her face would ever be a source of terror for me."
     },
     {
       "type": "paragraphe",
-      "texte": "On a monté le reste des marches et vérifié la chambre d’amis, mais personne n’y avait touché."
+      "texte": "We climbed the rest of the steps and checked the spare bedroom, but it looked completely untouched."
     },
     {
       "type": "scene",
@@ -1078,16 +1101,16 @@
       "ambiance": [
         "mouches"
       ],
+      "fondu": 2400,
+      "volume": 0.3,
       "effet": "poussiere",
       "intensite": 0.25,
       "teinte": "#16201a",
-      "teinteOpacite": 0.22,
-      "fondu": 2400,
-      "volume": 0.3
+      "teinteOpacite": 0.22
     },
     {
       "type": "paragraphe",
-      "texte": "J’hésitais à entrer dans la salle de bain. Toute la peur de cette nuit-là me revenait d’un coup. Chris l’a remarqué et il m’a offert d’y aller seul, mais je ne pouvais pas le laisser faire ça. Alors on est entrés ensemble, et on a vérifié la garde-robe et la douche. La salle de bain avait l’air exactement comme la nuit où j’étais parti."
+      "texte": "I was hesitant to go into the bathroom, my fear from that night coming back to me all at once. Chris noticed, and offered to go in by himself but I couldn't let him do that. So we walked in together, checking the closet and the shower. The bathroom looked as if it hadn't been touched since the night I left."
     },
     {
       "type": "scene",
@@ -1095,24 +1118,24 @@
       "ambiance": [
         "mouches"
       ],
+      "fondu": 2400,
+      "volume": 0.55,
       "effet": "poussiere",
       "intensite": 0.25,
       "teinte": "#16201a",
-      "teinteOpacite": 0.22,
-      "fondu": 2400,
-      "volume": 0.55
+      "teinteOpacite": 0.22
     },
     {
       "type": "paragraphe",
-      "texte": "« Je pense qu’elle n’est pas ici, Ben. Va donc prendre quelques vêtements, et on reviendra demain ou un autre jour », a dit Chris. J’ai fait oui de la tête et je suis allé dans notre chambre mettre quelques vêtements dans un sac de sport. L’odeur était plus forte près de notre garde-robe."
+      "texte": "\"I don't think she's here Ben. Why don't you pack some clothes and we'll try coming back tomorrow or something.\" Chris said. I nodded and went into our bedroom and shoved some clothes into a duffle bag."
     },
     {
       "type": "geste",
-      "texte": "Ouvrir la garde-robe",
+      "texte": "Open the closet",
       "mode": "maintenir",
       "duree": 1800,
       "son": "craquement",
-      "aide": "Garder le doigt appuyé",
+      "aide": "Press and hold",
       "vue": {
         "decor": "vue-yeux",
         "entree": "ouvrir",
@@ -1122,31 +1145,31 @@
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai trouvé d’où venait l’odeur, et j’ai eu envie de vomir."
+      "texte": "When I checked inside our closet I came across the source of the smell and gagged."
     },
     {
       "type": "paragraphe",
-      "texte": "Chris a jeté un seul coup d’œil, et il est devenu blanc comme un drap. Il a dû aller se mettre près de l’escalier pour ne plus voir ça et ne plus sentir l’odeur."
+      "texte": "Chris took one look and lost all color in his face. He had to go stand by the stairs to get away from the sight and smell."
     },
     {
       "type": "paragraphe",
-      "texte": "Sous le choc, j’ai baissé les yeux sur ce qu’il y avait dans la garde-robe de ma chambre. Sur le tapis, dans des taches mouillées, il y avait au moins une douzaine d’yeux, bien placés deux par deux. Certains étaient gros comme une pièce de vingt-cinq cents, d’autres petits comme une bille. Je regardais ces yeux qu’elle avait pris à de petits animaux, je me demandais comment elle les avait eus, et ça m’a donné un frisson."
+      "texte": "I gazed down in shock at what lay Inside my bedroom closet. Soaking into the rug, were at least a dozen eyeballs, all carefully laid out in pairs. Some were as large as a quarter while others were as tiny as a marble. I stared down at the eyes she'd collected from small animals and I wondered how she'd gotten them, and shuddered at the thought."
     },
     {
       "type": "paragraphe",
-      "texte": "« Et moi qui trouvais que Becca exagérait avec ses chaussures. Mais là… Ta femme collectionne des yeux », a dit Chris, au bord de vomir. « Ben, je pense qu’on devrait s’en aller, a-t-il dit du couloir. J’ai mal au cœur. »"
+      "texte": "\"Man, I thought I had it bad with Becca's shoe addiction. But fuck me. Your wife's in here collecting eyeballs.\" Chris said, gagging. \"Ben, I think we should go.\" He called from the hall. \"I'm getting nauseous.\""
     },
     {
       "type": "paragraphe",
-      "texte": "« D’accord. » J’ai pris mon sac et j’ai refermé la porte de la garde-robe sur mon nouveau cauchemar. Je suis sorti dans le couloir et j’ai pris une grande respiration. Je sentais encore le goût de la pourriture sur ma langue, et j’ai eu un autre haut-le-cœur."
+      "texte": "\"Alright.\" I grabbed my duffle and shut the closet door on my new nightmare. I stepped out into the hall and took a deep breath of air. I could taste the rot on my tongue and I couldn't help but gag."
     },
     {
       "type": "paragraphe",
-      "texte": "« Qui met des yeux en rangée dans sa garde-robe comme ça ? » a marmonné Chris."
+      "texte": "\"Who the fuck lines up eyeballs in their closet like that?\" Chris mumbled."
     },
     {
       "type": "paragraphe",
-      "texte": "« J’ai essayé de te dire qu’elle avait besoin d’aide », j’ai dit."
+      "texte": "\"I tried to tell you she needed help.\" I said."
     },
     {
       "type": "scene",
@@ -1155,27 +1178,27 @@
         "mouches",
         "souffle"
       ],
+      "fondu": 1800,
+      "volume": 0.6,
       "effet": "poussiere",
       "intensite": 0.25,
       "teinte": "#16201a",
-      "teinteOpacite": 0.22,
-      "fondu": 1800,
-      "volume": 0.6
+      "teinteOpacite": 0.22
     },
     {
       "type": "paragraphe",
-      "texte": "« Ce n’est pas d’aide qu’elle a besoin, Ben. C’est d’un exorciste, a-t-il dit. Tu viens ou quoi ? Je ne supporte plus l’odeur, je… » Les mots sont restés pris dans sa gorge, et ses yeux se sont agrandis de peur."
+      "texte": "\"She doesn't need help, Ben. She needs a fucking exorcist.\" He said. \"You coming or what? I can't stand the smell any- \" his words died in his throat, and his eyes grew wide with fear."
     },
     {
       "type": "paragraphe",
-      "texte": "Je ne lui ai pas demandé pourquoi. Je le sentais. Quelqu’un me regardait, et je ne pensais pas que c’étaient les yeux dans la garde-robe."
+      "texte": "I didn't ask him why. I could feel it. Someone was watching me and I didn't think it was the eyes in the closet."
     },
     {
       "type": "geste",
-      "texte": "Se retourner",
+      "texte": "Turn around",
       "mode": "maintenir",
       "duree": 2400,
-      "aide": "Garder le doigt appuyé, lentement",
+      "aide": "Press and hold, slowly",
       "vue": {
         "decor": "vue-sous-lit",
         "entree": "zoom",
@@ -1190,68 +1213,72 @@
         "souffle"
       ],
       "opacite": 0.52,
+      "fondu": 500,
+      "volume": 0.6,
       "effet": "poussiere",
       "intensite": 0.25,
       "teinte": "#16201a",
-      "teinteOpacite": 0.22,
-      "fondu": 500,
-      "volume": 0.6
+      "teinteOpacite": 0.22
     },
     {
       "type": "paragraphe",
-      "texte": "Lentement, j’ai regardé partout dans la chambre."
+      "texte": "I turned around, my eyes slowly scanning the bedroom."
     },
     {
       "type": "paragraphe",
-      "texte": "« Mon Dieu », j’ai murmuré quand j’ai enfin vu ce qu’on n’avait pas vu. Sous le lit, couchée sur le côté, à nous regarder avec l’excitation d’une enfant le matin de Noël, il y avait ma femme."
+      "texte": "\"Christ\" I whispered, as I finally saw what we'd missed. Under the bed, curled on her side, watching us with the excitement of a kid on Christmas morning, was my wife."
     },
     {
       "type": "paragraphe",
-      "texte": "Elle tenait ses mains jointes juste sous son menton, et elles tremblaient d’impatience."
+      "texte": "She held her hands together just under her chin, and they were shaking eagerly."
     },
     {
       "type": "paragraphe",
-      "texte": "Maintenant qu’elle savait qu’on l’avait trouvée, j’entendais les petits bruits qu’elle faisait. Une sorte de hoquet au fond de la gorge, comme si elle était trop excitée. C’était vraiment dérangeant. Les yeux grands ouverts, et ce même sourire immense."
+      "texte": "Now that she knew she'd been found, I could hear the quiet noises she was making. A sort of hiccuping sound in her throat, as if the excitement was just too much for her. It was unnerving to say the least. Wide eyes, and that same huge smile."
     },
     {
       "type": "paragraphe",
-      "texte": "Tout en moi me criait de partir, mais je me suis forcé à rester. C’était ma femme. Même dans cet état, c’était encore la femme que j’avais mariée. Je devais l’aider."
+      "texte": "Everything in me told me to run, but I forced it away. This was my wife. No matter how twisted, she was still the woman I married. I had to help her."
     },
     {
       "type": "paragraphe",
-      "texte": "« Lynn… », j’ai dit doucement. Elle n’a pas répondu, mais sa tête a fait deux petits mouvements rapides de haut en bas, comme si elle disait oui."
+      "texte": "\"Lynn…\" I said softly. She didn't respond, but her head bobbed back and forth in two quick little movements as if she were nodding."
     },
     {
       "type": "paragraphe",
-      "texte": "« Mon amour. Je veux juste t’aider, OK ? Est-ce que tu… est-ce que tu veux bien me laisser faire ? » j’ai demandé. J’avais fait un seul pas vers elle, comme on s’approche d’un animal dangereux."
+      "texte": "\"Baby. I just wanna help okay? Can you…. Can you let me do that?\" I asked. I had taken a single step forward, approaching her like some kind of dangerous animal."
     },
     {
       "type": "paragraphe",
-      "texte": "« Je t’aime, Lynn », j’ai dit doucement, en faisant un autre pas. Un petit gémissement est sorti de sa bouche grande ouverte, et j’ai dû me retenir pour ne pas partir en courant. Ses épaules commençaient à trembler, et ses yeux sont devenus énormes."
+      "texte": "\"I love you, Lynn.\" I said softly, taking another step closer. She let a tiny moan escape her wide open mouth and I had to resist the urge to run. Her shoulders were starting to quiver, and her eyes grew as large as saucers."
     },
     {
       "type": "paragraphe",
-      "texte": "Je me suis accroupi pour mieux la voir, et j’ai tout de suite vu le sang. Ses mains en étaient couvertes. Elles tremblaient de plus en plus à mesure que je m’approchais, comme si elle avait du mal à se retenir."
+      "texte": "I crouched down so I could see her better, and immediately saw the blood. Her hands were covered in it. They trembled more the closer I got, as if she was barely able to contain herself."
     },
     {
       "type": "paragraphe",
-      "texte": "« Lynn. Es-tu blessée ? Tu saignes », j’ai dit. Elle a encore fait oui de la tête, et ses doigts pleins de sang bougeaient de haut en bas, comme sur un piano invisible. Ils touchaient parfois son menton et y laissaient des traces de sang."
+      "texte": "\"Lynn. Are you hurt? You're bleeding.\" I said. She bobbed her head again, her bloody fingers moving up and down as if playing an invisible piano. They occasionally grazed her chin, leaving smears of blood on her skin."
     },
     {
       "type": "paragraphe",
-      "texte": "J’avais envie de reculer, dégoûté. L’odeur qui sortait d’elle était horrible. Je sentais que j’allais vomir. Ses lèvres étaient sèches, étirées, minces, et du sang coulait entre les petites fentes de sa peau."
+      "texte": "I wanted to recoil in disgust. The smell that was coming off of her was revolting. I could feel the vomit trying to climb up my throat."
     },
     {
       "type": "paragraphe",
-      "texte": "Je savais qu’elle ne sortirait pas toute seule, mais je ne voulais pas la laisser dans cet état."
+      "texte": "Her lips were dry and stretched thin, blood seeping between the cracks."
     },
     {
       "type": "paragraphe",
-      "texte": "Je me suis approché encore et j’ai tendu la main vers elle. Ses petits hoquets excités sont devenus plus forts, et ses mains tremblaient, les doigts se serraient. C’est là que j’ai vu le sang qui coulait d’entre ses doigts."
+      "texte": "I knew she wouldn't come out on her own, but I didn't want to leave her in the state she was in."
     },
     {
       "type": "paragraphe",
-      "texte": "« Mon Dieu, Lynn. Tu saignes », j’ai dit. Sans réfléchir, j’ai voulu prendre sa main, mais avant même que je la touche, sa main est partie d’un coup vers moi. J’ai senti une douleur vive dans le bras, et je suis tombé sur les fesses. Mon bras brûlait, et je voyais mon sang tomber goutte à goutte sur le tapis."
+      "texte": "I scooted closer and reached out to her. The excited hiccuping sounds got louder and her hands shook, fingers flexing. It was then that I could see the blood oozing from in between her fingers."
+    },
+    {
+      "type": "paragraphe",
+      "texte": "\"Oh my God, Lynn. You're bleeding.\" I said. Instinctively I reached out to take her hand, but before I could even touch her, her hand sprang out towards me. A sharp pain shot through my arm, and I fell back on my ass. My arm burned, and I could see the blood dripping down onto the carpet."
     },
     {
       "type": "evenement",
@@ -1261,51 +1288,51 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Sous le choc, j’ai relevé les yeux vers elle, et je l’ai vue sourire comme une folle, les doigts serrés sur un gros morceau de verre."
+      "texte": "I looked back at her in shock and saw her grinning madly, her fingers clutching a large shard of glass."
     },
     {
       "type": "paragraphe",
-      "texte": "« Ça va, là-dedans ? » a demandé Chris derrière moi."
+      "texte": "\"You alright in there?\" Chris asked from behind me."
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai tourné un peu la tête et je lui ai fait signe que oui, en serrant mon bras contre ma poitrine. Quand je me suis retourné vers Lynn, j’ai vu qu’elle ne me regardait plus. Et elle ne souriait plus non plus."
+      "texte": "I turned my head slightly, and nodded to him, cradling my arm to my chest. When I turned back to face Lynn, I saw that her focus had shifted. She wasn't looking at me anymore. And she wasn't smiling anymore either."
     },
     {
       "type": "paragraphe",
-      "texte": "Elle regardait derrière moi. Elle fixait Chris comme un lion affamé fixe une antilope. Sa bouche était encore ouverte, mais tordue dans une grimace de rage."
+      "texte": "She was staring past me, her eyes glaring at Chris the way a hungry lion might stare at an antelope. Her mouth was still hanging open but it was twisted into a snarl."
     },
     {
       "type": "paragraphe",
-      "texte": "Je me suis relevé et j’ai commencé à reculer dans le couloir, sans oser la quitter des yeux."
+      "texte": "I got to my feet, and began walking backwards down the hall, afraid to take my eyes off her."
     },
     {
       "type": "paragraphe",
-      "texte": "« Tu… tu saignes ? » a demandé Chris. Dès qu’il a dit ces mots, Lynn s’est mise à ramper très vite pour sortir de sous le lit, le morceau de verre toujours dans la main."
+      "texte": "\"Are you... bleeding?\" Chris asked. The moment the words left his mouth Lynn started fast scooting out from under the bed, the glass shard still in her fist."
     },
     {
       "type": "paragraphe",
-      "texte": "« Chris. Cours. Va-t’en ! » j’ai crié. Il devait avoir trop peur pour bouger, parce qu’une seconde plus tard, je lui suis rentré dedans à reculons. Il était encore planté en haut de l’escalier, à regarder ce que ma femme était devenue."
+      "texte": "\"Chris. Run. Go!\" I yelled. He must have been too afraid to move because a second later I felt my back bump into him. He was still standing at the top of the stairs, staring at the horror that was my wife."
     },
     {
       "type": "paragraphe",
-      "texte": "Lynn était complètement sortie de sous le lit et elle se tenait dans la porte de la chambre, le visage déformé par la rage. Tout son corps était tendu. Le sang coulait le long de ses doigts jusque sur le plancher."
+      "texte": "Lynn had crawled completely out from under the bed and stood in the bedroom doorway, her face twisted in rage. Her whole body was visibly tense. Blood ran down her fingers and onto the floor."
     },
     {
       "type": "paragraphe",
-      "texte": "« Mon Dieu, Lynn… a dit Chris. Tu, euh… tu joues à la cachette ? » J’ai mis ma main derrière moi et je l’ai poussé vers l’escalier."
+      "texte": "\"Jesus, Lynn...\" Chris said, \"You uh… playing hide and seek?\" I reached back and pushed him towards the steps."
     },
     {
       "type": "paragraphe",
-      "texte": "« Grouille-toi, Chris », j’ai dit, le plus bas mais le plus fermement possible."
+      "texte": "\"Move your ass Chris\" I said as quietly but firmly as I could."
     },
     {
       "type": "paragraphe",
-      "texte": "Lynn a fait oui de la tête, par petits coups secs et rapides, et elle a recommencé à sourire. Elle ouvrait la bouche de plus en plus grand, si grand que son menton semblait toucher sa poitrine. J’ai entendu Chris murmurer une prière, puis il a descendu l’escalier en courant. Je suis resté en haut des marches, déchiré entre l’amour pour une femme qui avait vraiment besoin d’aide, et l’envie de sauver ma peau."
+      "texte": "Lynn bobbed her head in fast, sharp motions, and began to grin, stretching her mouth open wider and wider so that her chin seemed to touch her chest. I heard Chris mutter a prayer and then he was running down the stairs. I stood at the top of the steps, stuck between the love for a woman who clearly needed serious help, and self preservation."
     },
     {
       "type": "paragraphe",
-      "texte": "« Je veux juste t’aider », j’ai dit en retenant mes larmes. Ses yeux se sont fixés sur moi de nouveau, et elle a levé lentement le morceau de verre devant elle. Puis elle s’est mise à courir vers moi, avec un sourire plein d’excitation. Heureusement, mon corps a réagi tout seul, et j’ai descendu l’escalier deux ou trois marches à la fois. J’étais rendu à la porte d’entrée quand je l’ai sentie me sauter sur le dos. Ses bras se sont serrés autour de mon cou, et sa bouche ouverte était collée contre mon oreille. J’entendais ses horribles petits hoquets de tout près. Je l’ai secouée et elle est tombée par terre. Au même moment, j’ai senti une douleur terrible dans mon dos, mais j’ai ouvert la porte d’un coup et j’ai couru jusqu’à ma voiture."
+      "texte": "\"I only want to help.\" I said, choking back tears. Her eyes focused on me once again as she slowly lifted the glass, holding it out in front of her. And then she started sprinting towards me, grinning with utter excitement. Thankfully my body took over and I flew down the stairs skipping two or three at a time. I made it to the front door before I felt her leap onto my back, wrapping her arms around my neck, her open mouth next to my ear so that I could hear those terrible hiccuping sounds up close. I shook her off me, knocking her to the floor. I felt a searing pain in my back as she went but I tore open the front door and bolted to my car."
     },
     {
       "type": "scene",
@@ -1318,7 +1345,7 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Chris était debout devant la maison, au téléphone avec la police. Je n’ai pas dit un mot. J’ai couru jusqu’à ma voiture et j’ai sauté dedans. Chris a compris et il est monté avec moi, toujours au téléphone avec le 911."
+      "texte": "Chris was standing in the front yard, talking on the phone with the police. I didn't say a word, I just ran to my car and jumped in. Chris took the hint and followed me, still on the line with 911"
     },
     {
       "type": "scene",
@@ -1331,7 +1358,7 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Je regardais dans le rétroviseur, sûr de la voir là, en train de courir derrière nous. Mais je ne l’ai jamais vue."
+      "texte": "I watched the rear view mirror, sure I'd see her there, running after us. But I never did."
     },
     {
       "type": "scene",
@@ -1341,11 +1368,11 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Je suis allé directement à l’urgence, où on m’a fait onze points de suture au bras et trois dans le dos. La police m’a posé plein de questions et elle est retournée fouiller la maison mais, évidemment, Lynn n’était plus là."
+      "texte": "I went straight to the ER and got 11 stitches in my arm and 3 on my back. The police asked a lot of questions and went back to the house to do a search but of course, Lynn wasn't there."
     },
     {
       "type": "paragraphe",
-      "texte": "Les policiers m’ont conseillé d’aller vivre chez un ami ou dans ma famille pendant un certain temps, et de demander le plus vite possible à un juge de lui interdire de m’approcher. Mais rien de tout ça ne changerait quoi que ce soit. Je ne sais pas comment, mais je le savais."
+      "texte": "They advised me to stay with a friend or relative for a while and to file a restraining order as soon as I could but none of those things would matter. Somehow I just knew."
     },
     {
       "type": "scene",
@@ -1361,50 +1388,50 @@
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai laissé Chris chez lui, et je suis allé dans un motel à une heure de route. Je voulais mettre le plus de distance possible entre Lynn et moi."
+      "texte": "I dropped Chris off at home, and went to a motel an hour away. I wanted to put as much distance between me and Lynn as I could."
     },
     {
       "type": "paragraphe",
-      "texte": "Ça fait quatre heures que je suis ici. Je pensais que la police la trouverait peut-être, et qu’on lui donnerait enfin l’aide dont elle a tellement besoin."
+      "texte": "This is where I've been for the last 4 hours. I thought maybe the police would find her, maybe they'd get her the help she desperately needs."
     },
     {
       "type": "paragraphe",
-      "texte": "Mais maintenant, je n’y crois plus. Parce qu’il y a quarante minutes, j’ai reçu un texto d’un numéro inconnu. Trois mots, c’est tout :"
+      "texte": "But now I don't think so. Because 40 minutes ago I got a text from an unknown number. Just three words :"
     },
     {
       "type": "evenement",
       "effet": "notification",
       "son": "texto",
-      "titre": "Numéro inconnu",
+      "titre": "+1 (555) 031-2312",
       "app": "messages",
       "messages": [
-        "Je t’ai trouvé.",
-        "1 photo"
+        "I found You.",
+        "Attachment: 1 Image"
       ],
       "intervalle": 1500,
       "reste": 0,
       "duree": 6500
     },
     {
-      "type": "sms",
-      "de": "eux",
-      "texte": "Je t’ai trouvé."
+      "type": "paragraphe",
+      "texte": "\"I found You.\"",
+      "style": "centre espace"
     },
     {
       "type": "paragraphe",
-      "texte": "Il y avait une photo avec le message."
+      "texte": "And a picture attached."
     },
     {
       "type": "geste",
-      "texte": "Ouvrir la photo",
+      "texte": "Open the picture",
       "mode": "toucher",
-      "aide": "Toucher pour ouvrir",
+      "aide": "Tap to open",
       "vue": {
         "decor": "vue-photo",
         "entree": "photo",
         "son": "silence",
         "duree": 6500,
-        "titre": "Numéro inconnu"
+        "titre": "+1 (555) 031-2312"
       }
     },
     {
@@ -1422,11 +1449,11 @@
     },
     {
       "type": "paragraphe",
-      "texte": "La photo était sombre, et pleine de grain, mais j’ai compris tout de suite ce que c’était. Impossible de ne pas reconnaître l’œil de ma femme."
+      "texte": "The picture was dark and grainy, but I instantly knew what it was. There was no mistaking my wife's eye."
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai commencé à écrire tout ça juste après. Je ne sais pas quoi faire."
+      "texte": "I started typing this out immediately after. I don't know what to do."
     },
     {
       "type": "evenement",
@@ -1437,5 +1464,5 @@
       "attaque": true
     }
   ],
-  "phraseFinale": "Je suis seul, j’ai peur, et je n’arrive pas à me défaire de l’impression __qu’on me regarde…__"
+  "phraseFinale": "I'm alone and scared, and I can't help but feel that __I'm being watched….__"
 }

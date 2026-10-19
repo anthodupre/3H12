@@ -1,5 +1,5 @@
 {
-  "moteur": "1.6",
+  "moteur": "1.7",
   "version": 1,
   "histoires": [
     {
@@ -92,12 +92,12 @@
     {
       "date": "2026-10-20",
       "numero": 1,
-      "titre": "Elle me regarde",
-      "sousGenre": "horreur psychologique",
-      "lieu": "Une maison de banlieue, aux États-Unis",
+      "titre": "My wife has been peeking at me from around corners and behind furniture. It's gone from weird to terrifying",
+      "sousGenre": "psychological horror",
+      "lieu": "A suburban house, in the United States",
       "auQuebec": false,
-      "epoque": "aujourd’hui",
-      "format": "Témoignage écrit d’un seul coup, dans une chambre de motel",
+      "epoque": "today",
+      "format": "A testimony typed in one go, from a motel room",
       "miseEnPage": "recit",
       "tonique": "Eb",
       "gamme": "majeur",
@@ -115,18 +115,18 @@
         "notes": "Caveat"
       },
       "evenements": 13,
-      "retournement": "ce n’est plus vraiment elle ; la chasse ne finit pas : elle l’a trouvé",
-      "origine": "traduction"
+      "retournement": "it isn't really her anymore; the hunt doesn't end: she found him",
+      "origine": "choisie"
     },
     {
       "date": "2026-10-21",
       "numero": 2,
-      "titre": "Je vais sortir les poubelles",
-      "sousGenre": "horreur domestique",
-      "lieu": "Un appartement au sixième étage, aux États-Unis",
+      "titre": "My girlfriend was up unusually early this morning. I wish I never found out why.",
+      "sousGenre": "domestic horror",
+      "lieu": "A sixth-floor apartment, in the United States",
       "auQuebec": false,
-      "epoque": "aujourd’hui",
-      "format": "Témoignage, écrit le jour même",
+      "epoque": "today",
+      "format": "A testimony, written the same day",
       "miseEnPage": "recit",
       "tonique": "F#",
       "gamme": "phrygien",
@@ -144,8 +144,8 @@
         "notes": "Caveat"
       },
       "evenements": 10,
-      "retournement": "elle était déjà morte : c’est elle, dans les sacs, qui revient se sortir elle-même",
-      "origine": "traduction"
+      "retournement": "she was already dead: it's her, in the bags, coming back to take herself out",
+      "origine": "choisie"
     }
   ]
 }

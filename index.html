@@ -15,7 +15,7 @@
   ║  Documentation du format JSON : voir SCHEMA.md                     ║
   ╚══════════════════════════════════════════════════════════════════╝
 -->
-<html lang="fr-CA">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -26,7 +26,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="3h12">
 <meta name="format-detection" content="telephone=no">
-<meta name="description" content="Une histoire d'horreur inédite chaque nuit, à 3 h 12.">
+<meta name="description" content="A new horror story every night, at 3:12 AM.">
 <title>3h12</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23000'/%3E%3Ctext x='32' y='41' font-family='monospace' font-size='22' font-weight='700' text-anchor='middle' fill='%23ff2b1c'%3E3:12%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -206,6 +206,9 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   font-size: clamp(1.9rem, 8.6vw, 2.8rem); line-height: 1.1; margin: 0 0 .7rem;
   text-wrap: balance; transition: opacity .8s ease;
 }
+/* (titres longs : une phrase entière, comme les titres originaux) */
+.entree-titre.titre-long { font-size: clamp(1.5rem, 6.6vw, 2.2rem); }
+.entree-titre.titre-tres-long { font-size: clamp(1.3rem, 5.6vw, 1.9rem); line-height: 1.15; }
 .entree-genre { margin: 0; font-size: .9rem; color: #78736c; font-style: italic; }
 .entree-message {
   margin: 1.4rem auto 0; max-width: 22rem; font-size: .95rem; line-height: 1.45;
@@ -387,6 +390,8 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
   font-size: clamp(3.2rem, 18vw, 6.4rem); line-height: .96; letter-spacing: -.01em; text-wrap: balance;
   animation: apparition-carton 2.4s ease both .2s;
 }
+.carton-titre.titre-long { font-size: clamp(2.3rem, 10.5vw, 4.2rem); line-height: 1; }
+.carton-titre.titre-tres-long { font-size: clamp(1.9rem, 8.2vw, 3.3rem); line-height: 1.06; }
 .carton-defiler {
   margin-top: 4rem; width: 1px; height: 56px; opacity: .5;
   background: linear-gradient(transparent, var(--encre-fond));
@@ -770,7 +775,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
   padding: .55em 0; margin: 1.8em 0 1.2em;
 }
 .mep-transcription .note { font-family: var(--police-notes); transform: none; margin-left: 1.4em; font-size: .9em; }
-.mep-transcription .note::before { content: "N.D.T. — "; opacity: .7; }
+.mep-transcription .note::before { content: "Transcriber’s note — "; opacity: .7; }
 
 /* ---------- 7.6 FORUM : vieux forum des années 2000 ---------- */
 .mep-forum .objet {
@@ -844,7 +849,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
 .mep-lettre .bloc-paragraphe p { text-indent: 2em; }
 .mep-lettre .signature { font-family: var(--police-titre); font-size: 1.9em; }
 .mep-lettre .note { font-size: 1em; margin: 1.4em 0 0; transform: rotate(-1deg); }
-.mep-lettre .note::before { content: "P.-S. — "; font-family: var(--police-texte); font-size: .8em; opacity: .7; }
+.mep-lettre .note::before { content: "P.S. — "; font-family: var(--police-texte); font-size: .8em; opacity: .7; }
 
 /* ---------- 7.8 RÉCIT : livre classique, lettrine ---------- */
 .mep-recit .objet { max-width: 34em; padding: 0 .2em; }
@@ -1337,7 +1342,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
 
 <!-- ===== Commandes discrètes : son (gauche) et menu (droite) ===== -->
 <header id="barre-haut" class="cache">
-  <button class="cmd" id="btn-muet" aria-label="Couper le son" aria-pressed="false">
+  <button class="cmd" id="btn-muet" aria-label="Mute" aria-pressed="false">
     <svg viewBox="0 0 24 24"><path d="M4.5 9.5h3L12 6v12l-4.5-3.5h-3z"/><path class="ondes" d="M15.5 9.5a3.6 3.6 0 0 1 0 5M18 7a7.2 7.2 0 0 1 0 10"/><path class="barre-muet cache" d="M16 9.5l5 5M21 9.5l-5 5"/></svg>
   </button>
   <button class="cmd" id="btn-menu" aria-label="Menu" aria-expanded="false" aria-controls="tiroir">
@@ -1351,95 +1356,95 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
 <nav id="tiroir" aria-label="Menu" aria-hidden="true">
   <div class="tiroir-entete">
     <p class="tiroir-titre" id="barre-titre"></p>
-    <button class="tiroir-fermer" id="tiroir-fermer" aria-label="Fermer le menu"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <button class="tiroir-fermer" id="tiroir-fermer" aria-label="Close menu"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   </div>
   <div class="tiroir-son">
-    <button id="btn-muet-tiroir">Couper le son</button>
-    <input type="range" id="volume-general" min="0" max="100" step="1" aria-label="Volume général">
+    <button id="btn-muet-tiroir">Mute</button>
+    <input type="range" id="volume-general" min="0" max="100" step="1" aria-label="Master volume">
   </div>
-  <button class="tiroir-lien" data-action="parametres" id="btn-parametres">Paramètres</button>
+  <button class="tiroir-lien" data-action="parametres" id="btn-parametres">Settings</button>
 </nav>
 
 <!-- ===== Voile des événements (noir, flash, glitch) ===== -->
 <div id="voile-evenement" aria-hidden="true"></div>
 
 <!-- ===== Écran d'entrée ===== -->
-<section id="ecran-entree" aria-label="Entrée">
+<section id="ecran-entree" aria-label="Entrance">
   <div class="entree-centre">
-    <div class="horloge" role="img" aria-label="3 h 12">
+    <div class="horloge" role="img" aria-label="3:12">
       <!-- Horloge à 7 segments (dessinée en SVG, aucun fichier image) -->
       <svg class="horloge-svg" viewBox="-6 -6 244 112" aria-hidden="true"><g transform="skewX(-7) translate(8 0)"><polygon class="seg-on" points="11.1,5.5 16.6,0.0 47.4,0.0 52.9,5.5 47.4,11.0 16.6,11.0"/><polygon class="seg-on" points="11.1,50.0 16.6,44.5 47.4,44.5 52.9,50.0 47.4,55.5 16.6,55.5"/><polygon class="seg-on" points="11.1,94.5 16.6,89.0 47.4,89.0 52.9,94.5 47.4,100.0 16.6,100.0"/><polygon class="seg-off" points="9.5,7.1 15.0,12.6 15.0,42.9 9.5,48.4 4.0,42.9 4.0,12.6"/><polygon class="seg-on" points="54.5,7.1 60.0,12.6 60.0,42.9 54.5,48.4 49.0,42.9 49.0,12.6"/><polygon class="seg-off" points="9.5,51.6 15.0,57.1 15.0,87.4 9.5,92.9 4.0,87.4 4.0,57.1"/><polygon class="seg-on" points="54.5,51.6 60.0,57.1 60.0,87.4 54.5,92.9 49.0,87.4 49.0,57.1"/><polygon class="seg-off" points="111.1,5.5 116.6,0.0 147.4,0.0 152.9,5.5 147.4,11.0 116.6,11.0"/><polygon class="seg-off" points="111.1,50.0 116.6,44.5 147.4,44.5 152.9,50.0 147.4,55.5 116.6,55.5"/><polygon class="seg-off" points="111.1,94.5 116.6,89.0 147.4,89.0 152.9,94.5 147.4,100.0 116.6,100.0"/><polygon class="seg-off" points="109.5,7.1 115.0,12.6 115.0,42.9 109.5,48.4 104.0,42.9 104.0,12.6"/><polygon class="seg-on" points="154.5,7.1 160.0,12.6 160.0,42.9 154.5,48.4 149.0,42.9 149.0,12.6"/><polygon class="seg-off" points="109.5,51.6 115.0,57.1 115.0,87.4 109.5,92.9 104.0,87.4 104.0,57.1"/><polygon class="seg-on" points="154.5,51.6 160.0,57.1 160.0,87.4 154.5,92.9 149.0,87.4 149.0,57.1"/><polygon class="seg-on" points="179.1,5.5 184.6,0.0 215.4,0.0 220.9,5.5 215.4,11.0 184.6,11.0"/><polygon class="seg-on" points="179.1,50.0 184.6,44.5 215.4,44.5 220.9,50.0 215.4,55.5 184.6,55.5"/><polygon class="seg-on" points="179.1,94.5 184.6,89.0 215.4,89.0 220.9,94.5 215.4,100.0 184.6,100.0"/><polygon class="seg-off" points="177.5,7.1 183.0,12.6 183.0,42.9 177.5,48.4 172.0,42.9 172.0,12.6"/><polygon class="seg-on" points="222.5,7.1 228.0,12.6 228.0,42.9 222.5,48.4 217.0,42.9 217.0,12.6"/><polygon class="seg-on" points="177.5,51.6 183.0,57.1 183.0,87.4 177.5,92.9 172.0,87.4 172.0,57.1"/><polygon class="seg-off" points="222.5,51.6 228.0,57.1 228.0,87.4 222.5,92.9 217.0,87.4 217.0,57.1"/><g class="deux-points"><rect x="78" y="25" width="11" height="11" rx="1"/><rect x="78" y="64" width="11" height="11" rx="1"/></g></g></svg>
     </div>
-    <p class="entree-num" id="entree-num">N° —</p>
-    <h1 class="entree-titre" id="entree-titre">Chargement…</h1>
+    <p class="entree-num" id="entree-num">No. —</p>
+    <h1 class="entree-titre" id="entree-titre">Loading…</h1>
     <p class="entree-genre" id="entree-genre"></p>
     <p class="entree-message cache" id="entree-message"></p>
     <p class="entree-lue cache" id="entree-lue"></p>
-    <button class="entree-toucher" id="btn-entrer" disabled>Toucher pour entrer</button>
-    <p class="entree-conseil">Avec des écouteurs. Dans le noir.</p>
+    <button class="entree-toucher" id="btn-entrer" disabled>Tap to enter</button>
+    <p class="entree-conseil">Headphones on. Lights off.</p>
   </div>
   <p class="entree-halloween cache" id="entree-halloween"></p>
-  <noscript><p style="color:#888">3h12 a besoin de JavaScript pour fonctionner.</p></noscript>
+  <noscript><p style="color:#888">3h12 needs JavaScript to work.</p></noscript>
 </section>
 
 <!-- ===== Guide d'installation sur l'écran d'accueil (iPhone / iPad, première ouverture) ===== -->
-<section id="guide-installation" class="cache" aria-label="Installer 3h12" aria-hidden="true">
+<section id="guide-installation" class="cache" aria-label="Install 3h12" aria-hidden="true">
   <div class="guide-carte">
-    <h2 class="guide-titre">Installe 3h12</h2>
+    <h2 class="guide-titre">Install 3h12</h2>
     <ol class="guide-etapes">
-      <li><span class="guide-icone" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11H5v10h14V11h-1"/></svg></span><span>Touche <b>Partager</b></span></li>
-      <li><span class="guide-icone" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8.5v7M8.5 12h7"/></svg></span><span>Touche <b>Sur l'écran d'accueil</b></span></li>
-      <li><span class="guide-icone" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Touche <b>Ajouter</b></span></li>
+      <li><span class="guide-icone" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11H5v10h14V11h-1"/></svg></span><span>Tap <b>Share</b></span></li>
+      <li><span class="guide-icone" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8.5v7M8.5 12h7"/></svg></span><span>Tap <b>Add to Home Screen</b></span></li>
+      <li><span class="guide-icone" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Tap <b>Add</b></span></li>
     </ol>
     <button class="guide-bouton" id="guide-fait">OK</button>
   </div>
 </section>
 
 <!-- ===== Panneau : Paramètres ===== -->
-<section class="panneau" id="panneau-parametres" aria-label="Paramètres" aria-hidden="true">
+<section class="panneau" id="panneau-parametres" aria-label="Settings" aria-hidden="true">
   <div class="panneau-entete">
-    <h2>Paramètres</h2>
-    <button class="btn-icone" data-fermer aria-label="Fermer"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <h2>Settings</h2>
+    <button class="btn-icone" data-fermer aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   </div>
   <div class="panneau-corps">
     <div class="serie-bandeau">
       <div class="serie-chiffre" id="param-serie-chiffre">0</div>
-      <div class="serie-texte" id="param-serie-texte">nuit de suite</div>
+      <div class="serie-texte" id="param-serie-texte">night in a row</div>
     </div>
 
-    <h3 class="section-titre">Son</h3>
+    <h3 class="section-titre">Sound</h3>
     <div class="reglage">
-      <div class="reglage-ligne"><label for="reg-musique">Volume de la musique</label><span class="reglage-valeur" id="val-musique"></span></div>
+      <div class="reglage-ligne"><label for="reg-musique">Music volume</label><span class="reglage-valeur" id="val-musique"></span></div>
       <input type="range" id="reg-musique" min="0" max="100" step="1">
     </div>
     <div class="reglage">
-      <div class="reglage-ligne"><label for="reg-effets">Volume des effets sonores</label><span class="reglage-valeur" id="val-effets"></span></div>
+      <div class="reglage-ligne"><label for="reg-effets">Sound effects volume</label><span class="reglage-valeur" id="val-effets"></span></div>
       <input type="range" id="reg-effets" min="0" max="100" step="1">
     </div>
 
-    <h3 class="section-titre">Lecture</h3>
+    <h3 class="section-titre">Reading</h3>
     <div class="reglage">
-      <div class="reglage-ligne"><label for="reg-taille">Taille du texte</label><span class="reglage-valeur" id="val-taille"></span></div>
+      <div class="reglage-ligne"><label for="reg-taille">Text size</label><span class="reglage-valeur" id="val-taille"></span></div>
       <input type="range" id="reg-taille" min="80" max="150" step="5">
     </div>
     <div class="reglage">
       <div class="reglage-ligne">
-        <label for="reg-intenses">Effets visuels intenses</label>
+        <label for="reg-intenses">Intense visual effects</label>
         <span class="interrupteur"><input type="checkbox" id="reg-intenses"><span></span></span>
       </div>
-      <p class="reglage-aide">Flashs, tremblements et glitchs. Désactivés, ils deviennent très doux.</p>
+      <p class="reglage-aide">Flashes, shaking and glitches. When off, they become very gentle.</p>
     </div>
 
     <div id="zone-installer" class="cache">
       <h3 class="section-titre">App</h3>
-      <button class="btn-plein" id="btn-installer">Installer sur l'écran d'accueil</button>
+      <button class="btn-plein" id="btn-installer">Add to Home Screen</button>
     </div>
 
     <!-- Bouton DEV caché : toucher 3 fois le numéro de version fait apparaître le champ de code -->
     <button class="panneau-version" id="panneau-version" aria-label="Version"></button>
     <div id="zone-code-dev" class="cache">
       <input type="text" id="champ-code-dev" placeholder="· · ·" autocapitalize="characters" autocomplete="off" spellcheck="false" aria-label="Code">
-      <button id="btn-valider-dev" aria-label="Valider">→</button>
+      <button id="btn-valider-dev" aria-label="Submit">→</button>
     </div>
   </div>
 </section>
@@ -1448,74 +1453,74 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
 <section class="panneau" id="panneau-dev" aria-label="Mode DEV" aria-hidden="true">
   <div class="panneau-entete">
     <h2>Mode DEV</h2>
-    <button class="btn-icone" data-fermer aria-label="Fermer"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <button class="btn-icone" data-fermer aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   </div>
   <div class="panneau-corps">
     <div class="dev-infos" id="dev-infos"></div>
     <button class="btn-plein principal" id="dev-prochaine"></button>
 
-    <h3 class="section-titre">Toutes les histoires (même futures)</h3>
+    <h3 class="section-titre">All stories (even upcoming ones)</h3>
     <ul class="dev-liste-histoires" id="dev-histoires"></ul>
-    <button class="btn-plein" id="dev-demo">Ouvrir l'histoire de démonstration</button>
+    <button class="btn-plein" id="dev-demo">Open the demo story</button>
 
-    <h3 class="section-titre">Boîte à suggestions</h3>
+    <h3 class="section-titre">Suggestion box</h3>
     <p class="reglage-aide" id="dev-boite-etat"></p>
-    <input type="text" id="dev-boite" placeholder="Ton courriel (pour l'activer)" autocapitalize="off" autocomplete="off" spellcheck="false" inputmode="email" aria-label="Courriel ou clé FormSubmit">
-    <button class="btn-plein" id="dev-boite-test">Envoyer un test</button>
-    <p class="reglage-aide">1. Écris ton courriel et touche « Envoyer un test ». 2. Dans le courriel de FormSubmit, touche « Activate Form ». 3. Envoie à Claude la clé (une suite de lettres et de chiffres) que FormSubmit te donne : elle remplace ton adresse dans le code, et la boîte s'ouvre pour tous les lecteurs. Ton courriel reste seulement sur ce téléphone.</p>
+    <input type="text" id="dev-boite" placeholder="Your email (to activate it)" autocapitalize="off" autocomplete="off" spellcheck="false" inputmode="email" aria-label="Email or FormSubmit key">
+    <button class="btn-plein" id="dev-boite-test">Send a test</button>
+    <p class="reglage-aide">1. Type your email and tap “Send a test”. 2. In the FormSubmit email, tap “Activate Form”. 3. Send Claude the key (a string of letters and numbers) that FormSubmit gives you: it replaces your address in the code, and the box opens for every reader. Your email stays on this phone only.</p>
 
-    <h3 class="section-titre">Simuler une date</h3>
-    <input type="date" id="dev-date" aria-label="Date simulée">
+    <h3 class="section-titre">Simulate a date</h3>
+    <input type="date" id="dev-date" aria-label="Simulated date">
     <div class="btn-rangee">
-      <button class="btn-plein principal" id="dev-date-appliquer">Appliquer</button>
-      <button class="btn-plein" id="dev-date-reelle">Date réelle</button>
+      <button class="btn-plein principal" id="dev-date-appliquer">Apply</button>
+      <button class="btn-plein" id="dev-date-reelle">Real date</button>
     </div>
     <div class="reglage">
       <div class="reglage-ligne">
-        <label for="dev-sauter">Sauter l'écran d'entrée</label>
+        <label for="dev-sauter">Skip the entrance screen</label>
         <span class="interrupteur"><input type="checkbox" id="dev-sauter"><span></span></span>
       </div>
     </div>
 
-    <h3 class="section-titre">Tester une mise en page</h3>
-    <select id="dev-mep" aria-label="Mise en page"></select>
+    <h3 class="section-titre">Test a layout</h3>
+    <select id="dev-mep" aria-label="Layout"></select>
 
-    <h3 class="section-titre">Tester un fond animé</h3>
-    <select id="dev-fond" aria-label="Effet de fond"></select>
+    <h3 class="section-titre">Test an animated background</h3>
+    <select id="dev-fond" aria-label="Background effect"></select>
     <div class="reglage">
-      <div class="reglage-ligne"><label for="dev-intensite">Intensité</label><span class="reglage-valeur" id="dev-val-intensite"></span></div>
+      <div class="reglage-ligne"><label for="dev-intensite">Intensity</label><span class="reglage-valeur" id="dev-val-intensite"></span></div>
       <input type="range" id="dev-intensite" min="0" max="100" step="1">
     </div>
 
-    <h3 class="section-titre">Tester un son</h3>
+    <h3 class="section-titre">Test a sound</h3>
     <div class="dev-grille" id="dev-sons"></div>
 
-    <h3 class="section-titre">Tester une ambiance (lieu)</h3>
+    <h3 class="section-titre">Test an ambience (place)</h3>
     <div class="dev-grille" id="dev-ambiances"></div>
 
-    <h3 class="section-titre">Tester un effet visuel</h3>
+    <h3 class="section-titre">Test a visual effect</h3>
     <div class="dev-grille" id="dev-effets"></div>
 
-    <h3 class="section-titre">Tester une couche musicale (seule)</h3>
+    <h3 class="section-titre">Test a music layer (solo)</h3>
     <div class="dev-grille" id="dev-couches"></div>
-    <button class="btn-plein" id="dev-musique-histoire">Remettre la musique de l'histoire</button>
+    <button class="btn-plein" id="dev-musique-histoire">Restore the story's music</button>
 
-    <h3 class="section-titre">JSON de l'histoire en cours</h3>
+    <h3 class="section-titre">Current story JSON</h3>
     <ul class="dev-rapport" id="dev-rapport"></ul>
-    <textarea id="dev-json" readonly aria-label="JSON brut" style="min-height:220px"></textarea>
-    <button class="btn-plein" id="dev-copier-json">Copier le JSON</button>
+    <textarea id="dev-json" readonly aria-label="Raw JSON" style="min-height:220px"></textarea>
+    <button class="btn-plein" id="dev-copier-json">Copy JSON</button>
 
-    <h3 class="section-titre">Prévisualiser un JSON collé</h3>
-    <textarea id="dev-json-colle" aria-label="JSON à prévisualiser" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="Colle ici le contenu d'un fichier stories/AAAA-MM-JJ.json"></textarea>
-    <button class="btn-plein principal" id="dev-previsualiser">Prévisualiser</button>
+    <h3 class="section-titre">Preview a pasted JSON</h3>
+    <textarea id="dev-json-colle" aria-label="JSON to preview" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="Paste the content of a stories/YYYY-MM-DD.json file here"></textarea>
+    <button class="btn-plein principal" id="dev-previsualiser">Preview</button>
 
-    <h3 class="section-titre">Sauvegarde</h3>
-    <button class="btn-plein danger" id="dev-reinitialiser">Réinitialiser la sauvegarde</button>
-    <button class="btn-plein" id="dev-quitter">Désactiver le mode DEV</button>
+    <h3 class="section-titre">Saved data</h3>
+    <button class="btn-plein danger" id="dev-reinitialiser">Reset saved data</button>
+    <button class="btn-plein" id="dev-quitter">Turn off DEV mode</button>
   </div>
 </section>
 
-<button id="indicateur-dev" class="cache" aria-label="Ouvrir le mode DEV">dev</button>
+<button id="indicateur-dev" class="cache" aria-label="Open DEV mode">dev</button>
 <div id="toast" role="status" aria-live="polite"><span id="toast-texte"></span><button id="toast-action" class="cache"></button></div>
 <script>
 'use strict';
@@ -1524,7 +1529,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
    1. CONFIGURATION — les réglages faciles à modifier
    ===================================================================== */
 const CONFIG = {
-  version: '1.6',
+  version: '1.7',
   fuseau: 'America/Toronto',          // toutes les dates sont calculées à Toronto
   dossierHistoires: 'stories/',       // dossier des fichiers JSON
   cleSauvegarde: '3h12-sauvegarde-v1',// clé dans localStorage
@@ -1727,11 +1732,11 @@ const Dates = {
   },
   ecart(a, b) { return Math.round((Date.parse(b + 'T12:00:00Z') - Date.parse(a + 'T12:00:00Z')) / 86400000); },
   longue(d) {
-    try { return new Intl.DateTimeFormat('fr-CA', { timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(d + 'T12:00:00Z')); }
+    try { return new Intl.DateTimeFormat('en-US', { timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(d + 'T12:00:00Z')); }
     catch (e) { return d; }
   },
   courte(d) {
-    try { return new Intl.DateTimeFormat('fr-CA', { timeZone: 'UTC', day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(d + 'T12:00:00Z')); }
+    try { return new Intl.DateTimeFormat('en-US', { timeZone: 'UTC', day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(d + 'T12:00:00Z')); }
     catch (e) { return d; }
   },
 };
@@ -1942,7 +1947,7 @@ function normaliserPalette(p, defaut, r) {
     const v = p && p[cle];
     if (couleurValide(v)) s[cle] = developperHex(v);
     else {
-      if (v !== undefined && v !== 'fond' && r) r.av(`palette.${cle} invalide (« ${v} ») : valeur par défaut utilisée. Format attendu : #rrggbb.`);
+      if (v !== undefined && v !== 'fond' && r) r.av(`palette.${cle} invalid ("${v}"): default used. Expected format: #rrggbb.`);
       s[cle] = (v === 'fond') ? 'fond' : base[cle];
     }
   }
@@ -1975,7 +1980,7 @@ function normaliserFond(f, r) {
   f = f && typeof f === 'object' ? f : {};
   let effet = normCle(f.effet) || 'aucun';
   if (effet === 'neige_tele' || effet === 'neige_de_tele' || effet === 'tele') effet = 'statique';
-  if (!EFFETS_FOND.includes(effet)) { r.av(`fond.effet inconnu « ${f.effet} » : aucun effet.`); effet = 'aucun'; }
+  if (!EFFETS_FOND.includes(effet)) { r.av(`unknown fond.effet "${f.effet}": no effect.`); effet = 'aucun'; }
   return {
     effet,
     intensite: nombre(f.intensite, .5, 0, 1),
@@ -1998,7 +2003,7 @@ function normaliserFond(f, r) {
 function normaliserAmbiance(v, r, ou) {
   const liste = (Array.isArray(v) ? v : (v == null ? [] : [v])).map(normCle).filter(a => a && a !== 'aucune' && a !== 'aucun');
   const bonnes = liste.filter(a => NOMS_AMBIANCES.includes(a));
-  liste.filter(a => !bonnes.includes(a)).forEach(a => r.av(`${ou} : ambiance inconnue « ${a} », ignorée.`));
+  liste.filter(a => !bonnes.includes(a)).forEach(a => r.av(`${ou}: unknown ambiance "${a}", ignored.`));
   return [...new Set(bonnes)].slice(0, 3);
 }
 function normaliserDecors(d, r) {
@@ -2006,7 +2011,7 @@ function normaliserDecors(d, r) {
   if (!d || typeof d !== 'object' || Array.isArray(d)) return decors;
   Object.entries(d).forEach(([nom, svg]) => {
     if (typeof svg === 'string' && /<svg[\s>]/i.test(svg)) decors[chaine(nom)] = svg;
-    else r.av(`fond.decors.${nom} : pas un SVG, ignoré.`);
+    else r.av(`fond.decors.${nom}: not an SVG, ignored.`);
   });
   return decors;
 }
@@ -2014,18 +2019,18 @@ function normaliserDecors(d, r) {
 function normaliserVue(v, r, ou) {
   if (v == null || v === false) return null;
   if (typeof v === 'string') v = /^\s*<svg[\s>]/i.test(v) ? { svg: v } : { decor: v };
-  if (typeof v !== 'object' || Array.isArray(v)) { r.av(`${ou} : vue illisible, ignorée.`); return null; }
+  if (typeof v !== 'object' || Array.isArray(v)) { r.av(`${ou}: unreadable vue, ignored.`); return null; }
   const son = normCle(v.son) || 'aucun', entree = normCle(v.entree);
   const vue = {
     svg: typeof v.svg === 'string' ? v.svg : '',
     decor: chaine(v.decor),
-    son: SONS_EVENEMENT.includes(son) ? son : (r.av(`${ou} : son de vue inconnu « ${v.son} ».`), 'aucun'),
+    son: SONS_EVENEMENT.includes(son) ? son : (r.av(`${ou}: unknown vue sound "${v.son}".`), 'aucun'),
     duree: nombre(v.duree, 3400, 1200, 12000),
     entree: ENTREES_VUE.includes(entree) ? entree : 'fondu',
     titre: chaine(v.titre),
     texte: chaine(v.texte),
   };
-  if (!/<svg[\s>]/i.test(vue.svg) && !vue.decor) { r.av(`${ou} : vue sans svg ni decor, ignorée.`); return null; }
+  if (!/<svg[\s>]/i.test(vue.svg) && !vue.decor) { r.av(`${ou}: vue with neither svg nor decor, ignored.`); return null; }
   return vue;
 }
 
@@ -2062,12 +2067,12 @@ function normaliserOnde(v, defaut) {
   return defaut;
 }
 function normaliserCouche(c, i, r) {
-  if (!c || typeof c !== 'object') { r.av(`musique.couches[${i}] ignorée (pas un objet).`); return null; }
+  if (!c || typeof c !== 'object') { r.av(`musique.couches[${i}] ignored (not an object).`); return null; }
   let type = normCle(c.type);
   if (type === 'boite' || type === 'boite_musique') type = 'boite_a_musique';
   if (type === 'chorale' || type === 'voix') type = 'choeur';
   if (type === 'corde' || type === 'violons') type = 'cordes';
-  if (!TYPES_COUCHES.includes(type)) { r.av(`musique.couches[${i}] : type inconnu « ${c.type} », couche ignorée.`); return null; }
+  if (!TYPES_COUCHES.includes(type)) { r.av(`musique.couches[${i}]: unknown type "${c.type}", layer ignored.`); return null; }
   const d = DEFAUTS_COUCHES[type];
   return {
     type,
@@ -2084,17 +2089,17 @@ function normaliserMusique(m, r) {
   m = m && typeof m === 'object' ? m : {};
   let gamme = normCle(m.gamme);
   gamme = ALIAS_GAMMES[gamme] || gamme;
-  if (!GAMMES[gamme]) { if (m.gamme) r.av(`musique.gamme inconnue « ${m.gamme} » : mineur utilisé.`); gamme = 'mineur'; }
+  if (!GAMMES[gamme]) { if (m.gamme) r.av(`unknown musique.gamme "${m.gamme}": mineur used.`); gamme = 'mineur'; }
   let tonique = analyserTonique(m.tonique);
-  if (!tonique) { if (m.tonique) r.av(`musique.tonique invalide « ${m.tonique} » : D utilisé.`); tonique = { nom: 'D', pc: 2 }; }
+  if (!tonique) { if (m.tonique) r.av(`invalid musique.tonique "${m.tonique}": D used.`); tonique = { nom: 'D', pc: 2 }; }
   let couches = Array.isArray(m.couches) ? m.couches.map((c, i) => normaliserCouche(c, i, r)).filter(Boolean) : [];
   if (!couches.length) {
-    if (m.couches) r.av('musique.couches vide : couches par défaut utilisées.');
+    if (m.couches) r.av('musique.couches empty: default layers used.');
     couches = [normaliserCouche({ type: 'drone', volume: .5, densite: .5 }, 0, r), normaliserCouche({ type: 'bruit', volume: .3, densite: .5 }, 1, r)];
   }
-  if (couches.length > 8) { r.av('Plus de 8 couches musicales : seules les 8 premières sont jouées.'); couches = couches.slice(0, 8); }
+  if (couches.length > 8) { r.av('More than 8 music layers: only the first 8 are played.'); couches = couches.slice(0, 8); }
   let evolution = normCle(m.evolution);
-  if (!EVOLUTIONS.includes(evolution)) { if (m.evolution) r.av(`musique.evolution inconnue « ${m.evolution} » : monte utilisé.`); evolution = 'monte'; }
+  if (!EVOLUTIONS.includes(evolution)) { if (m.evolution) r.av(`unknown musique.evolution "${m.evolution}": monte used.`); evolution = 'monte'; }
   const finale = ['fondu', 'silence', 'continuer'].includes(normCle(m.finale)) ? normCle(m.finale) : 'fondu';
   return {
     tempo: nombre(m.tempo, 60, 30, 180), tonique, gamme, couches,
@@ -2111,17 +2116,17 @@ function normaliserStyle(v) {
 function normaliserBloc(b, i, r) {
   const ou = `Bloc n° ${i + 1}`;
   if (typeof b === 'string') return { type: 'paragraphe', texte: b, style: [] };
-  if (!b || typeof b !== 'object') { r.av(`${ou} ignoré (ce n'est pas un objet).`); return null; }
+  if (!b || typeof b !== 'object') { r.av(`${ou} ignored (not an object).`); return null; }
   const alias = { texte: 'paragraphe', paragraph: 'paragraphe', p: 'paragraphe', message: 'sms', separateur: 'pause', event: 'evenement', effet: 'evenement', illustration: 'image', titre_de_section: 'titre' };
   let type = normCle(b.type);
   type = alias[type] || type;
   if (!TYPES_BLOCS.includes(type)) {
-    if (chaine(b.texte)) { r.av(`${ou} : type inconnu « ${b.type} », affiché comme paragraphe.`); type = 'paragraphe'; }
-    else { r.av(`${ou} : type inconnu « ${b.type} », ignoré.`); return null; }
+    if (chaine(b.texte)) { r.av(`${ou}: unknown type "${b.type}", shown as a paragraph.`); type = 'paragraphe'; }
+    else { r.av(`${ou}: unknown type "${b.type}", ignored.`); return null; }
   }
   const n = { type, style: normaliserStyle(b.style) };
   const texte = chaine(b.texte);
-  const exigerTexte = () => { if (!texte) { r.av(`${ou} (${type}) sans texte : ignoré.`); return false; } n.texte = texte; return true; };
+  const exigerTexte = () => { if (!texte) { r.av(`${ou} (${type}) without text: ignored.`); return false; } n.texte = texte; return true; };
   switch (type) {
     case 'paragraphe': case 'titre': case 'note': case 'signature':
       if (!exigerTexte()) return null;
@@ -2139,7 +2144,7 @@ function normaliserBloc(b, i, r) {
     case 'sms':
       if (!exigerTexte()) return null;
       n.de = normCle(b.de);
-      if (n.de !== 'moi' && n.de !== 'eux') { r.av(`${ou} (sms) : « de » doit être "moi" ou "eux" ; "eux" utilisé.`); n.de = 'eux'; }
+      if (n.de !== 'moi' && n.de !== 'eux') { r.av(`${ou} (sms): "de" must be "moi" or "eux"; "eux" used.`); n.de = 'eux'; }
       n.nom = chaine(b.nom);
       n.heure = chaine(b.heure);
       n.vu = b.vu === true ? true : chaine(b.vu);
@@ -2155,8 +2160,8 @@ function normaliserBloc(b, i, r) {
     case 'evenement': {
       const effet = normCle(b.effet) || 'aucun';
       const son = normCle(b.son) || 'aucun';
-      n.effet = EFFETS_EVENEMENT.includes(effet) ? effet : (r.av(`${ou} : effet inconnu « ${b.effet} ».`), 'aucun');
-      n.son = SONS_EVENEMENT.includes(son) ? son : (r.av(`${ou} : son inconnu « ${b.son} ».`), 'aucun');
+      n.effet = EFFETS_EVENEMENT.includes(effet) ? effet : (r.av(`${ou}: unknown effect "${b.effet}".`), 'aucun');
+      n.son = SONS_EVENEMENT.includes(son) ? son : (r.av(`${ou}: unknown sound "${b.son}".`), 'aucun');
       let duree = nombre(b.duree, null, 0, 60000);
       if (duree !== null && duree > 0 && duree <= 20) duree *= 1000; // « 2 » = 2 secondes
       n.duree = duree;
@@ -2176,8 +2181,8 @@ function normaliserBloc(b, i, r) {
       }).filter(m => m && m.texte).slice(0, 40);
       n.intervalle = nombre(b.intervalle, 900, 150, 5000);
       n.reste = Math.round(nombre(b.reste, 0, 0, 999));   // « et N autres » qui défilent à la fin
-      if (n.effet === 'notification' && !texte && !n.messages.length) r.av(`${ou} : notification sans texte.`);
-      if (n.effet === 'aucun' && n.son === 'aucun') r.av(`${ou} : événement sans effet ni son.`);
+      if (n.effet === 'notification' && !texte && !n.messages.length) r.av(`${ou}: notification without text.`);
+      if (n.effet === 'aucun' && n.son === 'aucun') r.av(`${ou}: event with neither effect nor sound.`);
       break;
     }
     case 'geste': {
@@ -2189,7 +2194,7 @@ function normaliserBloc(b, i, r) {
       n.son = SONS_EVENEMENT.includes(son) ? son : 'aucun';
       n.aide = chaine(b.aide);
       n.vue = normaliserVue(b.vue, r, ou);
-      if (!n.vue) r.av(`${ou} : geste sans « vue » (un geste doit montrer quelque chose).`);
+      if (!n.vue) r.av(`${ou}: gesture without "vue" (a gesture must show something).`);
       break;
     }
     case 'scene': {
@@ -2199,7 +2204,7 @@ function normaliserBloc(b, i, r) {
       n.svg = typeof b.svg === 'string' && /<svg[\s>]/i.test(b.svg) ? b.svg : null;
       n.opacite = nombre(b.opacite ?? b.svgOpacite, null, 0, 1);
       const effet = normCle(b.effet);
-      n.effet = !effet ? null : (EFFETS_FOND.includes(effet) ? effet : (r.av(`${ou} : effet de fond inconnu « ${b.effet} ».`), null));
+      n.effet = !effet ? null : (EFFETS_FOND.includes(effet) ? effet : (r.av(`${ou}: unknown background effect "${b.effet}".`), null));
       n.intensite = nombre(b.intensite, null, 0, 1);
       n.couleur = couleurValide(b.couleur) ? developperHex(b.couleur) : null;
       n.scintillement = nombre(b.scintillement, null, 0, 1);
@@ -2215,12 +2220,12 @@ function normaliserBloc(b, i, r) {
     case 'image':
       n.svg = chaine(b.svg);
       n.legende = chaine(b.legende);
-      if (!/<svg[\s>]/i.test(n.svg)) { r.av(`${ou} (image) : champ svg absent ou invalide, ignoré.`); return null; }
+      if (!/<svg[\s>]/i.test(n.svg)) { r.av(`${ou} (image): svg field missing or invalid, ignored.`); return null; }
       break;
     case 'champs':
       n.titre = chaine(b.titre);
       n.champs = Array.isArray(b.champs) ? b.champs.map(c => ({ nom: chaine(c && c.nom), valeur: chaine(c && c.valeur) })).filter(c => c.nom || c.valeur) : [];
-      if (!n.champs.length) { r.av(`${ou} (champs) : liste « champs » vide, ignoré.`); return null; }
+      if (!n.champs.length) { r.av(`${ou} (champs): empty "champs" list, ignored.`); return null; }
       break;
     case 'tampon':
       n.texte = texte || 'CONFIDENTIEL';
@@ -2241,15 +2246,15 @@ function compterMots(h) {
 
 function normaliserHistoire(d, dateFichier) {
   const r = creerRapport();
-  if (!d || typeof d !== 'object' || Array.isArray(d)) { r.err('Le fichier ne contient pas un objet JSON.'); d = {}; }
-  if (d.__repare) r.err(`JSON invalide (réparé automatiquement) : ${d.__repare}`);
+  if (!d || typeof d !== 'object' || Array.isArray(d)) { r.err('The file does not contain a JSON object.'); d = {}; }
+  if (d.__repare) r.err(`Invalid JSON (repaired automatically): ${d.__repare}`);
   const h = {};
   h.date = Dates.valide(d.date) ? d.date : dateFichier;
-  if (d.date && d.date !== dateFichier && dateFichier) r.av(`Le champ date (${d.date}) ne correspond pas au nom du fichier (${dateFichier}).`);
+  if (d.date && d.date !== dateFichier && dateFichier) r.av(`The date field (${d.date}) does not match the file name (${dateFichier}).`);
   h.numero = Math.round(nombre(d.numero, 0, 0, 1e6));
-  if (!h.numero) r.av('numero manquant.');
+  if (!h.numero) r.av('numero missing.');
   h.titre = chaine(d.titre);
-  if (!h.titre) { r.err('titre manquant.'); h.titre = 'Sans titre'; }
+  if (!h.titre) { r.err('titre missing.'); h.titre = 'Sans titre'; }
   h.sousTitre = chaine(d.sousTitre);
   h.sousGenre = chaine(d.sousGenre ?? d.sous_genre);
   h.lieu = chaine(d.lieu);
@@ -2259,7 +2264,7 @@ function normaliserHistoire(d, dateFichier) {
   h.avertissement = chaine(d.avertissement);
   h.miseEnPage = normCle(d.miseEnPage ?? d.mise_en_page ?? d.layout);
   if (!MISES_EN_PAGE[h.miseEnPage]) {
-    r.err(`miseEnPage inconnue « ${d.miseEnPage ?? ''} » : recit utilisé.`);
+    r.err(`unknown miseEnPage "${d.miseEnPage ?? ''}": recit used.`);
     h.miseEnPage = 'recit';
   }
   const mep = MISES_EN_PAGE[h.miseEnPage];
@@ -2270,31 +2275,31 @@ function normaliserHistoire(d, dateFichier) {
   h.document = normaliserDocument(d.document);
   h.fond = normaliserFond(d.fond, r);
   h.musique = normaliserMusique(d.musique, r);
-  if (!Array.isArray(d.blocs)) r.err('blocs manquant (doit être un tableau).');
+  if (!Array.isArray(d.blocs)) r.err('blocs missing (must be an array).');
   h.blocs = (Array.isArray(d.blocs) ? d.blocs : []).map((b, i) => normaliserBloc(b, i, r)).filter(Boolean);
   if (!h.blocs.length) h.blocs = [{ type: 'paragraphe', texte: '(Cette histoire ne contient aucun bloc lisible.)', style: [] }];
   h.phraseFinale = chaine(d.phraseFinale ?? d.phrase_finale ?? d.fin);
-  if (!h.phraseFinale) r.av('phraseFinale manquante.');
+  if (!h.phraseFinale) r.av('phraseFinale missing.');
   // Question de la nuit (facultative) : posée au lecteur à la fin, avec 2 à 4 réponses
   h.question = null;
   if (d.question != null) {
     const q = d.question, texte = chaine(q && q.texte);
     const choix = Array.isArray(q && q.choix) ? q.choix.map(c => chaine(c)).filter(Boolean).slice(0, 4) : [];
     if (texte && choix.length >= 2) h.question = { texte, choix };
-    else r.av('question ignorée : il faut un texte et 2 à 4 choix.');
+    else r.av('question ignored: it needs a text and 2 to 4 choices.');
   }
   // Les décors nommés doivent exister
   h.blocs.forEach((b, i) => {
     const nom = b.type === 'scene' ? b.decor : (b.vue && !b.vue.svg ? b.vue.decor : '');
-    if (nom && !h.fond.decors[nom]) r.av(`Bloc n° ${i + 1} : décor « ${nom} » absent de fond.decors.`);
+    if (nom && !h.fond.decors[nom]) r.av(`Block ${i + 1}: decor "${nom}" missing from fond.decors.`);
   });
   h.mots = compterMots(h);
   h.minutes = Math.max(1, Math.round(h.mots / CONFIG.motsParMinute));
   const nbEvenements = h.blocs.filter(b => b.type === 'evenement').length;
   // Une traduction (histoire choisie par le créateur) garde sa longueur d'origine
-  h.traduction = d.origine === 'traduction';
-  if (!h.traduction && (h.mots < 900 || h.mots > 1600)) r.av(`Longueur : ${h.mots} mots (cible : 900 à 1600).`);
-  if (nbEvenements > (h.traduction ? 14 : 8)) r.av(`${nbEvenements} événements (maximum conseillé : ${h.traduction ? 14 : 8}).`);
+  h.traduction = d.origine === 'traduction' || d.origine === 'choisie';   // histoire choisie par le créateur
+  if (!h.traduction && (h.mots < 900 || h.mots > 1600)) r.av(`Length: ${h.mots} words (target: 900 to 1600).`);
+  if (nbEvenements > (h.traduction ? 14 : 8)) r.av(`${nbEvenements} events (suggested maximum: ${h.traduction ? 14 : 8}).`);
   return { h, rapport: r };
 }
 
@@ -4292,7 +4297,7 @@ function formater(texte, { paragraphes = false } = {}) {
   // Ces deux effets animent les lettres : leur contenu reste du texte simple
   s = s.replace(/\^\^([\s\S]+?)\^\^/g, (m, t) => reserver(`<span class="lettre-a-lettre">${t}</span>`));
   s = s.replace(/%%([\s\S]+?)%%/g, (m, t) => reserver(`<span class="glitch">${t}</span>`));
-  s = s.replace(/\|\|([\s\S]+?)\|\|/g, '<span class="caviarde" role="button" tabindex="0" aria-label="Passage caviardé : toucher pour révéler">$1</span>');
+  s = s.replace(/\|\|([\s\S]+?)\|\|/g, '<span class="caviarde" role="button" tabindex="0" aria-label="Redacted passage: tap to reveal">$1</span>');
   s = s.replace(/##([\s\S]+?)##/g, '<span class="chuchote">$1</span>');
   s = s.replace(/__([\s\S]+?)__/g, '<span class="accent">$1</span>');
   s = s.replace(/~~([\s\S]+?)~~/g, '<span class="rature">$1</span>');
@@ -4398,7 +4403,7 @@ const Glitchs = {
    ===================================================================== */
 const MISES_EN_PAGE = {
   manuscrit: {
-    nom: 'Manuscrit',
+    nom: 'Manuscript',
     palette: { fond: '#0e0b07', surface: '#e3d6b4', texte: '#2b1d10', accent: '#8a2416', secondaire: '#6b5a40' },
     polices: { titre: 'IM Fell English SC', texte: 'IM Fell English', notes: 'Homemade Apple' },
     secours: 'serif', pause: '⁂',
@@ -4406,39 +4411,39 @@ const MISES_EN_PAGE = {
   },
 
   journal_intime: {
-    nom: 'Journal intime',
+    nom: 'Diary',
     palette: { fond: '#0b0d12', surface: '#f1ede0', texte: '#1f2a44', accent: '#a3322a', secondaire: '#5d6b85' },
     polices: { titre: 'Caveat', texte: 'Kalam', notes: 'Caveat' },
     secours: 'cursive', pause: '~ ✶ ~',
     entete: h => {
       const d = h.document;
-      const etiquette = d.auteurDocument ? `Journal de ${echapper(d.auteurDocument)}` : 'Journal';
+      const etiquette = d.auteurDocument ? `Diary of ${echapper(d.auteurDocument)}` : 'Diary';
       return `<header class="ji-entete"><div class="ji-etiquette">${etiquette}${d.dateDocument ? `<small>${echapper(d.dateDocument)}</small>` : ''}</div></header>`;
     },
   },
 
   rapport: {
-    nom: 'Rapport',
+    nom: 'Report',
     palette: { fond: '#0a0c10', surface: '#e8e5da', texte: '#1d1c1a', accent: '#a11d1d', secondaire: '#26407c' },
     polices: { titre: 'Special Elite', texte: 'Courier Prime', notes: 'Reenie Beanie' },
     secours: 'monospace', pause: '— — —',
     entete: h => {
       const d = h.document;
       const champs = [
-        ['Dossier n°', d.reference], ['Date', d.dateDocument], ['Lieu', h.lieu],
-        ['Rédigé par', d.auteurDocument], ['Destinataire', d.destinataire],
+        ['File no.', d.reference], ['Date', d.dateDocument], ['Location', h.lieu],
+        ['Written by', d.auteurDocument], ['Recipient', d.destinataire],
         ...d.champs.map(c => [c.nom, c.valeur]),
       ].filter(([, v]) => v);
       return `<header class="rp-entete">
-          <div class="rp-sceau" aria-hidden="true">${sceauSVG(d.organisme || 'Rapport')}</div>
-          <div class="rp-org">${formater(d.organisme || 'Service de police')}</div>
-          <div class="rp-type">${formater(d.typeDocument || 'Rapport d’événement')}</div>
+          <div class="rp-sceau" aria-hidden="true">${sceauSVG(d.organisme || 'Report')}</div>
+          <div class="rp-org">${formater(d.organisme || 'Police Department')}</div>
+          <div class="rp-type">${formater(d.typeDocument || 'Incident Report')}</div>
           ${d.classification ? `<div class="rp-classif"><span class="tampon">${formater(d.classification)}</span></div>` : ''}
         </header>
         ${champs.length ? `<dl class="champs rp-champs">${champs.map(([n, v]) => `<div><dt>${formater(n)}</dt><dd>${formater(v)}</dd></div>`).join('')}</dl>` : ''}
-        <h1 class="rp-objet">Objet : ${formater(d.sujet || h.titre)}</h1>`;
+        <h1 class="rp-objet">Subject: ${formater(d.sujet || h.titre)}</h1>`;
     },
-    pied: h => `<footer class="rp-pied"><span>${formater(h.document.reference || '')}</span><span>Page 1 de 1</span></footer>`,
+    pied: h => `<footer class="rp-pied"><span>${formater(h.document.reference || '')}</span><span>Page 1 of 1</span></footer>`,
   },
 
   sms: {
@@ -4449,7 +4454,7 @@ const MISES_EN_PAGE = {
     entete: (h, ctx) => {
       const noms = [...new Set(h.blocs.filter(b => b.type === 'sms' && b.de === 'eux' && b.nom).map(b => b.nom))];
       ctx.groupe = noms.length > 1;
-      const contact = h.document.contact || (ctx.groupe ? noms.join(', ') : noms[0]) || 'Inconnu';
+      const contact = h.document.contact || (ctx.groupe ? noms.join(', ') : noms[0]) || 'Unknown';
       const initiale = ctx.groupe ? noms.length : (Array.from(texteBrut(contact))[0] || '?').toUpperCase();
       return `<header class="sms-entete"><div class="sms-avatar">${echapper(initiale)}</div><div class="sms-contact">${formater(contact)}</div><div class="sms-sous">${formater(h.document.reference || 'iMessage')}</div></header>`;
     },
@@ -4462,7 +4467,7 @@ const MISES_EN_PAGE = {
   },
 
   transcription: {
-    nom: 'Transcription',
+    nom: 'Transcript',
     palette: { fond: '#08090b', surface: '#eeede8', texte: '#1a1a1a', accent: '#b0221a', secondaire: '#5b5f66' },
     polices: { titre: 'IBM Plex Mono', texte: 'IBM Plex Mono', notes: 'IBM Plex Mono' },
     secours: 'monospace', pause: '[ … ]',
@@ -4470,12 +4475,12 @@ const MISES_EN_PAGE = {
       const d = h.document;
       const intervenants = [...new Set(h.blocs.filter(b => b.type === 'dialogue' && b.personnage).map(b => b.personnage))];
       const infos = [
-        ['Fichier', d.reference], ['Objet', d.sujet], ['Date', d.dateDocument], ['Durée', d.duree],
-        ['Transcrit par', d.auteurDocument], ['Intervenants', intervenants.join(', ')],
+        ['File', d.reference], ['Subject', d.sujet], ['Date', d.dateDocument], ['Length', d.duree],
+        ['Transcribed by', d.auteurDocument], ['Speakers', intervenants.join(', ')],
         ...d.champs.map(c => [c.nom, c.valeur]),
       ].filter(([, v]) => v);
       return `<header class="tr-entete">
-          <div class="tr-type"><span>${formater(d.typeDocument || 'Transcription d’enregistrement')}</span><span class="tr-rec">● ENR</span></div>
+          <div class="tr-type"><span>${formater(d.typeDocument || 'Recording Transcript')}</span><span class="tr-rec">● REC</span></div>
           ${d.organisme ? `<div class="tr-org" style="font-size:.8em;opacity:.7">${formater(d.organisme)}</div>` : ''}
           <div class="tr-onde" aria-hidden="true">${ondeSVG(h.titre)}</div>
           <dl class="tr-infos">${infos.map(([n, v]) => `<dt>${formater(n)}</dt><dd>${formater(v)}</dd>`).join('')}</dl>
@@ -4484,7 +4489,7 @@ const MISES_EN_PAGE = {
     blocs: {
       dialogue: b => {
         const temps = (b.horodatage || b.heure).replace(/^\[|\]$/g, '');
-        return `<div class="tr-ligne"><div class="tr-tete">${temps ? `<span class="tr-temps">[${echapper(temps)}]</span>` : ''}<span class="tr-nom">${formater(b.personnage || 'Inconnu')}</span></div><div class="tr-texte">${formater(b.texte, { paragraphes: true })}</div></div>`;
+        return `<div class="tr-ligne"><div class="tr-tete">${temps ? `<span class="tr-temps">[${echapper(temps)}]</span>` : ''}<span class="tr-nom">${formater(b.personnage || 'Unknown')}</span></div><div class="tr-texte">${formater(b.texte, { paragraphes: true })}</div></div>`;
       },
     },
   },
@@ -4497,32 +4502,32 @@ const MISES_EN_PAGE = {
     entete: h => {
       const d = h.document;
       return `<header>
-          <div class="fo-banniere"><div class="fo-site">${formater(d.organisme || 'Forum paranormal')}</div><div class="fo-slogan">${formater(d.slogan || 'Le forum des phénomènes inexpliqués')}</div></div>
-          <div class="fo-nav"><span>Index du forum</span> › <span>${formater(d.section || 'Témoignages')}</span></div>
+          <div class="fo-banniere"><div class="fo-site">${formater(d.organisme || 'Paranormal Forum')}</div><div class="fo-slogan">${formater(d.slogan || 'The forum for the unexplained')}</div></div>
+          <div class="fo-nav"><span>Board index</span> › <span>${formater(d.section || 'True Stories')}</span></div>
           <div class="fo-sujet">${formater(d.sujet || h.titre)}</div>
-          <div class="fo-infos">${d.reference ? formater(d.reference) + ' · ' : ''}Ce sujet est verrouillé.</div>
+          <div class="fo-infos">${d.reference ? formater(d.reference) + ' · ' : ''}This topic is locked.</div>
         </header>`;
     },
     blocs: {
       dialogue: (b, ctx) => {
         ctx.nPost = (ctx.nPost || 0) + 1;
-        const pseudo = b.personnage || 'Invité';
+        const pseudo = b.personnage || 'Guest';
         ctx.compteurs[pseudo] = (ctx.compteurs[pseudo] || 0) + 1;
         const messages = b.messages || String((hacher(pseudo) % 900) + 3 + ctx.compteurs[pseudo]);
         return `<article class="post">
             <div class="post-entete"><span>${formater(b.heure || '')}</span><span>#${ctx.nPost}</span></div>
-            <div class="post-auteur"><img class="avatar-pixel" src="${avatarPixel(b.avatar || pseudo)}" alt=""><div><div class="post-pseudo">${formater(pseudo)}</div><div class="post-rang">${formater(b.rang || 'Membre')}</div><div class="post-stats">Messages : ${echapper(messages)}</div></div></div>
+            <div class="post-auteur"><img class="avatar-pixel" src="${avatarPixel(b.avatar || pseudo)}" alt=""><div><div class="post-pseudo">${formater(pseudo)}</div><div class="post-rang">${formater(b.rang || 'Member')}</div><div class="post-stats">Posts: ${echapper(messages)}</div></div></div>
             <div class="post-corps">${formater(b.texte, { paragraphes: true })}</div>
             ${b.signature ? `<div class="post-signature">${formater(b.signature)}</div>` : ''}
           </article>`;
       },
-      citation: b => `<blockquote class="citation">${b.source ? `<cite>${formater(b.source)} a écrit :</cite>` : ''}${formater(b.texte, { paragraphes: true })}</blockquote>`,
+      citation: b => `<blockquote class="citation">${b.source ? `<cite>${formater(b.source)} wrote:</cite>` : ''}${formater(b.texte, { paragraphes: true })}</blockquote>`,
       pause: (b, ctx) => { ctx.page = (ctx.page || 1) + 1; return `<div class="fo-pages">Page ${Array.from({ length: Math.min(ctx.page + 1, 6) }, (_, k) => (k + 1 === ctx.page ? `<b>${k + 1}</b>` : k + 1)).join(' · ')}</div>`; },
     },
   },
 
   lettre: {
-    nom: 'Lettre',
+    nom: 'Letter',
     palette: { fond: '#0d0a08', surface: '#ece2c9', texte: '#2a2018', accent: '#7d1f2a', secondaire: '#5e4b37' },
     polices: { titre: 'Pinyon Script', texte: 'Cormorant Garamond', notes: 'Pinyon Script' },
     secours: 'serif', pause: '', feuillesSurPause: true,
@@ -4538,7 +4543,7 @@ const MISES_EN_PAGE = {
   },
 
   recit: {
-    nom: 'Récit',
+    nom: 'Story',
     palette: { fond: '#0b0a0a', surface: 'fond', texte: '#d9d2c5', accent: '#b23a2e', secondaire: '#77706a' },
     polices: { titre: 'Cormorant Garamond', texte: 'EB Garamond', notes: 'EB Garamond' },
     secours: 'serif', pause: '❦', lettrine: true,
@@ -4552,18 +4557,18 @@ const MISES_EN_PAGE = {
     entete: h => {
       const d = h.document;
       const lignes = [
-        `${(d.organisme || 'SYSTÈME').toUpperCase()} — ${d.typeDocument || 'TERMINAL'}`,
+        `${(d.organisme || 'SYSTEM').toUpperCase()} — ${d.typeDocument || 'TERMINAL'}`,
         d.reference ? `SESSION ${d.reference}` : 'SESSION 0312',
         d.dateDocument ? `DATE ${d.dateDocument}` : '',
-        d.auteurDocument ? `UTILISATEUR ${d.auteurDocument}` : '',
-        'CONNEXION ÉTABLIE.',
+        d.auteurDocument ? `USER ${d.auteurDocument}` : '',
+        'CONNECTION ESTABLISHED.',
       ].filter(Boolean);
       return `<div class="te-entete">${lignes.map(echapper).join('\n')}</div>`;
     },
   },
 
   coupure: {
-    nom: 'Coupure de journal',
+    nom: 'Newspaper clipping',
     palette: { fond: '#0c0b0a', surface: '#e2dac6', texte: '#1c1a17', accent: '#7a1d12', secondaire: '#5c564a' },
     polices: { titre: 'Playfair Display', texte: 'Old Standard TT', notes: 'Old Standard TT' },
     policesFixes: ['UnifrakturMaguntia'],
@@ -4572,7 +4577,7 @@ const MISES_EN_PAGE = {
     entete: h => {
       const d = h.document;
       return `<header>
-          <div class="cp-journal">${formater(d.organisme || 'La Gazette')}</div>
+          <div class="cp-journal">${formater(d.organisme || 'The Gazette')}</div>
           <div class="cp-date"><span>${formater(d.dateDocument || '')}</span><span>${formater(d.section || '')}</span></div>
           <h2 class="cp-manchette">${formater(d.sujet || h.titre)}</h2>
           ${h.sousTitre ? `<p class="cp-chapeau">${formater(h.sousTitre)}</p>` : ''}
@@ -4593,8 +4598,8 @@ const RENDUS = {
     if (b.de === 'eux' && ctx.groupe && b.nom && b.nom !== ctx.dernierNom) html += `<div class="sms-nom">${formater(b.nom)}</div>`;
     ctx.dernierNom = b.de === 'eux' ? b.nom : null;
     html += `<div class="sms-rangee"><div class="bulle">${formater(b.texte)}</div>${b.de === 'eux' ? '<div class="sms-tape" aria-hidden="true"><i></i><i></i><i></i></div>' : ''}</div>`;
-    if (b.statut === 'non_distribue') html += '<div class="sms-statut">Non distribué ⓘ</div>';
-    if (b.vu) html += `<div class="sms-vu">${b.vu === true ? 'Vu' : formater(b.vu)}</div>`;
+    if (b.statut === 'non_distribue') html += '<div class="sms-statut">Not Delivered ⓘ</div>';
+    if (b.vu) html += `<div class="sms-vu">${b.vu === true ? 'Read' : formater(b.vu)}</div>`;
     return html;
   },
   note: b => `<aside class="note">${formater(b.texte)}</aside>`,
@@ -4609,7 +4614,7 @@ const RENDUS = {
   champs: b => `${b.titre ? `<div class="champs-titre">${formater(b.titre)}</div>` : ''}<dl class="champs">${b.champs.map(c => `<div><dt>${formater(c.nom)}</dt><dd>${formater(c.valeur)}</dd></div>`).join('')}</dl>`,
   tampon: b => `<div class="tampon" style="--rot:${(b.rotation ?? hasard(-12, 8)).toFixed(1)}deg">${formater(b.texte)}</div>`,
   geste: b => {
-    const aide = b.aide || (b.mode === 'maintenir' ? 'Garder le doigt appuyé' : 'Toucher');
+    const aide = b.aide || (b.mode === 'maintenir' ? 'Press and hold' : 'Tap');
     return `<button class="geste-bouton" type="button" data-mode="${b.mode}" data-duree="${b.duree}" data-son="${b.son}" style="--duree:${b.duree}ms"><span>${formater(b.texte)}</span></button><p class="geste-aide">${formater(aide)}</p>`;
   },
 };
@@ -4707,8 +4712,8 @@ const Rendu = {
   // Le carton d'ouverture : le numéro et le titre, seuls (rien d'autre ne doit le distraire)
   carton(h) {
     return `<section class="carton">
-        <div class="carton-num">N° ${h.numero || '—'}</div>
-        <h1 class="carton-titre">${formater(h.titre)}</h1>
+        <div class="carton-num">No. ${h.numero || '—'}</div>
+        <h1 class="carton-titre ${classeTitre(h.titre)}">${formater(h.titre)}</h1>
         <div class="carton-defiler" aria-hidden="true"></div>
       </section>`;
   },
@@ -4734,11 +4739,11 @@ const Rendu = {
     const q = h.question;
     return `<form class="boite cache" id="boite" novalidate>
         ${q ? `<p class="boite-question">${formater(q.texte)}</p>
-          <div class="boite-choix" role="group" aria-label="Réponses">${q.choix.map((c, k) => `<button type="button" class="boite-choix-btn" data-choix="${k}" aria-pressed="false">${formater(c)}</button>`).join('')}</div>` : ''}
-        <label class="boite-titre" for="boite-texte">Un mot pour la prochaine nuit</label>
-        <textarea id="boite-texte" maxlength="600" rows="3" placeholder="Une idée, une peur, un lieu…"></textarea>
+          <div class="boite-choix" role="group" aria-label="Answers">${q.choix.map((c, k) => `<button type="button" class="boite-choix-btn" data-choix="${k}" aria-pressed="false">${formater(c)}</button>`).join('')}</div>` : ''}
+        <label class="boite-titre" for="boite-texte">A word for the next night</label>
+        <textarea id="boite-texte" maxlength="600" rows="3" placeholder="An idea, a fear, a place…"></textarea>
         <input type="text" class="boite-miel" id="boite-miel" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <button type="submit" class="lien-fin" id="boite-envoyer">Envoyer</button>
+        <button type="submit" class="lien-fin" id="boite-envoyer">Send</button>
         <p class="boite-etat" id="boite-etat" role="status"></p>
       </form>`;
   },
@@ -4746,15 +4751,15 @@ const Rendu = {
     return `<section class="fin" id="fin">
         ${h.phraseFinale ? `<div class="fin-phrase"><p>${formater(h.phraseFinale)}</p></div>` : '<div class="fin-phrase fin-phrase-vide"></div>'}
         <div class="fin-suite">
-          <div class="fin-marque">Fin</div>
-          <p class="fin-prochaine">Prochaine histoire</p>
+          <div class="fin-marque">The End</div>
+          <p class="fin-prochaine">Next story</p>
           <p class="fin-date" id="fin-date"></p>
           <p class="fin-serie" id="fin-serie"></p>
           <p class="fin-halloween cache" id="fin-halloween"></p>
           <p class="fin-disparait" id="fin-disparait"></p>
           ${this.boite(h)}
           <div class="fin-actions">
-            <button class="lien-fin" data-action="relire">Relire</button>
+            <button class="lien-fin" data-action="relire">Read again</button>
           </div>
         </div>
       </section>`;
@@ -4876,13 +4881,13 @@ const Vues = {
       const el = document.createElement('div');
       el.className = `vue vue-${v.entree}`;
       el.setAttribute('role', 'dialog');
-      el.setAttribute('aria-label', texteBrut(v.titre || v.texte || 'Vue'));
-      const heure = new Intl.DateTimeFormat('fr-CA', { hour: 'numeric', minute: '2-digit', timeZone: CONFIG.fuseau }).format(new Date());
+      el.setAttribute('aria-label', texteBrut(v.titre || v.texte || 'View'));
+      const heure = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit', timeZone: CONFIG.fuseau }).format(new Date());
       el.innerHTML = (photo ? `<div class="vue-photo-haut"><span class="retour" aria-hidden="true">‹</span><span>${formater(v.titre || 'Photo')}</span><span class="heure">${echapper(heure)}</span></div>` : '')
         + `<div class="vue-image">${propre}</div>`
         + (v.entree === 'ouvrir' ? '<div class="vue-porte g"></div><div class="vue-porte d"></div>' : '')
         + (v.texte ? `<p class="vue-texte">${formater(v.texte)}</p>` : '')
-        + '<p class="vue-aide">Toucher pour revenir</p>';
+        + '<p class="vue-aide">Tap to go back</p>';
       document.body.appendChild(el);
       // Les animations du dessin (un œil qui cligne, la lumière qui monte) partent maintenant, pas au chargement de la page
       $$('svg', el).forEach(x => { try { x.setCurrentTime(0); } catch (e) {} });
@@ -5555,11 +5560,11 @@ Object.assign(Effets, {
     a.className = 'appel';
     a.setAttribute('role', 'dialog');
     a.innerHTML = `<div class="appel-haut"><div class="appel-avatar" aria-hidden="true">${echapper((Array.from(texteBrut(titre || '?'))[0] || '?').toUpperCase())}</div>
-        <p class="appel-nom">${formater(titre || 'Inconnu')}</p><p class="appel-etat">appel mobile…</p></div>
+        <p class="appel-nom">${formater(titre || 'Unknown')}</p><p class="appel-etat">mobile…</p></div>
       <p class="appel-sous"></p>
       <div class="appel-boutons">
-        <div><button class="appel-btn refuser" aria-label="Refuser"><svg viewBox="0 0 24 24"><path d="M3 13.5c5-4.6 13-4.6 18 0l-2.3 2.6c-.4.4-1 .5-1.5.2l-2.2-1.3c-.4-.3-.6-.8-.5-1.3l.3-1.4c-2-.7-4.4-.7-6.4 0l.3 1.4c.1.5-.1 1-.5 1.3l-2.2 1.3c-.5.3-1.1.2-1.5-.2z"/></svg></button><span>Refuser</span></div>
-        <div><button class="appel-btn accepter" aria-label="Accepter"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg></button><span>Accepter</span></div>
+        <div><button class="appel-btn refuser" aria-label="Decline"><svg viewBox="0 0 24 24"><path d="M3 13.5c5-4.6 13-4.6 18 0l-2.3 2.6c-.4.4-1 .5-1.5.2l-2.2-1.3c-.4-.3-.6-.8-.5-1.3l.3-1.4c-2-.7-4.4-.7-6.4 0l.3 1.4c.1.5-.1 1-.5 1.3l-2.2 1.3c-.5.3-1.1.2-1.5-.2z"/></svg></button><span>Decline</span></div>
+        <div><button class="appel-btn accepter" aria-label="Accept"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg></button><span>Accept</span></div>
       </div>`;
     document.body.appendChild(a);
     requestAnimationFrame(() => requestAnimationFrame(() => a.classList.add('visible')));
@@ -5575,7 +5580,7 @@ Object.assign(Effets, {
       a.classList.add('termine');
       setTimeout(() => { a.classList.remove('visible'); setTimeout(() => a.remove(), 500); }, delai);
     };
-    $('.refuser', a).addEventListener('click', e => { e.stopPropagation(); fermer('Appel refusé', 500); });
+    $('.refuser', a).addEventListener('click', e => { e.stopPropagation(); fermer('Call Declined', 500); });
     $('.accepter', a).addEventListener('click', e => {
       e.stopPropagation();
       if (a.classList.contains('en-cours')) return;
@@ -5587,9 +5592,9 @@ Object.assign(Effets, {
       chrono = setInterval(() => { const s = Math.floor((Date.now() - debut) / 1000); etatEl.textContent = `${deux(Math.floor(s / 60))}:${deux(s % 60)}`; }, 250);
       if (texte) setTimeout(() => { $('.appel-sous', a).innerHTML = formater(texte); }, 1800);
       setTimeout(() => jouerSon('respiration', { duree: Math.max(3000, duree - 1500) }), 700);
-      setTimeout(() => fermer('Appel terminé'), Math.max(4000, duree));
+      setTimeout(() => fermer('Call Ended'), Math.max(4000, duree));
     });
-    setTimeout(() => { if (!a.classList.contains('en-cours')) fermer('Appel manqué'); }, 15000);
+    setTimeout(() => { if (!a.classList.contains('en-cours')) fermer('Missed Call'); }, 15000);
   },
   // Notifications de téléphone en haut de l'écran : une seule, ou une rafale (« messages ») qui
   // s'empile, la plus récente en haut ; au-delà de 4, un compteur « et N autres » monte.
@@ -5612,14 +5617,14 @@ Object.assign(Effets, {
     const MAX = 4;
     const majReste = () => {
       const n = this.notifsCachees || 0;
-      $('.notifs-reste', pile).textContent = n ? `et ${n} autre${n > 1 ? 's' : ''} notification${n > 1 ? 's' : ''}` : '';
+      $('.notifs-reste', pile).textContent = n ? `${n} more notification${n > 1 ? 's' : ''}` : '';
     };
     const ajouter = m => {
       const app = m.app || b.app || 'messages';
       const n = document.createElement('div');
       n.className = `notif notif-${app}`;
       n.innerHTML = `<div class="notif-icone" aria-hidden="true">${app === 'telephone' ? ICONE_TELEPHONE : ICONE_MESSAGES}</div>
-        <div class="notif-corps"><div class="notif-haut"><span class="notif-titre">${formater(m.titre || b.titre || (app === 'telephone' ? 'Téléphone' : 'Messages'))}</span><span class="notif-heure">maintenant</span></div><p class="notif-texte">${formater(m.texte)}</p></div>`;
+        <div class="notif-corps"><div class="notif-haut"><span class="notif-titre">${formater(m.titre || b.titre || (app === 'telephone' ? 'Phone' : 'Messages'))}</span><span class="notif-heure">now</span></div><p class="notif-texte">${formater(m.texte)}</p></div>`;
       pile.insertBefore(n, pile.firstChild);
       requestAnimationFrame(() => requestAnimationFrame(() => n.classList.add('visible')));
       $$('.notif', pile).slice(MAX).forEach(c => { c.remove(); this.notifsCachees = (this.notifsCachees || 0) + 1; });
@@ -5677,9 +5682,9 @@ const Halloween = {
   texte() {
     const n = this.nuits();
     if (n > 61) return '';
-    if (n === 0) return 'Nuit d’Halloween';
-    if (n === 1) return 'Halloween : cette nuit, 3 h 12';
-    return `${n} nuits avant l’Halloween`;
+    if (n === 0) return 'Halloween night';
+    if (n === 1) return 'Halloween: tonight, 3:12 AM';
+    return `${n} nights until Halloween`;
   },
   maj() {
     const texte = this.texte();
@@ -5711,7 +5716,7 @@ const Serie = {
     if (!s.derniereNuit) return 0;
     return Dates.ecart(s.derniereNuit, Dates.nuit()) <= 1 ? s.actuelle : 0;
   },
-  texte(n = this.valeur()) { return n > 1 ? 'nuits de suite' : 'nuit de suite'; },
+  texte(n = this.valeur()) { return n > 1 ? 'nights in a row' : 'night in a row'; },
 };
 
 /* =====================================================================
@@ -5733,14 +5738,14 @@ function installerHistoire(res, { estDuJour = false, estDuMoment = false, mepFor
   try { Rendu.histoire(res.h, etat.mep); }
   catch (e) {
     console.error('Rendu impossible', e);
-    $('#histoire').innerHTML = `<section class="carton"><h1 class="carton-titre">${echapper(res.h.titre)}</h1><p>Cette histoire n’a pas pu être affichée.</p></section>`;
+    $('#histoire').innerHTML = `<section class="carton"><h1 class="carton-titre">${echapper(res.h.titre)}</h1><p>This story could not be displayed.</p></section>`;
   }
   Scenes.oublier();
   document.body.classList.toggle('avec-decors', res.h.blocs.some(b => b.type === 'scene'));
   try { Illustration.definir(res.h.fond.svg, res.h.fond.svgOpacite); } catch (e) { console.warn('Illustration', e); }
   Voiles.appliquer(res.h.fond);
-  document.title = `3h12 — N° ${res.h.numero || '—'} · ${texteBrut(res.h.titre)}`;
-  $('#barre-titre').textContent = `N° ${res.h.numero || '—'} · ${texteBrut(res.h.titre)}`;
+  document.title = `3h12 — No. ${res.h.numero || '—'} · ${texteBrut(res.h.titre)}`;
+  $('#barre-titre').textContent = `No. ${res.h.numero || '—'} · ${texteBrut(res.h.titre)}`;
   majFin();
 }
 
@@ -5765,7 +5770,7 @@ function reprendrePosition() {
     if (etat.mep === 'sms') window.scrollTo(0, document.documentElement.scrollHeight);
     else if (el) window.scrollTo(0, Math.max(0, el.getBoundingClientRect().top + window.scrollY - window.innerHeight * .25));
     Lecture.surDefilement();
-    toast('Reprise de ta lecture', 'Recommencer', recommencer);
+    toast('Picking up where you left off', 'Start over', recommencer);
   });
 }
 function recommencer() {
@@ -5783,11 +5788,11 @@ function majFin() {
   const dateEl = $('#fin-date');
   if (!dateEl) return;
   const prochaine = Dates.prochaineSortie();
-  dateEl.textContent = `${Dates.longue(prochaine)}, 3 h 12`;
+  dateEl.textContent = `${Dates.longue(prochaine)}, 3:12 AM`;
   const n = Serie.valeur();
   $('#fin-serie').textContent = n ? `${n} ${Serie.texte(n)}` : '';
   // Une histoire ne vit que 24 h : elle disparaît quand la suivante arrive
-  $('#fin-disparait').textContent = etat.apercu ? '' : 'Cette histoire disparaît à 3 h 12. Elle ne reviendra pas.';
+  $('#fin-disparait').textContent = etat.apercu ? '' : 'This story disappears at 3:12 AM. It will not come back.';
   Suggestions.majBoite();
   Halloween.maj();
 }
@@ -5813,19 +5818,19 @@ const Suggestions = {
     f.classList.toggle('cache', !(branchee || estDev()) || etat.histoire.numero === 0);
     const deja = Sauvegarde.donnees.suggestions[etat.histoire.date] && !estDev();
     f.classList.toggle('envoyee', !!deja);
-    $('#boite-etat').textContent = deja ? 'Reçu. La nuit prochaine s’en souviendra peut-être.'
-      : (!branchee && estDev() ? 'DEV : boîte pas encore branchée (panneau DEV → Boîte à suggestions).' : '');
+    $('#boite-etat').textContent = deja ? 'Received. The next night might remember it.'
+      : (!branchee && estDev() ? 'DEV: box not connected yet (DEV panel → Suggestion box).' : '');
   },
   async envoyer(champs) {
     const cle = this.cle();
-    if (!cle) throw new Error('boîte pas encore branchée');
+    if (!cle) throw new Error('box not connected yet');
     const rep = await fetch(`https://formsubmit.co/ajax/${cle}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({ _template: 'table', _captcha: 'false', ...champs }),
     });
     const r = await rep.json().catch(() => ({}));
-    if (!rep.ok || String(r.success) !== 'true') throw new Error(r.message || `réponse ${rep.status}`);
+    if (!rep.ok || String(r.success) !== 'true') throw new Error(r.message || `response ${rep.status}`);
     return r;
   },
   // Envoi depuis la fin de l'histoire
@@ -5837,13 +5842,13 @@ const Suggestions = {
     const choisi = $('.boite-choix-btn[aria-pressed="true"]', f);
     const reponse = choisi && h.question ? texteBrut(h.question.choix[+choisi.dataset.choix]) : '';
     const mot = $('#boite-texte').value.trim().slice(0, 600);
-    if (!reponse && !mot) { etatEl.textContent = h.question ? 'Choisis une réponse ou écris un mot.' : 'Écris un mot d’abord.'; return; }
+    if (!reponse && !mot) { etatEl.textContent = h.question ? 'Pick an answer or write a word.' : 'Write a word first.'; return; }
     f.classList.add('envoi');
-    etatEl.textContent = 'Envoi…';
+    etatEl.textContent = 'Sending…';
     try {
       await this.envoyer({
-        _subject: `3h12 — suggestion après le n° ${h.numero}`,
-        histoire: `n° ${h.numero} — ${texteBrut(h.titre)} (${h.date})`,
+        _subject: `3h12 — suggestion after No. ${h.numero}`,
+        histoire: `No. ${h.numero} — ${texteBrut(h.titre)} (${h.date})`,
         question: h.question ? texteBrut(h.question.texte) : '',
         reponse,
         suggestion: mot,
@@ -5851,10 +5856,10 @@ const Suggestions = {
       Sauvegarde.donnees.suggestions[h.date] = true;
       Sauvegarde.planifier();
       $('#boite-texte').value = '';
-      etatEl.textContent = 'Reçu. La nuit prochaine s’en souviendra peut-être.';
+      etatEl.textContent = 'Received. The next night might remember it.';
       if (!estDev()) f.classList.add('envoyee');
     } catch (e) {
-      etatEl.textContent = estDev() ? `DEV : ${e.message}` : 'Pas pu envoyer. Réessaie un peu plus tard.';
+      etatEl.textContent = estDev() ? `DEV: ${e.message}` : 'Could not send. Try again a little later.';
     }
     f.classList.remove('envoi');
   },
@@ -5863,10 +5868,16 @@ const Suggestions = {
 /* =====================================================================
    20. ÉCRANS : entrée, histoire
    ===================================================================== */
+// Les titres originaux sont souvent une phrase entière : plus ils sont longs, plus ils rapetissent
+function classeTitre(titre) {
+  const n = texteBrut(titre).length;
+  return n > 64 ? 'titre-tres-long' : n > 40 ? 'titre-long' : '';
+}
 function remplirEntree(h, message) {
-  $('#entree-num').textContent = `N° ${h.numero || '—'}`;
+  $('#entree-num').textContent = `No. ${h.numero || '—'}`;
   const titre = $('#entree-titre');
   titre.textContent = texteBrut(h.titre);
+  titre.className = `entree-titre ${classeTitre(h.titre)}`;
   titre.style.fontFamily = 'var(--police-titre)';
   $('#entree-genre').textContent = [h.sousGenre, `${h.minutes} min`].filter(Boolean).join(' · ');
   const msg = $('#entree-message');
@@ -5875,7 +5886,7 @@ function remplirEntree(h, message) {
   const lue = Sauvegarde.donnees.lues[h.date];
   const pos = Sauvegarde.donnees.positions[h.date];
   const etiquette = $('#entree-lue');
-  etiquette.textContent = lue && lue.terminee ? 'Déjà lue' : (pos ? 'Lecture en cours' : '');
+  etiquette.textContent = lue && lue.terminee ? 'Already read' : (pos ? 'Reading in progress' : '');
   etiquette.classList.toggle('cache', !etiquette.textContent);
   $('#btn-entrer').disabled = false;
   Halloween.maj();
@@ -5920,11 +5931,11 @@ function entrer() {
 // Ouvre une histoire précise (mode DEV) avec SON thème et SA musique.
 // Les lecteurs n'ont que l'histoire de la nuit : les autres (passées ou à venir) sont réservées au DEV.
 async function ouvrirHistoire(date, options = {}) {
-  if (!estDev() && date !== Dates.nuit()) { toast('Cette histoire n’est plus là.'); return; }
+  if (!estDev() && date !== Dates.nuit()) { toast('This story is gone.'); return; }
   fermerPanneaux();
-  toast('Ouverture…');
+  toast('Opening…');
   const res = await Chargement.histoire(date);
-  if (!res) { toast('Impossible d’ouvrir cette histoire.'); return; }
+  if (!res) { toast('Could not open this story.'); return; }
   // Une autre histoire que celle de la nuit (mode DEV) s'ouvre en aperçu : rien n'est retenu
   const apercu = date !== Dates.nuit();
   installerHistoire(res, { estDuJour: date === Dates.nuit(), estDuMoment: date === etat.dateDuMoment, apercu, ...options });
@@ -5935,14 +5946,14 @@ async function ouvrirHistoire(date, options = {}) {
   if (apercu) {
     Lecture.preparer(0);
     Lecture.surDefilement();
-    toast('Aperçu DEV : pas compté comme lu');
+    toast('DEV preview: not counted as read');
     return;
   }
   reprendrePosition();
   const lues = Sauvegarde.donnees.lues;
   if (!lues[date]) lues[date] = { ouverte: new Date().toISOString(), terminee: false };
   Sauvegarde.planifier();
-  masquerToastSiTexte('Ouverture…');
+  masquerToastSiTexte('Opening…');
 }
 function ouvrirDonnees(donnees, date, brut, options = {}) {
   const r = normaliserHistoire(donnees, date);
@@ -5993,22 +6004,22 @@ const Parametres = {
     const n = Serie.valeur();
     $('#param-serie-chiffre').textContent = n;
     $('#param-serie-texte').textContent = Serie.texte(n);
-    $('#panneau-version').innerHTML = `3h12 · moteur v${CONFIG.version}<br>${etat.index.liste.length} histoire${etat.index.liste.length > 1 ? 's' : ''} au total`;
+    $('#panneau-version').innerHTML = `3h12 · engine v${CONFIG.version}<br>${etat.index.liste.length} stor${etat.index.liste.length > 1 ? 'ies' : 'y'} in total`;
   },
   majValeurs() {
-    $('#val-musique').textContent = `${$('#reg-musique').value} %`;
-    $('#val-effets').textContent = `${$('#reg-effets').value} %`;
-    $('#val-taille').textContent = `${$('#reg-taille').value} %`;
+    $('#val-musique').textContent = `${$('#reg-musique').value}%`;
+    $('#val-effets').textContent = `${$('#reg-effets').value}%`;
+    $('#val-taille').textContent = `${$('#reg-taille').value}%`;
   },
 };
 function majBoutonMuet() {
   const muet = P().muet;
   const b = $('#btn-muet');
   b.setAttribute('aria-pressed', String(muet));
-  b.setAttribute('aria-label', muet ? 'Réactiver le son' : 'Couper le son');
+  b.setAttribute('aria-label', muet ? 'Unmute' : 'Mute');
   b.querySelector('.ondes').classList.toggle('cache', muet);
   b.querySelector('.barre-muet').classList.toggle('cache', !muet);
-  $('#btn-muet-tiroir').textContent = muet ? 'Remettre le son' : 'Couper le son';
+  $('#btn-muet-tiroir').textContent = muet ? 'Unmute' : 'Mute';
 }
 function basculerMuet() {
   P().muet = !P().muet;
@@ -6092,7 +6103,7 @@ const Dev = {
     Sauvegarde.donnees.dev.actif = true;
     Sauvegarde.ecrire();
     majIndicateurDev();
-    toast('Mode DEV activé');
+    toast('DEV mode on');
     ouvrirPanneau('dev');
   },
   desactiver() {
@@ -6100,7 +6111,7 @@ const Dev = {
     Sauvegarde.ecrire();
     majIndicateurDev();
     fermerPanneaux();
-    toast('Mode DEV désactivé');
+    toast('DEV mode off');
     chargerHistoireDuMoment();
   },
   rendre() {
@@ -6109,28 +6120,28 @@ const Dev = {
     // Liste de toutes les histoires, y compris celles qui ne sont pas encore sorties
     // (les lecteurs, eux, n'ont accès qu'à l'histoire de la nuit en cours)
     $('#dev-histoires').innerHTML = etat.index.liste.slice().reverse().map(e =>
-      `<li><button data-ouvrir-date="${e.date}" class="${e.date > sortie ? 'futur' : ''}"><span>N° ${e.numero} · ${echapper(texteBrut(e.titre))}</span><span>${e.date}${e.essai ? ' (essai)' : e.date > sortie ? ' (à venir)' : e.date < sortie ? ' (disparue)' : ' (cette nuit)'}</span></button></li>`).join('')
+      `<li><button data-ouvrir-date="${e.date}" class="${e.date > sortie ? 'futur' : ''}"><span>N° ${e.numero} · ${echapper(texteBrut(e.titre))}</span><span>${e.date}${e.essai ? ' (test)' : e.date > sortie ? ' (upcoming)' : e.date < sortie ? ' (disparue)' : ' (cette nuit)'}</span></button></li>`).join('')
       || '<li class="dev-vide">index.json vide ou illisible.</li>';
     // Boîte à suggestions
     $('#dev-boite').value = S.dev.boiteSuggestions || '';
     $('#dev-boite-etat').textContent = CONFIG.boiteSuggestions
-      ? 'Branchée : les suggestions des lecteurs arrivent dans ta boîte courriel.'
-      : 'Pas encore branchée : les lecteurs ne voient pas la boîte (toi, si, en mode DEV).';
+      ? 'Connected: readers’ suggestions arrive in your inbox.'
+      : 'Not connected yet: readers don’t see the box (you do, in DEV mode).';
     // Bouton : lire la prochaine histoire (pas encore sortie)
     const prochaine = etat.index.liste.find(e => e.date > sortie && !e.essai);
     const bouton = $('#dev-prochaine');
     if (prochaine) {
-      bouton.textContent = `Lire la prochaine : n° ${prochaine.numero} · ${texteBrut(prochaine.titre)} — sort le ${Dates.longue(prochaine.date)}, 3 h 12`;
+      bouton.textContent = `Read the next one: No. ${prochaine.numero} · ${texteBrut(prochaine.titre)} — out ${Dates.longue(prochaine.date)}, 3:12 AM`;
       bouton.dataset.ouvrirDate = prochaine.date;
       bouton.disabled = false;
     } else {
-      bouton.textContent = 'Aucune histoire à venir pour l’instant';
+      bouton.textContent = 'No upcoming story yet';
       delete bouton.dataset.ouvrirDate;
       bouton.disabled = true;
     }
     $('#dev-date').value = S.dev.dateSimulee || Dates.maintenant().date;
     $('#dev-sauter').checked = S.dev.sauterEntree;
-    $('#dev-mep').innerHTML = Object.entries(MISES_EN_PAGE).map(([cle, m]) => `<option value="${cle}"${cle === etat.mep ? ' selected' : ''}>${m.nom}${etat.histoire && cle === etat.histoire.miseEnPage ? ' (celle de l’histoire)' : ''}</option>`).join('');
+    $('#dev-mep').innerHTML = Object.entries(MISES_EN_PAGE).map(([cle, m]) => `<option value="${cle}"${cle === etat.mep ? ' selected' : ''}>${m.nom}${etat.histoire && cle === etat.histoire.miseEnPage ? ' (the story’se)' : ''}</option>`).join('');
     const effet = etat.histoire ? Fond.effet : 'aucun';
     $('#dev-fond').innerHTML = EFFETS_FOND.map(e => `<option value="${e}"${e === effet ? ' selected' : ''}>${e}</option>`).join('');
     $('#dev-intensite').value = Math.round(Fond.intensite * 100);
@@ -6142,14 +6153,14 @@ const Dev = {
     // JSON brut + rapport d'erreurs
     let joli = etat.brut;
     try { joli = JSON.stringify(JSON.parse(etat.brut), null, 2); } catch (e) {}
-    $('#dev-json').value = joli || '(aucun fichier : histoire intégrée)';
+    $('#dev-json').value = joli || '(no file: built-in story)';
     const lignes = [];
     const r = etat.rapport || creerRapport();
     r.erreurs.forEach(m => lignes.push(`<li class="erreur">Erreur : ${echapper(m)}</li>`));
     r.avertissements.forEach(m => lignes.push(`<li class="avert">Attention : ${echapper(m)}</li>`));
     etat.index.rapport.erreurs.forEach(m => lignes.push(`<li class="erreur">${echapper(m)}</li>`));
     etat.index.rapport.avertissements.forEach(m => lignes.push(`<li class="avert">${echapper(m)}</li>`));
-    if (!lignes.length) lignes.push('<li class="ok">Aucune erreur de format détectée.</li>');
+    if (!lignes.length) lignes.push('<li class="ok">No format errors found.</li>');
     $('#dev-rapport').innerHTML = lignes.join('');
     this.majInfos();
     clearInterval(this.minuterie);
@@ -6160,12 +6171,12 @@ const Dev = {
     const m = MoteurAudio.musique;
     const S = Sauvegarde.donnees;
     $('#dev-infos').textContent = [
-      `Date réelle (Toronto) : ${Dates.maintenant().date}  ${String(Dates.maintenant().heure).padStart(2, '0')}:${String(Dates.maintenant().minute).padStart(2, '0')}`,
-      `Date utilisée : ${Dates.aujourdhui()}${S.dev.dateSimulee ? ' (simulée)' : ''}  · dernière sortie : ${Dates.nuit()}`,
-      `Histoire : ${h ? `n° ${h.numero} · ${h.date} · ${etat.mep}` : '—'}  · ${h ? h.mots + ' mots' : ''}`,
-      `Audio : ${MoteurAudio.ctx ? MoteurAudio.ctx.state : 'pas encore débloqué'}  · musique ${m ? `${m.p.tonique.nom} ${m.p.gamme}, ${m.couches.length} couches` : 'arrêtée'}`,
-      `Progression : ${Math.round(etat.progression * 100)} %  · intensité musicale ${m ? m.intensite.toFixed(2) : '—'}`,
-      `Fond : ${Fond.effet} (${Math.round(Fond.intensite * 100)} %)  · événements déclenchés : ${etat.journal.length}`,
+      `Real date (Toronto): ${Dates.maintenant().date}  ${String(Dates.maintenant().heure).padStart(2, '0')}:${String(Dates.maintenant().minute).padStart(2, '0')}`,
+      `Date used: ${Dates.aujourdhui()}${S.dev.dateSimulee ? ' (simulated)' : ''}  · last release: ${Dates.nuit()}`,
+      `Story: ${h ? `No. ${h.numero} · ${h.date} · ${etat.mep}` : '—'}  · ${h ? h.mots + ' words' : ''}`,
+      `Audio: ${MoteurAudio.ctx ? MoteurAudio.ctx.state : 'not unlocked yet'}  · music ${m ? `${m.p.tonique.nom} ${m.p.gamme}, ${m.couches.length} layers` : 'stopped'}`,
+      `Progress: ${Math.round(etat.progression * 100)} %  · music intensity ${m ? m.intensite.toFixed(2) : '—'}`,
+      `Background: ${Fond.effet} (${Math.round(Fond.intensite * 100)} %)  · events fired: ${etat.journal.length}`,
     ].join('\n');
   },
   // Joue une couche musicale seule, avec des réglages par défaut
@@ -6175,13 +6186,13 @@ const Dev = {
     const base = h ? h.musique : normaliserMusique({}, creerRapport());
     const couche = normaliserCouche({ type, volume: .8, densite: .7 }, 0, creerRapport());
     demarrerMusique({ ...base, couches: [couche], evolution: 'stable' });
-    toast(`Couche « ${type.replace(/_/g, ' ')} » seule`);
+    toast(`Layer “${type.replace(/_/g, ' ')}” solo`);
   },
   appliquerDate(date) {
     Sauvegarde.donnees.dev.dateSimulee = date;
     Sauvegarde.ecrire();
     fermerPanneaux();
-    toast(date ? `Date simulée : ${date}` : 'Date réelle rétablie');
+    toast(date ? `Simulated date: ${date}` : 'Real date restored');
     chargerHistoireDuMoment();
   },
 };
@@ -6193,56 +6204,56 @@ function majIndicateurDev() {
    23. HISTOIRES INTÉGRÉES (secours si rien ne charge, démo du mode DEV)
    ===================================================================== */
 const HISTOIRE_SECOURS = {
-  numero: 0, titre: 'Silence radio', sousGenre: 'message du moteur', miseEnPage: 'terminal',
+  numero: 0, titre: 'Radio silence', sousGenre: 'message from the engine', miseEnPage: 'terminal',
   theme: { palette: { fond: '#020403', surface: '#040b06', texte: '#7dff9a', accent: '#e8ff7a', secondaire: '#3f9d55' } },
-  document: { organisme: '3H12', typeDocument: 'MODE SECOURS' },
+  document: { organisme: '3H12', typeDocument: 'BACKUP MODE' },
   fond: { effet: 'statique', intensite: .35, vignette: .8, grain: .3, scintillement: .2 },
   musique: { tempo: 50, tonique: 'D', gamme: 'locrien', reverb: .8, desaccord: .4, evolution: 'stable', couches: [{ type: 'drone', volume: .5, densite: .6, filtre: 380 }, { type: 'bruit', volume: .35, densite: .6 }] },
   blocs: [
-    { type: 'titre', texte: 'connexion aux archives' },
-    { type: 'paragraphe', texte: 'Les archives ne répondent pas. Peut-être que la connexion est coupée. Peut-être que l’histoire de cette nuit n’a pas encore été écrite.' },
-    { type: 'paragraphe', texte: 'Réessaie dans quelques minutes. Vérifie ta connexion. ##Ne reste pas trop longtemps devant un écran qui ne répond pas.##' },
+    { type: 'titre', texte: 'connecting to the archives' },
+    { type: 'paragraphe', texte: 'The archives are not answering. Maybe the connection is down. Maybe tonight’s story hasn’t been written yet.' },
+    { type: 'paragraphe', texte: 'Try again in a few minutes. Check your connection. ##Don’t stay too long in front of a screen that doesn’t answer.##' },
   ],
-  phraseFinale: 'Quelque chose arrive à 3 h 12.',
+  phraseFinale: 'Something is coming at 3:12.',
 };
 
 const HISTOIRE_DEMO = {
-  numero: 0, titre: 'Démonstration du moteur', sousTitre: 'Tous les blocs, tous les effets', sousGenre: 'test', lieu: 'Partout', epoque: 'maintenant',
+  numero: 0, titre: 'Engine demo', sousTitre: 'Every block, every effect', sousGenre: 'test', lieu: 'Everywhere', epoque: 'now',
   miseEnPage: 'recit',
-  document: { organisme: 'Bureau des essais', typeDocument: 'Document de test', reference: 'TEST-0312', classification: 'Essai', dateDocument: '3 h 12', auteurDocument: 'Le moteur', destinataire: 'À qui de droit\nRang des Essais\nSaint-Test (Québec)', contact: 'Inconnu', sujet: 'Essai de toutes les fonctions', section: 'Essais', duree: '00:03:12', champs: [{ nom: 'Statut', valeur: 'En cours' }] },
+  document: { organisme: 'Testing Office', typeDocument: 'Test document', reference: 'TEST-0312', classification: 'Test', dateDocument: '3:12 AM', auteurDocument: 'The engine', destinataire: 'To whom it may concern\nTest Road\nTestville', contact: 'Unknown', sujet: 'Testing every feature', section: 'Tests', duree: '00:03:12', champs: [{ nom: 'Statut', valeur: 'En cours' }] },
   fond: { effet: 'brouillard', intensite: .5, vignette: .6, grain: .3, scintillement: .1, svg: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 860'><defs><radialGradient id='l' cx='.5' cy='.3' r='.6'><stop offset='0' stop-color='#ffffff' stop-opacity='.5'/><stop offset='1' stop-color='#ffffff' stop-opacity='0'/></radialGradient></defs><rect width='400' height='860' fill='url(#l)'/><circle cx='200' cy='300' r='60' fill='none' stroke='#fff' stroke-width='2' opacity='.6'/><path d='M0 700 Q200 640 400 700 L400 860 L0 860 Z' fill='#000' opacity='.6'/></svg>" },
   musique: { tempo: 64, tonique: 'E', gamme: 'harmonique mineure', reverb: .6, desaccord: .2, evolution: 'monte', couches: [{ type: 'drone', volume: .45, densite: .5 }, { type: 'boite_a_musique', volume: .4, densite: .5, octave: 5 }, { type: 'pulsation', volume: .4, densite: .5, seuil: .6 }] },
   blocs: [
-    { type: 'titre', texte: 'Premier titre' },
-    { type: 'paragraphe', texte: 'Un paragraphe avec du texte *en italique*, un passage ##chuchoté##, un mot ||caviardé|| (touche-le), un %%glitch%%, une phrase ^^qui apparaît lettre par lettre^^, un mot __en couleur accent__ et une ~~rature~~ [inaudible].\n\nDeuxième paragraphe du même bloc.' },
-    { type: 'dialogue', personnage: 'Marie', texte: 'Tu l’as entendu, toi aussi ?', horodatage: '00:01:12', heure: '14 mars 2004, 03:12', rang: 'Modératrice', signature: 'Je dors avec la lumière.' },
-    { type: 'dialogue', personnage: 'Paul', texte: 'Non. Pis j’aime mieux pas.', horodatage: '00:01:19', heure: '14 mars 2004, 03:15' },
+    { type: 'titre', texte: 'First heading' },
+    { type: 'paragraphe', texte: 'A paragraph with *italic* text, a ##whispered## passage, a ||redacted|| word (tap it), a %%glitch%%, a sentence ^^that appears letter by letter^^, a word __in accent color__ and a ~~strikethrough~~ [inaudible].\n\nSecond paragraph of the same block.' },
+    { type: 'dialogue', personnage: 'Mary', texte: 'You heard it too?', horodatage: '00:01:12', heure: 'March 14, 2004, 3:12 AM', rang: 'Moderator', signature: 'I sleep with the light on.' },
+    { type: 'dialogue', personnage: 'Paul', texte: 'No. And I’d rather not.', horodatage: '00:01:19', heure: 'March 14, 2004, 3:15 AM' },
     { type: 'evenement', effet: 'aucun', son: 'coup', nombre: 3 },
-    { type: 'sms', de: 'eux', nom: 'Inconnu', heure: '02:47', texte: 'Es-tu réveillé ?' },
-    { type: 'sms', de: 'moi', heure: '02:48', texte: 'Qui est-ce ?', vu: 'Vu à 02:48' },
-    { type: 'sms', de: 'eux', nom: 'Inconnu', texte: 'Regarde par la fenêtre.' },
-    { type: 'sms', de: 'moi', texte: 'Arrête.', statut: 'non_distribue' },
-    { type: 'note', texte: 'Note griffonnée dans la marge.' },
-    { type: 'citation', texte: 'Ce qui est mort ne peut mourir.', source: 'Vieux grimoire' },
+    { type: 'sms', de: 'eux', nom: 'Unknown', heure: '2:47 AM', texte: 'Are you awake?' },
+    { type: 'sms', de: 'moi', heure: '2:48 AM', texte: 'Who is this?', vu: 'Read 2:48 AM' },
+    { type: 'sms', de: 'eux', nom: 'Unknown', texte: 'Look out the window.' },
+    { type: 'sms', de: 'moi', texte: 'Stop.', statut: 'non_distribue' },
+    { type: 'note', texte: 'A note scribbled in the margin.' },
+    { type: 'citation', texte: 'That which is dead cannot die.', source: 'Old grimoire' },
     { type: 'pause' },
-    { type: 'evenement', effet: 'noir', son: 'respiration', duree: 2200, texte: 'Il est derrière toi.' },
-    { type: 'champs', titre: 'Description', champs: [{ nom: 'Nom', valeur: 'Inconnu' }, { nom: 'Âge', valeur: '||37 ans||' }] },
-    { type: 'tampon', texte: 'Confidentiel', rotation: -8 },
-    { type: 'image', legende: 'Une illustration SVG intégrée.', svg: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 120'><rect x='1' y='1' width='298' height='118' fill='none' stroke='currentColor'/><path d='M20 100 L80 40 L120 80 L170 30 L280 100' fill='none' stroke='currentColor' stroke-width='2'/><circle cx='240' cy='35' r='12' fill='currentColor' opacity='.5'/></svg>" },
+    { type: 'evenement', effet: 'noir', son: 'respiration', duree: 2200, texte: 'He is behind you.' },
+    { type: 'champs', titre: 'Description', champs: [{ nom: 'Name', valeur: 'Unknown' }, { nom: 'Age', valeur: '||37||' }] },
+    { type: 'tampon', texte: 'Confidential', rotation: -8 },
+    { type: 'image', legende: 'A built-in SVG illustration.', svg: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 120'><rect x='1' y='1' width='298' height='118' fill='none' stroke='currentColor'/><path d='M20 100 L80 40 L120 80 L170 30 L280 100' fill='none' stroke='currentColor' stroke-width='2'/><circle cx='240' cy='35' r='12' fill='currentColor' opacity='.5'/></svg>" },
     { type: 'evenement', effet: 'glitch', son: 'statique', duree: 900 },
-    { type: 'paragraphe', texte: 'Un paragraphe agité, en gros.', style: 'gros agite centre' },
+    { type: 'paragraphe', texte: 'A shaky paragraph, in big type.', style: 'gros agite centre' },
     { type: 'evenement', effet: 'tremblement', son: 'porte', duree: 900 },
-    { type: 'paragraphe', texte: 'Un paragraphe effacé.', style: 'efface' },
+    { type: 'paragraphe', texte: 'A faded paragraph.', style: 'efface' },
     { type: 'evenement', effet: 'flash', son: 'aucun', duree: 600 },
-    { type: 'geste', texte: 'Ouvrir la porte', mode: 'maintenir', duree: 1500, son: 'craquement' },
+    { type: 'geste', texte: 'Open the door', mode: 'maintenir', duree: 1500, son: 'craquement' },
     { type: 'evenement', effet: 'epier', son: 'aucun', cote: 'droite', duree: 2500 },
-    { type: 'paragraphe', texte: 'La suite n’apparaît qu’après le geste. Quelqu’un vient de te regarder.' },
-    { type: 'evenement', effet: 'notification', son: 'vibration', titre: 'Numéro inconnu', texte: 'Je t’ai trouvé.' },
-    { type: 'signature', texte: 'Le moteur' },
+    { type: 'paragraphe', texte: 'The rest only appears after the gesture. Someone just looked at you.' },
+    { type: 'evenement', effet: 'notification', son: 'texto', titre: 'Unknown', texte: 'I found You.' },
+    { type: 'signature', texte: 'The engine' },
     { type: 'evenement', effet: 'aucun', son: 'silence', duree: 4000 },
-    { type: 'paragraphe', texte: 'Fin de la démonstration.' },
+    { type: 'paragraphe', texte: 'End of the demo.' },
   ],
-  phraseFinale: 'Tout fonctionne. __Pour l’instant.__',
+  phraseFinale: 'Everything works. __For now.__',
 };
 
 /* =====================================================================
@@ -6268,28 +6279,29 @@ const Decompte = {
     const s = Math.max(0, Math.floor(ms / 1000));
     const j = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60);
     const deux = n => String(n).padStart(2, '0');
-    return `${j ? `${j} j ` : ''}${h} h ${deux(m)} min ${deux(s % 60)} s`;
+    return `${j ? `${j} d ` : ''}${h} h ${deux(m)} min ${deux(s % 60)} s`;
   },
   afficher() {
-    this.ecran('N° 1', 'Première nuit', 'Une histoire chaque nuit, jusqu’à l’Halloween.');
+    this.ecran('No. 1', 'First night', 'One story every night, until Halloween.');
     const msg = $('#entree-message');
     msg.classList.remove('cache');
     msg.classList.add('decompte');
     const maj = () => {
       const ms = this.msAvant(CONFIG.premiereNuit);
       if (ms <= 0) { this.arreter(); chargerHistoireDuMoment(); return; }
-      msg.textContent = `Dans ${this.texte(ms)}`;
+      msg.textContent = `In ${this.texte(ms)}`;
     };
     maj();
     this.minuterie = setInterval(maj, 1000);
   },
-  finSaison() { this.ecran('Fin', 'C’est fini.', 'Il n’y a plus d’histoire à 3 h 12.'); },
+  finSaison() { this.ecran('The End', 'It’s over.', 'There are no more stories at 3:12.'); },
   // Écran d'entrée sans histoire : l'horloge, quelques mots, rien à toucher
   ecran(num, titre, genre) {
     this.arreter();
     $('#entree-num').textContent = num;
     const t = $('#entree-titre');
     t.textContent = titre;
+    t.className = 'entree-titre';
     t.style.fontFamily = '';
     $('#entree-genre').textContent = genre;
     $('#entree-message').classList.add('cache');
@@ -6333,14 +6345,14 @@ async function chargerHistoireDuMoment() {
     installerHistoire({ ...r, donnees: HISTOIRE_SECOURS, brut: '' }, {});
     etat.dateDuMoment = null;
     const prevue = liste.some(e => e.date === sortie);
-    remplirEntree(r.h, prevue || !liste.length ? 'Impossible de charger l’histoire. Réessaie dans un moment.' : 'Rien cette nuit. Reviens à 3 h 12.');
+    remplirEntree(r.h, prevue || !liste.length ? 'Could not load the story. Try again in a moment.' : 'Nothing tonight. Come back at 3:12 AM.');
     return;
   }
   const date = sortie;
   etat.dateDuMoment = date;
   installerHistoire(res, { estDuJour: true, estDuMoment: true });
   // Avant 3 h 12, c'est encore l'histoire de la veille : ses dernières heures
-  remplirEntree(res.h, date === aujourd ? '' : 'Elle disparaît à 3 h 12.');
+  remplirEntree(res.h, date === aujourd ? '' : 'It disappears at 3:12 AM.');
   if (estDev() && Sauvegarde.donnees.dev.sauterEntree) entrer();
 }
 
@@ -6356,7 +6368,7 @@ async function verifierNouvelleHistoire() {
   const plusRecente = index.liste.find(e => e.date === sortie);
   if (!plusRecente) return;
   if (etat.ecran === 'entree' && !$('.panneau.ouvert')) { chargerHistoireDuMoment(); return; }
-  toast(`Nouvelle histoire : n° ${plusRecente.numero}`, 'Voir', () => chargerHistoireDuMoment());
+  toast(`New story: No. ${plusRecente.numero}`, 'See', () => chargerHistoireDuMoment());
 }
 
 /* =====================================================================
@@ -6434,11 +6446,11 @@ function installerEcouteurs() {
     const effet = e.target.closest('[data-dev-effet]');
     if (effet) {
       const nom = effet.dataset.devEffet;
-      const textes = { noir: 'Effet « noir »', notification: 'Je t’ai trouvé.' };
-      const rafale = ['Où es-tu ?', 'Pourquoi tu es parti comme ça ?', 'Réponds-moi.', 'Je t’aime.', 'Où es-tu ?', 'Reviens.'].map(texte => ({ texte }));
+      const textes = { noir: 'Effect “noir”', notification: 'I found You.' };
+      const rafale = ['Where are you?', 'Why did you leave like that?', 'Answer me.', 'I love you.', 'Where are you?', 'Come home.'].map(texte => ({ texte }));
       fermerPanneaux();
       setTimeout(() => declencherEvenement({
-        effet: nom, son: nom === 'notification' ? 'texto' : 'aucun', duree: null, texte: textes[nom] || '', titre: nom === 'notification' ? 'Lynn' : 'Numéro inconnu',
+        effet: nom, son: nom === 'notification' ? 'texto' : 'aucun', duree: null, texte: textes[nom] || '', titre: nom === 'notification' ? 'Lynn' : 'Unknown',
         cote: COTES_EPIER[Math.floor(Math.random() * 4)], messages: nom === 'notification' ? rafale : [], intervalle: 650, reste: 9, app: 'messages',
       }, -1), 500);
       return;
@@ -6489,17 +6501,17 @@ function installerEcouteurs() {
 
   // Mode DEV
   $('#dev-demo').addEventListener('click', () => ouvrirDonnees(HISTOIRE_DEMO, Dates.aujourdhui(), JSON.stringify(HISTOIRE_DEMO)));
-  $('#dev-date-appliquer').addEventListener('click', () => { const d = $('#dev-date').value; if (Dates.valide(d)) Dev.appliquerDate(d); else toast('Date invalide'); });
+  $('#dev-date-appliquer').addEventListener('click', () => { const d = $('#dev-date').value; if (Dates.valide(d)) Dev.appliquerDate(d); else toast('Invalid date'); });
   $('#dev-date-reelle').addEventListener('click', () => Dev.appliquerDate(null));
   $('#dev-sauter').addEventListener('change', e => { Sauvegarde.donnees.dev.sauterEntree = e.target.checked; Sauvegarde.ecrire(); });
   $('#dev-boite').addEventListener('change', e => { Sauvegarde.donnees.dev.boiteSuggestions = e.target.value.trim(); Sauvegarde.ecrire(); majFin(); });
   $('#dev-boite-test').addEventListener('click', async () => {
     Sauvegarde.donnees.dev.boiteSuggestions = $('#dev-boite').value.trim();
     Sauvegarde.ecrire();
-    toast('Envoi du test…');
+    toast('Sending the test…');
     try {
-      await Suggestions.envoyer({ _subject: '3h12 — test de la boîte à suggestions', histoire: 'TEST (panneau DEV)', suggestion: 'Si tu lis ceci, la boîte fonctionne.' });
-      toast('Test envoyé : regarde ta boîte courriel');
+      await Suggestions.envoyer({ _subject: '3h12 — suggestion box test', histoire: 'TEST (DEV panel)', suggestion: 'If you are reading this, the box works.' });
+      toast('Test sent: check your inbox');
     } catch (e) { toast(`FormSubmit : ${e.message}`); }
   });
   $('#dev-mep').addEventListener('change', e => {
@@ -6507,7 +6519,7 @@ function installerEcouteurs() {
     // On renormalise avec cette mise en page pour obtenir ses couleurs et polices par défaut
     const donnees = etat.donnees ? { ...etat.donnees, miseEnPage: cle } : null;
     if (donnees) ouvrirDonnees(donnees, etat.histoire.date, etat.brut, { mepForcee: cle, estDuMoment: etat.estDuMoment, estDuJour: etat.estDuJour });
-    toast(`Mise en page : ${MISES_EN_PAGE[cle].nom}`);
+    toast(`Layout: ${MISES_EN_PAGE[cle].nom}`);
   });
   $('#dev-fond').addEventListener('change', e => {
     MoteurAudio.debloquer();
@@ -6519,25 +6531,25 @@ function installerEcouteurs() {
     Fond.configurer({ ...etat.histoire.fond, effet: $('#dev-fond').value, intensite: e.target.value / 100 });
     Fond.demarrer();
   });
-  $('#dev-musique-histoire').addEventListener('click', () => { MoteurAudio.debloquer(); demarrerMusique(etat.histoire.musique); toast('Musique de l’histoire'); });
+  $('#dev-musique-histoire').addEventListener('click', () => { MoteurAudio.debloquer(); demarrerMusique(etat.histoire.musique); toast('Story music'); });
   $('#dev-copier-json').addEventListener('click', async () => {
-    try { await navigator.clipboard.writeText($('#dev-json').value); toast('JSON copié'); } catch (e) { toast('Copie impossible'); }
+    try { await navigator.clipboard.writeText($('#dev-json').value); toast('JSON copied'); } catch (e) { toast('Could not copy'); }
   });
   $('#dev-previsualiser').addEventListener('click', () => {
     const texte = $('#dev-json-colle').value;
     try {
       const d = analyserJSON(texte);
       ouvrirDonnees(d, Dates.valide(d.date) ? d.date : Dates.aujourdhui(), texte);
-      toast('Aperçu du JSON collé');
-    } catch (e) { toast(`JSON invalide : ${e.message}`); }
+      toast('Preview of the pasted JSON');
+    } catch (e) { toast(`Invalid JSON: ${e.message}`); }
   });
   $('#dev-reinitialiser').addEventListener('click', () => {
-    if (!confirm('Effacer la mémoire de cet appareil (histoires lues, série, paramètres) ?')) return;
+    if (!confirm('Erase this device’s memory (stories read, streak, settings)?')) return;
     const garderDev = estDev();
     Sauvegarde.reinitialiser();
     if (garderDev) { Sauvegarde.donnees.dev.actif = true; Sauvegarde.ecrire(); }
     Parametres.appliquer();
-    toast('Mémoire effacée');
+    toast('Memory erased');
     Dev.rendre();
   });
   $('#dev-quitter').addEventListener('click', () => Dev.desactiver());
@@ -6557,8 +6569,8 @@ function installerEcouteurs() {
   planifierSortie();
 
   // Toute erreur imprévue : on l'affiche en mode DEV, sans jamais laisser un écran blanc
-  window.addEventListener('error', e => { if (estDev()) toast(`Erreur : ${e.message}`); });
-  window.addEventListener('unhandledrejection', e => { if (estDev()) toast(`Erreur : ${e.reason && e.reason.message ? e.reason.message : e.reason}`); });
+  window.addEventListener('error', e => { if (estDev()) toast(`Error: ${e.message}`); });
+  window.addEventListener('unhandledrejection', e => { if (estDev()) toast(`Error: ${e.reason && e.reason.message ? e.reason.message : e.reason}`); });
 }
 
 // Image de l'app (icône de l'écran d'accueil + icône d'onglet), dessinée dans le code :
@@ -6627,10 +6639,10 @@ async function demarrer() {
     try {
       const r = normaliserHistoire(HISTOIRE_SECOURS, Dates.maintenant().date);
       installerHistoire({ ...r, donnees: HISTOIRE_SECOURS, brut: '' }, {});
-      remplirEntree(r.h, 'Une erreur est survenue au démarrage.');
+      remplirEntree(r.h, 'Something went wrong at startup.');
     } catch (e2) {
-      $('#entree-titre').textContent = 'Silence radio';
-      $('#entree-message').textContent = 'Une erreur est survenue. Recharge la page.';
+      $('#entree-titre').textContent = 'Radio silence';
+      $('#entree-message').textContent = 'Something went wrong. Reload the page.';
       $('#entree-message').classList.remove('cache');
     }
   }

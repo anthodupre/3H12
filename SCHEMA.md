@@ -1,28 +1,30 @@
-# SCHEMA.md — format des fichiers de « 3h12 »
+# SCHEMA.md — the "3h12" file format
 
-Référence complète du format JSON lu par le moteur (`index.html`).
-L'automatisation quotidienne doit suivre ce document **à la lettre**.
+Complete reference of the JSON format read by the engine (`index.html`).
+The daily automation must follow this document **to the letter**.
 
-- Encodage : **UTF-8**. JSON **strict** : guillemets doubles, aucune virgule finale, aucun commentaire.
-- Les clés sont en **camelCase français** (`miseEnPage`, `phraseFinale`, `sousGenre`…), exactement comme écrites ici.
-- Le moteur est tolérant (un champ manquant ou invalide reçoit une valeur par défaut et un avertissement en mode DEV), mais **un fichier conforme est la norme** : ne compte pas sur la tolérance.
-- Dates au format `AAAA-MM-JJ`, fuseau **America/Toronto**.
-- Couleurs au format hexadécimal **`#rrggbb`** uniquement (pas de `rgb()`, pas de noms de couleurs).
+- Encoding: **UTF-8**. **Strict** JSON: double quotes, no trailing comma, no comments.
+- Keys are in **French camelCase** (`miseEnPage`, `phraseFinale`, `sousGenre`…), exactly as written here. Keys and enumerated values (layouts, effects, sounds, scales…) are identifiers read by the engine: never translate them. The story text itself is in English.
+- The engine is tolerant (a missing or invalid field gets a default value and a warning in DEV mode), but **a compliant file is the norm**: don't rely on the tolerance.
+- Dates in `YYYY-MM-DD` format, **America/Toronto** time zone.
+- Colors in hexadecimal **`#rrggbb`** format only (no `rgb()`, no color names).
 
-Sommaire : [1. Fichiers](#1-fichiers) · [2. index.json](#2-storiesindexjson) · [3. Histoire : champs racine](#3-histoire--champs-racine) · [4. theme](#4-theme) · [5. document](#5-document) · [6. Mises en page](#6-mises-en-page-mise-en-page) · [7. fond](#7-fond) · [8. musique](#8-musique) · [9. blocs](#9-blocs) · [10. style](#10-style-des-blocs) · [11. Balisage](#11-balisage-du-texte) · [12. événements](#12-événements) · [13. Robustesse](#13-robustesse-et-mode-dev) · [14. Exemple complet](#14-exemple-complet)
+Contents: [1. Files](#1-files) · [2. index.json](#2-storiesindexjson) · [3. Story: root fields](#3-story-root-fields) · [4. theme](#4-theme) · [5. document](#5-document) · [6. Layouts](#6-layouts-miseenpage) · [7. fond](#7-fond) · [8. musique](#8-musique) · [9. blocs](#9-blocs) · [10. style](#10-block-style) · [11. Markup](#11-text-markup) · [12. Events](#12-events) · [13. Robustness](#13-robustness-and-dev-mode) · [14. Full example](#14-full-example)
 
 ---
 
-## 1. Fichiers
+## 1. Files
 
-| Fichier | Rôle |
+| File | Role |
 |---|---|
-| `stories/index.json` | Liste de toutes les histoires (une entrée par jour). |
-| `stories/AAAA-MM-JJ.json` | Une histoire. Le nom du fichier **est** sa date (ex. `stories/2026-10-19.json`). |
+| `stories/index.json` | List of all the stories (one entry per day). |
+| `stories/YYYY-MM-DD.json` | One story. The file name **is** its date (e.g. `stories/2026-10-19.json`). |
 
-**24 heures, pas plus** : une histoire datée J apparaît dans l'app à **J, 3 h 12** (heure de Toronto) et **disparaît à J+1, 3 h 12**, remplacée par la suivante. Il n'y a ni archives, ni favoris, ni sauvegarde : une histoire manquée est perdue. On peut pousser l'histoire du lendemain d'avance : elle reste cachée jusqu'à sa sortie. Si l'histoire de la nuit manque, l'app n'en montre **pas** une plus ancienne : elle affiche « Silence radio » (« Rien cette nuit. Reviens à 3 h 12. »). Les histoires passées et à venir ne s'ouvrent qu'en mode DEV (en aperçu).
+**24 hours, no more**: a story dated D appears in the app at **D, 3:12 AM** (Toronto time) and **disappears at D+1, 3:12 AM**, replaced by the next one. There are no archives, no favorites, no saving: a missed story is lost. The next day's story can be pushed in advance: it stays hidden until its release. If tonight's story is missing (an empty night: the owner supplied no story for it), the app does **not** show an older one: it shows a "radio silence" screen (nothing tonight, come back at 3:12). Past and upcoming stories only open in DEV mode (as a preview).
 
-**Saison** (`CONFIG.premiereNuit` et `CONFIG.derniereNuit` dans `index.html`) : du 20 au 31 octobre 2026. Avant la première nuit, l'écran d'entrée affiche un décompte en direct jusqu'à 3 h 12 ; après la dernière, il annonce que c'est fini. Les histoires d'essai (`"essai": true` dans l'index) ne s'ouvrent qu'en mode DEV.
+**Season** (`CONFIG.premiereNuit` and `CONFIG.derniereNuit` in `index.html`): from October 20 to 31, 2026. Before the first night, the entry screen shows a live countdown to 3:12 AM; after the last one, it announces that it's over. Test stories (`"essai": true` in the index) only open in DEV mode.
+
+**Who writes the stories**: the owner supplies every story (an existing story whose author has given permission), published verbatim, exactly as the author wrote it, in English. The automation never writes a story of its own: it lays the story out, stages it and dresses it (see DAILY.md).
 
 ---
 
@@ -36,12 +38,12 @@ Sommaire : [1. Fichiers](#1-fichiers) · [2. index.json](#2-storiesindexjson) ·
     {
       "date": "2026-10-18",
       "numero": 1,
-      "titre": "Sept Pâques",
-      "sousGenre": "folklore québécois",
+      "titre": "Seven Easters",
+      "sousGenre": "Québec folklore",
       "lieu": "Rang Saint-Isidore, Saint-Aurèle-des-Monts (Lanaudière)",
       "auQuebec": true,
       "epoque": "1987",
-      "format": "Rapport d’événement de police, avec déclaration de témoin",
+      "format": "Police incident report, with a witness statement",
       "miseEnPage": "rapport",
       "tonique": "D",
       "gamme": "phrygien",
@@ -49,72 +51,73 @@ Sommaire : [1. Fichiers](#1-fichiers) · [2. index.json](#2-storiesindexjson) ·
       "palette": { "fond": "#0a0d12", "surface": "#e7e3d6", "texte": "#1f1d1a", "accent": "#a3201c", "secondaire": "#27407a" },
       "polices": { "titre": "Special Elite", "texte": "Courier Prime", "notes": "Reenie Beanie" },
       "evenements": 6,
-      "retournement": "la malédiction se transmet par la parole : le rapport lui-même la propage"
+      "retournement": "the curse spreads through speech: the report itself spreads it",
+      "origine": "choisie"
     }
   ]
 }
 ```
 
-| Champ | Type | Obligatoire | Description |
+| Field | Type | Required | Description |
 |---|---|---|---|
-| `version` | nombre | oui | Toujours `1`. |
-| `moteur` | chaîne | non | Version minimale du moteur (`index.html`) que les histoires demandent. Si le téléphone a gardé un moteur plus vieux en cache, l'app se recharge une fois toute seule. Ne pas modifier dans les routines. |
-| `histoires` | tableau | oui | Une entrée par histoire, **triée par date croissante**, aucune date en double. |
-| `date` | chaîne `AAAA-MM-JJ` | oui | Date de l'histoire = nom du fichier. |
-| `numero` | entier | oui | Numéro de l'histoire (1, 2, 3…). Toujours le plus grand numéro existant + 1. |
-| `titre` | chaîne | oui | Même titre que dans le fichier de l'histoire (balisage permis mais déconseillé). |
-| `sousGenre` | chaîne | oui | Même valeur que dans l'histoire (voir la liste dans DAILY.md). |
-| `lieu` | chaîne | oui | Même valeur que dans l'histoire. |
-| `auQuebec` | booléen | oui | `true` si l'histoire se passe au Québec (sert à respecter « environ 1 sur 3 »). |
-| `epoque` | chaîne | oui | Année ou période (« 1987 », « hiver 1847 », « aujourd'hui »). |
-| `format` | chaîne | oui | Description humaine du document (« Journal intime d'une infirmière », « Fil de forum de 2004 »…). |
-| `miseEnPage` | chaîne | oui | Une des 10 mises en page (section 6). |
-| `tonique` | chaîne | oui | Tonique de la musique (section 8). |
-| `gamme` | chaîne | oui | Gamme de la musique (section 8). |
-| `effetFond` | chaîne | oui | Effet de fond (section 7). |
-| `palette` | objet | oui | Copie exacte de `theme.palette` de l'histoire (5 couleurs). Sert à varier les palettes d'une nuit à l'autre. |
-| `polices` | objet | oui | Copie de `theme.polices` (titre, texte, notes). |
-| `evenements` | entier | oui | Nombre de blocs `evenement` dans l'histoire. |
-| `retournement` | chaîne | oui | Même valeur que dans l'histoire (sert à varier les retournements). |
-| `origine` | chaîne | non | `"traduction"` si l'histoire est une traduction choisie par le créateur (même valeur que dans l'histoire). |
-| `essai` | booléen | non | `true` : histoire d'essai, lisible seulement en mode DEV, ignorée pour la numérotation et la variété. |
+| `version` | number | yes | Always `1`. |
+| `moteur` | string | no | Minimum engine version (`index.html`) the stories require. If the phone has kept an older engine in its cache, the app reloads itself once. Don't change it in the routines. |
+| `histoires` | array | yes | One entry per story, **sorted by ascending date**, no duplicate dates. |
+| `date` | string `YYYY-MM-DD` | yes | Date of the story = file name. |
+| `numero` | integer | yes | Story number (1, 2, 3…). Always the highest existing number + 1. |
+| `titre` | string | yes | Same title as in the story file (markup allowed but not recommended). |
+| `sousGenre` | string | yes | Same value as in the story (see the list in DAILY.md). |
+| `lieu` | string | yes | Same value as in the story. |
+| `auQuebec` | boolean | no | `true` if the story is set in Québec. Optional, default `false`. Same value as in the story. |
+| `epoque` | string | yes | Year or period ("1987", "winter 1847", "today"). |
+| `format` | string | yes | Human description of the document ("A nurse's diary", "A forum thread from 2004"…). |
+| `miseEnPage` | string | yes | One of the 10 layouts (section 6). |
+| `tonique` | string | yes | Tonic of the music (section 8). |
+| `gamme` | string | yes | Scale of the music (section 8). |
+| `effetFond` | string | yes | Background effect (section 7). |
+| `palette` | object | yes | Exact copy of the story's `theme.palette` (5 colors). Used to vary the palettes from one night to the next. |
+| `polices` | object | yes | Copy of `theme.polices` (titre, texte, notes). |
+| `evenements` | integer | yes | Number of `evenement` blocks in the story. |
+| `retournement` | string | yes | Same value as in the story. |
+| `origine` | string | yes (new stories) | `"choisie"`: a story chosen by the owner and published verbatim (same value as in the story). The legacy value `"traduction"` is still accepted. |
+| `essai` | boolean | no | `true`: test story, readable only in DEV mode, ignored for numbering and variety. |
 
-Ces champs servent aussi à l'automatisation pour éviter de se répéter : **ils doivent être exacts**.
+The automation also uses these fields to avoid repeating itself: **they must be exact**.
 
 ---
 
-## 3. Histoire : champs racine
+## 3. Story: root fields
 
-Fichier `stories/AAAA-MM-JJ.json` :
+File `stories/YYYY-MM-DD.json`:
 
-| Champ | Type | Obligatoire | Défaut si absent | Description |
+| Field | Type | Required | Default if missing | Description |
 |---|---|---|---|---|
-| `version` | nombre | oui | `1` | Toujours `1`. |
-| `numero` | entier ≥ 1 | oui | `0` | Numéro de l'histoire (identique à l'index). |
-| `date` | `AAAA-MM-JJ` | oui | nom du fichier | Doit être égal au nom du fichier. |
-| `titre` | chaîne | oui | « Sans titre » | Court et marquant (1 à 5 mots, idéalement). |
-| `sousTitre` | chaîne | non | — | Chapeau d'une coupure de journal (mise en page `coupure`). Le carton d'ouverture n'affiche que le numéro et le titre. |
-| `sousGenre` | chaîne | oui | — | Ex. « horreur maritime ». |
-| `lieu` | chaîne | oui | — | Lieu précis (ville, région, pays). |
-| `epoque` | chaîne | oui | — | Année ou période. |
-| `auQuebec` | booléen | oui | — | Comme dans l'index. |
-| `format` | chaîne | oui | — | Description humaine du document. |
-| `resume` | chaîne | oui | — | Une phrase de résumé (sans divulgâcher la fin). |
-| `avertissement` | chaîne | non | — | Court avertissement de contenu (ex. « Contient la mort d'un animal. »), gardé dans le fichier ; plus affiché dans l'app. |
-| `retournement` | chaîne | oui | — | Type du gros retournement final, en quelques mots (ex. « celui qui rassure est la menace ; transmission »). Jamais affiché dans l'app : sert à ne pas répéter le même retournement (voir DAILY.md). |
-| `miseEnPage` | chaîne | oui | `recit` | Une des 10 mises en page (section 6). |
-| `theme` | objet | oui | selon la mise en page | Palette, polices, CSS (section 4). |
-| `document` | objet | selon la mise en page | — | Métadonnées du « document » affiché (section 5). |
-| `fond` | objet | oui | aucun effet | Fond animé et illustration (section 7). |
-| `musique` | objet | oui | drone + bruit | Musique synthétisée (section 8). |
-| `blocs` | tableau | oui | — | Le texte, bloc par bloc (section 9). |
-| `phraseFinale` | chaîne | oui | — | La dernière phrase, affichée seule, en grand, après l'histoire. Balisage permis. |
-| `origine` | chaîne | non | — | `"traduction"` : histoire existante choisie par le créateur et traduite (sa longueur d'origine est gardée, 3 à 10 événements). Jamais affiché. |
-| `question` | objet | **plus utilisé** | aucune | Ancienne « question de la nuit » à choix (`{ "texte", "choix" }`). Le créateur n'en veut plus : ne pas l'ajouter. Le moteur la sait encore afficher. |
+| `version` | number | yes | `1` | Always `1`. |
+| `numero` | integer ≥ 1 | yes | `0` | Story number (same as in the index). |
+| `date` | `YYYY-MM-DD` | yes | file name | Must be equal to the file name. |
+| `titre` | string | yes | "Untitled" | The original title, verbatim. |
+| `sousTitre` | string | no | — | Standfirst of a newspaper clipping (`coupure` layout). The opening card only shows the number and the title. |
+| `sousGenre` | string | yes | — | E.g. "maritime horror". |
+| `lieu` | string | yes | — | Precise place (town, region, country). |
+| `epoque` | string | yes | — | Year or period. |
+| `auQuebec` | boolean | no | `false` | As in the index (optional). |
+| `format` | string | yes | — | Human description of the document. |
+| `resume` | string | yes | — | A one-sentence summary (without spoiling the ending). |
+| `avertissement` | string | no | — | Short content warning (e.g. "Contains the death of an animal."), kept in the file; no longer shown in the app. |
+| `retournement` | string | yes | — | The original's big final twist, in a few words (e.g. "the one who reassures is the threat; transmission"). Never shown in the app; the validator refuses the exact same wording as one of the last 10 stories (see DAILY.md). |
+| `miseEnPage` | string | yes | `recit` | One of the 10 layouts (section 6). |
+| `theme` | object | yes | depends on the layout | Palette, fonts, CSS (section 4). |
+| `document` | object | depends on the layout | — | Metadata of the displayed "document" (section 5). |
+| `fond` | object | yes | no effect | Animated background and illustration (section 7). |
+| `musique` | object | yes | drone + noise | Synthesized music (section 8). |
+| `blocs` | array | yes | — | The text, block by block (section 9). |
+| `phraseFinale` | string | yes | — | The last sentence, shown alone, large, after the story. For a story from the owner: the very last sentence of the original, removed from the last block. Markup allowed. |
+| `origine` | string | yes (new stories) | — | `"choisie"`: an existing story chosen by the owner and published verbatim, exactly as the author wrote it (its original length is kept; 3 to 14 events). Every story is one now. The legacy value `"traduction"` is still accepted. Never displayed. |
+| `question` | object | **no longer used** | none | Old multiple-choice "question of the night" (`{ "texte", "choix" }`). The owner doesn't want it anymore: don't add it. The engine can still display it. |
 
-**Fin de l'histoire** : après la `phraseFinale`, l'app affiche « Fin », la date de la prochaine histoire, « Cette histoire disparaît à 3 h 12. », puis la **boîte à suggestions** (un champ libre « Un mot pour la prochaine nuit »). Les mots partent par courriel (FormSubmit) au créateur de 3h12, qui décide quoi en faire ; ils ne modifient rien automatiquement.
+**End of the story**: after the `phraseFinale`, the app shows the end, the date of the next story, a line saying that this story disappears at 3:12 AM, then the **suggestion box** (a free-text field for the next night). The notes are sent by email (FormSubmit) to the owner of 3h12, who reads them and decides what to do with them; they change nothing automatically.
 
-**Durée de lecture** : calculée automatiquement (190 mots/min) à partir de tous les textes. Visez **900 à 1600 mots** (sauf traduction : longueur de l'original).
+**Reading time**: computed automatically (190 words/min) from all the texts. The length is the original's.
 
 ---
 
@@ -128,50 +131,50 @@ Fichier `stories/AAAA-MM-JJ.json` :
 }
 ```
 
-### 4.1 `palette` (5 couleurs `#rrggbb`, toutes obligatoires)
+### 4.1 `palette` (5 `#rrggbb` colors, all required)
 
-| Clé | Rôle |
+| Key | Role |
 |---|---|
-| `fond` | Couleur de la page, derrière tout (autour du papier, du téléphone…). Aussi le fond des menus, archives et paramètres. Presque toujours très sombre. |
-| `surface` | Couleur de l'**objet** : papier, écran du téléphone, fenêtre du forum, écran cathodique. Pour `recit`, mettre la **même valeur que `fond`** (le texte est posé directement sur le fond). |
-| `texte` | Couleur du texte **sur la surface** (l'encre sur le papier, le phosphore sur l'écran). |
-| `accent` | Couleur forte : tampons, liens, `__accent__`, bulles « moi » en SMS, lettrine, horloge de l'écran d'entrée. |
-| `secondaire` | Couleur d'appoint : notes manuscrites (stylo), bulles « eux » en SMS, bannière du forum, horodatages. |
+| `fond` | Page color, behind everything (around the paper, the phone…). Also the background of the menus, archives and settings. Almost always very dark. |
+| `surface` | Color of the **object**: paper, phone screen, forum window, CRT screen. For `recit`, use the **same value as `fond`** (the text sits directly on the background). |
+| `texte` | Color of the text **on the surface** (ink on paper, phosphor on the screen). |
+| `accent` | Strong color: stamps, links, `__accent__`, "me" bubbles in SMS, drop cap, entry-screen clock. |
+| `secondaire` | Supporting color: handwritten notes (pen), "them" bubbles in SMS, forum banner, timestamps. |
 
-**Règles de contraste (à respecter) :**
-- `texte` sur `surface` : rapport de contraste **≥ 7** (minimum absolu 4,5).
-- `accent` sur `surface` : ≥ 3. `secondaire` sur `surface` : ≥ 3.
-- En SMS : `accent` et `secondaire` sont des fonds de bulles ; le moteur choisit automatiquement du texte blanc ou noir dessus.
-- Le moteur corrige automatiquement une couleur illisible, mais le résultat est moins beau : choisissez bien.
-- Le carton d'ouverture et la fin sont écrits sur `fond` : si `texte` y est illisible, le moteur utilise `surface` (le papier) comme couleur d'écriture.
+**Contrast rules (mandatory):**
+- `texte` on `surface`: contrast ratio **≥ 7** (absolute minimum 4.5).
+- `accent` on `surface`: ≥ 3. `secondaire` on `surface`: ≥ 3.
+- In SMS: `accent` and `secondaire` are bubble backgrounds; the engine automatically picks white or black text on them.
+- The engine automatically fixes an unreadable color, but the result is less pretty: choose carefully.
+- The opening card and the end are written on `fond`: if `texte` is unreadable there, the engine uses `surface` (the paper) as the text color.
 
 ### 4.2 `polices`
 
-| Clé | Rôle | Défaut |
+| Key | Role | Default |
 |---|---|---|
-| `titre` | Titres, carton d'ouverture, phrase finale, liens de fin, menus. | selon la mise en page |
-| `texte` | Corps du texte. Doit rester **très lisible** sur un iPhone. | selon la mise en page |
-| `notes` | Notes manuscrites, signatures, adresse d'enveloppe. | selon la mise en page |
-| `secours` | (optionnel) `"serif"`, `"sans-serif"`, `"monospace"` ou `"cursive"` : famille de secours si la police ne charge pas. Sinon devinée. | deviné |
+| `titre` | Titles, opening card, final sentence, end links, menus. | depends on the layout |
+| `texte` | Body text. Must stay **very readable** on an iPhone. | depends on the layout |
+| `notes` | Handwritten notes, signatures, envelope address. | depends on the layout |
+| `secours` | (optional) `"serif"`, `"sans-serif"`, `"monospace"` or `"cursive"`: fallback family if the font doesn't load. Otherwise guessed. | guessed |
 
-Valeurs permises : le **nom exact** d'une police Google Fonts (sensible à la casse et aux espaces), ou une police système d'iPhone (`system-ui`, `Georgia`, `Verdana`, `Courier New`, `American Typewriter`, `Didot`, `Baskerville`, `Noteworthy`, `Bradley Hand`, `Snell Roundhand`, `Marker Felt`, `Menlo`, `Trebuchet MS`).
+Allowed values: the **exact name** of a Google Fonts font (case- and space-sensitive), or an iPhone system font (`system-ui`, `Georgia`, `Verdana`, `Courier New`, `American Typewriter`, `Didot`, `Baskerville`, `Noteworthy`, `Bradley Hand`, `Snell Roundhand`, `Marker Felt`, `Menlo`, `Trebuchet MS`).
 
-Polices Google **vérifiées** (toutes existent) :
+**Verified** Google fonts (they all exist):
 
-- **Sérif / livre** : EB Garamond, Cormorant Garamond, Cormorant, IM Fell English, IM Fell English SC, IM Fell DW Pica, Libre Baskerville, Crimson Pro, Lora, Playfair Display, Old Standard TT, Spectral, Cardo, Vollkorn, Gelasio, Alegreya, Cinzel, Prata, Abril Fatface, Bodoni Moda, Literata, Newsreader, Fraunces, Source Serif 4, Libre Caslon Text, Sorts Mill Goudy
-- **Gothique / ancien** : UnifrakturMaguntia, UnifrakturCook, Pirata One, Grenze Gotisch, Almendra, Uncial Antiqua, MedievalSharp
-- **Machine à écrire / terminal** : Special Elite, Courier Prime, IBM Plex Mono, Space Mono, VT323, Share Tech Mono, Cutive Mono, Major Mono Display, Anonymous Pro, Inconsolata, Source Code Pro, JetBrains Mono, Press Start 2P, Silkscreen
-- **Manuscrite** : Caveat, Kalam, Homemade Apple, Reenie Beanie, La Belle Aurore, Mrs Saint Delafield, Pinyon Script, Dawning of a New Day, Cedarville Cursive, Nothing You Could Do, Shadows Into Light, Gochi Hand, Patrick Hand, Covered By Your Grace, Just Another Hand, Zeyada, Sue Ellen Francisco, Waiting for the Sunrise, Rock Salt, Nanum Pen Script, Mynerve
-- **Sans-sérif** : Inter, Work Sans, IBM Plex Sans, Archivo Narrow, Oswald, Bebas Neue, Anton, Barlow Condensed, Josefin Sans, Karla, DM Sans, Manrope, Space Grotesk, Syne
-- **À éviter** (trop « Halloween ») : Creepster, Nosifer, Eater, Butcherman.
+- **Serif / book**: EB Garamond, Cormorant Garamond, Cormorant, IM Fell English, IM Fell English SC, IM Fell DW Pica, Libre Baskerville, Crimson Pro, Lora, Playfair Display, Old Standard TT, Spectral, Cardo, Vollkorn, Gelasio, Alegreya, Cinzel, Prata, Abril Fatface, Bodoni Moda, Literata, Newsreader, Fraunces, Source Serif 4, Libre Caslon Text, Sorts Mill Goudy
+- **Gothic / old**: UnifrakturMaguntia, UnifrakturCook, Pirata One, Grenze Gotisch, Almendra, Uncial Antiqua, MedievalSharp
+- **Typewriter / terminal**: Special Elite, Courier Prime, IBM Plex Mono, Space Mono, VT323, Share Tech Mono, Cutive Mono, Major Mono Display, Anonymous Pro, Inconsolata, Source Code Pro, JetBrains Mono, Press Start 2P, Silkscreen
+- **Handwritten**: Caveat, Kalam, Homemade Apple, Reenie Beanie, La Belle Aurore, Mrs Saint Delafield, Pinyon Script, Dawning of a New Day, Cedarville Cursive, Nothing You Could Do, Shadows Into Light, Gochi Hand, Patrick Hand, Covered By Your Grace, Just Another Hand, Zeyada, Sue Ellen Francisco, Waiting for the Sunrise, Rock Salt, Nanum Pen Script, Mynerve
+- **Sans-serif**: Inter, Work Sans, IBM Plex Sans, Archivo Narrow, Oswald, Bebas Neue, Anton, Barlow Condensed, Josefin Sans, Karla, DM Sans, Manrope, Space Grotesk, Syne
+- **Avoid** (too "Halloween"): Creepster, Nosifer, Eater, Butcherman.
 
-Conseils : une police manuscrite ou gothique **jamais** pour `texte` sur plus de quelques lignes (sauf `journal_intime` avec Kalam, Caveat ou Patrick Hand, qui restent lisibles). Préférez des polices qui ont l'italique.
+Tips: **never** a handwritten or gothic font for `texte` over more than a few lines (except `journal_intime` with Kalam, Caveat or Patrick Hand, which stay readable). Prefer fonts that have an italic.
 
-### 4.3 `cssPersonnalise` (optionnel)
+### 4.3 `cssPersonnalise` (optional)
 
-Chaîne de CSS injectée dans la page. **Chaque sélecteur est automatiquement préfixé par `.histoire`** : impossible de casser l'interface. `html`, `body` et `:root` deviennent `.histoire`. Les `@media`, `@supports` et `@keyframes` sont permis ; `@import` est retiré.
+A CSS string injected into the page. **Every selector is automatically prefixed with `.histoire`**: the interface cannot be broken. `html`, `body` and `:root` become `.histoire`. `@media`, `@supports` and `@keyframes` are allowed; `@import` is removed.
 
-À utiliser avec parcimonie (petits ajustements), par exemple :
+Use sparingly (small adjustments), for example:
 ```css
 .titre-bloc { letter-spacing: .3em; }
 .bloc-paragraphe:nth-of-type(7) p { color: #8a0f0f; }
@@ -179,52 +182,52 @@ Chaîne de CSS injectée dans la page. **Chaque sélecteur est automatiquement p
 .carton-titre { animation: pulse 3s infinite alternate; }
 ```
 
-Classes utiles : `.carton`, `.carton-titre`, `.objet` (la feuille/le téléphone), `.bloc`, `.bloc-paragraphe`, `.bloc-dialogue`, `.titre-bloc`, `.note`, `.tampon`, `.bulle`, `.fin-phrase`, et le préfixe de mise en page `.mep-rapport`, `.mep-sms`, etc.
+Useful classes: `.carton`, `.carton-titre`, `.objet` (the sheet / the phone), `.bloc`, `.bloc-paragraphe`, `.bloc-dialogue`, `.titre-bloc`, `.note`, `.tampon`, `.bulle`, `.fin-phrase`, and the layout prefix `.mep-rapport`, `.mep-sms`, etc.
 
 ---
 
 ## 5. `document`
 
-Métadonnées du document « physique » (en-tête du rapport, nom du contact SMS, journal de la coupure…). Toutes les clés sont des chaînes optionnelles, sauf `champs` (tableau).
+Metadata of the "physical" document (report header, name of the SMS contact, newspaper of the clipping…). All keys are optional strings, except `champs` (array).
 
-| Clé | Utilisée par | Rôle |
+| Key | Used by | Role |
 |---|---|---|
-| `organisme` | rapport, transcription, forum, terminal, coupure, lettre | Service de police, nom du site, nom du journal, nom du système… |
-| `typeDocument` | rapport, transcription, terminal | « Rapport d'événement », « Transcription d'enregistrement »… |
-| `reference` | rapport, transcription, forum, terminal, sms | N° de dossier, nom du fichier audio, n° de session ; en SMS : numéro de téléphone affiché sous le nom. |
-| `classification` | rapport | Tampon en haut du rapport (« Confidentiel »). |
-| `dateDocument` | rapport, transcription, terminal, journal_intime, lettre, coupure | Date affichée dans l'en-tête ; cachet de la poste (lettre). |
-| `auteurDocument` | rapport, transcription, terminal, coupure, journal_intime | Rédigé par / transcrit par / signature de l'article / propriétaire du journal intime (« Journal de *auteurDocument* » : mettre un prénom). |
-| `destinataire` | rapport, lettre | Destinataire ; en `lettre`, l'**adresse sur l'enveloppe** (lignes séparées par `\n`). Sans destinataire, pas d'enveloppe. |
-| `contact` | sms | Nom affiché en haut de la conversation. Défaut : le `nom` des messages « eux ». |
-| `sujet` | rapport, transcription, forum, coupure | Objet du rapport, titre du fil de forum, manchette du journal. Défaut : `titre`. |
-| `section` | forum, coupure | Section du forum (« Témoignages »), rubrique du journal (« Faits divers »). |
-| `slogan` | forum | Sous-titre du site. |
-| `duree` | transcription | Durée de l'enregistrement (« 00:41:07 »). |
-| `champs` | rapport, transcription | Lignes supplémentaires de l'en-tête : `[{ "nom": "Nature", "valeur": "Disparition" }]`. |
+| `organisme` | rapport, transcription, forum, terminal, coupure, lettre | Police department, site name, newspaper name, system name… |
+| `typeDocument` | rapport, transcription, terminal | "Incident report", "Recording transcript"… |
+| `reference` | rapport, transcription, forum, terminal, sms | File number, audio file name, session number; in SMS: phone number shown under the name. |
+| `classification` | rapport | Stamp at the top of the report ("Confidential"). |
+| `dateDocument` | rapport, transcription, terminal, journal_intime, lettre, coupure | Date shown in the header; postmark (lettre). |
+| `auteurDocument` | rapport, transcription, terminal, coupure, journal_intime | Written by / transcribed by / byline of the article / owner of the diary (the diary's label shows this name: use a first name). |
+| `destinataire` | rapport, lettre | Recipient; in `lettre`, the **address on the envelope** (lines separated by `\n`). No recipient, no envelope. |
+| `contact` | sms | Name shown at the top of the conversation. Default: the `nom` of the "them" messages. |
+| `sujet` | rapport, transcription, forum, coupure | Subject of the report, title of the forum thread, newspaper headline. Default: `titre`. |
+| `section` | forum, coupure | Forum section ("Testimonies"), newspaper section ("Local news"). |
+| `slogan` | forum | Site tagline. |
+| `duree` | transcription | Length of the recording ("00:41:07"). |
+| `champs` | rapport, transcription | Extra header lines: `[{ "nom": "Nature", "valeur": "Disappearance" }]`. |
 
 ---
 
-## 6. Mises en page (`miseEnPage`)
+## 6. Layouts (`miseEnPage`)
 
-10 valeurs permises. Chaque mise en page a son objet visuel, ses couleurs et ses polices par défaut, et donne un sens particulier à certains blocs.
+10 allowed values. Each layout has its own visual object, default colors and default fonts, and gives a particular meaning to some blocks.
 
-| Valeur | Objet visuel | Sens particulier des blocs | Polices par défaut |
+| Value | Visual object | Particular meaning of the blocks | Default fonts |
 |---|---|---|---|
-| `manuscrit` | Page de papier jauni, taches, encre ; titre manuscrit souligné. | `note` = annotation à l'encre rouge dans la marge ; `~~rature~~` ondulée. | IM Fell English SC / IM Fell English / Homemade Apple |
-| `journal_intime` | Cahier ligné, marge rouge, trous de reliure, étiquette « Journal de… ». | `titre` = **date en tête de section** (« Mardi 3 mars, 2 h du matin ») ; `note` = au crayon. | Caveat / Kalam / Caveat |
-| `rapport` | Formulaire officiel : sceau, organisme, tableau de champs, tampon, sections numérotées. | `titre` = section numérotée (« 1. SOMMAIRE ») ; `dialogue` = interrogatoire « NOM : réplique » ; `note` = annotation au stylo d'un supérieur ; `\|\|caviardé\|\|` = barre noire ; `tampon`, `champs`, `signature`. | Special Elite / Courier Prime / Reenie Beanie |
-| `sms` | Téléphone, en-tête du contact (reste en haut), bulles, heures, « Vu ». Les messages arrivent **un à un** avec « … » qui tape. | `sms` = bulles ; `dialogue` = bulle « eux » ; `paragraphe`/`note`/`titre` = texte système gris centré ; `pause` = « … » fantôme qui tape puis disparaît. | system-ui |
-| `transcription` | Document de transcription : forme d'onde, « ● ENR », fichier, durée, liste des intervenants (automatique). | `dialogue` = ligne `[00:03:12] NOM` puis la réplique (utiliser `horodatage`) ; `paragraphe` = note du transcripteur en italique ; `[inaudible]` stylé ; `note` = « N.D.T. ». | IBM Plex Mono ×3 |
-| `forum` | Vieux forum des années 2000 : bannière, fil d'Ariane, sujet verrouillé, messages avec avatar en pixels, rang, compteur. | `dialogue` = **un message** (champs `heure`, `rang`, `messages`, `signature`, `avatar`) ; `paragraphe` = avis de modération encadré ; `citation` = « X a écrit : » ; `pause` = changement de page ; `note` = « édité par… ». | Verdana (système) |
-| `lettre` | Correspondance ancienne : papier crème plié en trois, enveloppe avec timbre et cachet si `document.destinataire`. | **chaque `pause` commence une nouvelle feuille** (une nouvelle lettre) ; `titre` = lieu et date en haut à droite ; `signature` = signature calligraphiée ; `note` = « P.-S. ». | Pinyon Script / Cormorant Garamond / Pinyon Script |
-| `recit` | Livre classique : texte justifié, alinéas, **lettrine** automatique, chapitres en petites capitales. | `titre` = chapitre ; `pause` = ❦ ; `dialogue` = « Nom — réplique ». | Cormorant Garamond / EB Garamond |
-| `terminal` | Écran cathodique vert : lignes de balayage, lueur, texte qui **se tape tout seul**, en-tête de session. | `paragraphe` = « > … » ; `titre` = commande « $ … » ; `dialogue` = « <Nom> … » ; `note` = commentaire « # … ». | VT323 ×3 |
-| `coupure` | Coupure de journal : bords déchirés, ruban adhésif, nom du journal en gothique, manchette, chapeau, signature, lettrine. | **chaque `pause` commence une nouvelle coupure** ; `titre` = intertitre ; images en trame d'imprimerie. | Playfair Display / Old Standard TT |
+| `manuscrit` | Yellowed paper page, stains, ink; handwritten underlined title. | `note` = red-ink annotation in the margin; wavy `~~strikethrough~~`. | IM Fell English SC / IM Fell English / Homemade Apple |
+| `journal_intime` | Ruled notebook, red margin, binding holes, a name label. | `titre` = **date at the top of a section** ("Tuesday, March 3, 2 AM"); `note` = in pencil. | Caveat / Kalam / Caveat |
+| `rapport` | Official form: seal, organization, table of fields, stamp, numbered sections. | `titre` = numbered section ("1. SUMMARY"); `dialogue` = interrogation "NAME: line"; `note` = a superior's pen annotation; `\|\|redacted\|\|` = black bar; `tampon`, `champs`, `signature`. | Special Elite / Courier Prime / Reenie Beanie |
+| `sms` | Phone, contact header (stays at the top), bubbles, times, "Read". Messages arrive **one by one** with a typing "…". | `sms` = bubbles; `dialogue` = "them" bubble; `paragraphe`/`note`/`titre` = gray centered system text; `pause` = a ghost "…" that types then disappears. | system-ui |
+| `transcription` | Transcript document: waveform, "● REC", file, duration, list of speakers (automatic). | `dialogue` = line `[00:03:12] NAME` then the line spoken (use `horodatage`); `paragraphe` = transcriber's comment in italics; `[inaudible]` styled; `note` = transcriber's note. | IBM Plex Mono ×3 |
+| `forum` | Old 2000s forum: banner, breadcrumb, locked topic, posts with pixel avatar, rank, post count. | `dialogue` = **a post** (fields `heure`, `rang`, `messages`, `signature`, `avatar`); `paragraphe` = boxed moderation notice; `citation` = "X wrote:"; `pause` = page change; `note` = "edited by…". | Verdana (system) |
+| `lettre` | Old correspondence: cream paper folded in three, envelope with stamp and postmark if `document.destinataire`. | **each `pause` starts a new sheet** (a new letter); `titre` = place and date at the top right; `signature` = calligraphic signature; `note` = "P.S.". | Pinyon Script / Cormorant Garamond / Pinyon Script |
+| `recit` | Classic book: justified text, indents, automatic **drop cap**, chapters in small caps. | `titre` = chapter; `pause` = ❦; `dialogue` = "Name — line". | Cormorant Garamond / EB Garamond |
+| `terminal` | Green CRT screen: scan lines, glow, text that **types itself**, session header. | `paragraphe` = `> …`; `titre` = command `$ …`; `dialogue` = `<Name> …`; `note` = comment `# …`. | VT323 ×3 |
+| `coupure` | Newspaper clipping: torn edges, tape, newspaper name in blackletter, headline, standfirst, byline, drop cap. | **each `pause` starts a new clipping**; `titre` = subheading; images in halftone print. | Playfair Display / Old Standard TT |
 
-Palettes par défaut (utilisées si `theme.palette` est absent ; à titre d'inspiration) :
+Default palettes (used if `theme.palette` is missing; for inspiration):
 
-| Mise en page | fond | surface | texte | accent | secondaire |
+| Layout | fond | surface | texte | accent | secondaire |
 |---|---|---|---|---|---|
 | manuscrit | #0e0b07 | #e3d6b4 | #2b1d10 | #8a2416 | #6b5a40 |
 | journal_intime | #0b0d12 | #f1ede0 | #1f2a44 | #a3322a | #5d6b85 |
@@ -254,36 +257,36 @@ Palettes par défaut (utilisées si `theme.palette` est absent ; à titre d'insp
 }
 ```
 
-| Clé | Type | Défaut | Description |
+| Key | Type | Default | Description |
 |---|---|---|---|
-| `effet` | chaîne | `aucun` | Effet animé plein écran (liste ci-dessous). |
-| `intensite` | 0 à 1 | 0.5 | Quantité / force de l'effet. 0.3 à 0.6 = ambiance ; plus de 0.8 = envahissant. |
-| `vignette` | 0 à 1 | 0.6 | Assombrissement des bords de l'écran. |
-| `grain` | 0 à 1 | 0.25 | Grain de film animé. |
-| `scintillement` | 0 à 1 | 0 | Baisses de lumière aléatoires (ampoule fatiguée). 0.1 à 0.3 = subtil. Adouci si l'utilisateur coupe les effets intenses. |
-| `svg` | chaîne | — | **Illustration originale** affichée derrière le texte, semi-transparente (voir ci-dessous). |
-| `svgOpacite` | 0 à 1 | 0.22 | Opacité de l'illustration pendant la lecture (elle est ~2× plus visible sur le carton d'ouverture). 0.15 à 0.3 sans scènes ; **0.35 à 0.5 avec des scènes** (le texte reçoit alors une ombre qui le garde lisible, et le décor s'illumine quelques secondes à chaque changement de lieu). |
-| `couleur` | `#rrggbb` | selon l'effet | (optionnel) Couleur des particules. |
-| `decors` | objet | `{}` | **Décors nommés** : `{ "nom": "<svg…>" }`. Utilisés par les blocs `scene` (le lieu change) et par les `vue` des gestes (ce que le personnage voit). Mêmes règles que `svg`. Un décor = un lieu ; une variante (`cuisine-elle`) = le même lieu, dessiné pareil, avec la créature en plus. Le nom réservé **`epieur`** (`viewBox='0 0 160 260'`) remplace le visage qui sort des bords de l'écran (`epier`) et qui bondit. |
-| `teinte`, `teinteOpacite` | `#rrggbb`, 0 à 0.8 | aucune, 0.25 | (optionnel) Couleur posée sur le décor, sous le texte, au début de l'histoire. |
-| `ambiance`, `volumeAmbiance` | chaîne ou tableau, 0 à 1 | aucune, 0.6 | (optionnel) Ambiance sonore du début (voir `scene`). |
+| `effet` | string | `aucun` | Full-screen animated effect (list below). |
+| `intensite` | 0 to 1 | 0.5 | Amount / strength of the effect. 0.3 to 0.6 = atmosphere; above 0.8 = overwhelming. |
+| `vignette` | 0 to 1 | 0.6 | Darkening of the screen edges. |
+| `grain` | 0 to 1 | 0.25 | Animated film grain. |
+| `scintillement` | 0 to 1 | 0 | Random dips in the light (a tired bulb). 0.1 to 0.3 = subtle. Softened if the user turns off intense effects. |
+| `svg` | string | — | **Original illustration** shown behind the text, semi-transparent (see below). |
+| `svgOpacite` | 0 to 1 | 0.22 | Opacity of the illustration while reading (it is ~2× more visible on the opening card). 0.15 to 0.3 without scenes; **0.35 to 0.5 with scenes** (the text then gets a shadow that keeps it readable, and the scenery lights up for a few seconds at each change of place). |
+| `couleur` | `#rrggbb` | depends on the effect | (optional) Color of the particles. |
+| `decors` | object | `{}` | **Named decors**: `{ "name": "<svg…>" }`. Used by the `scene` blocks (the place changes) and by the `vue` of the gestures (what the character sees). Same rules as `svg`. One decor = one place; a variant (`cuisine-elle`, the kitchen with her) = the same place, drawn the same way, with the creature added. The reserved name **`epieur`** (`viewBox='0 0 160 260'`) replaces the face that peeks out from the screen edges (`epier`) and that leaps. |
+| `teinte`, `teinteOpacite` | `#rrggbb`, 0 to 0.8 | none, 0.25 | (optional) Color laid over the scenery, under the text, at the start of the story. |
+| `ambiance`, `volumeAmbiance` | string or array, 0 to 1 | none, 0.6 | (optional) Ambient sound at the start (see `scene`). |
 
-**Effets** : `pluie`, `neige`, `brouillard`, `poussiere` (grains dans un rayon de lumière), `braises` (orange, montent), `statique` (neige de télé), `lucioles`, `cendres` (tombent en tournoyant, quelques-unes rougeoient), `etoiles` (scintillent, étoile filante), `bulles` (sous l'eau), `aucun`.
+**Effects**: `pluie` (rain), `neige` (snow), `brouillard` (fog), `poussiere` (dust motes in a beam of light), `braises` (embers: orange, rising), `statique` (TV static), `lucioles` (fireflies), `cendres` (ashes: fall swirling, a few glow), `etoiles` (stars: twinkle, a shooting star), `bulles` (bubbles: under water), `aucun` (none).
 
-**Règles pour `svg`** (illustration de fond) :
-- Un seul élément `<svg>` complet avec `xmlns='http://www.w3.org/2000/svg'`.
-- `viewBox='0 0 400 860'` (format portrait de l'iPhone). Ajouter `preserveAspectRatio='xMidYMax slice'` pour ancrer le paysage en bas.
-- **Utiliser des apostrophes simples `'` pour les attributs** (le SVG est dans une chaîne JSON entre guillemets doubles).
-- Interdits : `<script>`, `<foreignObject>`, attributs `on…`, liens externes (`href` vers http), images matricielles, `<text>` (le texte n'a rien à faire dans le décor). Ils sont supprimés automatiquement de toute façon.
-- Les `id` (dégradés, filtres) sont renommés automatiquement : aucun risque de conflit.
-- Style : silhouettes, aplats sombres, dégradés, **une ou deux sources de lumière** (fenêtre, lune, phare), un détail inquiétant discret (silhouette, yeux, porte entrouverte). Pas de photoréalisme. Taille : **5 à 15 Ko**, maximum 20 Ko.
-- Le ciel/fond du SVG doit aller avec `palette.fond`.
+**Rules for `svg`** (background illustration):
+- A single complete `<svg>` element with `xmlns='http://www.w3.org/2000/svg'`.
+- `viewBox='0 0 400 860'` (iPhone portrait format). Add `preserveAspectRatio='xMidYMax slice'` to anchor the landscape at the bottom.
+- **Use single quotes `'` for attributes** (the SVG sits in a JSON string between double quotes).
+- Forbidden: `<script>`, `<foreignObject>`, `on…` attributes, external links (`href` to http), raster images, `<text>` (text has nothing to do in the scenery). They are removed automatically anyway.
+- The `id`s (gradients, filters) are renamed automatically: no risk of conflict.
+- Style: silhouettes, dark flat shapes, gradients, **one or two light sources** (window, moon, lighthouse), a discreet unsettling detail (silhouette, eyes, door ajar). No photorealism. Size: **5 to 15 KB**, 20 KB maximum.
+- The sky/background of the SVG must match `palette.fond`.
 
 ---
 
 ## 8. `musique`
 
-Tout est synthétisé en direct (Web Audio). Aucun fichier audio.
+Everything is synthesized live (Web Audio). No audio files.
 
 ```json
 "musique": {
@@ -297,236 +300,238 @@ Tout est synthétisé en direct (Web Audio). Aucun fichier audio.
 }
 ```
 
-| Clé | Type | Défaut | Description |
+| Key | Type | Default | Description |
 |---|---|---|---|
-| `tempo` | 30 à 180 | 60 | Battements par minute (40-70 = lent et lourd ; 90+ = anxiété). |
-| `tonique` | chaîne | `D` | Note de base : `C`, `C#`, `Db`, `D`, … `B` (ou Do, Ré, Mi, Fa, Sol, La, Si, avec `#`/`b`). |
-| `gamme` | chaîne | `mineur` | Voir la liste ci-dessous. |
-| `couches` | tableau | drone + bruit | **2 à 6 couches** (8 maximum). |
-| `reverb` | 0 à 1 | 0.6 | Taille de la réverbération (0.8+ = cathédrale, caverne). |
-| `desaccord` | 0 à 1 | 0.15 | Désaccord et « pleurage » de bande : 0.1 = propre ; 0.3 = malsain ; 0.6 = détraqué. |
-| `evolution` | chaîne | `monte` | Comment l'intensité suit la lecture : `monte` (crescendo), `stable`, `descend`, `rupture` (monte puis s'effondre net à `rupture`). |
-| `rupture` | 0.1 à 0.95 | 0.75 | Position (0 = début, 1 = fin) de la rupture si `evolution` = `rupture`. |
-| `finale` | chaîne | `fondu` | À la phrase finale : `fondu` (baisse à 35 %), `silence` (s'éteint), `continuer`. |
-| `volume` | 0 à 1 | 1 | Volume global de la musique de cette histoire. |
+| `tempo` | 30 to 180 | 60 | Beats per minute (40–70 = slow and heavy; 90+ = anxiety). |
+| `tonique` | string | `D` | Root note: `C`, `C#`, `Db`, `D`, … `B` (or the solfège names Do, Ré, Mi, Fa, Sol, La, Si, with `#`/`b`). |
+| `gamme` | string | `mineur` | See the list below. |
+| `couches` | array | drone + noise | **2 to 6 layers** (8 maximum). |
+| `reverb` | 0 to 1 | 0.6 | Size of the reverb (0.8+ = cathedral, cave). |
+| `desaccord` | 0 to 1 | 0.15 | Detuning and tape "wow": 0.1 = clean; 0.3 = unhealthy; 0.6 = broken. |
+| `evolution` | string | `monte` | How the intensity follows the reading: `monte` (crescendo), `stable`, `descend` (decreasing), `rupture` (rises then collapses sharply at `rupture`). |
+| `rupture` | 0.1 to 0.95 | 0.75 | Position (0 = start, 1 = end) of the break if `evolution` = `rupture`. |
+| `finale` | string | `fondu` | At the final sentence: `fondu` (drops to 35%), `silence` (goes quiet), `continuer` (keeps going). |
+| `volume` | 0 to 1 | 1 | Overall music volume for this story. |
 
-**Gammes** : `mineur`, `phrygien` (sombre, espagnol/ancien), `locrien` (le plus instable), `chromatique` (chaos), `pentatonique_mineure` (folklorique, simple), `ton_par_ton` (rêve, irréel), `harmonique_mineure` (gothique, oriental), `dorien` (mélancolique), `diminuee` (cauchemar, tension), `hongroise_mineure` (étrange, ancien), `phrygien_dominant` (rituel, désert), `lydien` (merveilleux faussé), `majeur` (innocence… qui dérange avec du désaccord, ex. boîte à musique).
+**Scales** (`gamme`): `mineur` (minor), `phrygien` (Phrygian: dark, Spanish/ancient), `locrien` (Locrian: the most unstable), `chromatique` (chromatic: chaos), `pentatonique_mineure` (minor pentatonic: folk, simple), `ton_par_ton` (whole-tone: dream, unreal), `harmonique_mineure` (harmonic minor: gothic, Eastern), `dorien` (Dorian: melancholic), `diminuee` (diminished: nightmare, tension), `hongroise_mineure` (Hungarian minor: strange, ancient), `phrygien_dominant` (Phrygian dominant: ritual, desert), `lydien` (Lydian: warped wonder), `majeur` (major: innocence… that becomes disturbing with detuning, e.g. a music box).
 
-**Couches** — chaque couche :
+**Layers** — each layer:
 
-| Clé | Type | Défaut | Description |
+| Key | Type | Default | Description |
 |---|---|---|---|
-| `type` | chaîne | — | Voir le tableau suivant. |
-| `onde` | `sine`, `triangle`, `sawtooth`, `square` | selon le type | Timbre : sine = pur ; triangle = doux ; sawtooth = riche, râpeux ; square = creux. |
-| `octave` | 0 à 7 | selon le type | 1-2 = grave ; 3-4 = médium ; 5-6 = aigu. |
-| `volume` | 0 à 1 | 0.5 | Volume de la couche (équilibré automatiquement selon le type). |
-| `filtre` | 60 à 18000 (Hz) | selon le type | Fréquence de coupure : bas = étouffé, lointain ; haut = brillant. S'ouvre avec l'intensité. |
-| `densite` | 0 à 1 | 0.5 | Combien de notes jouent (ou d'activité). |
-| `seuil` | 0 à 1 | 0 | La couche n'entre que lorsque l'intensité atteint ce seuil (ex. 0.7 : arrive vers la fin). Idéal pour construire la tension. |
-| `pan` | -1 à 1 | 0 | Gauche / droite. |
+| `type` | string | — | See the next table. |
+| `onde` | `sine`, `triangle`, `sawtooth`, `square` | depends on the type | Timbre: sine = pure; triangle = soft; sawtooth = rich, rasping; square = hollow. |
+| `octave` | 0 to 7 | depends on the type | 1–2 = low; 3–4 = mid; 5–6 = high. |
+| `volume` | 0 to 1 | 0.5 | Volume of the layer (balanced automatically according to the type). |
+| `filtre` | 60 to 18000 (Hz) | depends on the type | Cutoff frequency: low = muffled, distant; high = bright. Opens up with the intensity. |
+| `densite` | 0 to 1 | 0.5 | How many notes play (or how much activity). |
+| `seuil` | 0 to 1 | 0 | The layer only comes in when the intensity reaches this threshold (e.g. 0.7: arrives near the end). Ideal for building tension. |
+| `pan` | -1 to 1 | 0 | Left / right. |
 
-| `type` | Rôle | Réglages typiques |
+| `type` | Role | Typical settings |
 |---|---|---|
-| `drone` | Notes tenues graves qui glissent rarement (la base de presque tout). Densité = nombre de voix (racine, quinte, octave, seconde dissonante). | sawtooth, octave 1-2, filtre 250-600 |
-| `pad` | Accords lents qui changent toutes les deux mesures. | triangle, octave 3, filtre 900-2000 |
-| `cloche` | Tintements métalliques épars (cloche d'église, carillon lointain). | octave 4-5, densite 0.1-0.3 |
-| `pulsation` | Battement de cœur grave (« poum-poum »). Utiliser `seuil` pour qu'il arrive plus tard. | sine, octave 1-2, seuil 0.5-0.8 |
-| `bruit` | Souffle continu avec rafales : vent, mer, grondement, ventilation. | filtre 400-1500, densite = force des rafales |
-| `boite_a_musique` | Petite mélodie répétée et faussée, qui mute lentement. | octave 5-6, densite 0.4-0.7 ; avec `majeur` ou `lydien` + désaccord = très inquiétant |
-| `cordes` | Section de cordes, longues notes ; **trémolo** automatique quand l'intensité dépasse 0.55. | sawtooth, octave 3, filtre 800-1600 |
-| `choeur` | Voix sans paroles (« aaah », « ooouh »). Culte, église, cosmique. | octave 3, volume 0.15-0.3 |
-| `piano` | Notes isolées d'un vieux piano désaccordé. | octave 3-5, densite 0.2-0.5 |
+| `drone` | Low held notes that rarely glide (the base of almost everything). Density = number of voices (root, fifth, octave, dissonant second). | sawtooth, octave 1–2, filtre 250–600 |
+| `pad` | Slow chords that change every two bars. | triangle, octave 3, filtre 900–2000 |
+| `cloche` | Sparse metallic chimes (bell): church bell, distant carillon. | octave 4–5, densite 0.1–0.3 |
+| `pulsation` | Low heartbeat pulse ("ba-dum"). Use `seuil` so that it arrives later. | sine, octave 1–2, seuil 0.5–0.8 |
+| `bruit` | Continuous noise with gusts: wind, sea, rumble, ventilation. | filtre 400–1500, densite = strength of the gusts |
+| `boite_a_musique` | Music box: a small repeated, warped melody that slowly mutates. | octave 5–6, densite 0.4–0.7; with `majeur` or `lydien` + desaccord = very unsettling |
+| `cordes` | String section, long notes; automatic **tremolo** when the intensity goes above 0.55. | sawtooth, octave 3, filtre 800–1600 |
+| `choeur` | Choir: wordless voices ("aaah", "oooh"). Cult, church, cosmic. | octave 3, volume 0.15–0.3 |
+| `piano` | Isolated notes from an old out-of-tune piano. | octave 3–5, densite 0.2–0.5 |
 
-Recettes : **hivernal** = drone + bruit (vent) + cloche rare ; **cosmique** = drone + choeur + pad en `ton_par_ton`, reverb 0.9 ; **maison hantée** = boite_a_musique (`majeur`, desaccord 0.4) + drone + piano ; **technologique** = drone square + bruit filtre haut + pulsation ; **maritime** = bruit (filtre 500, densité 0.9) + cordes + cloche (bouée).
+Recipes: **winter** = drone + bruit (wind) + rare cloche; **cosmic** = drone + choeur + pad in `ton_par_ton`, reverb 0.9; **haunted house** = boite_a_musique (`majeur`, desaccord 0.4) + drone + piano; **technological** = square drone + bruit with a high filtre + pulsation; **maritime** = bruit (filtre 500, densite 0.9) + cordes + cloche (buoy).
 
 ---
 
 ## 9. `blocs`
 
-Tableau ordonné. Chaque bloc a un `type` et, optionnellement, un `style` (section 10). Tout champ texte accepte le **balisage** (section 11) et `\n` (retour à la ligne) ; dans `paragraphe`, `citation` et les répliques de forum/transcription, `\n\n` crée un nouveau paragraphe.
+Ordered array. Each block has a `type` and, optionally, a `style` (section 10). Every text field accepts **markup** (section 11) and `\n` (line break); in `paragraphe`, `citation` and forum/transcript lines, `\n\n` starts a new paragraph.
 
-| `type` | Champs | Rendu |
+| `type` | Fields | Rendering |
 |---|---|---|
-| `paragraphe` | `texte` | Paragraphe(s) de narration. |
-| `titre` | `texte` | Titre de section (sens selon la mise en page). |
-| `dialogue` | `personnage`, `texte` ; optionnels : `horodatage` (transcription : « 00:03:12 »), `heure` (forum : date de publication ; sms : heure), `rang`, `messages`, `signature`, `avatar` (forum) | Réplique. |
-| `sms` | `de` (`"moi"` ou `"eux"`), `texte` ; optionnels : `nom` (expéditeur « eux », affiché s'il y a plusieurs correspondants), `heure` (affichée quand elle change), `vu` (`true` ou « Vu à 03:14 »), `statut` (`"non_distribue"`) | Bulle de message. Fonctionne dans toutes les mises en page, mais c'est le cœur de `sms`. |
-| `note` | `texte` | Note griffonnée (police `notes`, couleur secondaire). |
-| `citation` | `texte`, `source` (optionnel) | Citation en retrait. |
-| `pause` | `symbole` (optionnel) | Séparateur (⁂, ❦, — — —…). Avec `"symbole": "page"` : commence une nouvelle feuille, dans n'importe quelle mise en page. En `lettre` et `coupure`, **toute** pause commence une nouvelle feuille. |
-| `evenement` | `effet`, `son`, `duree`, `nombre`, `texte` | Invisible ; se déclenche une seule fois au défilement (section 12). |
-| `image` | `svg`, `legende` (optionnel) | Illustration SVG dans le texte (croquis, plan, photo de pièce à conviction…). `viewBox` paysage conseillé (ex. `0 0 320 200`). Utiliser `currentColor` ou les couleurs de la palette. Mêmes règles de sécurité que le SVG de fond. |
-| `signature` | `texte` | Signature manuscrite alignée à droite. |
-| `champs` | `titre` (optionnel), `champs` : `[{ "nom": "…", "valeur": "…" }]` | Tableau de champs officiels (formulaire, fiche). |
-| `tampon` | `texte`, `rotation` (-30 à 30, optionnel) | Tampon encré (« REÇU », « CLASSÉ », « NE PAS DIFFUSER »). |
-| `geste` | `texte` (le bouton), `mode` (`"toucher"` ou `"maintenir"`), `duree` (maintenir : 400 à 6000 ms, défaut 1600), `son` (optionnel, joué quand c'est fait), `aide` (optionnel, petit texte sous le bouton), **`vue`** (obligatoire, voir §9 ter) | **Le lecteur doit agir** : un bouton dans le style de l'histoire. Tout ce qui suit reste caché tant qu'il n'a pas touché (ou gardé le doigt appuyé : une jauge se remplit, lâcher trop tôt recommence). Puis la **vue** s'ouvre en plein écran : on voit ce que le personnage voit. Ensuite seulement, la suite apparaît. En SMS, la conversation attend le geste. |
-| `scene` | `decor` (nom dans `fond.decors`) ou `svg` ; optionnels : `opacite`, `effet`, `intensite`, `couleur`, `scintillement`, `vignette`, `teinte`, `teinteOpacite`, `ambiance`, `volume`, `fondu` | Invisible. **Le lieu change** quand le lecteur y arrive (§9 bis). |
+| `paragraphe` | `texte` | Narration paragraph(s). |
+| `titre` | `texte` | Section title (meaning depends on the layout). |
+| `dialogue` | `personnage`, `texte`; optional: `horodatage` (transcript: "00:03:12"), `heure` (forum: posting date; sms: time), `rang`, `messages`, `signature`, `avatar` (forum) | A line of dialogue. |
+| `sms` | `de` (`"moi"` = me or `"eux"` = them), `texte`; optional: `nom` (sender of a "them" message, shown when there are several correspondents), `heure` (shown when it changes), `vu` (`true` or "Read at 03:14"), `statut` (`"non_distribue"` = not delivered) | Message bubble. Works in every layout, but it's the heart of `sms`. |
+| `note` | `texte` | Scribbled note (`notes` font, secondary color). |
+| `citation` | `texte`, `source` (optional) | Indented quotation. |
+| `pause` | `symbole` (optional) | Separator (⁂, ❦, — — —…). With `"symbole": "page"`: starts a new sheet, in any layout. In `lettre` and `coupure`, **every** pause starts a new sheet. |
+| `evenement` | `effet`, `son`, `duree`, `nombre`, `texte` | Invisible; fires only once while scrolling (section 12). |
+| `image` | `svg`, `legende` (optional) | SVG illustration in the text (sketch, map, photo of a piece of evidence…). Landscape `viewBox` recommended (e.g. `0 0 320 200`). Use `currentColor` or the palette colors. Same safety rules as the background SVG. |
+| `signature` | `texte` | Handwritten signature aligned to the right. |
+| `champs` | `titre` (optional), `champs`: `[{ "nom": "…", "valeur": "…" }]` | Table of official fields (form, record card). |
+| `tampon` | `texte`, `rotation` (-30 to 30, optional) | Ink stamp ("RECEIVED", "FILED", "DO NOT RELEASE"). |
+| `geste` | `texte` (the button), `mode` (`"toucher"` = tap or `"maintenir"` = hold), `duree` (hold: 400 to 6000 ms, default 1600), `son` (optional, played when done), `aide` (optional, small text under the button), **`vue`** (mandatory, see §9b) | **The reader must act**: a button in the style of the story. Everything that follows stays hidden until they tap it (or keep their finger on it: a gauge fills up, letting go too early starts over). Then the **view** opens full screen: you see what the character sees. Only then does the rest appear. In SMS, the conversation waits for the gesture. |
+| `scene` | `decor` (name in `fond.decors`) or `svg`; optional: `opacite`, `effet`, `intensite`, `couleur`, `scintillement`, `vignette`, `teinte`, `teinteOpacite`, `ambiance`, `volume`, `fondu` | Invisible. **The place changes** when the reader gets there (§9a). |
 
-Exemples :
+Examples:
 ```json
-{ "type": "titre", "texte": "Mardi 3 mars — 2 h 40" },
-{ "type": "paragraphe", "texte": "Premier paragraphe.\n\nDeuxième paragraphe du même bloc." },
-{ "type": "dialogue", "personnage": "MARIE", "texte": "T'as-tu entendu ça ?", "horodatage": "00:03:12" },
-{ "type": "sms", "de": "eux", "nom": "Maman", "heure": "03:12", "texte": "Es-tu réveillé ?" },
-{ "type": "sms", "de": "moi", "texte": "Oui. Pourquoi ?", "vu": "Vu à 03:13" },
-{ "type": "dialogue", "personnage": "nightcrawler_77", "heure": "14 mars 2004, 03:12", "rang": "Membre", "messages": "212", "signature": "Ne réponds pas quand ça cogne.", "texte": "Quelqu'un d'autre l'a vue ?" },
-{ "type": "champs", "titre": "Personne disparue", "champs": [{ "nom": "Nom", "valeur": "LAFOND, Gérard" }, { "nom": "Âge", "valeur": "52 ans" }] },
-{ "type": "tampon", "texte": "Classé", "rotation": -8 },
+{ "type": "titre", "texte": "Tuesday, March 3 — 2:40 AM" },
+{ "type": "paragraphe", "texte": "First paragraph.\n\nSecond paragraph of the same block." },
+{ "type": "dialogue", "personnage": "MARIE", "texte": "Did you hear that?", "horodatage": "00:03:12" },
+{ "type": "sms", "de": "eux", "nom": "Mom", "heure": "03:12", "texte": "Are you awake?" },
+{ "type": "sms", "de": "moi", "texte": "Yes. Why?", "vu": "Read at 03:13" },
+{ "type": "dialogue", "personnage": "nightcrawler_77", "heure": "March 14, 2004, 03:12", "rang": "Member", "messages": "212", "signature": "Don't answer when it knocks.", "texte": "Has anyone else seen her?" },
+{ "type": "champs", "titre": "Missing person", "champs": [{ "nom": "Name", "valeur": "LAFOND, Gérard" }, { "nom": "Age", "valeur": "52" }] },
+{ "type": "tampon", "texte": "Filed", "rotation": -8 },
 { "type": "pause" },
-{ "type": "image", "legende": "Annexe A — plan du sous-sol.", "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 200'>…</svg>" },
+{ "type": "image", "legende": "Appendix A — basement floor plan.", "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 200'>…</svg>" },
 { "type": "scene", "decor": "cuisine", "ambiance": "frigo", "teinte": "#14263a", "teinteOpacite": 0.22 },
-{ "type": "geste", "texte": "Ouvrir la garde-robe", "mode": "maintenir", "duree": 2000, "son": "craquement",
+{ "type": "geste", "texte": "Open the closet", "mode": "maintenir", "duree": 2000, "son": "craquement",
   "vue": { "decor": "vue-garde-robe", "entree": "ouvrir", "son": "mouches", "duree": 4500 } }
 ```
 
-### 9 bis. `scene` : l'environnement suit l'histoire
+### 9a. `scene`: the environment follows the story
 
-Un bloc `scene` se place **juste avant** le paragraphe qui arrive dans un nouveau lieu (ou qui change le lieu : la créature apparaît, la lumière s'éteint, la douche s'arrête). Quand ce paragraphe passe à 60 % de l'écran, l'environnement change : l'**illustration** passe au nouveau décor en fondu, le **fond animé**, la **teinte** et la **vignette** suivent, et l'**ambiance sonore** (en boucle) passe à la nouvelle en fondu enchaîné. Si le lecteur remonte, le lieu d'avant revient. Avant la première scène : le `fond` de l'histoire.
+A `scene` block goes **just before** the paragraph that arrives in a new place (or that changes the place: the creature appears, the light goes out, the shower stops). When that paragraph reaches 60% of the screen, the environment changes: the **illustration** crossfades to the new decor, the **animated background**, the **tint** and the **vignette** follow, and the **ambient sound** (looping) crossfades to the new one. If the reader scrolls back up, the previous place comes back. Before the first scene: the story's `fond`.
 
-Un champ absent reprend la valeur du `fond` de l'histoire (**pas** celle de la scène d'avant) : chaque scène décrit son lieu au complet.
+A missing field takes the value of the story's `fond` (**not** the previous scene's): each scene describes its place in full.
 
-| Clé | Type | Défaut | Description |
+| Key | Type | Default | Description |
 |---|---|---|---|
-| `decor` | chaîne | `fond.svg` | Nom d'un décor de `fond.decors`. (Ou `svg` : le SVG directement.) |
-| `opacite` | 0 à 1 | `fond.svgOpacite` | Opacité du décor derrière le texte (un peu plus, 0.3 à 0.36, quand la créature est dans le décor). |
-| `effet`, `intensite`, `couleur`, `scintillement`, `vignette` | | ceux du `fond` | Fond animé du lieu (`brouillard` pour la vapeur d'une douche, `statique`, `poussiere`…). |
-| `teinte`, `teinteOpacite` | `#rrggbb`, 0 à 0.8 | aucune, 0.25 | Couleur du lieu (bleu froid d'un frigo, rouge d'un néon, vert d'une maison qui pourrit). 0.12 à 0.25. |
-| `ambiance` | chaîne ou tableau (3 au plus) | aucune | Sons en boucle : `frigo` (bourdonnement), `douche` (l'eau qui coule), `gouttes` (gouttes dans le bain, avec écho), `voiture` (moteur et route), `horloge` (tic-tac), `vent`, `climatiseur`, `neon` (grésillement), `mouches`, `souffle` (quelqu'un respire tout près, dans le noir), `aucune`. |
-| `volume` | 0 à 1 | 0.6 | Volume de l'ambiance. |
-| `fondu` | 0 à 6000 ms | 1800 | Durée du passage au nouveau décor. **Lent** (3000 et plus) pour qu'elle apparaisse doucement ; **`0`** pour une coupe sèche (« elle a tout de suite disparu »). |
+| `decor` | string | `fond.svg` | Name of a decor in `fond.decors`. (Or `svg`: the SVG directly.) |
+| `opacite` | 0 to 1 | `fond.svgOpacite` | Opacity of the decor behind the text (a bit more, 0.45 to 0.56, when the creature is in the decor). |
+| `effet`, `intensite`, `couleur`, `scintillement`, `vignette` | | those of `fond` | Animated background of the place (`brouillard` for the steam of a shower, `statique`, `poussiere`…). |
+| `teinte`, `teinteOpacite` | `#rrggbb`, 0 to 0.8 | none, 0.25 | Color of the place (cold blue of a fridge, red of a neon sign, green of a rotting house). 0.12 to 0.25. |
+| `ambiance` | string or array (3 at most) | none | Looping sounds: `frigo` (fridge hum), `douche` (running shower water), `gouttes` (drips in the bathtub, with echo), `voiture` (engine and road), `horloge` (clock ticking), `vent` (wind), `climatiseur` (air conditioner), `neon` (neon buzz), `mouches` (flies), `souffle` (someone breathing very close, in the dark), `aucune` (none). |
+| `volume` | 0 to 1 | 0.6 | Volume of the ambient sound. |
+| `fondu` | 0 to 6000 ms | 1800 | Duration of the crossfade to the new decor. **Slow** (3000 or more) so that she appears gently; **`0`** for a hard cut ("she was gone at once"). |
 
-### 9 ter. `vue` : ce que le geste montre
+### 9b. `vue`: what the gesture shows
 
-Un geste qui ne fait que laisser continuer la lecture ne sert à rien : **chaque geste a une `vue`**, une image plein écran de ce que le personnage voit (sous la porte, dans la garde-robe, sous le lit, la photo reçue). Elle se ferme seule après `duree`, ou d'un toucher.
+A gesture that only lets the reading continue is useless: **every gesture has a `vue`**, a full-screen image of what the character sees (under the door, in the closet, under the bed, the photo they received). It closes by itself after `duree`, or with a tap.
 
-| Clé | Type | Défaut | Description |
+| Key | Type | Default | Description |
 |---|---|---|---|
-| `decor` | chaîne | — | Nom d'un décor de `fond.decors` (ou `svg` directement). Portrait `0 0 400 860`, sauf pour `photo` (paysage, ex. `0 0 320 220`). |
-| `entree` | chaîne | `fondu` | Comment on la découvre : `fondu`, `zoom` (les yeux s'habituent au noir), `tourner` (on tourne la tête), `baisser` (on se penche, on regarde en bas), `ouvrir` (deux portes s'ouvrent), `photo` (comme une photo reçue sur un téléphone, avec `titre` en haut). |
-| `son` | chaîne | `aucun` | Son joué quand la vue apparaît (`respiration`, `coeur`, `mouches`, `silence`…). |
-| `duree` | 1200 à 12000 ms | 3400 | Temps avant qu'elle se ferme seule. |
-| `titre` | chaîne | — | Avec `photo` : l'expéditeur affiché en haut (« Numéro inconnu »). |
-| `texte` | chaîne | — | (optionnel) Une courte ligne en bas de la vue. |
+| `decor` | string | — | Name of a decor in `fond.decors` (or `svg` directly). Portrait `0 0 400 860`, except for `photo` (landscape, e.g. `0 0 320 220`). |
+| `entree` | string | `fondu` | How it is discovered: `fondu` (fade), `zoom` (the eyes adjust to the dark), `tourner` (you turn your head), `baisser` (you lean down, you look down), `ouvrir` (two doors open), `photo` (like a photo received on a phone, with `titre` at the top). |
+| `son` | string | `aucun` | Sound played when the view appears (`respiration`, `coeur`, `mouches`, `silence`…). |
+| `duree` | 1200 to 12000 ms | 3400 | Time before it closes by itself. |
+| `titre` | string | — | With `photo`: the sender shown at the top ("Unknown number"). |
+| `texte` | string | — | (optional) A short line at the bottom of the view. |
 
-Les vues peuvent être plus détaillées que les décors : surtout du noir, une lumière sur l'essentiel, du grain (`feTurbulence`), un peu de flou (`feGaussianBlur`), et même une animation SMIL (`<animate>` : un œil qui cligne, des mains qui tremblent, des mouches qui bougent).
+Views can be more detailed than decors: mostly black, a light on what matters, grain (`feTurbulence`), a little blur (`feGaussianBlur`), and even a SMIL animation (`<animate>`: an eye that blinks, hands that shake, flies that move).
 
 ---
 
-## 10. `style` des blocs
+## 10. Block `style`
 
-Optionnel, sur n'importe quel bloc : une chaîne de mots séparés par des espaces (ou un tableau).
+Optional, on any block: a string of space-separated words (or an array).
 
-| Style | Effet |
+| Style | Effect |
 |---|---|
-| `centre` / `droite` | Alignement. |
-| `gros` / `petit` | Taille (×1,45 / ×0,82). |
-| `agite` | Chaque mot tremble nerveusement (panique, écriture qui dérape). |
-| `efface` | Très pâle, comme effacé. |
-| `accent` | Tout le bloc en couleur accent. |
-| `majuscules` | En majuscules espacées. |
-| `espace` | Grand espace avant le bloc (pour isoler une phrase). |
-| `lent` | Apparition très lente (2,8 s). |
+| `centre` / `droite` | Alignment (center / right). |
+| `gros` / `petit` | Size (×1.45 / ×0.82). |
+| `agite` | Every word trembles nervously (panic, writing that slips). |
+| `efface` | Very pale, as if erased. |
+| `accent` | The whole block in the accent color. |
+| `majuscules` | In spaced capitals. |
+| `espace` | Large space before the block (to isolate a sentence). |
+| `lent` | Very slow appearance (2.8 s). |
 
-Exemple : `{ "type": "paragraphe", "texte": "Il est encore là.", "style": "centre gros lent" }`
+Example: `{ "type": "paragraphe", "texte": "It's still here.", "style": "centre gros lent" }`
 
 ---
 
-## 11. Balisage du texte
+## 11. Text markup
 
-| Balisage | Effet |
+| Markup | Effect |
 |---|---|
-| `*texte*` | *Italique*. |
-| `##texte##` | Chuchoté : petit, pâle, chaque mot tremble légèrement. |
-| `\|\|texte\|\|` | Caviardé : barre noire, révélé quand on le touche. Le lecteur peut ne jamais le voir : n'y cachez pas une information **indispensable**. |
-| `%%texte%%` | Glitch : les caractères se brouillent par moments. |
-| `^^texte^^` | Apparaît lettre par lettre, lentement (quand le bloc entre à l'écran). |
-| `__texte__` | Couleur accent. |
-| `~~texte~~` | Rature (barré ; ondulé en manuscrit et journal). |
-| `[texte]` | Annotation entre crochets, en italique pâle (ex. `[inaudible]`, `[silence]`, `[rires]`). |
-| `\n` | Retour à la ligne. `\n\n` = nouveau paragraphe (dans `paragraphe`). |
+| `*text*` | *Italics*. |
+| `##text##` | Whispered: small, pale, each word trembles slightly. |
+| `\|\|text\|\|` | Redacted: black bar, revealed when tapped. The reader may never see it: don't hide **essential** information in it. |
+| `%%text%%` | Glitch: the characters scramble from time to time. |
+| `^^text^^` | Appears letter by letter, slowly (when the block comes on screen). |
+| `__text__` | Accent color. |
+| `~~text~~` | Strikethrough (wavy in `manuscrit` and `journal_intime`). |
+| `[text]` | Annotation in brackets, in pale italics (e.g. `[inaudible]`, `[silence]`, `[laughter]`). |
+| `\n` | Line break. `\n\n` = new paragraph (in `paragraphe`). |
 
-- Les balises ne se chevauchent pas ; `%%…%%` et `^^…^^` contiennent du texte simple (pas d'autre balise dedans).
-- Chaque balise doit être **fermée** (nombre pair de `##`, `||`, `%%`, `^^`, `__`, `~~`).
-- Parcimonie : quelques effets bien placés valent mieux que dix.
+- Tags don't overlap; `%%…%%` and `^^…^^` contain plain text (no other tag inside).
+- Every tag must be **closed** (an even number of `##`, `||`, `%%`, `^^`, `__`, `~~`).
+- There is no way to escape these sequences: in a story from the owner, they always produce their effect (see DAILY.md, step 4).
+- Sparingly: a few well-placed effects are better than ten.
 
 ---
 
-## 12. Événements
+## 12. Events
 
-Bloc `evenement` : invisible, il se déclenche **une seule fois** quand il passe le milieu de l'écran pendant le défilement. Placez-le **juste après** la phrase qui le justifie.
+`evenement` block: invisible, it fires **only once** when it passes the middle of the screen while scrolling. Place it **right after** the sentence that justifies it.
 
 ```json
-{ "type": "evenement", "effet": "noir", "son": "respiration", "duree": 3000, "texte": "##Ne te retourne pas.##" }
+{ "type": "evenement", "effet": "noir", "son": "respiration", "duree": 3000, "texte": "##Don't turn around.##" }
 ```
 
-| Clé | Type | Défaut | Description |
+| Key | Type | Default | Description |
 |---|---|---|---|
-| `effet` | chaîne | `aucun` | Effet visuel : `glitch` (écran qui se brouille, couleurs décalées), `noir` (écran noir complet), `flash` (éclair blanc), `tremblement` (l'écran tremble), `epier` (un visage pâle sort d'un bord de l'écran, regarde le lecteur sans cligner, puis se cache ; le toucher le fait fuir), `notification` (des textos arrivent en haut de l'écran, comme sur un iPhone, avec le son ; ils s'empilent, la plus récente en haut ; au-delà de 4, un compteur « et N autres notifications » monte ; un toucher les chasse), `appel` (appel entrant plein écran avec sonnerie : Refuser ou Accepter ; si on accepte, on entend respirer, puis « Appel terminé »), `aucun`. |
-| `son` | chaîne | `aucun` | Son synthétisé (liste ci-dessous). |
-| `duree` | millisecondes | noir 1600, flash 700, glitch 800, tremblement 900, epier 2600, notification 6000 | Durée de l'effet **et** du son (pour les sons qui ont une durée). |
-| `nombre` | 1 à 12 | selon le son | Répétitions pour `coup` (3), `pas` (5), `coeur` (5), `vibration` (2), `goutte` (3). |
-| `texte` | chaîne | — | Avec `noir` : texte affiché sur l'écran noir. Avec `notification` : le message (s'il n'y a pas de `messages`). Avec `appel` : une ligne affichée pendant l'appel, si on accepte (« [respiration] »). Balisage permis. |
-| `titre` | chaîne | — | Avec `notification` : l'expéditeur (« Lynn », « Numéro inconnu »). Avec `appel` : qui appelle (obligatoire). |
-| `messages` | tableau | — | Avec `notification` : **une rafale** de 1 à 40 textos, qui arrivent un à un. Chacun : une chaîne, ou `{ "texte": "…", "titre": "…", "app": "telephone" }` (un appel manqué au milieu des textos). Quand quelqu'un écrit plusieurs fois, mettez-les **tous**. |
-| `intervalle` | 150 à 5000 ms | 900 | Avec `notification` : temps entre deux textos de la rafale (400 à 600 = elle s'acharne). |
-| `reste` | 0 à 999 | 0 | Avec `notification` : après la rafale, le compteur « et N autres » monte encore d'autant, très vite (« des dizaines de textos »). |
-| `app` | chaîne | `messages` | Avec `notification` : `messages` (bulle verte) ou `telephone` (appel manqué). |
-| `attaque` | booléen | `false` | Avec `epier` : le visage se rapproche lentement pendant `duree` ; si le lecteur ne le touche pas, il bondit sur l'écran (un coup, une vibration). |
-| `cote` | chaîne | `droite` | Avec `epier` : `droite`, `gauche`, `bas` ou `haut` (à l'envers, comme pendue au plafond). |
+| `effet` | string | `aucun` | Visual effect: `glitch` (the screen scrambles, shifted colors), `noir` (fully black screen), `flash` (white flash), `tremblement` (the screen shakes), `epier` (a pale face peeks out from an edge of the screen, stares at the reader without blinking, then hides; tapping it makes it flee), `notification` (texts arrive at the top of the screen, like on an iPhone, with sound; they stack up, the most recent on top; beyond 4, an "and N more notifications" counter climbs; a tap dismisses them), `appel` (full-screen incoming call with a ringtone: Decline or Accept; if you accept, you hear breathing, then "Call ended"), `aucun` (none). |
+| `son` | string | `aucun` | Synthesized sound (list below). |
+| `duree` | milliseconds | noir 1600, flash 700, glitch 800, tremblement 900, epier 2600, notification 6000 | Duration of the effect **and** of the sound (for sounds that have a duration). |
+| `nombre` | 1 to 12 | depends on the sound | Repetitions for `coup` (3), `pas` (5), `coeur` (5), `vibration` (2), `goutte` (3). |
+| `texte` | string | — | With `noir`: text shown on the black screen. With `notification`: the message (if there are no `messages`). With `appel`: a line shown during the call, if accepted ("[breathing]"). Markup allowed. |
+| `titre` | string | — | With `notification`: the sender ("Lynn", "Unknown number"). With `appel`: who is calling (mandatory). |
+| `messages` | array | — | With `notification`: **a burst** of 1 to 40 texts, arriving one by one. Each one: a string, or `{ "texte": "…", "titre": "…", "app": "telephone" }` (a missed call among the texts). When someone writes several times, put **all** of them. |
+| `intervalle` | 150 to 5000 ms | 900 | With `notification`: time between two texts of the burst (400 to 600 = relentless). |
+| `reste` | 0 to 999 | 0 | With `notification`: after the burst, the "and N more" counter climbs by that much more, very fast ("dozens of texts"). |
+| `app` | string | `messages` | With `notification`: `messages` (green bubble) or `telephone` (missed call). |
+| `attaque` | boolean | `false` | With `epier`: the face slowly comes closer during `duree`; if the reader doesn't touch it, it leaps at the screen (a thud, a vibration). |
+| `cote` | string | `droite` | With `epier`: `droite` (right), `gauche` (left), `bas` (bottom) or `haut` (top, upside down, as if hanging from the ceiling). |
 
-**Sons** :
+**Sounds**:
 
 | `son` | Description |
 |---|---|
-| `coup` | Coups frappés sur du bois (porte, mur). |
-| `craquement` | Plancher ou porte qui grince. |
-| `chuchotement` | Voix chuchotée inintelligible qui passe de gauche à droite. |
-| `respiration` | Respiration proche (inspiration, expiration). ~2,7 s par cycle. |
-| `porte` | Grincement puis porte qui claque. |
-| `silence` | **Coupe la musique net** pendant `duree`, puis elle revient doucement. Très efficace. |
-| `pas` | Pas qui s'approchent. |
-| `grattement` | Quelque chose qui gratte (griffes sur un mur). |
-| `coeur` | Battements de cœur qui accélèrent. |
-| `statique` | Grésillement de radio avec une tonalité fantôme. |
-| `cloche` | Un coup de cloche grave (accordé sur la tonique de la musique). |
-| `vibration` | Téléphone qui vibre. |
-| `goutte` | Gouttes d'eau qui tombent, avec écho. |
-| `texto` | Le son d'un texto reçu (trois petites notes). **À mettre sur les notifications.** |
-| `mouches` | Des mouches qui bourdonnent et tournent autour (pendant `duree`). |
-| `aucun` | Pas de son. |
+| `coup` | Knocks on wood (door, wall). |
+| `craquement` | A floor or door that creaks. |
+| `chuchotement` | An unintelligible whispered voice moving from left to right. |
+| `respiration` | Close breathing (in, out). ~2.7 s per cycle. |
+| `porte` | A creak, then a door slamming. |
+| `silence` | **Cuts the music sharply** for `duree`, then it comes back gently. Very effective. |
+| `pas` | Footsteps coming closer. |
+| `grattement` | Something scratching (claws on a wall). |
+| `coeur` | Heartbeats speeding up. |
+| `statique` | Radio crackle with a ghostly tone. |
+| `cloche` | A single deep bell toll (tuned to the music's tonic). |
+| `vibration` | A phone vibrating. |
+| `goutte` | Water drops falling, with echo. |
+| `texto` | The sound of an incoming text (three short notes). **Use it on notifications.** |
+| `mouches` | Flies buzzing and circling around (for `duree`). |
+| `aucun` | No sound. |
 
-Règles : **3 à 8 événements par histoire** (14 pour une traduction), aux moments clés, **2 à 5 gestes** (chacun avec sa vue) et une **scène** à chaque changement de lieu. Pas de jumpscare gratuit : un événement doit prolonger ce que le texte vient de dire. `flash` et `tremblement` deviennent très doux si l'utilisateur a désactivé les effets intenses.
-
----
-
-## 13. Robustesse et mode DEV
-
-- Champ manquant ou invalide → valeur par défaut + avertissement. Type de bloc inconnu avec un `texte` → affiché comme paragraphe. Bloc illisible → ignoré.
-- JSON légèrement abîmé (virgule finale, commentaire) → réparé si possible, signalé comme erreur.
-- Fichier de la nuit introuvable → écran de secours « Silence radio » (jamais une histoire plus ancienne). **Jamais d'écran blanc.**
-- Police introuvable → police de secours (serif, sans-serif, monospace ou cursive).
-- Mode DEV (Paramètres → toucher **3 fois** le numéro de version en bas → code `BURGER`) : lire la prochaine histoire (et les passées) en aperçu, JSON brut, liste des erreurs et avertissements de format, prévisualisation d'un JSON collé, test de chaque mise en page, fond, son et couche musicale, réglage de la boîte à suggestions.
+Rules: **3 to 14 events per story** (every story is chosen by the owner; see DAILY.md), at key moments, **2 to 5 gestures** (each with its view) and a **scene** at each change of place. No gratuitous jump scares: an event must extend what the text has just said. `flash` and `tremblement` become very soft if the user has turned off intense effects.
 
 ---
 
-## 14. Exemple complet
+## 13. Robustness and DEV mode
 
-Exemple court mais complet et valide (une vraie histoire doit compter 900 à 1600 mots et 3 à 6 événements) :
+- Missing or invalid field → default value + warning. Unknown block type with a `texte` → shown as a paragraph. Unreadable block → ignored.
+- Slightly damaged JSON (trailing comma, comment) → repaired if possible, reported as an error.
+- Tonight's file not found → "radio silence" fallback screen (never an older story). **Never a blank screen.**
+- Font not found → fallback font (serif, sans-serif, monospace or cursive).
+- DEV mode (Settings → tap the version number at the bottom **3 times** → code `BURGER`): read the next story (and the past ones) as a preview, raw JSON, list of format errors and warnings, preview of a pasted JSON, test of every layout, background, sound and music layer, suggestion box settings.
+
+---
+
+## 14. Full example
+
+Short but complete and valid example (a real story is the owner's whole text, verbatim, with 3 to 14 events, 2 to 5 gestures and its scenes):
 
 ```json
 {
   "version": 1,
   "numero": 2,
   "date": "2026-10-19",
-  "titre": "Le quart de nuit",
-  "sousTitre": "Bouée 44, golfe du Saint-Laurent",
-  "sousGenre": "horreur maritime",
-  "lieu": "Phare de l'île aux Corneilles, golfe du Saint-Laurent",
-  "epoque": "novembre 1958",
+  "titre": "The Night Watch",
+  "sousTitre": "Buoy 44, Gulf of St. Lawrence",
+  "sousGenre": "maritime horror",
+  "lieu": "Île aux Corneilles lighthouse, Gulf of St. Lawrence",
+  "epoque": "November 1958",
   "auQuebec": true,
-  "format": "Journal de bord d'un gardien de phare",
-  "resume": "Un gardien de phare note chaque nuit la lumière d'un bateau qui n'approche jamais.",
-  "retournement": "inversion : ce n'est pas le bateau qui approche, c'est la côte qui s'éloigne",
+  "format": "A lighthouse keeper's logbook",
+  "resume": "Every night, a lighthouse keeper writes down the light of a boat that never comes any closer.",
+  "retournement": "inversion: it isn't the boat that is coming closer, it's the coast that is drifting away",
+  "origine": "choisie",
   "avertissement": "",
   "miseEnPage": "journal_intime",
   "theme": {
@@ -534,7 +539,7 @@ Exemple court mais complet et valide (une vraie histoire doit compter 900 à 160
     "polices": { "titre": "Caveat", "texte": "Patrick Hand", "notes": "Caveat" },
     "cssPersonnalise": ""
   },
-  "document": { "auteurDocument": "Wilfrid", "dateDocument": "Novembre 1958" },
+  "document": { "auteurDocument": "Wilfrid", "dateDocument": "November 1958" },
   "fond": {
     "effet": "brouillard", "intensite": 0.55, "vignette": 0.75, "grain": 0.3, "scintillement": 0.1, "svgOpacite": 0.22,
     "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 860' preserveAspectRatio='xMidYMax slice'><defs><linearGradient id='c' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#02040a'/><stop offset='1' stop-color='#101a26'/></linearGradient><radialGradient id='f' cx='.5' cy='.5' r='.5'><stop offset='0' stop-color='#fff2c4' stop-opacity='.9'/><stop offset='1' stop-color='#fff2c4' stop-opacity='0'/></radialGradient></defs><rect width='400' height='860' fill='url(#c)'/><path d='M0 640 Q200 620 400 640 L400 860 L0 860 Z' fill='#03060a'/><polygon points='300,640 318,420 334,420 352,640' fill='#060a10'/><circle cx='326' cy='410' r='60' fill='url(#f)'/><circle cx='80' cy='600' r='3' fill='#ffd27a' opacity='.6'/></svg>"
@@ -549,15 +554,15 @@ Exemple court mais complet et valide (une vraie histoire doit compter 900 à 160
     ]
   },
   "blocs": [
-    { "type": "titre", "texte": "Lundi 10 novembre — minuit" },
-    { "type": "paragraphe", "texte": "Brume épaisse. La corne de brume toutes les trente secondes. Une lumière au large, plein est. Elle ne bouge pas." },
+    { "type": "titre", "texte": "Monday, November 10 — midnight" },
+    { "type": "paragraphe", "texte": "Thick fog. The foghorn every thirty seconds. A light out at sea, due east. It doesn't move." },
     { "type": "evenement", "effet": "aucun", "son": "cloche" },
-    { "type": "titre", "texte": "Mardi 11 novembre — 3 h 12" },
-    { "type": "paragraphe", "texte": "La lumière est plus proche. ##Elle clignote au même rythme que moi.##" },
-    { "type": "note", "texte": "Ne pas oublier : remonter les poids de l'horloge." },
-    { "type": "evenement", "effet": "noir", "son": "silence", "duree": 2500, "texte": "La corne s'est tue." },
-    { "type": "paragraphe", "texte": "Je n'ai pas allumé la lanterne ce soir. ^^Pourtant, le phare brille.^^", "style": "espace" }
+    { "type": "titre", "texte": "Tuesday, November 11 — 3:12 AM" },
+    { "type": "paragraphe", "texte": "The light is closer. ##It blinks in time with me.##" },
+    { "type": "note", "texte": "Don't forget: wind up the clock weights." },
+    { "type": "evenement", "effet": "noir", "son": "silence", "duree": 2500, "texte": "The foghorn has gone quiet." },
+    { "type": "paragraphe", "texte": "I didn't light the lantern tonight. ^^And yet the lighthouse is shining.^^", "style": "espace" }
   ],
-  "phraseFinale": "Le bateau n'a jamais approché. __C'est la côte qui s'éloigne.__"
+  "phraseFinale": "The boat never came any closer. __It's the coast that is drifting away.__"
 }
 ```
