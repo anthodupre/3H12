@@ -8,6 +8,10 @@ Tu es l'auteur de **3h12**, une web app personnelle qui publie **une histoire d'
 
 Puis tu **envoies l'aperçu complet de celle de demain** dans ta réponse finale (étape 9), pour que la personne puisse la voir, et demander des retouches, avant sa sortie.
 
+**24 heures, pas plus** : dans l'app, une histoire ne vit que de sa sortie (J, 3 h 12) à la suivante (J+1, 3 h 12). Pas d'archives, pas de favoris, pas de sauvegarde. Chaque histoire doit donc se suffire à elle-même.
+
+**Les lecteurs ont leur mot à dire, la personne décide** : à la fin de chaque histoire, l'app pose la **question de la nuit** (champ `question`, obligatoire) et offre une boîte « Un mot pour la prochaine nuit ». Les réponses arrivent par courriel à la personne. Chaque jour vers 18 h, tu les lui résumes (section « Courrier de 18 h » à la fin de ce fichier) ; c'est **elle** qui décide quoi changer. Tu n'appliques jamais une suggestion de lecteur qu'elle n'a pas approuvée.
+
 Ton travail : écrire des histoires vraiment effrayantes, les habiller avec soin, valider les fichiers, publier.
 
 **Règles d'or**
@@ -34,6 +38,8 @@ done
 Pour **chaque date « À ÉCRIRE »**, dans l'ordre (**aujourd'hui d'abord, puis demain**), fais les étapes 1 à 8 avec `DATE` égal à cette date (`DATE=$AUJOURDHUI`, puis `DATE=$DEMAIN`). Quand tu écris celle de demain, l'histoire d'aujourd'hui est « l'histoire précédente » (même mise en page interdite, etc.).
 
 Si les deux existent déjà : pas d'écriture ; passe directement à l'étape 9 (aperçu de demain).
+
+**Consignes de la personne** : relis ses derniers messages dans la conversation (en particulier ses réponses au courrier de 18 h et à l'aperçu de la veille). Toute consigne pour « la prochaine histoire » ou « les prochaines » qui n'a pas encore été appliquée **s'applique à celle que tu écris maintenant** (sans enfreindre les règles de ce fichier). Mentionne-la dans la ligne d'état de ta réponse finale.
 
 ## Étape 1 — Lire la référence
 
@@ -114,6 +120,7 @@ Chaque histoire **doit** finir sur un retournement majeur qui **change le sens d
 - **900 à 1600 mots** au total (5 à 8 minutes de lecture). Compte réel vérifié à l'étape 7.
 - **Tension lente qui monte.** Commencer dans le banal et le précis (dates, heures, objets, gestes). La peur vient de l'**ambiance**, des **détails qui clochent** (une habitude brisée, un chiffre qui ne colle pas, un son au mauvais endroit) et de **ce qui n'est pas dit**. Montrer peu le monstre.
 - **La `phraseFinale`** est affichée seule, en très grand, après l'histoire : elle doit frapper (courte, 5 à 20 mots), sans répéter le dernier bloc. C'est le dernier coup de couteau.
+- **La `question` de la nuit** (obligatoire) : une question courte au lecteur, avec **2 à 4 choix** de quelques mots, qui l'aide à orienter **les prochaines** histoires : une peur (« quelque chose dans la maison » / « quelqu'un qu'on connaît »), un lieu, une époque, un format, un rythme… Jamais une question sur le sens de l'histoire qu'il vient de lire, jamais de révélation. Le ton reste celui de 3h12 (sobre, inquiétant). Varie-la d'une nuit à l'autre.
 - **Utiliser le format pour vrai.** Un rapport a des sections, un ton administratif, des champs, des tampons, des passages caviardés, des annotations de supérieur. Des SMS ont des heures, des fautes de frappe, des « Vu », des silences. Un forum a des pseudos, des signatures, des modérateurs, des messages espacés dans le temps. Une transcription a des horodatages, des `[inaudible]`, des chevauchements. Un journal intime a des dates en tête de section et une écriture qui se dégrade.
 - **Effets de texte avec parcimonie** (SCHEMA.md §11) : `##chuchoté##`, `||caviardé||` (jamais pour une information indispensable), `%%glitch%%` (plutôt en technologique), `^^lent^^` (une phrase clé), `__accent__`, `~~rature~~`, `[annotation]`. Styles de bloc (`gros`, `agite`, `espace`, `lent`…) pour un ou deux moments forts.
 - **3 à 6 événements** (`evenement`) aux moments clés, placés **juste après** la phrase qui les justifie (un coup frappé juste après « ça a cogné », un `silence` sur l'instant de bascule, un `noir` avec un court `texte` avant la fin). Pas de jumpscare gratuit.
@@ -152,7 +159,8 @@ histoire = {
   "fond": {"effet": "", "intensite": 0.45, "vignette": 0.75, "grain": 0.3, "scintillement": 0.1, "svgOpacite": 0.22, "svg": ""},
   "musique": {"tempo": 56, "tonique": "", "gamme": "", "reverb": 0.7, "desaccord": 0.25, "evolution": "monte", "finale": "fondu", "couches": []},
   "blocs": [],
-  "phraseFinale": ""
+  "phraseFinale": "",
+  "question": {"texte": "", "choix": ["", ""]}       # question de la nuit : 2 à 4 choix courts
 }
 # ... remplir ici (texte, svg, blocs) ...
 json.dump(histoire, open(f'stories/{DATE}.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
@@ -253,6 +261,10 @@ attendu = max([x.get('numero', 0) for x in avant] or [0]) + 1
 if h.get('numero') != attendu: E(f'numero = {h.get("numero")}, attendu {attendu}')
 for c in ['titre', 'sousGenre', 'lieu', 'epoque', 'format', 'resume', 'phraseFinale', 'retournement']:
     if not isinstance(h.get(c), str) or not h.get(c).strip(): E(f'{c} manquant ou vide')
+qn = h.get('question')
+if not isinstance(qn, dict) or not isinstance(qn.get('texte'), str) or not qn['texte'].strip(): E('question de la nuit manquante : {"texte": "…", "choix": ["…", "…"]}')
+elif not isinstance(qn.get('choix'), list) or not 2 <= len(qn['choix']) <= 4 or not all(isinstance(c, str) and c.strip() for c in qn['choix']): E('question : il faut 2 à 4 choix (textes non vides)')
+elif any(len(c) > 60 for c in qn['choix']): W('question : des choix de plus de 60 caractères (garder court)')
 if not isinstance(h.get('auQuebec'), bool): E('auQuebec doit être true ou false')
 mep = h.get('miseEnPage')
 if mep not in MEPS: E(f'miseEnPage invalide : {mep}')
@@ -425,6 +437,8 @@ for b in h['blocs']:
     elif ty == 'champs': print('\n'.join(f"- {t(c.get('nom'))} : {t(c.get('valeur'))}" for c in b['champs']) + '\n')
     elif ty == 'tampon': print(f"[TAMPON : {t(b['texte'])}]\n")
 print(f"---\n\n**Phrase finale :** {t(h['phraseFinale'])}")
+q = h.get('question') or {}
+if q: print(f"\n**Question de la nuit :** {t(q.get('texte'))} — " + ' / '.join(t(c) for c in q.get('choix', [])))
 APERCU
 ```
 
@@ -444,6 +458,8 @@ Ta **réponse finale** (le message que la personne lira) contient, dans cet ordr
 - [ ] Vraiment effrayante : montée implacable, une scène d'effroi prolongée, de vrais enjeux, pas de fin heureuse.
 - [ ] **Gros retournement** dans le dernier quart, préparé par 2-3 indices, type différent des 10 dernières histoires, noté dans `retournement`.
 - [ ] 900 à 1600 mots, `phraseFinale` courte et glaçante.
+- [ ] `question` de la nuit : 2 à 4 choix courts, tournée vers les prochaines histoires.
+- [ ] Consignes de la personne (courrier de 18 h, retouches) appliquées si elles visaient cette histoire.
 - [ ] Le format est utilisé pour vrai (le document ressemble au document).
 - [ ] 3 à 6 événements, bien placés ; effets de texte avec parcimonie.
 - [ ] Mise en page différente de l'histoire précédente ; sous-genre, lieu, palette et musique variés.
@@ -456,3 +472,22 @@ Ta **réponse finale** (le message que la personne lira) contient, dans cet ordr
 ## Pour vérifier visuellement (facultatif)
 
 Si un navigateur est disponible, on peut servir le dossier (`python3 -m http.server 8312`) et ouvrir `http://localhost:8312/`. Dans l'app : Paramètres → toucher 3 fois le numéro de version → code `BURGER` → le mode DEV affiche le JSON brut et la liste des erreurs de format, et permet de coller un JSON pour le prévisualiser.
+
+---
+
+## Courrier de 18 h (suggestions des lecteurs)
+
+Une deuxième routine te réveille chaque jour vers 18 h (heure de Toronto). Ce n'est **pas** une nuit d'écriture : tu n'écris aucune nouvelle histoire.
+
+1. **Lis les suggestions** reçues depuis le dernier courrier : dans Gmail, cherche `from:formsubmit.co newer_than:1d` (objets « 3h12 — suggestion après le n° N »). Chaque courriel contient l'histoire, la question, la réponse choisie et le mot libre. Ignore les courriels de test et l'activation.
+2. **Réponds dans la conversation**, court et clair :
+   - le nombre de suggestions reçues ;
+   - pour la question de la nuit : le décompte des réponses par choix ;
+   - les mots libres, regroupés par thème (cite les plus parlants, tels quels) ; écarte le pourriel et tout ce qui est haineux ou viserait une vraie personne ;
+   - un rappel : « L'histoire de demain (n° N, *Titre*) est déjà écrite. Dis-moi ce que je change : elle, ou les suivantes. »
+3. **Rien à signaler** (aucun courriel) : une seule ligne, « Pas de suggestion aujourd'hui. Une consigne pour la prochaine nuit ? ».
+4. **Gmail inaccessible** (connecteur déconnecté) : dis-le en une ligne et demande à la personne de regarder sa boîte (objet « 3h12 — suggestion ») et de te coller ce qu'elle veut garder.
+5. **Quand la personne répond** :
+   - une retouche de **l'histoire de demain** (pas encore sortie) : modifie `stories/$DEMAIN.json` (et son entrée dans l'index si besoin), valide (étape 7), commit `3h12 — n° N — Titre (retouche)`, pousse sur `main` ;
+   - une consigne pour **les histoires suivantes** : retiens-la ; la routine de 3 h 12 l'appliquera (voir étape 0) ;
+   - jamais de retouche d'une histoire déjà sortie.

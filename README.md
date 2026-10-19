@@ -18,6 +18,7 @@ Le site est servi par **GitHub Pages** depuis la branche `main` (dossier racine)
 ## Dans l'app
 
 - Toucher l'écran d'entrée pour entrer (ça débloque aussi le son sur iPhone).
-- En haut à gauche : couper le son. En haut à droite : le menu (volume, archives, paramètres).
-- Paramètres → **Sauvegarder**, **Exporter** / **Importer** (code texte à garder en lieu sûr).
+- En haut à gauche : couper le son. En haut à droite : le menu (volume, paramètres).
+- **Une histoire ne vit que 24 heures** (3 h 12 → 3 h 12) : pas d'archives, pas de favoris, pas de sauvegarde.
+- À la fin : la question de la nuit et la boîte à suggestions (envoyées par courriel au créateur, qui décide quoi en faire).
 - Mode DEV : Paramètres → toucher **3 fois** le numéro de version tout en bas → code secret.

@@ -279,6 +279,13 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 #barre-haut.discret { opacity: .13; }
 .cmd { pointer-events: auto; width: 46px; height: 46px; display: grid; place-items: center; }
 .cmd svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+/* Bande sous la barre d'état de l'iPhone (heure, batterie) : le texte qui défile disparaît
+   en douceur au lieu de passer sous l'heure. Hauteur nulle quand il n'y a pas de zone sûre. */
+#bande-statut {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 5; pointer-events: none;
+  height: calc(var(--haut) * 1.3);
+  background: linear-gradient(rgb(var(--fond-rgb)) 72%, rgba(var(--fond-rgb), 0));
+}
 #barre-progression {
   position: fixed; left: 0; right: 0; top: var(--haut); z-index: 20; height: 1px; pointer-events: none;
   background: var(--accent-fond); opacity: .35;
@@ -618,20 +625,74 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
   box-shadow: 0 0 0 1px rgba(255,255,255,.07), 0 0 0 7px rgba(14,14,16,.92), 0 0 0 8px rgba(255,255,255,.07), 0 30px 60px rgba(0,0,0,.6);
   -webkit-hyphens: manual; hyphens: manual;
 }
+/* En-tête du contact : reste en haut pendant la conversation. Opaque, et quand il est « collé »
+   (classe .collee posée par Lecture.majSMS), un pan de la même couleur monte jusqu'en haut de
+   l'écran pour qu'aucun message ne se voie au-dessus (barre d'état de l'iPhone comprise). */
 .sms-entete {
-  position: sticky; top: calc(var(--haut) + var(--barre-h)); z-index: 2;
+  position: sticky; top: calc(var(--haut) + var(--barre-h)); z-index: 3;
   margin: 0 -.7em .9em; padding: .9em .7em .65em; text-align: center; border-radius: 34px 34px 0 0;
-  background: rgba(var(--surface-rgb), .88); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  background: rgb(var(--surface-rgb));
   border-bottom: 1px solid rgba(var(--texte-rgb), .1);
 }
+.sms-entete::before {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 100%;
+  height: calc(var(--haut) + var(--barre-h) + 2px);
+  background: rgb(var(--surface-rgb)); opacity: 0; pointer-events: none;
+}
+.sms-entete.collee { border-radius: 0; }
+.sms-entete.collee::before { opacity: 1; }
+
+/* Barre de saisie (comme dans Messages) : collée en bas de l'écran tant que le téléphone est là.
+   Les messages « de moi » s'y écrivent lettre par lettre avant d'être envoyés. */
+.sms-saisie {
+  position: sticky; bottom: 0; z-index: 3;
+  display: flex; align-items: flex-end; gap: .5em;
+  margin: 1.2em -.7em -1.4em; padding: .55em .8em calc(.75em + var(--bas));
+  border-radius: 0 0 34px 34px; background: rgb(var(--surface-rgb));
+  border-top: 1px solid rgba(var(--texte-rgb), .1);
+  font-family: var(--police-ui); pointer-events: none;
+}
+.sms-plus {
+  flex: none; width: 1.9em; height: 1.9em; border-radius: 50%; display: grid; place-items: center;
+  background: rgba(var(--texte-rgb), .12); color: rgba(var(--texte-rgb), .6); font: 300 1.15em/1 var(--police-ui);
+}
+.sms-champ {
+  flex: 1; min-width: 0; min-height: 1.9em; display: flex; align-items: flex-end; gap: .4em;
+  padding: .3em .35em .3em .85em; border-radius: 1.1em; border: 1px solid rgba(var(--texte-rgb), .2);
+}
+.sms-saisi { flex: 1; min-width: 0; padding: .05em 0; line-height: 1.3; overflow-wrap: break-word; white-space: pre-wrap; }
+.sms-saisi:empty::before { content: "iMessage"; opacity: .38; }
+.sms-saisie.ecrit .sms-saisi::after {
+  content: ""; display: inline-block; width: 2px; height: 1.05em; margin-left: 1px; vertical-align: -.15em;
+  background: var(--accent); animation: clignote 1s steps(1) infinite;
+}
+.sms-envoyer {
+  flex: none; width: 1.6em; height: 1.6em; border-radius: 50%; display: grid; place-items: center;
+  background: var(--accent); color: var(--texte-sur-accent);
+  opacity: 0; transform: scale(.6); transition: opacity .15s, transform .2s cubic-bezier(.3, 1.6, .5, 1);
+}
+.sms-envoyer svg { width: 62%; height: 62%; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.sms-saisie.pret .sms-envoyer { opacity: 1; transform: none; }
+.sms-saisie.envoi .sms-envoyer { transform: scale(.82); }
 .sms-avatar {
   width: 46px; height: 46px; margin: 0 auto .35em; border-radius: 50%; display: grid; place-items: center;
   background: linear-gradient(#9a9aa0, #6c6c72); color: #fff; font: 600 1.15rem/1 var(--police-ui);
 }
 .sms-contact { font: 600 .82rem/1.25 var(--police-ui); color: var(--texte); }
 .sms-sous { font: .68rem/1.3 var(--police-ui); opacity: .55; }
-.mep-sms .bloc { margin: 0 0 .22em; transform: translateY(8px) scale(.97); transition: opacity .35s ease, transform .4s cubic-bezier(.3, 1.4, .5, 1); }
-.mep-sms .bloc.visible { transform: none; }
+/* Le téléphone occupe au moins un écran ; les messages s'empilent en bas, au-dessus de la barre
+   de saisie, comme dans Messages. Un message pas encore arrivé ne prend aucune place. */
+.mep-sms .objet { display: flex; flex-direction: column; min-height: calc(100svh - var(--haut) - var(--barre-h) - .5rem); }
+.mep-sms .sms-entete { margin-bottom: auto; }
+.mep-sms .objet > .bloc:not(.visible) { display: none; }
+.mep-sms .bloc { flex: none; margin: 0 0 .22em; transform: none; transition: none; }
+.mep-sms .bloc.visible { animation: sms-arrive .42s cubic-bezier(.3, 1.4, .5, 1) both; }
+.mep-sms .bloc.deja { animation: none; }
+.mep-sms .recu .bulle { animation: sms-arrive .32s cubic-bezier(.3, 1.4, .5, 1) both; }
+.mep-sms .deja .bulle { animation: none; }
+@keyframes sms-arrive { from { opacity: 0; transform: translateY(10px) scale(.96); } to { opacity: 1; transform: none; } }
+/* La fin n'apparaît qu'une fois la conversation terminée */
+.mep-sms:not(.conversation-finie) .fin { display: none; }
 .sms-rangee { position: relative; display: flex; }
 .de-moi .sms-rangee { justify-content: flex-end; }
 .bulle { max-width: 78%; padding: .48em .8em .52em; border-radius: 1.15em; overflow-wrap: break-word; }
@@ -887,9 +948,39 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
 }
 .lien-fin:active { opacity: 1; }
 .lien-fin[aria-pressed="true"] { opacity: .95; color: var(--accent-fond); }
+/* Une histoire ne vit que 24 h */
+.fin-disparait { margin: -.8rem 0 2.4rem; font-family: var(--police-texte); font-style: italic; font-size: .92rem; opacity: .5; }
+
+/* Boîte à suggestions : une page de carnet dans les couleurs et les polices de l'histoire */
+.boite {
+  max-width: 24rem; margin: 0 auto 2.4rem; padding: 1.4rem 0 .6rem;
+  border-top: 1px dashed rgba(var(--encre-fond-rgb), .25);
+}
+.boite-question { margin: 0 0 1rem; font-family: var(--police-titre); font-size: 1.2rem; line-height: 1.3; text-wrap: balance; }
+.boite-choix { display: flex; flex-direction: column; align-items: stretch; gap: .5rem; margin-bottom: 1.6rem; }
+.boite-choix-btn {
+  min-height: 46px; padding: .55rem .9rem; border-radius: 2px; font-family: var(--police-texte); font-size: 1rem; line-height: 1.3;
+  color: var(--encre-fond); border: 1px solid rgba(var(--encre-fond-rgb), .28); background: rgba(var(--fond-rgb), .35);
+  transition: border-color .25s, background .25s, color .25s;
+}
+.boite-choix-btn[aria-pressed="true"] { border-color: var(--accent-fond); color: var(--accent-fond); background: rgba(var(--accent-rgb), .1); }
+.boite-titre { display: block; margin-bottom: .6rem; font-size: .74rem; letter-spacing: .22em; text-transform: uppercase; opacity: .55; }
+.boite textarea {
+  display: block; width: 100%; min-height: 6.5em; padding: .7rem .8rem; border-radius: 2px; resize: vertical;
+  font: 400 1rem/1.45 var(--police-texte); color: var(--encre-fond);
+  background: rgba(var(--fond-rgb), .5); border: 1px solid rgba(var(--encre-fond-rgb), .22);
+}
+.boite textarea::placeholder { color: rgba(var(--encre-fond-rgb), .38); font-style: italic; }
+.boite textarea:focus { outline: none; border-color: var(--accent-fond); }
+.boite .lien-fin { margin-top: .4rem; }
+.boite.envoi .lien-fin { opacity: .3; pointer-events: none; }
+.boite-miel { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.boite-etat { min-height: 1.2em; margin: .3rem 0 0; font-family: var(--police-texte); font-style: italic; font-size: .92rem; opacity: .7; }
+.boite.envoyee > :not(.boite-etat) { display: none; }
+.boite.envoyee { border-top: 0; padding-top: 0; }
 
 /* =====================================================================
-   9. PANNEAUX (archives, paramètres, mode DEV)
+   9. PANNEAUX (paramètres, mode DEV)
    ===================================================================== */
 .panneau {
   position: fixed; inset: 0; z-index: 50; display: flex; flex-direction: column;
@@ -957,33 +1048,10 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
 #zone-code-dev input { margin-top: 0; flex: 1; text-align: center; letter-spacing: .3em; }
 #zone-code-dev button { width: 50px; min-height: 48px; border: 1px solid rgba(var(--encre-fond-rgb), .2); border-radius: 2px; }
 
-/* Archives */
+/* Série de nuits (paramètres) */
 .serie-bandeau { text-align: center; padding: 14px 10px 20px; }
 .serie-chiffre { font-family: var(--police-titre); font-size: 3.4rem; font-weight: 400; line-height: 1; font-variant-numeric: tabular-nums; color: var(--accent-fond); }
 .serie-texte { margin-top: 8px; font-size: .72rem; letter-spacing: .24em; text-transform: uppercase; opacity: .7; }
-.serie-record { margin-top: 4px; font-size: .74rem; opacity: .45; }
-.filtres { display: flex; justify-content: center; gap: 4px 18px; margin-bottom: 16px; flex-wrap: wrap; }
-.filtres button { min-height: 40px; padding: 0 2px; font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; opacity: .5; border-bottom: 1px solid transparent; }
-.filtres button[aria-pressed="true"] { opacity: 1; border-bottom-color: var(--accent-fond); }
-.arch-liste { list-style: none; margin: 0 auto; padding: 0; display: flex; flex-direction: column; gap: 10px; }
-.arch-item {
-  display: flex; align-items: stretch; overflow: hidden; border-radius: 3px;
-  background: var(--a-fond); color: var(--a-texte); border-left: 4px solid var(--a-accent);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06);
-}
-.arch-item.courante { box-shadow: inset 0 0 0 1px var(--a-accent); }
-.arch-ouvrir { flex: 1; min-width: 0; text-align: left; padding: 12px 10px 12px 14px; display: grid; gap: 3px; }
-.arch-num { font-size: .68rem; letter-spacing: .24em; text-transform: uppercase; opacity: .65; }
-.arch-titre { font-family: Georgia, "Times New Roman", serif; font-size: 1.12rem; line-height: 1.2; }
-.arch-meta { font-size: .78rem; opacity: .7; line-height: 1.35; }
-.arch-marques { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 5px; }
-.arch-etiquette { font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; padding: 2px 7px; border-radius: 99px; border: 1px solid currentColor; opacity: .75; }
-.arch-etiquette.futur { color: #ffc400; opacity: 1; }
-.pastilles { display: flex; gap: 3px; margin-left: 2px; }
-.pastilles i { display: block; width: 11px; height: 11px; border-radius: 50%; box-shadow: 0 0 0 1px rgba(128, 128, 128, .45); }
-.arch-fav { width: 54px; flex: none; display: grid; place-items: center; font-size: 1.45rem; opacity: .45; }
-.arch-fav[aria-pressed="true"] { opacity: 1; color: #f2c14e; }
-.arch-vide { text-align: center; opacity: .55; padding: 30px 10px; font-style: italic; }
 
 /* Mode DEV */
 /* Indicateur DEV : trois lettres minuscules, presque transparentes, dans un coin */
@@ -1004,6 +1072,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
 .dev-liste-histoires { list-style: none; margin: 10px auto 0; padding: 0; }
 .dev-liste-histoires button { display: flex; justify-content: space-between; gap: 10px; width: 100%; min-height: 44px; padding: 8px 10px; border-radius: 10px; background: rgba(255, 255, 255, .05); margin-bottom: 6px; text-align: left; font-size: .86rem; }
 .dev-liste-histoires .futur { color: #ffc400; }
+.dev-vide { text-align: center; opacity: .55; padding: 30px 10px; font-style: italic; }
 
 /* Message bref (toast) */
 #toast {
@@ -1085,6 +1154,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
   </button>
 </header>
 <div id="barre-progression" class="cache" aria-hidden="true"></div>
+<div id="bande-statut" aria-hidden="true"></div>
 
 <!-- ===== Menu (tiroir) : aux couleurs et polices de l'histoire ===== -->
 <nav id="tiroir" aria-label="Menu" aria-hidden="true">
@@ -1096,7 +1166,6 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
     <button id="btn-muet-tiroir">Couper le son</button>
     <input type="range" id="volume-general" min="0" max="100" step="1" aria-label="Volume général">
   </div>
-  <button class="tiroir-lien" data-action="archives" id="btn-archives">Archives</button>
   <button class="tiroir-lien" data-action="parametres" id="btn-parametres">Paramètres</button>
 </nav>
 
@@ -1132,27 +1201,6 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
       <li><span class="guide-icone" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Touche <b>Ajouter</b></span></li>
     </ol>
     <button class="guide-bouton" id="guide-fait">OK</button>
-  </div>
-</section>
-
-<!-- ===== Panneau : Archives ===== -->
-<section class="panneau" id="panneau-archives" aria-label="Archives" aria-hidden="true">
-  <div class="panneau-entete">
-    <h2>Archives</h2>
-    <button class="btn-icone" data-fermer aria-label="Fermer"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-  </div>
-  <div class="panneau-corps">
-    <div class="serie-bandeau">
-      <div class="serie-chiffre" id="serie-chiffre">0</div>
-      <div class="serie-texte" id="serie-texte">nuit de suite</div>
-      <div class="serie-record" id="serie-record"></div>
-    </div>
-    <div class="filtres" role="group" aria-label="Filtrer">
-      <button data-filtre="toutes" aria-pressed="true">Toutes</button>
-      <button data-filtre="nonlues" aria-pressed="false">Non lues</button>
-      <button data-filtre="favoris" aria-pressed="false">★ Favoris</button>
-    </div>
-    <ul class="arch-liste" id="arch-liste"></ul>
   </div>
 </section>
 
@@ -1196,24 +1244,6 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
       <button class="btn-plein" id="btn-installer">Installer sur l'écran d'accueil</button>
     </div>
 
-    <h3 class="section-titre">Sauvegarde</h3>
-    <button class="btn-plein principal" id="btn-sauvegarder">Sauvegarder</button>
-    <p class="reglage-aide" id="info-sauvegarde"></p>
-    <div class="btn-rangee">
-      <button class="btn-plein" id="btn-exporter">Exporter</button>
-      <button class="btn-plein" id="btn-importer">Importer</button>
-    </div>
-    <div id="zone-exporter" class="cache">
-      <p class="reglage-aide">Copie ce code et garde-le en lieu sûr (Notes, courriel…). Il contient toute ta progression.</p>
-      <textarea id="code-export" readonly aria-label="Code de sauvegarde"></textarea>
-      <button class="btn-plein" id="btn-copier">Copier le code</button>
-    </div>
-    <div id="zone-importer" class="cache">
-      <p class="reglage-aide">Colle ici un code de sauvegarde. Il remplacera la progression actuelle.</p>
-      <textarea id="code-import" aria-label="Code à importer" autocapitalize="off" autocomplete="off" spellcheck="false"></textarea>
-      <button class="btn-plein principal" id="btn-valider-import">Importer ce code</button>
-    </div>
-
     <!-- Bouton DEV caché : toucher 3 fois le numéro de version fait apparaître le champ de code -->
     <button class="panneau-version" id="panneau-version" aria-label="Version"></button>
     <div id="zone-code-dev" class="cache">
@@ -1236,6 +1266,12 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
     <h3 class="section-titre">Toutes les histoires (même futures)</h3>
     <ul class="dev-liste-histoires" id="dev-histoires"></ul>
     <button class="btn-plein" id="dev-demo">Ouvrir l'histoire de démonstration</button>
+
+    <h3 class="section-titre">Boîte à suggestions</h3>
+    <p class="reglage-aide" id="dev-boite-etat"></p>
+    <input type="text" id="dev-boite" placeholder="Ton courriel (pour l'activer)" autocapitalize="off" autocomplete="off" spellcheck="false" inputmode="email" aria-label="Courriel ou clé FormSubmit">
+    <button class="btn-plein" id="dev-boite-test">Envoyer un test</button>
+    <p class="reglage-aide">1. Écris ton courriel et touche « Envoyer un test ». 2. Dans le courriel de FormSubmit, touche « Activate Form ». 3. Envoie à Claude la clé (une suite de lettres et de chiffres) que FormSubmit te donne : elle remplace ton adresse dans le code, et la boîte s'ouvre pour tous les lecteurs. Ton courriel reste seulement sur ce téléphone.</p>
 
     <h3 class="section-titre">Simuler une date</h3>
     <input type="date" id="dev-date" aria-label="Date simulée">
@@ -1294,7 +1330,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
    1. CONFIGURATION — les réglages faciles à modifier
    ===================================================================== */
 const CONFIG = {
-  version: '1.0',
+  version: '1.1',
   fuseau: 'America/Toronto',          // toutes les dates sont calculées à Toronto
   dossierHistoires: 'stories/',       // dossier des fichiers JSON
   cleSauvegarde: '3h12-sauvegarde-v1',// clé dans localStorage
@@ -1308,6 +1344,10 @@ const CONFIG = {
   ligneLettres: .62,                  // une phrase « lettre par lettre » s'arme à 62 % de la hauteur
   msParMot: 22,                       // délai ajouté par mot de texte qui précède l'effet
   delaiMin: 700, delaiMax: 2600,      // bornes de ce délai (millisecondes)
+  // Boîte à suggestions (fin de chaque histoire) : clé FormSubmit (chaîne aléatoire donnée
+  // après l'activation). Jamais l'adresse courriel elle-même ici : ce fichier est public.
+  // Vide = boîte cachée aux lecteurs (visible en mode DEV pour la brancher).
+  boiteSuggestions: '',
 };
 
 // Listes des valeurs permises (voir SCHEMA.md)
@@ -1392,18 +1432,6 @@ function aleaSeme(graine) {
   let s = hacher(graine) || 1;
   return () => { s ^= s << 13; s ^= s >>> 17; s ^= s << 5; return (s >>> 0) / 4294967296; };
 }
-// Base64 compatible avec les accents (pour l'export de la sauvegarde)
-function versBase64(texte) {
-  const octets = new TextEncoder().encode(texte);
-  let binaire = '';
-  for (let i = 0; i < octets.length; i += 8192) binaire += String.fromCharCode.apply(null, octets.subarray(i, i + 8192));
-  return btoa(binaire);
-}
-function depuisBase64(b64) {
-  const binaire = atob(b64);
-  return new TextDecoder().decode(Uint8Array.from(binaire, c => c.charCodeAt(0)));
-}
-
 /* --- Couleurs --- */
 function couleurValide(c) { return typeof c === 'string' && /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(c.trim()); }
 function developperHex(c) {
@@ -1506,7 +1534,10 @@ const Dates = {
 };
 
 /* =====================================================================
-   4. SAUVEGARDE (localStorage + export/import en code texte)
+   4. MÉMOIRE DE L'APPAREIL (localStorage)
+   Pas de galerie ni de sauvegarde à exporter : une histoire ne vit que 24 h (3 h 12 → 3 h 12).
+   On ne garde que les réglages, la série de nuits, la position dans l'histoire de la nuit
+   (si l'app se ferme) et les suggestions déjà envoyées.
    ===================================================================== */
 const Sauvegarde = {
   donnees: null,
@@ -1514,11 +1545,11 @@ const Sauvegarde = {
     return {
       version: 1,
       lues: {},          // { 'AAAA-MM-JJ': { ouverte: date ISO, terminee: true/false } }
-      favoris: [],       // [ 'AAAA-MM-JJ', … ]
-      positions: {},     // { 'AAAA-MM-JJ': { bloc: n° du bloc, maj: date ISO } }
+      positions: {},     // { 'AAAA-MM-JJ': { bloc: n° du bloc, maj: date ISO } } — seulement la nuit en cours
+      suggestions: {},   // { 'AAAA-MM-JJ': true } — boîte à suggestions déjà envoyée pour cette histoire
       serie: { actuelle: 0, record: 0, derniereNuit: null },
       parametres: { volumeGeneral: .8, volumeMusique: .7, volumeEffets: .85, muet: false, tailleTexte: 1, effetsIntenses: true },
-      dev: { actif: false, dateSimulee: null, sauterEntree: false },
+      dev: { actif: false, dateSimulee: null, sauterEntree: false, boiteSuggestions: '' },
       guideInstallation: false,   // le guide « écran d'accueil » a déjà été montré
       derniereSauvegarde: null,
     };
@@ -1535,7 +1566,9 @@ const Sauvegarde = {
     if (d.lues && typeof d.lues === 'object') {
       for (const [date, v] of Object.entries(d.lues)) if (Dates.valide(date)) s.lues[date] = { ouverte: chaine(v && v.ouverte), terminee: !!(v && v.terminee) };
     }
-    if (Array.isArray(d.favoris)) s.favoris = [...new Set(d.favoris.filter(x => Dates.valide(x)))];
+    if (d.suggestions && typeof d.suggestions === 'object') {
+      for (const date of Object.keys(d.suggestions)) if (Dates.valide(date)) s.suggestions[date] = true;
+    }
     if (d.positions && typeof d.positions === 'object') {
       for (const [date, v] of Object.entries(d.positions)) if (Dates.valide(date) && v) s.positions[date] = { bloc: nombre(v.bloc, 0, 0, 100000), maj: chaine(v.maj) };
     }
@@ -1555,6 +1588,7 @@ const Sauvegarde = {
     s.dev.actif = !!dv.actif;
     s.dev.dateSimulee = Dates.valide(dv.dateSimulee) ? dv.dateSimulee : null;
     s.dev.sauterEntree = !!dv.sauterEntree;
+    s.dev.boiteSuggestions = chaine(dv.boiteSuggestions).slice(0, 120);
     s.guideInstallation = !!d.guideInstallation;
     s.derniereSauvegarde = chaine(d.derniereSauvegarde) || null;
     return s;
@@ -1578,15 +1612,6 @@ const Sauvegarde = {
   planifier() {
     clearTimeout(this.minuterie);
     this.minuterie = setTimeout(() => this.ecrire(), 600);
-  },
-  exporter() { return '3H12-' + versBase64(JSON.stringify(this.donnees)); },
-  importer(code) {
-    let c = String(code || '').replace(/\s+/g, '');
-    if (c.toUpperCase().startsWith('3H12-')) c = c.slice(5);
-    const d = JSON.parse(depuisBase64(c));
-    if (!d || typeof d !== 'object' || d.version !== 1) throw new Error('Code non reconnu');
-    this.donnees = this.fusionner(d);
-    this.ecrire();
   },
   reinitialiser() {
     try { localStorage.removeItem(CONFIG.cleSauvegarde); } catch (e) {}
@@ -1940,6 +1965,14 @@ function normaliserHistoire(d, dateFichier) {
   if (!h.blocs.length) h.blocs = [{ type: 'paragraphe', texte: '(Cette histoire ne contient aucun bloc lisible.)', style: [] }];
   h.phraseFinale = chaine(d.phraseFinale ?? d.phrase_finale ?? d.fin);
   if (!h.phraseFinale) r.av('phraseFinale manquante.');
+  // Question de la nuit (facultative) : posée au lecteur à la fin, avec 2 à 4 réponses
+  h.question = null;
+  if (d.question != null) {
+    const q = d.question, texte = chaine(q && q.texte);
+    const choix = Array.isArray(q && q.choix) ? q.choix.map(c => chaine(c)).filter(Boolean).slice(0, 4) : [];
+    if (texte && choix.length >= 2) h.question = { texte, choix };
+    else r.av('question ignorée : il faut un texte et 2 à 4 choix.');
+  }
   h.mots = compterMots(h);
   h.minutes = Math.max(1, Math.round(h.mots / CONFIG.motsParMinute));
   const nbEvenements = h.blocs.filter(b => b.type === 'evenement').length;
@@ -3558,6 +3591,39 @@ function jouerTic() {
   } catch (e) {}
 }
 
+// Clic de clavier très doux (barre de saisie SMS)
+function jouerTouche() {
+  if (!MoteurAudio.pret) return;
+  try {
+    const t = MoteurAudio.ctx.currentTime + .005;
+    const sortie = sortieEffet(hasard(-.15, .15));
+    const src = A.bruit(t, .02);
+    const f = A.filtre('bandpass', hasard(2600, 3600), 1.2);
+    const g = A.gain(0);
+    A.enveloppe(g.gain, t, .001, .05, .018);
+    A.relier(src, f, g, sortie);
+    A.liberer(src, f, g, sortie);
+  } catch (e) {}
+}
+// « Whoosh » d'un message envoyé (mise en page SMS)
+function jouerEnvoi() {
+  if (!MoteurAudio.pret) return;
+  try {
+    const t = MoteurAudio.ctx.currentTime + .01;
+    const sortie = sortieEffet(.1);
+    const src = A.bruit(t, .32);
+    const f = A.filtre('bandpass', 500, 2.2);
+    f.frequency.setValueAtTime(500, t);
+    f.frequency.exponentialRampToValueAtTime(2800, t + .24);
+    const g = A.gain(0);
+    g.gain.setValueAtTime(.0001, t);
+    g.gain.exponentialRampToValueAtTime(.16, t + .07);
+    g.gain.exponentialRampToValueAtTime(.0001, t + .3);
+    A.relier(src, f, g, sortie);
+    A.liberer(src, f, g, sortie);
+  } catch (e) {}
+}
+
 // Démarre la musique d'une histoire (arrête la précédente en fondu)
 function demarrerMusique(params) {
   if (!MoteurAudio.ctx) return;
@@ -3744,6 +3810,8 @@ const MISES_EN_PAGE = {
       const initiale = ctx.groupe ? noms.length : (Array.from(texteBrut(contact))[0] || '?').toUpperCase();
       return `<header class="sms-entete"><div class="sms-avatar">${echapper(initiale)}</div><div class="sms-contact">${formater(contact)}</div><div class="sms-sous">${formater(h.document.reference || 'iMessage')}</div></header>`;
     },
+    // Barre de saisie : c'est là que « mes » messages s'écrivent avant de partir (voir Lecture.traiterFile)
+    pied: () => `<div class="sms-saisie" aria-hidden="true"><span class="sms-plus">+</span><div class="sms-champ"><span class="sms-saisi"></span><span class="sms-envoyer"><svg viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></svg></span></div></div>`,
     blocs: {
       dialogue: (b, ctx) => RENDUS.sms({ de: 'eux', nom: b.personnage, texte: b.texte, heure: b.heure }, ctx),
       pause: () => '<div class="sms-tape" aria-hidden="true"><i></i><i></i><i></i></div>',
@@ -4006,6 +4074,19 @@ const Rendu = {
     if (b.type === 'dialogue' && ctx.cle === 'sms') classes.push('de-eux');
     return `<div class="${classes.join(' ')}" data-i="${i}">${contenu}</div>`;
   },
+  // Boîte à suggestions : la question de la nuit (si l'histoire en pose une) et un mot libre
+  boite(h) {
+    const q = h.question;
+    return `<form class="boite cache" id="boite" novalidate>
+        ${q ? `<p class="boite-question">${formater(q.texte)}</p>
+          <div class="boite-choix" role="group" aria-label="Réponses">${q.choix.map((c, k) => `<button type="button" class="boite-choix-btn" data-choix="${k}" aria-pressed="false">${formater(c)}</button>`).join('')}</div>` : ''}
+        <label class="boite-titre" for="boite-texte">Un mot pour la prochaine nuit</label>
+        <textarea id="boite-texte" maxlength="600" rows="3" placeholder="Une idée, une peur, un lieu…"></textarea>
+        <input type="text" class="boite-miel" id="boite-miel" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit" class="lien-fin" id="boite-envoyer">Envoyer</button>
+        <p class="boite-etat" id="boite-etat" role="status"></p>
+      </form>`;
+  },
   fin(h) {
     return `<section class="fin" id="fin">
         ${h.phraseFinale ? `<div class="fin-phrase"><p>${formater(h.phraseFinale)}</p></div>` : '<div class="fin-phrase fin-phrase-vide"></div>'}
@@ -4015,10 +4096,10 @@ const Rendu = {
           <p class="fin-date" id="fin-date"></p>
           <p class="fin-serie" id="fin-serie"></p>
           <p class="fin-halloween cache" id="fin-halloween"></p>
+          <p class="fin-disparait" id="fin-disparait"></p>
+          ${this.boite(h)}
           <div class="fin-actions">
-            <button class="lien-fin" data-action="favori" id="fin-favori" aria-pressed="false">Garder cette histoire</button>
             <button class="lien-fin" data-action="relire">Relire</button>
-            <button class="lien-fin" data-action="archives">Les nuits précédentes</button>
           </div>
         </div>
       </section>`;
@@ -4057,7 +4138,11 @@ const Lecture = {
     if (this.observateurFin) this.observateurFin.disconnect();
     this.viderDeclencheurs();
     this.declenches = new Set();
+    // Nouvelle histoire : la file de messages repart de zéro (l'ancienne boucle s'arrête d'elle-même)
     this.file = [];
+    this.fileActive = false;
+    this.generation = (this.generation || 0) + 1;
+    this.hautEntete = null;
     etat.finie = false;
     const blocs = $$('.bloc', art);
     this.evenements = $$('.bloc-evenement', art).map(el => ({ el, i: +el.dataset.i }));
@@ -4066,8 +4151,20 @@ const Lecture = {
       blocs.forEach(b => { if (+b.dataset.i < positionBloc) { b.classList.add('visible', 'deja'); this.terminerBloc(b, true); } });
       this.evenements.forEach(e => { if (e.i < positionBloc) this.declenches.add(e.i); });
     }
-    // Événements : armés quand le lecteur a eu le temps de lire le texte qui les précède
     this.dernierEvenement = 0;
+    clearInterval(this.minuterieDeclencheurs);
+    this.minuterieDeclencheurs = setInterval(() => { if (etat.ecran === 'histoire' && !document.hidden) this.verifierDeclencheurs(); }, 250);
+    // Fin de l'histoire : observée dans toutes les mises en page
+    if ('IntersectionObserver' in window) {
+      this.observateurFin = new IntersectionObserver(entrees => {
+        entrees.forEach(e => { if (e.isIntersecting) this.atteindreFin(); else if (e.boundingClientRect.top > 0) this.quitterFin(); });
+      }, { threshold: .35 });
+      const fin = $('.fin-phrase', art);
+      if (fin) this.observateurFin.observe(fin);
+    }
+    // SMS : une vraie conversation (voir Conversation plus bas) — les messages arrivent un à un
+    if (etat.mep === 'sms') { this.preparerConversation(art); return; }
+    // Événements : armés quand le lecteur a eu le temps de lire le texte qui les précède
     this.evenements.forEach((ev, rang) => {
       if (this.declenches.has(ev.i)) return;
       const precedent = this.blocPrecedent(ev.el);
@@ -4076,11 +4173,10 @@ const Lecture = {
         el: ev.el,
         ligne: CONFIG.ligneEvenements,
         delai: this.delaiLecture(precedent ? this.compterMots(precedent) : 0),
-        // Toujours dans l'ordre, au moins 1,2 s après l'événement précédent ;
-        // en SMS, on attend aussi que le message précédent soit vraiment arrivé
+        // Toujours dans l'ordre, au moins 1,2 s après l'événement précédent
         pret: () => avant.every(a => this.declenches.has(a.i))
           && Date.now() - this.dernierEvenement > 1200
-          && (!precedent || (precedent.classList.contains('visible') && !precedent.classList.contains('en-train'))),
+          && (!precedent || precedent.classList.contains('visible')),
         action: () => {
           this.declenches.add(ev.i);
           this.dernierEvenement = Date.now();
@@ -4089,54 +4185,181 @@ const Lecture = {
         },
       });
     });
-    // Sur iPhone, pas de défilement = pas d'événement « scroll » : on vérifie aussi régulièrement
-    clearInterval(this.minuterieDeclencheurs);
-    this.minuterieDeclencheurs = setInterval(() => { if (etat.ecran === 'histoire' && !document.hidden) this.verifierDeclencheurs(); }, 250);
-    // Les SMS et le terminal (texte qui se tape) apparaissent plus haut dans l'écran : le lecteur les voit arriver
-    const marge = ['sms', 'terminal'].includes(etat.mep) ? '-24%' : '-8%';
+    // (Sur iPhone, pas de défilement = pas d'événement « scroll » : la minuterie ci-dessus vérifie aussi.)
+    // Le terminal (texte qui se tape) apparaît plus haut dans l'écran : le lecteur le voit arriver
+    const marge = etat.mep === 'terminal' ? '-24%' : '-8%';
     if ('IntersectionObserver' in window) {
       this.observateur = new IntersectionObserver(entrees => {
         entrees.forEach(e => { if (e.isIntersecting) { this.observateur.unobserve(e.target); this.reveler(e.target); } });
       }, { rootMargin: `0px 0px ${marge} 0px`, threshold: 0 });
       blocs.forEach(b => { if (!b.classList.contains('visible')) this.observateur.observe(b); });
-      this.observateurFin = new IntersectionObserver(entrees => {
-        entrees.forEach(e => { if (e.isIntersecting) this.atteindreFin(); else if (e.boundingClientRect.top > 0) this.quitterFin(); });
-      }, { threshold: .35 });
-      const fin = $('.fin-phrase', art);
-      if (fin) this.observateurFin.observe(fin);
     } else {
       blocs.forEach(b => this.reveler(b));
     }
   },
   reveler(bloc) {
-    // En mise en page SMS, les messages arrivent un à un (file d'attente)
-    if (etat.mep === 'sms') { this.file.push(bloc); this.traiterFile(); return; }
     bloc.classList.add('visible');
     this.terminerBloc(bloc, false);
+  },
+  /* --- Conversation (mise en page SMS) ---
+     Comme dans Messages : un message pas encore arrivé ne prend aucune place. Le suivant n'arrive
+     que lorsque le lecteur voit le dernier (juste au-dessus de la barre de saisie) ; s'il remonte
+     relire, la conversation attend. « Eux » : trois petits points le temps d'écrire. « Moi » : le
+     texte s'écrit dans la barre de saisie, puis part (whoosh). Après chaque message, une pause pour
+     le lire. Les événements (sons, effets) arrivent à leur place dans le fil. Toucher l'écran du
+     téléphone presse le pas. */
+  preparerConversation(art) {
+    const objet = $('.objet', art);
+    this.file = objet ? $$(':scope > .bloc, :scope > .bloc-evenement', objet)
+      .filter(el => el.classList.contains('bloc-evenement') ? !this.declenches.has(+el.dataset.i) : !el.classList.contains('visible')) : [];
+    this.totalConv = objet ? $$(':scope > .bloc', objet).length : 0;
+    art.classList.toggle('conversation-finie', !this.file.some(el => el.classList.contains('bloc')));
+    this.traiterFile();
   },
   async traiterFile() {
     if (this.fileActive) return;
     this.fileActive = true;
-    while (this.file.length) {
-      const bloc = this.file.shift();
-      const rapide = this.file.length > 2; // si on défile vite, pas d'attente
-      if (bloc.classList.contains('bloc-sms') && bloc.classList.contains('de-eux') && !rapide) {
-        bloc.classList.add('visible', 'en-train');
-        const longueur = (bloc.textContent || '').length;
-        await attendre(borner(450 + longueur * 18, 600, 1700));
-        bloc.classList.remove('en-train');
-        jouerTic();
+    const gen = this.generation;
+    while (this.file.length && gen === this.generation) {
+      await this.attendreLecteur(gen);
+      if (gen !== this.generation) break;
+      const el = this.file.shift();
+      this.presse = false;
+      let pause = 0;
+      if (el.classList.contains('bloc-evenement')) {
+        // Un événement arrive à sa place dans le fil (après la pause de lecture du message précédent)
+        const i = +el.dataset.i, b = etat.histoire.blocs[i] || {};
+        if (!this.declenches.has(i)) { this.declenches.add(i); this.dernierEvenement = Date.now(); declencherEvenement(b, i); }
+        const duree = b.duree || DUREES_EFFETS[b.effet] || 1000;
+        pause = b.effet === 'noir' ? duree + 700 : borner(duree * .6, 1200, 3000);
       } else {
-        bloc.classList.add('visible');
+        const sms = el.classList.contains('bloc-sms');
+        const texte = ((sms && el.querySelector('.bulle')) || el).textContent.trim();
+        const n = Array.from(texte).length;
+        if (sms && el.classList.contains('de-eux')) {
+          el.classList.add('visible', 'en-train');
+          this.suivre();
+          await this.patienter(borner(500 + n * 22, 700, 2000));
+          if (gen !== this.generation) break;
+          el.classList.remove('en-train');
+          el.classList.add('recu');
+          jouerTic();
+          pause = borner(350 + n * 14, 450, 1500);
+        } else if (sms && el.classList.contains('de-moi')) {
+          await this.ecrireSaisie(texte, gen);
+          if (gen !== this.generation) break;
+          el.classList.add('visible', 'recu');
+          pause = borner(250 + n * 6, 350, 900);
+        } else if (el.classList.contains('bloc-pause')) {
+          // Les trois petits points fantômes : on les laisse inquiéter avant la suite
+          el.classList.add('visible');
+          pause = 3600;
+        } else {
+          el.classList.add('visible');
+          pause = el.classList.contains('bloc-image') ? 900 : this.delaiLecture(this.compterMots(el));
+        }
+        this.terminerBloc(el, false);
+        pause = Math.max(pause, this.dureeLettres(el));
+        this.suivre();
       }
-      this.terminerBloc(bloc, false);
-      await attendre(rapide ? 50 : 300);
+      this.surDefilement();
+      await this.patienter(pause);
     }
+    if (gen !== this.generation) return;
     this.fileActive = false;
+    $('#histoire').classList.add('conversation-finie');
+    this.surDefilement();
+  },
+  // Le lecteur voit-il le dernier message (entre l'en-tête et la barre de saisie) ?
+  lecteurEnBas() {
+    const objet = $('#histoire .objet');
+    if (!objet) return true;
+    const barre = $('.sms-saisie', objet), entete = $('.sms-entete', objet);
+    if (objet.getBoundingClientRect().top > window.innerHeight * .3) return false; // téléphone pas encore à l'écran
+    const visibles = objet.querySelectorAll(':scope > .bloc.visible');
+    const dernier = visibles[visibles.length - 1];
+    const rb = barre ? barre.getBoundingClientRect() : { top: window.innerHeight, bottom: window.innerHeight };
+    if (!dernier) return rb.bottom <= window.innerHeight + 2;
+    const bas = dernier.getBoundingClientRect().bottom;
+    return bas <= rb.top + 10 && (!entete || bas > entete.getBoundingClientRect().bottom);
+  },
+  attendreLecteur(gen) {
+    return new Promise(ok => {
+      const verifier = () => {
+        if (gen !== this.generation) return ok();
+        const libre = etat.ecran === 'histoire' && !document.hidden && !Tiroir.ouvert && !$('.panneau.ouvert');
+        if (libre && this.lecteurEnBas()) return ok();
+        setTimeout(verifier, 140);
+      };
+      verifier();
+    });
+  },
+  // Attente qu'un toucher sur le téléphone peut écourter
+  patienter(ms) {
+    if (this.presse) return Promise.resolve();
+    return new Promise(ok => {
+      const fin = () => { clearTimeout(t); this.raccourci = null; ok(); };
+      const t = setTimeout(fin, ms);
+      this.raccourci = fin;
+    });
+  },
+  presser() { this.presse = true; if (this.raccourci) this.raccourci(); },
+  // Garde le dernier message à l'écran, juste au-dessus de la barre de saisie (si le lecteur ne touche pas l'écran)
+  suivre() {
+    if (this.toucheEnCours) { clearTimeout(this.suivreApres); this.suivreApres = setTimeout(() => this.suivre(), 450); return; }
+    const objet = $('#histoire .objet'), barre = objet && $('.sms-saisie', objet);
+    const visibles = objet ? objet.querySelectorAll(':scope > .bloc.visible') : [];
+    const dernier = visibles[visibles.length - 1];
+    if (!barre || !dernier) return;
+    const ecart = dernier.getBoundingClientRect().bottom - barre.getBoundingClientRect().top + 8;
+    if (ecart > 0) window.scrollBy({ top: ecart, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  },
+  // Temps qu'il faut à une phrase « lettre à lettre » pour s'écrire dans ce bloc
+  dureeLettres(bloc) {
+    let max = 0;
+    bloc.querySelectorAll('.lettre-a-lettre').forEach(s => {
+      max = Math.max(max, this.delaiLecture(this.motsAvant(bloc, s)) + s.querySelectorAll('.l').length * 85 + 700);
+    });
+    return max;
+  },
+  // Écrit un de « mes » messages dans la barre de saisie, lettre par lettre, puis l'envoie
+  async ecrireSaisie(texte, gen) {
+    const barre = $('#histoire .sms-saisie');
+    if (!barre || !texte) return;
+    const r = barre.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > window.innerHeight) return; // barre hors de vue : le message part tout de suite
+    const champ = $('.sms-saisi', barre);
+    const lettres = Array.from(texte);
+    const pas = borner(lettres.length * 34, 450, 1900) / lettres.length;
+    champ.textContent = '';
+    barre.classList.add('ecrit', 'pret');
+    for (let k = 0; k < lettres.length; k++) {
+      if (gen !== this.generation) return;
+      if (this.presse) { champ.textContent = texte; break; }
+      champ.textContent += lettres[k];
+      if (lettres[k] !== ' ' && Math.random() < .75) jouerTouche();
+      await attendre(pas * hasard(.55, 1.45));
+    }
+    barre.classList.remove('ecrit');
+    await this.patienter(280);
+    if (gen !== this.generation) return;
+    barre.classList.add('envoi');
+    jouerEnvoi();
+    await attendre(140);
+    champ.textContent = '';
+    barre.classList.remove('pret', 'envoi');
+  },
+  // En-tête du contact « collé » en haut de l'écran ? Alors on masque ce qui défile au-dessus
+  majSMS() {
+    const entete = $('#histoire .sms-entete');
+    if (!entete) return;
+    if (this.hautEntete == null) this.hautEntete = parseFloat(getComputedStyle(entete).top) || 0;
+    entete.classList.toggle('collee', entete.parentElement.getBoundingClientRect().top < this.hautEntete - 1);
   },
   terminerBloc(bloc, immediat) {
     bloc.querySelectorAll('.lettre-a-lettre').forEach(s => {
       if (immediat) { s.classList.add('joue', 'instant'); return; }
+      if (etat.mep === 'sms') { setTimeout(() => s.classList.add('joue'), Math.max(150, this.delaiLecture(this.motsAvant(bloc, s)) - 300)); return; }
       // La phrase ne s'écrit que lorsque le lecteur y arrive : délai selon les mots qui la précèdent dans le bloc
       this.ajouterDeclencheur({
         el: s,
@@ -4153,12 +4376,17 @@ const Lecture = {
   surDefilement() {
     const y = window.scrollY || 0;
     const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-    const p = borner(y / max, 0, 1);
+    let p = borner(y / max, 0, 1);
+    if (etat.mep === 'sms' && this.totalConv && etat.ecran === 'histoire') {
+      const f = $$('#histoire .objet > .bloc.visible').length / this.totalConv;
+      p = $('#histoire').classList.contains('conversation-finie') ? Math.max(p, .95 * f) : .95 * f;
+    }
     etat.progression = p;
     $('#barre-progression').style.transform = `scaleX(${p.toFixed(4)})`;
     if (MoteurAudio.musique) MoteurAudio.musique.progression(p);
     Illustration.maj(y, p);
     if (etat.ecran !== 'histoire') return;
+    if (etat.mep === 'sms') this.majSMS();
     this.verifierDeclencheurs();
     // Barre du haut plus discrète pendant la lecture
     const barre = $('#barre-haut');
@@ -4216,7 +4444,8 @@ const Lecture = {
     this.dernierePos = maintenant;
     let courant = 0;
     for (const b of $$('#histoire .bloc')) {
-      if (b.getBoundingClientRect().top > window.innerHeight * .3) break;
+      if (etat.mep === 'sms') { if (!b.classList.contains('visible')) break; }
+      else if (b.getBoundingClientRect().top > window.innerHeight * .3) break;
       courant = +b.dataset.i;
     }
     const pos = Sauvegarde.donnees.positions;
@@ -4472,7 +4701,8 @@ function reprendrePosition() {
   if (!bloc) { window.scrollTo(0, 0); Lecture.surDefilement(); return; }
   requestAnimationFrame(() => {
     const el = $(`#histoire [data-i="${bloc}"]`);
-    if (el) window.scrollTo(0, Math.max(0, el.getBoundingClientRect().top + window.scrollY - window.innerHeight * .25));
+    if (etat.mep === 'sms') window.scrollTo(0, document.documentElement.scrollHeight);
+    else if (el) window.scrollTo(0, Math.max(0, el.getBoundingClientRect().top + window.scrollY - window.innerHeight * .25));
     Lecture.surDefilement();
     toast('Reprise de ta lecture', 'Recommencer', recommencer);
   });
@@ -4487,7 +4717,7 @@ function recommencer() {
   demarrerMusique(etat.histoire.musique);
 }
 
-// Met à jour la fin : date de la prochaine histoire, série, bouton favori
+// Met à jour la fin : date de la prochaine histoire, série, boîte à suggestions
 function majFin() {
   const dateEl = $('#fin-date');
   if (!dateEl) return;
@@ -4495,24 +4725,79 @@ function majFin() {
   dateEl.textContent = `${Dates.longue(prochaine)}, 3 h 12`;
   const n = Serie.valeur();
   $('#fin-serie').textContent = n ? `${n} ${Serie.texte(n)}` : '';
-  majBoutonFavori();
+  // Une histoire ne vit que 24 h : elle disparaît quand la suivante arrive
+  $('#fin-disparait').textContent = etat.apercu ? '' : 'Cette histoire disparaît à 3 h 12. Elle ne reviendra pas.';
+  Suggestions.majBoite();
   Halloween.maj();
 }
-function majBoutonFavori() {
-  const b = $('#fin-favori');
-  if (!b || !etat.histoire) return;
-  const fav = Sauvegarde.donnees.favoris.includes(etat.histoire.date);
-  b.setAttribute('aria-pressed', String(fav));
-  b.textContent = fav ? '★ Gardée dans tes favoris' : 'Garder cette histoire';
-}
-function basculerFavori(date) {
-  const f = Sauvegarde.donnees.favoris;
-  const i = f.indexOf(date);
-  if (i >= 0) f.splice(i, 1); else f.push(date);
-  Sauvegarde.planifier();
-  majBoutonFavori();
-  return i < 0;
-}
+
+/* =====================================================================
+   BOÎTE À SUGGESTIONS
+   À la fin de chaque histoire, le lecteur peut répondre à la question de la nuit et laisser
+   un mot pour la suite. Le tout part par FormSubmit (formsubmit.co : gratuit, sans serveur)
+   vers la boîte courriel du créateur de 3h12, qui décide quoi en faire.
+   La clé (CONFIG.boiteSuggestions) est la chaîne aléatoire donnée par FormSubmit après
+   l'activation. En mode DEV, on peut en essayer une autre (panneau DEV → Boîte à suggestions).
+   ===================================================================== */
+const Suggestions = {
+  cle() {
+    const c = CONFIG.boiteSuggestions || (estDev() && Sauvegarde.donnees.dev.boiteSuggestions) || '';
+    return c.trim().replace(/[^\w@.+-]/g, '');
+  },
+  // Affiche la boîte (ou le message « reçu ») selon l'état
+  majBoite() {
+    const f = $('#boite');
+    if (!f || !etat.histoire) return;
+    const branchee = !!this.cle();
+    f.classList.toggle('cache', !(branchee || estDev()) || etat.histoire.numero === 0);
+    const deja = Sauvegarde.donnees.suggestions[etat.histoire.date] && !estDev();
+    f.classList.toggle('envoyee', !!deja);
+    $('#boite-etat').textContent = deja ? 'Reçu. La nuit prochaine s’en souviendra peut-être.'
+      : (!branchee && estDev() ? 'DEV : boîte pas encore branchée (panneau DEV → Boîte à suggestions).' : '');
+  },
+  async envoyer(champs) {
+    const cle = this.cle();
+    if (!cle) throw new Error('boîte pas encore branchée');
+    const rep = await fetch(`https://formsubmit.co/ajax/${cle}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ _template: 'table', _captcha: 'false', ...champs }),
+    });
+    const r = await rep.json().catch(() => ({}));
+    if (!rep.ok || String(r.success) !== 'true') throw new Error(r.message || `réponse ${rep.status}`);
+    return r;
+  },
+  // Envoi depuis la fin de l'histoire
+  async soumettre() {
+    const h = etat.histoire, f = $('#boite');
+    if (!h || !f || f.classList.contains('envoi')) return;
+    const etatEl = $('#boite-etat');
+    if ($('#boite-miel').value) return; // robot
+    const choisi = $('.boite-choix-btn[aria-pressed="true"]', f);
+    const reponse = choisi && h.question ? texteBrut(h.question.choix[+choisi.dataset.choix]) : '';
+    const mot = $('#boite-texte').value.trim().slice(0, 600);
+    if (!reponse && !mot) { etatEl.textContent = h.question ? 'Choisis une réponse ou écris un mot.' : 'Écris un mot d’abord.'; return; }
+    f.classList.add('envoi');
+    etatEl.textContent = 'Envoi…';
+    try {
+      await this.envoyer({
+        _subject: `3h12 — suggestion après le n° ${h.numero}`,
+        histoire: `n° ${h.numero} — ${texteBrut(h.titre)} (${h.date})`,
+        question: h.question ? texteBrut(h.question.texte) : '',
+        reponse,
+        suggestion: mot,
+      });
+      Sauvegarde.donnees.suggestions[h.date] = true;
+      Sauvegarde.planifier();
+      $('#boite-texte').value = '';
+      etatEl.textContent = 'Reçu. La nuit prochaine s’en souviendra peut-être.';
+      if (!estDev()) f.classList.add('envoyee');
+    } catch (e) {
+      etatEl.textContent = estDev() ? `DEV : ${e.message}` : 'Pas pu envoyer. Réessaie un peu plus tard.';
+    }
+    f.classList.remove('envoi');
+  },
+};
 
 /* =====================================================================
    20. ÉCRANS : entrée, histoire
@@ -4568,14 +4853,16 @@ function entrer() {
   reprendrePosition();
   majFin();
 }
-// Ouvre une histoire précise (archives, mode DEV) avec SON thème et SA musique
+// Ouvre une histoire précise (mode DEV) avec SON thème et SA musique.
+// Les lecteurs n'ont que l'histoire de la nuit : les autres (passées ou à venir) sont réservées au DEV.
 async function ouvrirHistoire(date, options = {}) {
+  if (!estDev() && date !== Dates.nuit()) { toast('Cette histoire n’est plus là.'); return; }
   fermerPanneaux();
   toast('Ouverture…');
   const res = await Chargement.histoire(date);
   if (!res) { toast('Impossible d’ouvrir cette histoire.'); return; }
-  // Une histoire pas encore sortie (accessible seulement en mode DEV) s'ouvre en aperçu : rien n'est sauvegardé
-  const apercu = date > Dates.nuit();
+  // Une autre histoire que celle de la nuit (mode DEV) s'ouvre en aperçu : rien n'est retenu
+  const apercu = date !== Dates.nuit();
   installerHistoire(res, { estDuJour: date === Dates.nuit(), estDuMoment: date === etat.dateDuMoment, apercu, ...options });
   MoteurAudio.debloquer();
   cacherEntree();
@@ -4612,7 +4899,6 @@ function ouvrirPanneau(nom) {
   Tiroir.fermer();
   $$('.panneau.ouvert').forEach(p => { if (p.id !== `panneau-${nom}`) { p.classList.remove('ouvert'); p.setAttribute('aria-hidden', 'true'); } });
   const p = $(`#panneau-${nom}`);
-  if (nom === 'archives') Archives.rendre();
   if (nom === 'parametres') Parametres.rendre();
   if (nom === 'dev') Dev.rendre();
   p.classList.add('ouvert');
@@ -4624,52 +4910,6 @@ function fermerPanneaux() {
   if (etat.ecran === 'histoire') document.body.classList.remove('verrouille');
   clearInterval(Dev.minuterie);
 }
-
-const Archives = {
-  filtre: 'toutes',
-  rendre() {
-    const S = Sauvegarde.donnees;
-    const sortie = Dates.nuit(); // les histoires pas encore sorties restent cachées (sauf en mode DEV)
-    let liste = etat.index.liste.filter(e => estDev() || e.date <= sortie).slice().reverse();
-    if (!liste.length && etat.histoire && etat.histoire.date) {
-      const h = etat.histoire;
-      liste = [{ date: h.date, numero: h.numero, titre: h.titre, sousGenre: h.sousGenre, lieu: h.lieu, palette: h.palette }];
-    }
-    if (this.filtre === 'favoris') liste = liste.filter(e => S.favoris.includes(e.date));
-    if (this.filtre === 'nonlues') liste = liste.filter(e => !(S.lues[e.date] && S.lues[e.date].terminee));
-    const n = Serie.valeur();
-    $('#serie-chiffre').textContent = n;
-    $('#serie-texte').textContent = Serie.texte(n);
-    $('#serie-record').textContent = S.serie.record ? `Record : ${S.serie.record} ${Serie.texte(S.serie.record)}` : '';
-    $$('#panneau-archives .filtres button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.filtre === this.filtre)));
-    const ul = $('#arch-liste');
-    if (!liste.length) {
-      ul.innerHTML = `<li class="arch-vide">${this.filtre === 'favoris' ? 'Aucun favori pour l’instant. Touche l’étoile d’une histoire pour l’ajouter.' : 'Aucune histoire ici pour l’instant.'}</li>`;
-      return;
-    }
-    ul.innerHTML = liste.map(e => {
-      const p = e.palette;
-      const texte = assurerContraste(p.texte, p.fond, 4.5);
-      const lue = S.lues[e.date];
-      const enCours = S.positions[e.date];
-      const fav = S.favoris.includes(e.date);
-      const etiquettes = [];
-      if (lue && lue.terminee) etiquettes.push('<span class="arch-etiquette">lue</span>');
-      else if (enCours) etiquettes.push('<span class="arch-etiquette">en cours</span>');
-      if (e.date > sortie) etiquettes.push('<span class="arch-etiquette futur">à venir</span>');
-      const courante = etat.histoire && etat.histoire.date === e.date ? ' courante' : '';
-      return `<li class="arch-item${courante}" style="--a-fond:${p.fond};--a-texte:${texte};--a-accent:${p.accent}">
-          <button class="arch-ouvrir" data-ouvrir-date="${e.date}">
-            <span class="arch-num">N° ${e.numero || '—'} · ${Dates.courte(e.date)}</span>
-            <span class="arch-titre">${echapper(texteBrut(e.titre))}</span>
-            <span class="arch-meta">${echapper([e.sousGenre, e.lieu].filter(Boolean).join(' · '))}</span>
-            <span class="arch-marques">${etiquettes.join('')}<span class="pastilles" aria-hidden="true"><i style="background:${p.fond}"></i><i style="background:${p.surface}"></i><i style="background:${p.accent}"></i><i style="background:${p.secondaire}"></i></span></span>
-          </button>
-          <button class="arch-fav" data-fav-date="${e.date}" aria-pressed="${fav}" aria-label="${fav ? 'Retirer des favoris' : 'Ajouter aux favoris'}">${fav ? '★' : '☆'}</button>
-        </li>`;
-    }).join('');
-  },
-};
 
 const Parametres = {
   appliquer() {
@@ -4689,8 +4929,6 @@ const Parametres = {
     const n = Serie.valeur();
     $('#param-serie-chiffre').textContent = n;
     $('#param-serie-texte').textContent = Serie.texte(n);
-    const d = Sauvegarde.donnees.derniereSauvegarde;
-    $('#info-sauvegarde').textContent = d ? `Dernière sauvegarde : ${new Date(d).toLocaleString('fr-CA', { timeZone: CONFIG.fuseau })}` : '';
     $('#panneau-version').innerHTML = `3h12 · moteur v${CONFIG.version}<br>${etat.index.liste.length} histoire${etat.index.liste.length > 1 ? 's' : ''} au total`;
   },
   majValeurs() {
@@ -4805,9 +5043,15 @@ const Dev = {
     const S = Sauvegarde.donnees;
     const sortie = Dates.nuit();
     // Liste de toutes les histoires, y compris celles qui ne sont pas encore sorties
+    // (les lecteurs, eux, n'ont accès qu'à l'histoire de la nuit en cours)
     $('#dev-histoires').innerHTML = etat.index.liste.slice().reverse().map(e =>
-      `<li><button data-ouvrir-date="${e.date}" class="${e.date > sortie ? 'futur' : ''}"><span>N° ${e.numero} · ${echapper(texteBrut(e.titre))}</span><span>${e.date}${e.date > sortie ? ' (à venir)' : ''}</span></button></li>`).join('')
-      || '<li class="arch-vide">index.json vide ou illisible.</li>';
+      `<li><button data-ouvrir-date="${e.date}" class="${e.date > sortie ? 'futur' : ''}"><span>N° ${e.numero} · ${echapper(texteBrut(e.titre))}</span><span>${e.date}${e.date > sortie ? ' (à venir)' : e.date < sortie ? ' (disparue)' : ' (cette nuit)'}</span></button></li>`).join('')
+      || '<li class="dev-vide">index.json vide ou illisible.</li>';
+    // Boîte à suggestions
+    $('#dev-boite').value = S.dev.boiteSuggestions || '';
+    $('#dev-boite-etat').textContent = CONFIG.boiteSuggestions
+      ? 'Branchée : les suggestions des lecteurs arrivent dans ta boîte courriel.'
+      : 'Pas encore branchée : les lecteurs ne voient pas la boîte (toi, si, en mode DEV).';
     // Bouton : lire la prochaine histoire (pas encore sortie)
     const prochaine = etat.index.liste.find(e => e.date > sortie);
     const bouton = $('#dev-prochaine');
@@ -4934,10 +5178,10 @@ const HISTOIRE_DEMO = {
 
 /* =====================================================================
    24. CHARGEMENT DE L'HISTOIRE DU MOMENT
+   Une histoire ne vit que 24 h : celle datée J sort à J 3 h 12 et disparaît à J+1 3 h 12.
    1. lit stories/index.json
-   2. prend la plus récente histoire déjà sortie (une histoire datée J sort à J 3 h 12),
-      avec « La prochaine histoire arrive à 3 h 12. » si ce n'est pas celle d'aujourd'hui
-   3. si rien ne charge : histoire de secours intégrée (jamais d'écran blanc)
+   2. ne prend QUE l'histoire de la nuit en cours (jamais une plus ancienne)
+   3. si elle manque : histoire de secours intégrée (jamais d'écran blanc)
    ===================================================================== */
 async function chargerHistoireDuMoment() {
   const aujourd = Dates.aujourdhui();   // date du calendrier (Toronto)
@@ -4947,24 +5191,24 @@ async function chargerHistoireDuMoment() {
   if (etat.ecran === 'histoire') afficherEntree();
   etat.index = await Chargement.index();
   const liste = etat.index.liste;
-  let candidats = liste.filter(e => e.date <= sortie).map(e => e.date).reverse();
-  if (!candidats.length && liste.length) candidats = [liste[0].date];
-  if (!liste.length) candidats = [0, 1, 2, 3].map(k => Dates.ajouter(sortie, -k)); // index illisible : on essaie les derniers jours
-  let res = null, date = null;
-  for (const d of candidats.slice(0, 5)) {
-    res = await Chargement.histoire(d);
-    if (res) { date = d; break; }
-  }
+  // Les positions des nuits passées ne servent plus à rien
+  const positions = Sauvegarde.donnees.positions;
+  Object.keys(positions).forEach(d => { if (d !== sortie) delete positions[d]; });
+  // Seulement l'histoire de la nuit (même si l'index est illisible ou en retard, on essaie le fichier)
+  const res = await Chargement.histoire(sortie);
   if (!res) {
     const r = normaliserHistoire(HISTOIRE_SECOURS, aujourd);
     installerHistoire({ ...r, donnees: HISTOIRE_SECOURS, brut: '' }, {});
     etat.dateDuMoment = null;
-    remplirEntree(r.h, liste.length ? 'Impossible de charger l’histoire. Réessaie dans un moment.' : 'Impossible de joindre les archives. Vérifie ta connexion.');
+    const prevue = liste.some(e => e.date === sortie);
+    remplirEntree(r.h, prevue || !liste.length ? 'Impossible de charger l’histoire. Réessaie dans un moment.' : 'Rien cette nuit. Reviens à 3 h 12.');
     return;
   }
+  const date = sortie;
   etat.dateDuMoment = date;
-  installerHistoire(res, { estDuJour: date === sortie, estDuMoment: true });
-  remplirEntree(res.h, date === aujourd ? '' : 'La prochaine histoire arrive à 3 h 12.');
+  installerHistoire(res, { estDuJour: true, estDuMoment: true });
+  // Avant 3 h 12, c'est encore l'histoire de la veille : ses dernières heures
+  remplirEntree(res.h, date === aujourd ? '' : 'Elle disparaît à 3 h 12.');
   if (estDev() && Sauvegarde.donnees.dev.sauterEntree) entrer();
 }
 
@@ -4976,8 +5220,8 @@ async function verifierNouvelleHistoire() {
   const index = await Chargement.index();
   if (!index.liste.length) return;
   etat.index = index;
-  const plusRecente = index.liste.filter(e => e.date <= sortie).pop();
-  if (!plusRecente || plusRecente.date === etat.dateDuMoment) return;
+  const plusRecente = index.liste.find(e => e.date === sortie);
+  if (!plusRecente) return;
   if (etat.ecran === 'entree' && !$('.panneau.ouvert')) { chargerHistoireDuMoment(); return; }
   toast(`Nouvelle histoire : n° ${plusRecente.numero}`, 'Voir', () => chargerHistoireDuMoment());
 }
@@ -5024,26 +5268,33 @@ function installerEcouteurs() {
     enAttente = true;
     requestAnimationFrame(() => { enAttente = false; Lecture.surDefilement(); });
   }, { passive: true });
+  // Doigt qui fait défiler l'écran : la conversation SMS ne fait pas bouger la page sous le doigt
+  window.addEventListener('touchmove', () => { Lecture.toucheEnCours = true; }, { passive: true });
+  ['touchend', 'touchcancel'].forEach(t => window.addEventListener(t, () => { setTimeout(() => { Lecture.toucheEnCours = false; }, 350); }, { passive: true }));
 
   // Boutons avec data-action (fin de l'histoire, écran d'entrée)
   document.addEventListener('click', e => {
     const cav = e.target.closest('.caviarde');
     if (cav) { cav.classList.toggle('revele'); return; }
+    // SMS : toucher l'écran du téléphone presse le pas (message suivant sans attendre)
+    if (etat.mep === 'sms' && e.target.closest('#histoire .objet')) Lecture.presser();
     const action = e.target.closest('[data-action]');
     if (action) {
       const a = action.dataset.action;
-      if (a === 'archives') ouvrirPanneau('archives');
       if (a === 'parametres') ouvrirPanneau('parametres');
       if (a === 'relire') recommencer();
-      if (a === 'favori' && etat.histoire) toast(basculerFavori(etat.histoire.date) ? 'Ajoutée aux favoris' : 'Retirée des favoris');
       return;
     }
     const ouvrir = e.target.closest('[data-ouvrir-date]');
     if (ouvrir) { ouvrirHistoire(ouvrir.dataset.ouvrirDate); return; }
-    const fav = e.target.closest('[data-fav-date]');
-    if (fav) { basculerFavori(fav.dataset.favDate); Archives.rendre(); return; }
-    const filtre = e.target.closest('[data-filtre]');
-    if (filtre) { Archives.filtre = filtre.dataset.filtre; Archives.rendre(); return; }
+    // Question de la nuit : une seule réponse à la fois (toucher de nouveau pour l'enlever)
+    const choix = e.target.closest('.boite-choix-btn');
+    if (choix) {
+      const deja = choix.getAttribute('aria-pressed') === 'true';
+      $$('.boite-choix-btn').forEach(b => b.setAttribute('aria-pressed', 'false'));
+      choix.setAttribute('aria-pressed', String(!deja));
+      return;
+    }
     const son = e.target.closest('[data-dev-son]');
     if (son) { MoteurAudio.debloquer(); jouerSon(son.dataset.devSon, {}); return; }
     const effet = e.target.closest('[data-dev-effet]');
@@ -5062,37 +5313,11 @@ function installerEcouteurs() {
   $('#reg-effets').addEventListener('change', () => jouerSon('coup', { nombre: 1 }));
   $('#reg-taille').addEventListener('input', e => { P().tailleTexte = e.target.value / 100; Parametres.appliquer(); Parametres.majValeurs(); Sauvegarde.planifier(); });
   $('#reg-intenses').addEventListener('change', e => { P().effetsIntenses = e.target.checked; Sauvegarde.planifier(); });
-  $('#btn-sauvegarder').addEventListener('click', () => {
-    const ok = Sauvegarde.ecrire();
-    toast(ok ? 'Partie sauvegardée' : 'Sauvegarde impossible (mémoire pleine ou navigation privée)');
-    Parametres.rendre();
-  });
-  $('#btn-exporter').addEventListener('click', () => {
-    Sauvegarde.ecrire();
-    $('#code-export').value = Sauvegarde.exporter();
-    $('#zone-exporter').classList.remove('cache');
-    $('#zone-importer').classList.add('cache');
-  });
-  $('#btn-copier').addEventListener('click', async () => {
-    const zone = $('#code-export');
-    try { await navigator.clipboard.writeText(zone.value); toast('Code copié'); }
-    catch (e) { zone.focus(); zone.select(); zone.setSelectionRange(0, zone.value.length); toast('Sélectionné : touche « Copier »'); }
-  });
-  $('#btn-importer').addEventListener('click', () => {
-    $('#zone-importer').classList.remove('cache');
-    $('#zone-exporter').classList.add('cache');
-  });
-  $('#btn-valider-import').addEventListener('click', () => {
-    try {
-      Sauvegarde.importer($('#code-import').value);
-      Parametres.appliquer();
-      Parametres.rendre();
-      majIndicateurDev();
-      majFin();
-      $('#code-import').value = '';
-      $('#zone-importer').classList.add('cache');
-      toast('Sauvegarde importée');
-    } catch (e) { toast('Code invalide : vérifie qu’il est complet'); }
+  // Boîte à suggestions (fin de l'histoire)
+  document.addEventListener('submit', e => {
+    if (e.target.id !== 'boite') return;
+    e.preventDefault();
+    Suggestions.soumettre();
   });
   // Accès caché au mode DEV : 3 touchers rapides sur le numéro de version
   let touchersVersion = 0, minuterieVersion;
@@ -5121,6 +5346,16 @@ function installerEcouteurs() {
   $('#dev-date-appliquer').addEventListener('click', () => { const d = $('#dev-date').value; if (Dates.valide(d)) Dev.appliquerDate(d); else toast('Date invalide'); });
   $('#dev-date-reelle').addEventListener('click', () => Dev.appliquerDate(null));
   $('#dev-sauter').addEventListener('change', e => { Sauvegarde.donnees.dev.sauterEntree = e.target.checked; Sauvegarde.ecrire(); });
+  $('#dev-boite').addEventListener('change', e => { Sauvegarde.donnees.dev.boiteSuggestions = e.target.value.trim(); Sauvegarde.ecrire(); majFin(); });
+  $('#dev-boite-test').addEventListener('click', async () => {
+    Sauvegarde.donnees.dev.boiteSuggestions = $('#dev-boite').value.trim();
+    Sauvegarde.ecrire();
+    toast('Envoi du test…');
+    try {
+      await Suggestions.envoyer({ _subject: '3h12 — test de la boîte à suggestions', histoire: 'TEST (panneau DEV)', suggestion: 'Si tu lis ceci, la boîte fonctionne.' });
+      toast('Test envoyé : regarde ta boîte courriel');
+    } catch (e) { toast(`FormSubmit : ${e.message}`); }
+  });
   $('#dev-mep').addEventListener('change', e => {
     const cle = e.target.value;
     // On renormalise avec cette mise en page pour obtenir ses couleurs et polices par défaut
@@ -5151,12 +5386,12 @@ function installerEcouteurs() {
     } catch (e) { toast(`JSON invalide : ${e.message}`); }
   });
   $('#dev-reinitialiser').addEventListener('click', () => {
-    if (!confirm('Effacer toute la sauvegarde (histoires lues, favoris, série, paramètres) ?')) return;
+    if (!confirm('Effacer la mémoire de cet appareil (histoires lues, série, paramètres) ?')) return;
     const garderDev = estDev();
     Sauvegarde.reinitialiser();
     if (garderDev) { Sauvegarde.donnees.dev.actif = true; Sauvegarde.ecrire(); }
     Parametres.appliquer();
-    toast('Sauvegarde réinitialisée');
+    toast('Mémoire effacée');
     Dev.rendre();
   });
   $('#dev-quitter').addEventListener('click', () => Dev.desactiver());

@@ -20,7 +20,7 @@ Sommaire : [1. Fichiers](#1-fichiers) · [2. index.json](#2-storiesindexjson) ·
 | `stories/index.json` | Liste de toutes les histoires (une entrée par jour). |
 | `stories/AAAA-MM-JJ.json` | Une histoire. Le nom du fichier **est** sa date (ex. `stories/2026-10-19.json`). |
 
-**Sortie à 3 h 12** : une histoire datée J apparaît dans l'app à **J, 3 h 12** (heure de Toronto), même si le fichier est déjà dans le repo. On peut donc pousser l'histoire du lendemain d'avance : elle reste cachée (archives comprises) jusqu'à sa sortie. Avant 3 h 12, ou si l'histoire du jour manque, l'app affiche la plus récente déjà sortie avec le message « La prochaine histoire arrive à 3 h 12. ». Les histoires pas encore sorties ne sont visibles qu'en mode DEV.
+**24 heures, pas plus** : une histoire datée J apparaît dans l'app à **J, 3 h 12** (heure de Toronto) et **disparaît à J+1, 3 h 12**, remplacée par la suivante. Il n'y a ni archives, ni favoris, ni sauvegarde : une histoire manquée est perdue. On peut pousser l'histoire du lendemain d'avance : elle reste cachée jusqu'à sa sortie. Si l'histoire de la nuit manque, l'app n'en montre **pas** une plus ancienne : elle affiche « Silence radio » (« Rien cette nuit. Reviens à 3 h 12. »). Les histoires passées et à venir ne s'ouvrent qu'en mode DEV (en aperçu).
 
 ---
 
@@ -68,7 +68,7 @@ Sommaire : [1. Fichiers](#1-fichiers) · [2. index.json](#2-storiesindexjson) ·
 | `tonique` | chaîne | oui | Tonique de la musique (section 8). |
 | `gamme` | chaîne | oui | Gamme de la musique (section 8). |
 | `effetFond` | chaîne | oui | Effet de fond (section 7). |
-| `palette` | objet | oui | Copie exacte de `theme.palette` de l'histoire (5 couleurs). Sert aux pastilles des archives. |
+| `palette` | objet | oui | Copie exacte de `theme.palette` de l'histoire (5 couleurs). Sert à varier les palettes d'une nuit à l'autre. |
 | `polices` | objet | oui | Copie de `theme.polices` (titre, texte, notes). |
 | `evenements` | entier | oui | Nombre de blocs `evenement` dans l'histoire. |
 | `retournement` | chaîne | oui | Même valeur que dans l'histoire (sert à varier les retournements). |
@@ -103,6 +103,9 @@ Fichier `stories/AAAA-MM-JJ.json` :
 | `musique` | objet | oui | drone + bruit | Musique synthétisée (section 8). |
 | `blocs` | tableau | oui | — | Le texte, bloc par bloc (section 9). |
 | `phraseFinale` | chaîne | oui | — | La dernière phrase, affichée seule, en grand, après l'histoire. Balisage permis. |
+| `question` | objet | oui (DAILY) | aucune | La **question de la nuit**, posée au lecteur à la fin, au-dessus de la boîte à suggestions : `{ "texte": "…", "choix": ["…", "…"] }`, **2 à 4 choix** courts. Elle sert à orienter les prochaines histoires (une peur, un lieu, un format, une époque…) sans rien gâcher de celle-ci. Balisage permis. Absente ou invalide → seulement la boîte « Un mot pour la prochaine nuit ». |
+
+**Fin de l'histoire** : après la `phraseFinale`, l'app affiche « Fin », la date de la prochaine histoire, « Cette histoire disparaît à 3 h 12. », puis la **boîte à suggestions** (la `question` avec ses choix, et un champ libre « Un mot pour la prochaine nuit »). Les réponses partent par courriel (FormSubmit) au créateur de 3h12, qui décide quoi en faire ; elles ne modifient rien automatiquement.
 
 **Durée de lecture** : calculée automatiquement (190 mots/min) à partir de tous les textes. Visez **900 à 1600 mots**.
 
@@ -440,9 +443,9 @@ Règles : **3 à 6 événements par histoire**, aux moments clés. Pas de jumpsc
 
 - Champ manquant ou invalide → valeur par défaut + avertissement. Type de bloc inconnu avec un `texte` → affiché comme paragraphe. Bloc illisible → ignoré.
 - JSON légèrement abîmé (virgule finale, commentaire) → réparé si possible, signalé comme erreur.
-- Fichier introuvable → l'histoire précédente ; rien du tout → écran de secours « Silence radio ». **Jamais d'écran blanc.**
+- Fichier de la nuit introuvable → écran de secours « Silence radio » (jamais une histoire plus ancienne). **Jamais d'écran blanc.**
 - Police introuvable → police de secours (serif, sans-serif, monospace ou cursive).
-- Mode DEV (Paramètres → toucher **3 fois** le numéro de version en bas → code `BURGER`) : JSON brut, liste des erreurs et avertissements de format, prévisualisation d'un JSON collé, test de chaque mise en page, fond, son et couche musicale.
+- Mode DEV (Paramètres → toucher **3 fois** le numéro de version en bas → code `BURGER`) : lire la prochaine histoire (et les passées) en aperçu, JSON brut, liste des erreurs et avertissements de format, prévisualisation d'un JSON collé, test de chaque mise en page, fond, son et couche musicale, réglage de la boîte à suggestions.
 
 ---
 
@@ -495,6 +498,7 @@ Exemple court mais complet et valide (une vraie histoire doit compter 900 à 160
     { "type": "evenement", "effet": "noir", "son": "silence", "duree": 2500, "texte": "La corne s'est tue." },
     { "type": "paragraphe", "texte": "Je n'ai pas allumé la lanterne ce soir. ^^Pourtant, le phare brille.^^", "style": "espace" }
   ],
-  "phraseFinale": "Le bateau n'a jamais approché. __C'est la côte qui s'éloigne.__"
+  "phraseFinale": "Le bateau n'a jamais approché. __C'est la côte qui s'éloigne.__",
+  "question": { "texte": "La prochaine nuit, tu veux avoir peur…", "choix": ["sur l'eau", "sous la terre", "dans une maison pleine de monde"] }
 }
 ```
