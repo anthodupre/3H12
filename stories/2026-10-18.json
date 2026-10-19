@@ -10,6 +10,7 @@
   "auQuebec": true,
   "format": "Rapport d’événement de police, avec déclaration de témoin et note au dossier",
   "miseEnPage": "rapport",
+  "retournement": "la malédiction se transmet par la parole : le rapport lui-même la propage (et le lecteur l'a lu)",
   "resume": "Un cultivateur disparaît dans un rang de Lanaudière. Sa voisine sait pourquoi : il n’a pas fait ses Pâques depuis sept ans.",
   "theme": {
     "palette": {

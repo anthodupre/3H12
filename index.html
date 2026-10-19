@@ -209,6 +209,57 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 }
 .entree-toucher[disabled] { opacity: 0; animation: none; }
 .entree-conseil { margin: 1.2rem 0 0; font-size: .8rem; color: #4f4b46; letter-spacing: .04em; }
+/* Décompte jusqu'à l'Halloween : une ligne de LED en bas de l'écran */
+.entree-halloween {
+  position: absolute; left: 0; right: 0; bottom: calc(var(--bas) + 20px); margin: 0;
+  font: 500 .66rem/1.4 var(--police-mono); letter-spacing: .32em; text-indent: .32em; text-transform: uppercase;
+  color: var(--horloge); opacity: .42; text-shadow: 0 0 6px rgba(var(--horloge-rgb), .45);
+}
+.fin-halloween {
+  margin: -1.2rem 0 2.2rem; font: 500 .68rem/1.4 var(--police-mono); letter-spacing: .28em; text-indent: .28em;
+  text-transform: uppercase; color: var(--accent-fond); opacity: .7;
+}
+
+/* Guide d'installation (iPhone) : même univers que l'écran d'entrée */
+#guide-installation {
+  position: fixed; inset: 0; z-index: 42; display: flex; align-items: flex-end; justify-content: center;
+  padding: calc(var(--haut) + 16px) calc(var(--droite) + 12px) calc(var(--bas) + 12px) calc(var(--gauche) + 12px);
+  background: rgba(0, 0, 0, .72); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  opacity: 0; transition: opacity .6s ease; overflow-y: auto;
+}
+#guide-installation.visible { opacity: 1; }
+.guide-carte {
+  width: 100%; max-width: 26rem; padding: 22px 20px 16px; border-radius: 4px; color: #d8d3cb;
+  background: #060505; border: 1px solid rgba(var(--horloge-rgb), .25);
+  box-shadow: 0 0 40px rgba(var(--horloge-rgb), .12), 0 20px 60px rgba(0, 0, 0, .8);
+  transform: translateY(20px); transition: transform .6s cubic-bezier(.2, .8, .2, 1);
+}
+#guide-installation.visible .guide-carte { transform: none; }
+.guide-titre {
+  margin: 0 0 .8rem; font: 500 .74rem/1 var(--police-mono); letter-spacing: .32em; text-transform: uppercase;
+  color: var(--horloge); text-shadow: 0 0 6px rgba(var(--horloge-rgb), .5);
+}
+.guide-etapes { list-style: none; margin: 0; padding: 0; counter-reset: etape; }
+.guide-etapes { margin-bottom: 14px; }
+.guide-etapes li {
+  counter-increment: etape; display: grid; grid-template-columns: 34px 1fr; gap: 14px; align-items: center;
+  padding: 10px 0; border-top: 1px dashed rgba(255, 255, 255, .1); font-size: 1rem; line-height: 1.35;
+}
+.guide-etapes b { color: #f0ebe2; font-weight: 600; }
+.guide-icone {
+  position: relative; width: 34px; height: 34px; display: grid; place-items: center;
+  border: 1px solid rgba(var(--horloge-rgb), .45); border-radius: 8px; color: var(--horloge);
+}
+.guide-icone::after {
+  content: counter(etape); position: absolute; top: -7px; left: -7px; width: 16px; height: 16px; border-radius: 50%;
+  background: #060505; border: 1px solid rgba(var(--horloge-rgb), .6); font: 600 .6rem/14px var(--police-mono); text-align: center;
+}
+.guide-icone svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.guide-bouton {
+  width: 100%; min-height: 48px; border-radius: 2px; border: 1px solid rgba(var(--horloge-rgb), .6); color: var(--horloge);
+  font: 500 .74rem/1 var(--police-mono); letter-spacing: .24em; text-indent: .24em; text-transform: uppercase;
+  background: rgba(var(--horloge-rgb), .06);
+}
 
 /* =====================================================================
    4. COMMANDES (immersives)
@@ -1067,7 +1118,21 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
     <button class="entree-toucher" id="btn-entrer" disabled>Toucher pour entrer</button>
     <p class="entree-conseil">Avec des écouteurs. Dans le noir.</p>
   </div>
+  <p class="entree-halloween cache" id="entree-halloween"></p>
   <noscript><p style="color:#888">3h12 a besoin de JavaScript pour fonctionner.</p></noscript>
+</section>
+
+<!-- ===== Guide d'installation sur l'écran d'accueil (iPhone / iPad, première ouverture) ===== -->
+<section id="guide-installation" class="cache" aria-label="Installer 3h12" aria-hidden="true">
+  <div class="guide-carte">
+    <h2 class="guide-titre">Installe 3h12</h2>
+    <ol class="guide-etapes">
+      <li><span class="guide-icone" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11H5v10h14V11h-1"/></svg></span><span>Touche <b>Partager</b></span></li>
+      <li><span class="guide-icone" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8.5v7M8.5 12h7"/></svg></span><span>Touche <b>Sur l'écran d'accueil</b></span></li>
+      <li><span class="guide-icone" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Touche <b>Ajouter</b></span></li>
+    </ol>
+    <button class="guide-bouton" id="guide-fait">OK</button>
+  </div>
 </section>
 
 <!-- ===== Panneau : Archives ===== -->
@@ -1126,6 +1191,11 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
       <p class="reglage-aide">Flashs, tremblements et glitchs. Désactivés, ils deviennent très doux.</p>
     </div>
 
+    <div id="zone-installer" class="cache">
+      <h3 class="section-titre">App</h3>
+      <button class="btn-plein" id="btn-installer">Installer sur l'écran d'accueil</button>
+    </div>
+
     <h3 class="section-titre">Sauvegarde</h3>
     <button class="btn-plein principal" id="btn-sauvegarder">Sauvegarder</button>
     <p class="reglage-aide" id="info-sauvegarde"></p>
@@ -1161,6 +1231,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
   </div>
   <div class="panneau-corps">
     <div class="dev-infos" id="dev-infos"></div>
+    <button class="btn-plein principal" id="dev-prochaine"></button>
 
     <h3 class="section-titre">Toutes les histoires (même futures)</h3>
     <ul class="dev-liste-histoires" id="dev-histoires"></ul>
@@ -1232,6 +1303,11 @@ const CONFIG = {
   imagesParSeconde: 30,               // limite du fond animé
   motsParMinute: 190,                 // pour estimer la durée de lecture
   verificationMinutes: 10,            // vérifie s'il y a une nouvelle histoire toutes les X minutes
+  // Rythme de lecture : les effets attendent que le lecteur ait eu le temps de lire jusqu'à eux
+  ligneEvenements: .45,               // un événement s'arme quand il dépasse 45 % de la hauteur de l'écran (depuis le haut)
+  ligneLettres: .62,                  // une phrase « lettre par lettre » s'arme à 62 % de la hauteur
+  msParMot: 22,                       // délai ajouté par mot de texte qui précède l'effet
+  delaiMin: 700, delaiMax: 2600,      // bornes de ce délai (millisecondes)
 };
 
 // Listes des valeurs permises (voir SCHEMA.md)
@@ -1443,6 +1519,7 @@ const Sauvegarde = {
       serie: { actuelle: 0, record: 0, derniereNuit: null },
       parametres: { volumeGeneral: .8, volumeMusique: .7, volumeEffets: .85, muet: false, tailleTexte: 1, effetsIntenses: true },
       dev: { actif: false, dateSimulee: null, sauterEntree: false },
+      guideInstallation: false,   // le guide « écran d'accueil » a déjà été montré
       derniereSauvegarde: null,
     };
   },
@@ -1478,6 +1555,7 @@ const Sauvegarde = {
     s.dev.actif = !!dv.actif;
     s.dev.dateSimulee = Dates.valide(dv.dateSimulee) ? dv.dateSimulee : null;
     s.dev.sauterEntree = !!dv.sauterEntree;
+    s.guideInstallation = !!d.guideInstallation;
     s.derniereSauvegarde = chaine(d.derniereSauvegarde) || null;
     return s;
   },
@@ -3576,7 +3654,7 @@ const Glitchs = {
       if (!g.isConnected) { this.elements.delete(g); continue; }
       if (g.dataset.actif || !g.closest('.visible')) continue;
       const r = g.getBoundingClientRect();
-      if (r.bottom < 0 || r.top > window.innerHeight) continue;
+      if (r.top < window.innerHeight * .06 || r.bottom > window.innerHeight * .78) continue; // seulement dans la zone de lecture
       if (Math.random() < .05) this.brouiller(g);
     }
   },
@@ -3936,6 +4014,7 @@ const Rendu = {
           <p class="fin-prochaine">Prochaine histoire</p>
           <p class="fin-date" id="fin-date"></p>
           <p class="fin-serie" id="fin-serie"></p>
+          <p class="fin-halloween cache" id="fin-halloween"></p>
           <div class="fin-actions">
             <button class="lien-fin" data-action="favori" id="fin-favori" aria-pressed="false">Garder cette histoire</button>
             <button class="lien-fin" data-action="relire">Relire</button>
@@ -3963,6 +4042,7 @@ const etat = {
   progression: 0,
   finie: false,
   journal: [],          // événements déclenchés (pour le mode DEV et les tests)
+  apercu: false,        // vrai si on lit en aperçu (DEV) : rien n'est sauvegardé (ni « lue », ni position)
   dateChargement: null,
 };
 
@@ -3970,11 +4050,12 @@ const etat = {
    16. LECTURE : apparition des blocs, événements, position
    ===================================================================== */
 const Lecture = {
-  observateur: null, observateurFin: null, evenements: [], declenches: new Set(), file: [], fileActive: false,
+  observateur: null, observateurFin: null, evenements: [], declenches: new Set(), file: [], fileActive: false, declencheurs: [],
   preparer(positionBloc = 0) {
     const art = $('#histoire');
     if (this.observateur) this.observateur.disconnect();
     if (this.observateurFin) this.observateurFin.disconnect();
+    this.viderDeclencheurs();
     this.declenches = new Set();
     this.file = [];
     etat.finie = false;
@@ -3985,10 +4066,38 @@ const Lecture = {
       blocs.forEach(b => { if (+b.dataset.i < positionBloc) { b.classList.add('visible', 'deja'); this.terminerBloc(b, true); } });
       this.evenements.forEach(e => { if (e.i < positionBloc) this.declenches.add(e.i); });
     }
+    // Événements : armés quand le lecteur a eu le temps de lire le texte qui les précède
+    this.dernierEvenement = 0;
+    this.evenements.forEach((ev, rang) => {
+      if (this.declenches.has(ev.i)) return;
+      const precedent = this.blocPrecedent(ev.el);
+      const avant = this.evenements.slice(0, rang);
+      this.ajouterDeclencheur({
+        el: ev.el,
+        ligne: CONFIG.ligneEvenements,
+        delai: this.delaiLecture(precedent ? this.compterMots(precedent) : 0),
+        // Toujours dans l'ordre, au moins 1,2 s après l'événement précédent ;
+        // en SMS, on attend aussi que le message précédent soit vraiment arrivé
+        pret: () => avant.every(a => this.declenches.has(a.i))
+          && Date.now() - this.dernierEvenement > 1200
+          && (!precedent || (precedent.classList.contains('visible') && !precedent.classList.contains('en-train'))),
+        action: () => {
+          this.declenches.add(ev.i);
+          this.dernierEvenement = Date.now();
+          // Si le lecteur a filé loin plus bas sans lire, on ne déclenche pas l'effet hors contexte
+          if (ev.el.getBoundingClientRect().top > -window.innerHeight * 1.6) declencherEvenement(etat.histoire.blocs[ev.i], ev.i);
+        },
+      });
+    });
+    // Sur iPhone, pas de défilement = pas d'événement « scroll » : on vérifie aussi régulièrement
+    clearInterval(this.minuterieDeclencheurs);
+    this.minuterieDeclencheurs = setInterval(() => { if (etat.ecran === 'histoire' && !document.hidden) this.verifierDeclencheurs(); }, 250);
+    // Les SMS et le terminal (texte qui se tape) apparaissent plus haut dans l'écran : le lecteur les voit arriver
+    const marge = ['sms', 'terminal'].includes(etat.mep) ? '-24%' : '-8%';
     if ('IntersectionObserver' in window) {
       this.observateur = new IntersectionObserver(entrees => {
         entrees.forEach(e => { if (e.isIntersecting) { this.observateur.unobserve(e.target); this.reveler(e.target); } });
-      }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
+      }, { rootMargin: `0px 0px ${marge} 0px`, threshold: 0 });
       blocs.forEach(b => { if (!b.classList.contains('visible')) this.observateur.observe(b); });
       this.observateurFin = new IntersectionObserver(entrees => {
         entrees.forEach(e => { if (e.isIntersecting) this.atteindreFin(); else if (e.boundingClientRect.top > 0) this.quitterFin(); });
@@ -4027,8 +4136,15 @@ const Lecture = {
   },
   terminerBloc(bloc, immediat) {
     bloc.querySelectorAll('.lettre-a-lettre').forEach(s => {
-      if (immediat) s.classList.add('joue', 'instant');
-      else setTimeout(() => s.classList.add('joue'), 350);
+      if (immediat) { s.classList.add('joue', 'instant'); return; }
+      // La phrase ne s'écrit que lorsque le lecteur y arrive : délai selon les mots qui la précèdent dans le bloc
+      this.ajouterDeclencheur({
+        el: s,
+        ligne: CONFIG.ligneLettres,
+        delai: this.delaiLecture(this.motsAvant(bloc, s)) - 300,
+        pret: () => !bloc.classList.contains('en-train'),
+        action: () => s.classList.add('joue'),
+      });
     });
     const mep = MISES_EN_PAGE[etat.mep];
     if (!immediat && mep && mep.tape && !bloc.classList.contains('bloc-image')) taper(bloc);
@@ -4043,16 +4159,7 @@ const Lecture = {
     if (MoteurAudio.musique) MoteurAudio.musique.progression(p);
     Illustration.maj(y, p);
     if (etat.ecran !== 'histoire') return;
-    // Les événements se déclenchent quand ils passent le milieu de l'écran (une seule fois)
-    const milieu = window.innerHeight * .55;
-    for (const ev of this.evenements) {
-      if (this.declenches.has(ev.i)) continue;
-      const r = ev.el.getBoundingClientRect();
-      if (r.top < milieu) {
-        this.declenches.add(ev.i);
-        if (r.top > -window.innerHeight * 1.5) declencherEvenement(etat.histoire.blocs[ev.i], ev.i);
-      }
-    }
+    this.verifierDeclencheurs();
     // Barre du haut plus discrète pendant la lecture
     const barre = $('#barre-haut');
     if (Tiroir.ouvert && Math.abs(y - Tiroir.yOuverture) > 60) Tiroir.fermer();
@@ -4061,9 +4168,51 @@ const Lecture = {
     this.dernierY = y;
     this.memoriserPosition();
   },
+  /* --- Déclencheurs « au rythme de la lecture » ---
+     Un déclencheur s'arme quand son élément passe au-dessus de sa ligne (fraction de la hauteur
+     de l'écran), puis attend son délai avant d'agir. Si le lecteur remonte avant, on annule et on
+     attendra qu'il redescende. Chaque déclencheur n'agit qu'une seule fois. */
+  ajouterDeclencheur(d) { d.fait = false; d.minuterie = null; this.declencheurs.push(d); },
+  viderDeclencheurs() { this.declencheurs.forEach(d => clearTimeout(d.minuterie)); this.declencheurs = []; },
+  verifierDeclencheurs() {
+    const h = window.innerHeight;
+    for (const d of this.declencheurs) {
+      if (d.fait) continue;
+      if (!d.el.isConnected) { d.fait = true; clearTimeout(d.minuterie); continue; }
+      const haut = d.el.getBoundingClientRect().top;
+      // Le lecteur est remonté au-dessus : on annule et on attendra qu'il redescende
+      if (haut > h * (d.ligne + .08)) {
+        d.depuis = 0;
+        if (d.minuterie) { clearTimeout(d.minuterie); d.minuterie = null; }
+        continue;
+      }
+      if (haut >= h * d.ligne) continue;
+      if (!d.depuis) d.depuis = Date.now(); // moment où le lecteur est arrivé à l'effet
+      if (!d.minuterie && (!d.pret || d.pret())) {
+        // le délai de lecture compte depuis l'arrivée du lecteur, pas depuis que l'effet est prêt
+        const reste = Math.max(150, d.delai - (Date.now() - d.depuis));
+        d.minuterie = setTimeout(() => { d.minuterie = null; d.fait = true; d.action(); }, reste);
+      }
+    }
+  },
+  delaiLecture(mots) { return borner(CONFIG.delaiMin + mots * CONFIG.msParMot, CONFIG.delaiMin, CONFIG.delaiMax); },
+  compterMots(el) { return (el.textContent || '').split(/\s+/).filter(Boolean).length; },
+  // Bloc de texte qui précède un élément (on saute les autres événements)
+  blocPrecedent(el) {
+    let p = el.previousElementSibling;
+    while (p && !p.classList.contains('bloc')) p = p.previousElementSibling;
+    return p;
+  },
+  // Nombre de mots qui précèdent un élément à l'intérieur de son bloc
+  motsAvant(bloc, el) {
+    const r = document.createRange();
+    r.setStart(bloc, 0);
+    r.setEndBefore(el);
+    return r.toString().split(/\s+/).filter(Boolean).length;
+  },
   memoriserPosition() {
     const maintenant = Date.now();
-    if (maintenant - (this.dernierePos || 0) < 900 || !etat.histoire || etat.finie) return;
+    if (maintenant - (this.dernierePos || 0) < 900 || !etat.histoire || etat.finie || etat.apercu) return;
     this.dernierePos = maintenant;
     let courant = 0;
     for (const b of $$('#histoire .bloc')) {
@@ -4081,10 +4230,12 @@ const Lecture = {
     fin.classList.add('visible');
     etat.finie = true;
     const h = etat.histoire;
-    const lues = Sauvegarde.donnees.lues;
-    lues[h.date] = { ouverte: (lues[h.date] && lues[h.date].ouverte) || new Date().toISOString(), terminee: true };
-    delete Sauvegarde.donnees.positions[h.date];
-    Sauvegarde.planifier();
+    if (!etat.apercu) {
+      const lues = Sauvegarde.donnees.lues;
+      lues[h.date] = { ouverte: (lues[h.date] && lues[h.date].ouverte) || new Date().toISOString(), terminee: true };
+      delete Sauvegarde.donnees.positions[h.date];
+      Sauvegarde.planifier();
+    }
     if (MoteurAudio.musique) MoteurAudio.musique.finir();
     majFin();
   },
@@ -4226,6 +4377,34 @@ function bandesAleatoires() {
 }
 
 /* =====================================================================
+   18 bis. DÉCOMPTE JUSQU'À L'HALLOWEEN (affiché pendant les 61 nuits qui précèdent)
+   ===================================================================== */
+const Halloween = {
+  nuits() {
+    const ref = Dates.nuit();
+    const an = parseInt(ref.slice(0, 4), 10);
+    const cible = ref > `${an}-10-31` ? `${an + 1}-10-31` : `${an}-10-31`;
+    return Dates.ecart(ref, cible);
+  },
+  texte() {
+    const n = this.nuits();
+    if (n > 61) return '';
+    if (n === 0) return 'Nuit d’Halloween';
+    if (n === 1) return 'Halloween : cette nuit, 3 h 12';
+    return `${n} nuits avant l’Halloween`;
+  },
+  maj() {
+    const texte = this.texte();
+    ['#entree-halloween', '#fin-halloween'].forEach(sel => {
+      const el = $(sel);
+      if (!el) return;
+      el.textContent = texte;
+      el.classList.toggle('cache', !texte);
+    });
+  },
+};
+
+/* =====================================================================
    18. SÉRIE (« X nuits de suite »)
    ===================================================================== */
 const Serie = {
@@ -4250,13 +4429,14 @@ const Serie = {
 /* =====================================================================
    19. INSTALLATION D'UNE HISTOIRE (thème + rendu + fond + musique)
    ===================================================================== */
-function installerHistoire(res, { estDuJour = false, estDuMoment = false, mepForcee = null } = {}) {
+function installerHistoire(res, { estDuJour = false, estDuMoment = false, mepForcee = null, apercu = false } = {}) {
   etat.histoire = res.h;
   etat.donnees = res.donnees || null;
   etat.brut = res.brut || '';
   etat.rapport = res.rapport || creerRapport();
   etat.estDuJour = estDuJour;
   etat.estDuMoment = estDuMoment;
+  etat.apercu = !!apercu;
   etat.mep = mepForcee || res.h.miseEnPage;
   etat.progression = 0;
   etat.finie = false;
@@ -4316,6 +4496,7 @@ function majFin() {
   const n = Serie.valeur();
   $('#fin-serie').textContent = n ? `${n} ${Serie.texte(n)}` : '';
   majBoutonFavori();
+  Halloween.maj();
 }
 function majBoutonFavori() {
   const b = $('#fin-favori');
@@ -4351,6 +4532,7 @@ function remplirEntree(h, message) {
   etiquette.textContent = lue && lue.terminee ? 'Déjà lue' : (pos ? 'Lecture en cours' : '');
   etiquette.classList.toggle('cache', !etiquette.textContent);
   $('#btn-entrer').disabled = false;
+  Halloween.maj();
 }
 function afficherEntree() {
   const e = $('#ecran-entree');
@@ -4392,11 +4574,19 @@ async function ouvrirHistoire(date, options = {}) {
   toast('Ouverture…');
   const res = await Chargement.histoire(date);
   if (!res) { toast('Impossible d’ouvrir cette histoire.'); return; }
-  installerHistoire(res, { estDuJour: date === Dates.nuit(), estDuMoment: date === etat.dateDuMoment, ...options });
+  // Une histoire pas encore sortie (accessible seulement en mode DEV) s'ouvre en aperçu : rien n'est sauvegardé
+  const apercu = date > Dates.nuit();
+  installerHistoire(res, { estDuJour: date === Dates.nuit(), estDuMoment: date === etat.dateDuMoment, apercu, ...options });
   MoteurAudio.debloquer();
   cacherEntree();
   window.scrollTo(0, 0);
   demarrerAmbiance();
+  if (apercu) {
+    Lecture.preparer(0);
+    Lecture.surDefilement();
+    toast('Aperçu DEV : pas compté comme lu');
+    return;
+  }
   reprendrePosition();
   const lues = Sauvegarde.donnees.lues;
   if (!lues[date]) lues[date] = { ouverte: new Date().toISOString(), terminee: false };
@@ -4406,7 +4596,7 @@ async function ouvrirHistoire(date, options = {}) {
 function ouvrirDonnees(donnees, date, brut, options = {}) {
   const r = normaliserHistoire(donnees, date);
   fermerPanneaux();
-  installerHistoire({ ...r, donnees, brut }, options);
+  installerHistoire({ ...r, donnees, brut }, { apercu: true, ...options });
   MoteurAudio.debloquer();
   cacherEntree();
   window.scrollTo(0, 0);
@@ -4549,6 +4739,34 @@ const Tiroir = {
   relancer() { clearTimeout(this.minuterie); this.minuterie = setTimeout(() => this.fermer(), 7000); },
 };
 
+/* --- Guide d'installation sur l'écran d'accueil (iPhone seulement, une fois) --- */
+const Installation = {
+  estIOS() { return /iPhone|iPod/.test(navigator.userAgent || ''); }, // iPhone seulement
+  estInstallee() {
+    return window.navigator.standalone === true || (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+  },
+  // À la première ouverture dans Safari (pas dans l'app installée), une seule fois
+  verifier() {
+    $('#zone-installer').classList.toggle('cache', !this.estIOS() || this.estInstallee());
+    if (!this.estIOS() || this.estInstallee() || Sauvegarde.donnees.guideInstallation) return;
+    setTimeout(() => this.montrer(), 1400);
+  },
+  montrer() {
+    const g = $('#guide-installation');
+    g.classList.remove('cache');
+    g.setAttribute('aria-hidden', 'false');
+    requestAnimationFrame(() => requestAnimationFrame(() => g.classList.add('visible')));
+  },
+  fermer() {
+    const g = $('#guide-installation');
+    g.classList.remove('visible');
+    g.setAttribute('aria-hidden', 'true');
+    setTimeout(() => g.classList.add('cache'), 600);
+    Sauvegarde.donnees.guideInstallation = true;
+    Sauvegarde.ecrire();
+  },
+};
+
 /* --- Message bref en bas de l'écran --- */
 function toast(texte, action, rappel, duree = 3200) {
   const t = $('#toast'), b = $('#toast-action');
@@ -4590,6 +4808,18 @@ const Dev = {
     $('#dev-histoires').innerHTML = etat.index.liste.slice().reverse().map(e =>
       `<li><button data-ouvrir-date="${e.date}" class="${e.date > sortie ? 'futur' : ''}"><span>N° ${e.numero} · ${echapper(texteBrut(e.titre))}</span><span>${e.date}${e.date > sortie ? ' (à venir)' : ''}</span></button></li>`).join('')
       || '<li class="arch-vide">index.json vide ou illisible.</li>';
+    // Bouton : lire la prochaine histoire (pas encore sortie)
+    const prochaine = etat.index.liste.find(e => e.date > sortie);
+    const bouton = $('#dev-prochaine');
+    if (prochaine) {
+      bouton.textContent = `Lire la prochaine : n° ${prochaine.numero} · ${texteBrut(prochaine.titre)} — sort le ${Dates.longue(prochaine.date)}, 3 h 12`;
+      bouton.dataset.ouvrirDate = prochaine.date;
+      bouton.disabled = false;
+    } else {
+      bouton.textContent = 'Aucune histoire à venir pour l’instant';
+      delete bouton.dataset.ouvrirDate;
+      bouton.disabled = true;
+    }
     $('#dev-date').value = S.dev.dateSimulee || Dates.maintenant().date;
     $('#dev-sauter').checked = S.dev.sauterEntree;
     $('#dev-mep').innerHTML = Object.entries(MISES_EN_PAGE).map(([cle, m]) => `<option value="${cle}"${cle === etat.mep ? ' selected' : ''}>${m.nom}${etat.histoire && cle === etat.histoire.miseEnPage ? ' (celle de l’histoire)' : ''}</option>`).join('');
@@ -4760,6 +4990,12 @@ function installerEcouteurs() {
   const debloquer = () => MoteurAudio.debloquer();
   ['touchend', 'click', 'keydown'].forEach(t => document.addEventListener(t, debloquer, { passive: true }));
 
+  // Guide d'installation : les touchers ne doivent pas « traverser » jusqu'à l'écran d'entrée
+  $('#guide-installation').addEventListener('click', e => {
+    e.stopPropagation();
+    if (e.target.closest('#guide-fait')) Installation.fermer();
+  });
+  $('#btn-installer').addEventListener('click', () => { fermerPanneaux(); Installation.montrer(); });
   // Écran d'entrée : on touche n'importe où pour entrer
   $('#ecran-entree').addEventListener('click', () => { if (!$('#btn-entrer').disabled) entrer(); });
   $('#btn-menu').addEventListener('click', () => Tiroir.basculer());
@@ -5003,6 +5239,7 @@ async function demarrer() {
     Parametres.appliquer();
     majIndicateurDev();
     genererIconeIOS();
+    Installation.verifier();
     await chargerHistoireDuMoment();
   } catch (e) {
     console.error('Erreur au démarrage', e);

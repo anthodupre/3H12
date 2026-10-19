@@ -45,7 +45,8 @@ Sommaire : [1. Fichiers](#1-fichiers) · [2. index.json](#2-storiesindexjson) ·
       "effetFond": "neige",
       "palette": { "fond": "#0a0d12", "surface": "#e7e3d6", "texte": "#1f1d1a", "accent": "#a3201c", "secondaire": "#27407a" },
       "polices": { "titre": "Special Elite", "texte": "Courier Prime", "notes": "Reenie Beanie" },
-      "evenements": 6
+      "evenements": 6,
+      "retournement": "la malédiction se transmet par la parole : le rapport lui-même la propage"
     }
   ]
 }
@@ -70,6 +71,7 @@ Sommaire : [1. Fichiers](#1-fichiers) · [2. index.json](#2-storiesindexjson) ·
 | `palette` | objet | oui | Copie exacte de `theme.palette` de l'histoire (5 couleurs). Sert aux pastilles des archives. |
 | `polices` | objet | oui | Copie de `theme.polices` (titre, texte, notes). |
 | `evenements` | entier | oui | Nombre de blocs `evenement` dans l'histoire. |
+| `retournement` | chaîne | oui | Même valeur que dans l'histoire (sert à varier les retournements). |
 
 Ces champs servent aussi à l'automatisation pour éviter de se répéter : **ils doivent être exacts**.
 
@@ -93,6 +95,7 @@ Fichier `stories/AAAA-MM-JJ.json` :
 | `format` | chaîne | oui | — | Description humaine du document. |
 | `resume` | chaîne | oui | — | Une phrase de résumé (sans divulgâcher la fin). |
 | `avertissement` | chaîne | non | — | Court avertissement de contenu, affiché sur le carton d'ouverture (ex. « Contient la mort d'un animal. »). |
+| `retournement` | chaîne | oui | — | Type du gros retournement final, en quelques mots (ex. « celui qui rassure est la menace ; transmission »). Jamais affiché dans l'app : sert à ne pas répéter le même retournement (voir DAILY.md). |
 | `miseEnPage` | chaîne | oui | `recit` | Une des 10 mises en page (section 6). |
 | `theme` | objet | oui | selon la mise en page | Palette, polices, CSS (section 4). |
 | `document` | objet | selon la mise en page | — | Métadonnées du « document » affiché (section 5). |
@@ -460,6 +463,7 @@ Exemple court mais complet et valide (une vraie histoire doit compter 900 à 160
   "auQuebec": true,
   "format": "Journal de bord d'un gardien de phare",
   "resume": "Un gardien de phare note chaque nuit la lumière d'un bateau qui n'approche jamais.",
+  "retournement": "inversion : ce n'est pas le bateau qui approche, c'est la côte qui s'éloigne",
   "avertissement": "",
   "miseEnPage": "journal_intime",
   "theme": {

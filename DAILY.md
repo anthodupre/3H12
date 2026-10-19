@@ -49,6 +49,7 @@ print('n°  date        mise en page    fond        musique                 Qc  
 for x in h:
     print(f"{x['numero']:<3} {x['date']}  {x['miseEnPage']:<15} {x.get('effetFond',''):<11} {x.get('tonique','')+' '+x.get('gamme',''):<23} {'Q' if x.get('auQuebec') else '-'}   {x['sousGenre']} / {x['lieu']}")
     print(f"      accent {x['palette']['accent']} · polices {x.get('polices',{}).get('titre','')} / {x.get('polices',{}).get('texte','')} · format : {x.get('format','')}")
+    print(f"      retournement : {x.get('retournement', '?')}")
 q = sum(1 for x in h if x.get('auQuebec'))
 print(f"\nAu Québec : {q} sur {len(h)} · prochain numéro : {max([x['numero'] for x in h] or [0]) + 1}")
 EOF
@@ -59,7 +60,8 @@ EOF
 - une mise en page utilisée dans les **3 dernières** histoires (fortement déconseillé) ;
 - un sous-genre utilisé dans les **7 dernières** ;
 - un lieu, une palette (surtout la couleur `accent`), une combinaison tonique + gamme ou un effet de fond utilisés récemment ;
-- les mêmes ressorts (même type de monstre, même chute, même narrateur) que les histoires récentes.
+- les mêmes ressorts (même type de monstre, même chute, même narrateur) que les histoires récentes ;
+- un **type de retournement** utilisé dans les **10 dernières** histoires.
 
 ## Étape 3 — Choisir une combinaison nouvelle
 
@@ -75,14 +77,48 @@ EOF
 
 ## Étape 4 — Écrire l'histoire
 
+### L'objectif : faire vraiment peur
+
+Pas une « petite histoire d'Halloween ». De l'**horreur adulte**, oppressante, qui reste dans la tête au moment d'éteindre la lumière. Pas de citrouilles, de sorcières de carton ni de clins d'œil mignons, jamais (même en octobre).
+
+- **Une montée implacable** : 0-25 % malaise (un détail cloche, puis un autre) · 25-60 % l'étrangeté devient indéniable · 60-85 % confrontation, panique, on ne peut plus fuir · 85-100 % **le retournement**, puis le coup final.
+- **Au moins une scène d'effroi prolongée** (le lecteur retient son souffle sur plusieurs blocs : la chose est là, tout près, et rien ne se passe… encore).
+- **Des détails sensoriels précis** : odeurs (terre mouillée, cuivre, cave), textures (doigts trop longs, peau trop froide), sons au mauvais endroit, gestes familiers faits par la mauvaise personne.
+- **De vrais enjeux** : quelqu'un est en danger réel, et tout le monde ne s'en sort pas. Une fin heureuse est interdite.
+- **L'horreur peut être graphique, avec mesure** : une blessure, un corps, une transformation, décrits brièvement et précisément, jamais complaisants. Interdits absolus : violence sexuelle, torture détaillée, enfants blessés de façon explicite, personnes réelles.
+
+### Un gros retournement, à chaque fois (obligatoire)
+
+Chaque histoire **doit** finir sur un retournement majeur qui **change le sens de tout ce qui précède** : le lecteur doit avoir envie de relire depuis le début.
+- Plante **2 ou 3 indices honnêtes** dès la première moitié (un détail anodin qui, relu, devient atroce).
+- Le retournement arrive dans le **dernier quart**. La `phraseFinale` le scelle ou l'aggrave (elle ne l'explique pas).
+- Indique le type de retournement dans le champ `retournement` (voir SCHEMA.md) ; **jamais le même type que l'une des 10 dernières histoires**.
+- Types à faire tourner (à combiner, à tordre) :
+  1. le narrateur est le monstre, ou le coupable ;
+  2. celui qui aide ou rassure est la menace ;
+  3. la menace était déjà à l'intérieur : le lieu sûr est le piège ;
+  4. la malédiction se transmet… et le lecteur vient de la recevoir ;
+  5. celui qui revient n'est pas celui qui est parti (doublure, remplacement) ;
+  6. boucle ou inversion du temps : la fin précède le début ;
+  7. la victime était l'appât, ou le sacrifice consentant ;
+  8. le groupe (famille, village, collègues, culte) était complice depuis le début ;
+  9. le document lui-même est l'arme : le lire, c'est y participer ;
+  10. ce qu'on croyait surnaturel est humain, et c'est pire (ou l'inverse) ;
+  11. le danger n'était pas dehors mais dans le corps ;
+  12. le narrateur est mort depuis le début (rarement, et seulement si les indices le rendent évident à la relecture).
+- **Interdits** : « ce n'était qu'un rêve », « c'était une blague », un retournement sans indice, un retournement expliqué lourdement.
+
+### Forme et règles d'écriture
+
 - **En français.** Si l'histoire se passe au Québec, les dialogues sont en **québécois naturel** (« y'est pas là », « pantoute », « c'te nuit-là », « m'as aller voir », « icitte », « astheure », « pis »), la narration reste en bon français. Sans caricature ni accumulation de sacres.
 - **900 à 1600 mots** au total (5 à 8 minutes de lecture). Compte réel vérifié à l'étape 7.
 - **Tension lente qui monte.** Commencer dans le banal et le précis (dates, heures, objets, gestes). La peur vient de l'**ambiance**, des **détails qui clochent** (une habitude brisée, un chiffre qui ne colle pas, un son au mauvais endroit) et de **ce qui n'est pas dit**. Montrer peu le monstre.
-- **Une fin marquante** : retournement, ambiguïté troublante, ou une dernière phrase qui glace. La `phraseFinale` est affichée seule, en très grand, après l'histoire : elle doit frapper (courte, 5 à 20 mots), sans répéter le dernier bloc.
+- **La `phraseFinale`** est affichée seule, en très grand, après l'histoire : elle doit frapper (courte, 5 à 20 mots), sans répéter le dernier bloc. C'est le dernier coup de couteau.
 - **Utiliser le format pour vrai.** Un rapport a des sections, un ton administratif, des champs, des tampons, des passages caviardés, des annotations de supérieur. Des SMS ont des heures, des fautes de frappe, des « Vu », des silences. Un forum a des pseudos, des signatures, des modérateurs, des messages espacés dans le temps. Une transcription a des horodatages, des `[inaudible]`, des chevauchements. Un journal intime a des dates en tête de section et une écriture qui se dégrade.
 - **Effets de texte avec parcimonie** (SCHEMA.md §11) : `##chuchoté##`, `||caviardé||` (jamais pour une information indispensable), `%%glitch%%` (plutôt en technologique), `^^lent^^` (une phrase clé), `__accent__`, `~~rature~~`, `[annotation]`. Styles de bloc (`gros`, `agite`, `espace`, `lent`…) pour un ou deux moments forts.
 - **3 à 6 événements** (`evenement`) aux moments clés, placés **juste après** la phrase qui les justifie (un coup frappé juste après « ça a cogné », un `silence` sur l'instant de bascule, un `noir` avec un court `texte` avant la fin). Pas de jumpscare gratuit.
-- Interdits : gore excessif, violence sexuelle, personnes réelles (pas de vraies personnes, pas de vrais crimes, pas de noms d'entreprises existantes dans un rôle négatif), contenu haineux. Les animaux peuvent mourir hors champ, sans détails.
+- Rappel des interdits : violence sexuelle, torture détaillée, gore gratuit, enfants blessés explicitement, personnes réelles (pas de vraies personnes, pas de vrais crimes, pas de noms d'entreprises existantes dans un rôle négatif), contenu haineux. Les animaux peuvent mourir hors champ, sans détails.
+- **Le 31 octobre** : l'histoire de l'Halloween est l'événement de l'année (l'app affiche un décompte). La plus ambitieuse et la plus terrifiante du mois : proche de 1600 mots, 5 ou 6 événements, le retournement le plus fort.
 - Relis-toi : orthographe, typographie française (espaces avant `: ; ? !`, guillemets « », apostrophes ’), cohérence des heures et des noms.
 
 ## Étape 5 — Habiller l'histoire
@@ -109,6 +145,7 @@ histoire = {
   "version": 1, "numero": 0, "date": DATE,            # numero = dernier numéro + 1
   "titre": "", "sousTitre": "", "sousGenre": "", "lieu": "", "epoque": "", "auQuebec": False,
   "format": "", "resume": "", "avertissement": "", "miseEnPage": "",
+  "retournement": "",                                  # type de retournement (voir étape 4), ex. « celui qui rassure est la menace »
   "theme": {"palette": {"fond": "", "surface": "", "texte": "", "accent": "", "secondaire": ""},
             "polices": {"titre": "", "texte": "", "notes": ""}, "cssPersonnalise": ""},
   "document": {},
@@ -130,6 +167,7 @@ idx['histoires'].append({
   "effetFond": histoire["fond"]["effet"], "palette": histoire["theme"]["palette"],
   "polices": {k: v for k, v in histoire["theme"]["polices"].items() if k in ("titre", "texte", "notes")},
   "evenements": sum(1 for b in histoire["blocs"] if b["type"] == "evenement"),
+  "retournement": histoire["retournement"],
 })
 idx['histoires'].sort(key=lambda x: x['date'])
 json.dump(idx, open('stories/index.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
@@ -213,7 +251,7 @@ if h.get('version') != 1: E('version doit valoir 1')
 if h.get('date') != date: E(f'date ({h.get("date")}) ≠ nom du fichier ({date})')
 attendu = max([x.get('numero', 0) for x in avant] or [0]) + 1
 if h.get('numero') != attendu: E(f'numero = {h.get("numero")}, attendu {attendu}')
-for c in ['titre', 'sousGenre', 'lieu', 'epoque', 'format', 'resume', 'phraseFinale']:
+for c in ['titre', 'sousGenre', 'lieu', 'epoque', 'format', 'resume', 'phraseFinale', 'retournement']:
     if not isinstance(h.get(c), str) or not h.get(c).strip(): E(f'{c} manquant ou vide')
 if not isinstance(h.get('auQuebec'), bool): E('auQuebec doit être true ou false')
 mep = h.get('miseEnPage')
@@ -227,7 +265,7 @@ if all(hexok(pal.get(c)) for c in ['fond', 'surface', 'texte', 'accent', 'second
     ct = contraste(pal['texte'], pal['surface'])
     if ct < 4.5: E(f'contraste texte/surface trop faible : {ct:.1f} (minimum 4.5, viser 7)')
     elif ct < 7: W(f'contraste texte/surface : {ct:.1f} (viser 7 ou plus)')
-    for c in ['accent', 'secondaire']:
+    for c in ([] if mep == 'sms' else ['accent', 'secondaire']):  # en SMS ce sont des fonds de bulles
         cc = contraste(pal[c], pal['surface'])
         if cc < 3: W(f'contraste {c}/surface faible : {cc:.1f} (viser 3 ou plus)')
     if mep == 'recit' and pal['surface'] != pal['fond']: W('recit : surface devrait être égale à fond')
@@ -304,7 +342,8 @@ if entree:
     pairs = [('numero', h.get('numero')), ('titre', h.get('titre')), ('sousGenre', h.get('sousGenre')), ('lieu', h.get('lieu')),
              ('auQuebec', h.get('auQuebec')), ('epoque', h.get('epoque')), ('format', h.get('format')), ('miseEnPage', mep),
              ('tonique', m.get('tonique')), ('gamme', m.get('gamme')), ('effetFond', f.get('effet')), ('palette', pal),
-             ('polices', {k: pol.get(k) for k in ['titre', 'texte', 'notes'] if k in pol}), ('evenements', nb_ev)]
+             ('polices', {k: pol.get(k) for k in ['titre', 'texte', 'notes'] if k in pol}), ('evenements', nb_ev),
+             ('retournement', h.get('retournement'))]
     for k, v in pairs:
         if entree.get(k) != v: E(f'index.json : {k} = {json.dumps(entree.get(k), ensure_ascii=False)}, mais l’histoire dit {json.dumps(v, ensure_ascii=False)}')
 recentes = sorted(avant, key=lambda x: x.get('date', ''))[-30:]
@@ -318,6 +357,7 @@ if recentes:
     if m.get('gamme') == prec.get('gamme'): W('même gamme que l’histoire précédente')
     if pal.get('accent') in [(x.get('palette') or {}).get('accent') for x in recentes[-10:]]: W('même couleur accent qu’une des 10 dernières histoires')
     if mep in [x.get('miseEnPage') for x in recentes[-3:]]: W(f'mise en page « {mep} » utilisée dans les 3 dernières histoires')
+    if h.get('retournement') and h.get('retournement') in [x.get('retournement') for x in recentes[-10:]]: E('même type de retournement qu’une des 10 dernières histoires : en choisir un autre')
     q = [x.get('auQuebec') for x in recentes[-3:]]
     if len(q) == 3 and not any(q) and not h.get('auQuebec'): W('aucune des 4 dernières histoires au Québec : la prochaine devrait l’être (environ 1 sur 3)')
     if len(q) >= 2 and all(q[-2:]) and h.get('auQuebec'): W('3 histoires de suite au Québec : varier les lieux')
@@ -401,7 +441,9 @@ Ta **réponse finale** (le message que la personne lira) contient, dans cet ordr
 
 - [ ] Histoire d'aujourd'hui présente ; histoire de demain écrite ; aucune histoire déjà sortie modifiée ; aucun autre fichier modifié.
 - [ ] Histoire en français, québécois naturel dans les dialogues si elle se passe au Québec.
-- [ ] 900 à 1600 mots, tension lente, fin marquante, `phraseFinale` courte et glaçante.
+- [ ] Vraiment effrayante : montée implacable, une scène d'effroi prolongée, de vrais enjeux, pas de fin heureuse.
+- [ ] **Gros retournement** dans le dernier quart, préparé par 2-3 indices, type différent des 10 dernières histoires, noté dans `retournement`.
+- [ ] 900 à 1600 mots, `phraseFinale` courte et glaçante.
 - [ ] Le format est utilisé pour vrai (le document ressemble au document).
 - [ ] 3 à 6 événements, bien placés ; effets de texte avec parcimonie.
 - [ ] Mise en page différente de l'histoire précédente ; sous-genre, lieu, palette et musique variés.
