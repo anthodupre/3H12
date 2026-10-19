@@ -117,8 +117,9 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   will-change: opacity, transform;
 }
 /* Chaque décor est dans sa propre couche : le nouveau apparaît en fondu par-dessus l'ancien */
-#calque-illustration .illu { position: absolute; inset: 0; opacity: 0; transition: opacity 1.8s ease; }
-#calque-illustration .illu.visible { opacity: 1; }
+#calque-illustration .illu { position: absolute; inset: 0; opacity: 0; transform: scale(1.035); transition: opacity 1.8s ease, transform 1.8s cubic-bezier(.2, .6, .2, 1); }
+/* (en s'allumant, le nouveau lieu se pose : un très léger recul de la caméra) */
+#calque-illustration .illu.visible { opacity: 1; transform: none; }
 #calque-illustration .illu.sortante { opacity: 0; transition-duration: 1.4s; }
 #calque-illustration svg {
   position: absolute; left: -4%; top: -3%; width: 108%; height: 106%;
@@ -416,8 +417,6 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
 .bloc.deja { transition: none; }
 .bloc-evenement { height: 2px; margin: 0; pointer-events: none; }
 .bloc-scene { height: 0; margin: 0; pointer-events: none; }
-/* Une fenêtre : un vide dans le texte, le temps de voir ce qui se passe dans le décor */
-.bloc-scene.fenetre { margin: 1.5rem 0; }
 .mep-sms .bloc-scene:not(.visible) { display: none; }
 .bloc p { margin: 0 0 .9em; }
 .bloc p:last-child { margin-bottom: 0; }
@@ -1287,8 +1286,17 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
    10. ÉVÉNEMENTS VISUELS (glitch, tremblement)
    « noir » et « flash » utilisent le #voile-evenement (voir JS).
    ===================================================================== */
-.ev-tremble { animation: tremble .09s linear infinite; }
-.ev-tremble.doux { animation-name: tremble-doux; animation-duration: .14s; }
+/* (le décor encaisse le choc — une porte qui claque, un saut — le texte, lui, ne bouge jamais) */
+#calque-illustration.ev-tremble .illu { animation: secousse-decor var(--duree-secousse, .9s) cubic-bezier(.2, .6, .3, 1) 1; }
+#calque-illustration.ev-tremble.doux .illu { animation-name: secousse-douce; }
+@keyframes secousse-decor {
+  0% { transform: translate(0, 0); } 7% { transform: translate(-10px, 6px) rotate(-.6deg); } 16% { transform: translate(8px, -6px) rotate(.5deg); }
+  27% { transform: translate(-6px, 3px) rotate(-.3deg); } 40% { transform: translate(4px, -2px); } 56% { transform: translate(-2px, 1px); }
+  74% { transform: translate(1px, 0); } 100% { transform: translate(0, 0); }
+}
+@keyframes secousse-douce {
+  0%, 100% { transform: translate(0, 0); } 12% { transform: translate(-3px, 2px); } 30% { transform: translate(2px, -2px); } 55% { transform: translate(-1px, 1px); }
+}
 @keyframes tremble {
   0%   { transform: translate(0, 0) rotate(0); }
   25%  { transform: translate(-5px, 3px) rotate(-.35deg); }
@@ -1531,7 +1539,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
    1. CONFIGURATION — les réglages faciles à modifier
    ===================================================================== */
 const CONFIG = {
-  version: '1.8',
+  version: '1.9',
   fuseau: 'America/Toronto',          // toutes les dates sont calculées à Toronto
   dossierHistoires: 'stories/',       // dossier des fichiers JSON
   cleSauvegarde: '3h12-sauvegarde-v1',// clé dans localStorage
@@ -2216,8 +2224,10 @@ function normaliserBloc(b, i, r) {
       n.teinteOpacite = nombre(b.teinteOpacite, .25, 0, .8);
       n.ambiance = normaliserAmbiance(b.ambiance, r, ou);
       n.volume = nombre(b.volume, .6, 0, 1);
-      // Une fenêtre dans le texte : un vide où le décor se voit en entier pendant qu'il défile
-      n.fenetre = b.fenetre === true ? .85 : nombre(b.fenetre, 0, 0, 1.2);
+      // Passage d'un décor à l'autre : par le noir (changement de lieu), en fondu enchaîné, ou coupe sèche
+      const tr = normCle(b.transition);
+      n.transition = ['noir', 'fondu', 'coupe'].includes(tr) ? tr : 'noir';
+      if (n.transition === 'coupe') n.fondu = 0;
       // Durée du passage au nouveau décor (ms) : 0 = coupe sèche, 1800 par défaut, jusqu'à 6000 (très lent)
       n.fondu = Math.round(nombre(b.fondu, 1800, 0, 6000));
       break;
@@ -2581,8 +2591,9 @@ const Illustration = {
     this.svgActuel = null;
     this.changer(svg, opacite, true);
   },
-  // Change de décor : le nouveau apparaît en fondu par-dessus, puis l'ancien est retiré
-  changer(svg, opacite, immediat = false, fondu = 1800) {
+  // Change de décor. « noir » : l'ancien s'éteint, puis le nouveau s'allume (jamais deux images l'une
+  // sur l'autre) ; « fondu » : le nouveau apparaît par-dessus ; fondu 0 : coupe sèche
+  changer(svg, opacite, immediat = false, fondu = 1800, mode = 'noir') {
     const el = $('#calque-illustration');
     this.base = opacite;
     if (fondu < 60) immediat = true;
@@ -2594,7 +2605,9 @@ const Illustration = {
       if (propre) {
         const couche = document.createElement('div');
         couche.className = 'illu';
-        couche.style.transitionDuration = `${fondu}ms`;
+        const parNoir = mode === 'noir' && !immediat && $$('.illu', el).length;
+        couche.style.transitionDuration = `${parNoir ? Math.round(fondu * .55) : fondu}ms`;
+        if (parNoir) couche.style.transitionDelay = `${Math.round(fondu * .45)}ms`;
         couche.innerHTML = propre;
         // La « respiration » du décor continue sans à-coup d'un décor à l'autre
         const image = couche.firstElementChild;
@@ -2618,15 +2631,10 @@ const Illustration = {
       }
       if (immediat) anciennes.forEach(c => c.remove());
       else {
-        if (!propre) anciennes.forEach(c => { c.style.transitionDuration = `${fondu}ms`; c.classList.add('sortante'); });
+        if (!propre || mode === 'noir') anciennes.forEach(c => { c.style.transitionDuration = `${mode === 'noir' && propre ? Math.round(fondu * .45) : fondu}ms`; c.classList.add('sortante'); });
         this.tRetrait = setTimeout(() => anciennes.forEach(c => c.remove()), fondu + 250);
       }
     }
-    this.maj(window.scrollY || 0, etat.progression || 0);
-  },
-  fenetre(ouverte) {
-    if (ouverte === !!this.ouverte) return;
-    this.ouverte = ouverte;
     this.maj(window.scrollY || 0, etat.progression || 0);
   },
   // Plus visible sur le carton de titre, puis s'efface vers son opacité normale
@@ -2636,7 +2644,6 @@ const Illustration = {
     const haut = borner(y / (window.innerHeight || 800), 0, 1);
     let op = this.base * (2.2 - 1.2 * haut);
     if (Date.now() < (this.revele || 0)) op = Math.max(op, Math.min(.92, this.base * 1.9));
-    if (this.ouverte) op = Math.max(op, .96);   // une fenêtre dans le texte : le décor, en entier
     el.style.opacity = Math.min(1, op).toFixed(3);
     el.style.transform = `translateY(${(-progression * 3).toFixed(2)}%)`;
   },
@@ -3499,11 +3506,19 @@ class CoucheCloche extends Couche {
   }
 }
 
-// PULSATION : battement grave, comme un cœur (« poum-poum »)
+// PULSATION : battement grave, comme un cœur (« poum-poum ») : par accès de quelques battements,
+// puis plus rien pendant longtemps (un battement continu devient vite agaçant)
 class Pulsation extends Couche {
+  demarrer() { this.reste = 0; this.attente = hasardEntier(12, 40); }
   pas(n, t) {
     if (n % 2 !== 0 || !this.ouverte()) return;
-    if (Math.random() > .3 + .7 * this.densiteEff()) return;
+    if (this.reste <= 0) {
+      this.attente -= 2;
+      if (this.attente > 0) return;
+      this.reste = hasardEntier(3, 4 + Math.round(5 * this.densiteEff()));
+      this.attente = Math.round(hasard(40, 90) * (1.35 - .6 * this.m.intensite));
+    }
+    this.reste--;
     const f = this.m.frequence(0, this.cfg.octave);
     this.coup(t, f, 1);
     this.coup(t + Math.min(.2, this.m.dureePas * .6), f, .62);
@@ -3548,14 +3563,16 @@ class CoucheBruit extends Couche {
   }
 }
 
-// BOÎTE À MUSIQUE : petite mélodie répétée, un peu faussée
+// BOÎTE À MUSIQUE : une petite phrase, un peu faussée, de temps en temps ; puis le silence.
+// (Jamais en boucle : une même mélodie qui tourne sans arrêt devient vite insupportable.)
 class BoiteAMusique extends Couche {
-  demarrer() { this.motif = this.creerMotif(); this.boucles = 0; }
+  demarrer() { this.motif = this.creerMotif(); this.debut = -1; this.attente = 16 * hasardEntier(1, 3); }
   creerMotif() {
     const motif = [];
     let deg = choisir([0, 2, 4, this.m.gamme.length]);
-    const p = .3 + .55 * this.cfg.densite;
-    for (let i = 0; i < 16; i++) {
+    const p = .35 + .4 * this.cfg.densite;
+    const longueur = choisir([8, 12, 16]);
+    for (let i = 0; i < longueur; i++) {
       if (i === 0 || Math.random() < p) { motif.push(deg); deg = borner(deg + choisir([-2, -1, -1, 1, 1, 2, 3, -3]), -2, 9); }
       else motif.push(null);
     }
@@ -3563,13 +3580,22 @@ class BoiteAMusique extends Couche {
   }
   pas(n, t) {
     if (!this.ouverte()) return;
-    const i = n % 16;
-    if (i === 0 && n > 0) {
-      this.boucles++;
-      if (this.boucles % 4 === 0) { const k = hasardEntier(1, 15); this.motif[k] = this.motif[k] === null ? hasardEntier(-1, 8) : null; }
+    if (this.debut < 0) {
+      if (--this.attente > 0 || n % 8 !== 0) return;
+      // une nouvelle phrase : parfois la même un peu changée, souvent une autre
+      if (Math.random() < .4) { for (let k = 0; k < 3; k++) { const i = hasardEntier(1, this.motif.length - 1); this.motif[i] = this.motif[i] === null ? hasardEntier(-1, 8) : null; } }
+      else this.motif = this.creerMotif();
+      this.debut = n;
+    }
+    const i = n - this.debut;
+    if (i >= this.motif.length) {
+      // puis un long silence (plus court quand la tension monte, jamais moins de deux mesures)
+      this.debut = -1;
+      this.attente = Math.round(16 * hasard(3, 7) * (1.25 - .55 * this.m.intensite) / (.6 + this.cfg.densite));
+      return;
     }
     const deg = this.motif[i];
-    if (deg === null || Math.random() > .55 + .45 * this.m.intensite) return;
+    if (deg === null) return;
     const decale = (Math.random() * 2 - 1) * .02 * (.3 + this.m.p.desaccord);
     this.dent(Math.max(t + decale, this.c.currentTime + .005), this.m.frequence(deg, this.cfg.octave));
   }
@@ -4835,11 +4861,7 @@ const Rendu = {
   },
   bloc(b, i, ctx) {
     if (b.type === 'evenement') return `<div class="bloc-evenement" data-i="${i}" aria-hidden="true"></div>`;
-    if (b.type === 'scene') {
-      if (!b.fenetre) return `<div class="bloc-scene" data-i="${i}" aria-hidden="true"></div>`;
-      const h = Math.round(b.fenetre * 100);
-      return `<div class="bloc-scene fenetre" data-i="${i}" style="height:${h}vh;height:${h}svh" aria-hidden="true"></div>`;
-    }
+    if (b.type === 'scene') return `<div class="bloc-scene" data-i="${i}" aria-hidden="true"></div>`;
     let contenu;
     try {
       const f = (ctx.mep.blocs && ctx.mep.blocs[b.type]) || RENDUS[b.type];
@@ -5056,15 +5078,12 @@ const Scenes = {
   maj() {
     if (etat.ecran !== 'histoire' || !etat.histoire) return;
     const h = window.innerHeight, ligne = etat.mep === 'sms' ? 1 : .6;
-    let i = -1, ouverte = false;
+    let i = -1;
     for (const s of this.liste) {
       if (!s.el.isConnected || !s.el.getClientRects().length) continue;
-      const r = s.el.getBoundingClientRect();
-      if (s.el.classList.contains('fenetre') && r.top < h * .55 && r.bottom > h * .45) ouverte = true;
-      if (r.top < h * ligne) i = s.i; else break;
+      if (s.el.getBoundingClientRect().top < h * ligne) i = s.i; else break;
     }
     this.viser(i);
-    Illustration.fenetre(ouverte);
   },
   viser(i) {
     if (i === this.cible) return;
@@ -5086,7 +5105,7 @@ const Scenes = {
       scintillement: val('scintillement', f.scintillement), vignette: val('vignette', f.vignette), grain: f.grain,
       teinte: s ? s.teinte : f.teinte, teinteOpacite: s ? s.teinteOpacite : f.teinteOpacite,
       ambiance: s ? s.ambiance : f.ambiance, volume: s ? s.volume : f.volumeAmbiance,
-      fondu: s ? s.fondu : 1800,
+      fondu: s ? s.fondu : 1800, transition: s ? s.transition : 'noir',
     };
   },
   appliquer(i) {
@@ -5098,7 +5117,7 @@ const Scenes = {
     // En remontant, on revient avec le fondu de la scène qu'on quitte (une coupe sèche reste sèche)
     const fondu = avant && avant.fondu < e.fondu && i < this.precedente ? avant.fondu : e.fondu;
     this.precedente = i;
-    Illustration.changer(e.svg, e.opacite, premiere, fondu);
+    Illustration.changer(e.svg, e.opacite, premiere, fondu, e.transition);
     const fondChange = premiere || e.effet !== avant.effet || e.couleur !== avant.couleur
       || Math.abs(e.intensite - avant.intensite) > .01 || e.scintillement !== avant.scintillement;
     if (fondChange) Fond.changer(e, premiere || fondu < 60);
@@ -5598,11 +5617,14 @@ const Effets = {
     }, duree);
   },
   tremblement(duree, intenses) {
-    const scene = $('#ecran-histoire');
-    scene.classList.add('ev-tremble');
-    if (!intenses) scene.classList.add('doux');
+    const decor = $('#calque-illustration');
+    decor.classList.remove('ev-tremble', 'doux');
+    void decor.offsetWidth;   // (pour que la secousse reparte du début)
+    decor.style.setProperty('--duree-secousse', `${Math.max(450, duree)}ms`);
+    decor.classList.add('ev-tremble');
+    if (!intenses) decor.classList.add('doux');
     clearTimeout(this.tTremble);
-    this.tTremble = setTimeout(() => scene.classList.remove('ev-tremble', 'doux'), duree);
+    this.tTremble = setTimeout(() => decor.classList.remove('ev-tremble', 'doux'), Math.max(450, duree) + 50);
   },
 };
 // Visage qui « épie » depuis un bord de l'écran (dessiné ici : aucun fichier image)

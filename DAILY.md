@@ -134,11 +134,12 @@ A good twist **changes the meaning of everything before it**: the reader wants t
 - **Use the format for real**: when the original is a document, the layout and the `document` fields make it look like one (a report has an organization, a reference, fields; a transcript has timestamps; a diary has dates at the top of each section). Block types can follow the form (`titre` for a diary date, `dialogue` for a line of dialogue, `sms` for a text), as long as the words stay the original's.
 - **Effects, sparingly**: block styles (`gros`, `agite`, `espace`, `lent`…) for one or two strong moments. Don't add text markup (SCHEMA.md §11) inside the author's text.
 - **Music stays in the background**: a low drone and textures carry it; melodic layers (`piano`, `boite_a_musique`, `cloche`) are rare and quiet (`densite` 0.05 to 0.1, `volume` 0.08 to 0.16), otherwise they get annoying fast.
-- **No screen shake or black screen unless the text earns it**: `tremblement` only for something huge and close (a door slamming in the same room, a crash), never for a sound heard from another room (play only the sound). A fall is a sound (`chute`), not a black screen.
+- **No jolt or black screen unless the text earns it**: `tremblement` (the scenery takes a jolt; the text never moves) only for an impact in the same room (a door slamming hard enough to rattle the mirror, a crash), never for a sound heard from another room (play only the sound). A fall is a sound (`chute`), not a black screen.
+- **Music never loops**: the engine plays the music box as a short phrase now and then and the heartbeat in brief bursts; keep melodic layers sparse anyway (above).
 - **Events** (`evenement`) at key moments, placed **right after** the sentence that justifies them (a knock right after "something knocked", a `silence` on the moment everything tips over, a `noir` before the end). No gratuitous jump scares.
 - **Interactivity (mandatory)**: the reader must live the story, not just read it.
   - **The environment follows the story** (`scene` blocks, SCHEMA.md §9a): **every time the place changes** (kitchen, shower, car, motel…), a scene changes the scenery (the illustration crossfades), the tint, the animated background and the **looping ambient sound** (`frigo` fridge, `douche` shower, `gouttes` drips, `voiture` car, `horloge` clock, `vent` wind, `climatiseur` air conditioner, `neon` neon buzz, `mouches` flies, `souffle` breathing). And when the creature appears in the place, a **variant of the scenery where you can see it** (slow fade so that it appears gently; `"fondu": 0` so that it disappears at once). 4 to 20 scenes per story. The decors are drawn once in `fond.decors` and named.
-  - **Windows in the text** (`"fenetre"` on a scene, SCHEMA.md §9a): the text covers most of the scenery, so **every change of place opens a window** (0.5 to 0.6 of the screen) and **every moment where something happens in the scenery** (the creature appears, it leaves, a reveal) a bigger one (0.8 to 0.9). Not right after a gesture's view, not before the first paragraph. A story typically has a window at almost every scene.
+  - **Transitions** (`"transition"` on a scene, SCHEMA.md §9a): a change of place goes **through black** (default). A person **never dissolves** in or out: hard cut (`"coupe"`) to a decor where she **moves in**, and another where she **moves out** when she leaves (snaps back behind the corner, scuttles off, glides out the door, drops out of sight). A discovery can be a slow camera push-in. No text windows (gaps in the text): the owner doesn't want them.
   - **The scenery acts out the text** (SVG animations in the decors, SCHEMA.md §9a): what the sentence describes, the decor does, slowly: she pulls her head back out of the shower and her blurry shape backs away, her face slides out from behind the island, the lid closes on her, drool runs down the glass, her body trembles with delight, her hands won't keep still. Draw **exactly what the text says** (a mouth that "hangs open" is drawn wide open, not as a closed grin).
   - **2 to 5 gestures** (`geste` block, SCHEMA.md §9) at moments when the character hesitates: "Look under the door", "Turn your head", "Open the closet", "Turn around", "Open the photo". **A gesture must always SHOW something**: every gesture has a `vue` (a full-screen image of what the character sees, with an `entree` of `baisser` (lean down), `tourner` (turn the head), `ouvrir` (open), `zoom`, `photo` or `fondu` (fade), and a sound). A button that only lets the reading continue is useless: no gesture without a `vue`. `"mode": "maintenir"` (hold the finger down, 1.5 to 2.5 s) for gestures the reader dreads; `"toucher"` (tap) for the others. The gesture goes **just before** the reveal; the text that follows tells what the view has just shown.
   - **`epier`** (a face peeks out from an edge of the screen, `cote`: `droite` right, `gauche` left, `bas` bottom, `haut` top): 1 to 3 times, **only when the text is talking about the creature (or about being watched) at that moment**. Never while the characters are looking for it without finding it: it spoils the discovery (same rule for the scenery variants where you can see it). The last one can be at the very end. **The face that comes out is the face of the story's creature**: draw it in `fond.decors.epieur` (`viewBox='0 0 160 260'`, the face centered, the hair fading out at the bottom, never a hard black block), otherwise the engine's default face appears. Variants (e.g. `epieur-beant`, mouth hanging open) are chosen per event with `"visage"`.
@@ -352,7 +353,7 @@ else:
         for k in ['volume', 'densite', 'seuil']:
             if k in c and not num(c[k], 0, 1): E(f'{ou}.{k} between 0 and 1')
 blocs = h.get('blocs')
-mots, nb_ev, nb_gestes, nb_scenes, nb_fenetres = 0, 0, 0, 0, 0
+mots, nb_ev, nb_gestes, nb_scenes = 0, 0, 0, 0
 if not isinstance(blocs, list) or not blocs: E('blocs missing or empty'); blocs = []
 for i, b in enumerate(blocs):
     ou = f'blocs[{i}]'
@@ -395,9 +396,8 @@ for i, b in enumerate(blocs):
         for k in ['couleur', 'teinte']:
             if k in b and not hexok(b[k]): E(f'{ou} (scene): {k} must be #rrggbb')
         if 'ambiance' in b: verifier_ambiance(b['ambiance'], f'{ou} (scene)')
-        if 'fenetre' in b:
-            if b['fenetre'] is True or (num(b['fenetre'], .3, 1.2) and b['fenetre'] is not False): nb_fenetres += 1
-            else: E(f'{ou} (scene): fenetre = true or a number between 0.3 and 1.2')
+        if 'transition' in b and b['transition'] not in ['noir', 'coupe', 'fondu']: E(f'{ou} (scene): transition = noir, coupe or fondu')
+        if 'fenetre' in b: E(f'{ou} (scene): no "fenetre" (the owner does not want gaps in the text)')
         if 'fondu' in b and not num(b['fondu'], 0, 6000): E(f'{ou} (scene): fondu between 0 and 6000 ms')
     if t in ['paragraphe', 'titre', 'note', 'signature', 'citation', 'dialogue', 'sms', 'geste'] and not (isinstance(b.get('texte'), str) and b['texte'].strip()):
         E(f'{ou} ({t}): texte missing')
@@ -434,7 +434,6 @@ for i, b in enumerate(blocs):
 mots += len(brut(h.get('phraseFinale', '')).split())
 if not 3 <= nb_ev <= (14 if choisie else 8): E(f'{nb_ev} events (3 to {14 if choisie else 8} required)')
 if nb_gestes < 2: E(f'{nb_gestes} gesture(s): at least 2 are required (interactivity)')
-if nb_scenes and nb_fenetres < max(1, nb_scenes // 2): W(f'only {nb_fenetres} window(s) for {nb_scenes} scenes: open a window ("fenetre") at each change of place and when something happens in the scenery')
 elif nb_gestes > 6: W(f'{nb_gestes} gestures: that’s a lot (2 to 5 recommended)')
 if nb_scenes < 4: E(f'{nb_scenes} scene(s): at least 4 are required (the scenery follows the story, one place = one scene)')
 elif nb_scenes > 40: W(f'{nb_scenes} scenes: that’s a lot')
