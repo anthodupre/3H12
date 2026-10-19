@@ -488,7 +488,8 @@ Example: `{ "type": "paragraphe", "texte": "It's still here.", "style": "centre 
 |---|---|
 | `chute` | Someone falling down a long metal shaft (a garbage chute): bangs and scraping, faster and farther, then a heavy dull impact far below (about 2.5 s). |
 | `crac` | A small dry crack, muffled (something breaking inside a box). |
-| `garage` | An old garage door rolling up: rollers rattling in the track, metal screeching twice, a clunk at the top (about 2.6 s). |
+| `garage` | An old garage door: tugged and whacked (it rattles), it gives, springs creak, rollers clack over the track joints, a hinge squeals twice, it bangs at the top (about 4.3 s). |
+| `coups_garage` | Three kicks into a sheet-metal garage door (boom, wobble, rattle), then a heavy box slipping and landing flat on concrete (about 1.6 s). |
 | `coup` | Knocks on wood (door, wall). |
 | `craquement` | A floor or door that creaks. |
 | `chuchotement` | An unintelligible whispered voice moving from left to right. |

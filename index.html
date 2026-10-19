@@ -135,14 +135,20 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 }
 /* Histoire avec des décors (scènes) : une ombre autour des lettres garde le texte lisible
    par-dessus un décor bien visible */
-.avec-decors .histoire .corps { text-shadow: 0 1px 2px rgba(0, 0, 0, .95), 0 0 8px rgba(0, 0, 0, .9), 0 0 18px rgba(0, 0, 0, .7); }
+.avec-decors .histoire .corps { position: relative; text-shadow: 0 1px 1px rgba(0, 0, 0, .9), 0 0 3px rgba(0, 0, 0, .85); }
+/* (un voile léger derrière la colonne de texte : le décor reste visible, les lettres se détachent sans halo flou) */
+.avec-decors .histoire .corps::before {
+  content: ''; position: absolute; z-index: -1; top: -2rem; bottom: -2rem; left: -1.4rem; right: -1.4rem; pointer-events: none;
+  background: linear-gradient(90deg, rgba(var(--fond-rgb), 0), rgba(var(--fond-rgb), .46) 7%, rgba(var(--fond-rgb), .46) 93%, rgba(var(--fond-rgb), 0));
+}
 .avec-decors .histoire .geste-bouton, .avec-decors .histoire .bulle { text-shadow: none; }
 /* Teinte du lieu (scènes) : sous le texte, par-dessus le décor */
 #calque-teinte {
   position: fixed; inset: 0; z-index: 2; pointer-events: none; opacity: 0;
   transition: opacity 2.2s ease, background-color 2.2s ease;
 }
-#calque-voiles { position: fixed; inset: 0; z-index: 4; pointer-events: none; overflow: hidden; }
+/* (sous le texte : le grain et le scintillement ne passent jamais sur les lettres, ça fatigue les yeux) */
+#calque-voiles { position: fixed; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
 #voile-vignette {
   position: absolute; inset: 0; opacity: .6;
   background: radial-gradient(ellipse 125% 95% at 50% 45%, transparent 42%, rgba(0,0,0,.93) 100%);
@@ -150,7 +156,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 #voile-grain {
   position: absolute; inset: -120px; opacity: .05;
   background-size: 128px 128px;
-  animation: grain .8s steps(1) infinite;
+  animation: grain 3.2s steps(1) infinite;
 }
 @keyframes grain {
   0%   { transform: translate(0, 0); }
@@ -371,7 +377,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
   max-width: 40rem; margin: 0 auto;
   font-family: var(--police-texte); font-size: var(--fs); line-height: 1.62;
   color: var(--texte); overflow-wrap: break-word;
-  -webkit-hyphens: auto; hyphens: auto;
+  -webkit-hyphens: manual; hyphens: manual;
 }
 /* Carton de titre (premier écran de l'histoire) */
 .carton {
@@ -855,7 +861,8 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
 /* ---------- 7.8 RÉCIT : livre classique, lettrine ---------- */
 .mep-recit .objet { max-width: 34em; padding: 0 .2em; }
 .mep-recit .bloc-paragraphe { margin: 0; }
-.mep-recit .bloc-paragraphe p { margin: 0; text-align: justify; text-indent: 1.6em; }
+/* (aligné à gauche : des espaces égaux entre les mots, moins de fatigue qu'un texte justifié) */
+.mep-recit .bloc-paragraphe p { margin: 0; text-align: left; text-indent: 1.6em; }
 .mep-recit .bloc-dialogue { margin: 0; text-indent: 1.6em; }
 .mep-recit .dialogue .perso { font-size: .9em; }
 .mep-recit .dialogue .perso::after { content: " —"; }
@@ -1539,7 +1546,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
    1. CONFIGURATION — les réglages faciles à modifier
    ===================================================================== */
 const CONFIG = {
-  version: '2.1',
+  version: '2.2',
   fuseau: 'America/Toronto',          // toutes les dates sont calculées à Toronto
   dossierHistoires: 'stories/',       // dossier des fichiers JSON
   cleSauvegarde: '3h12-sauvegarde-v1',// clé dans localStorage
@@ -1568,7 +1575,7 @@ const TYPES_BLOCS = ['paragraphe', 'titre', 'dialogue', 'sms', 'note', 'citation
 const EFFETS_FOND = ['pluie', 'neige', 'brouillard', 'poussiere', 'braises', 'statique', 'lucioles', 'cendres', 'etoiles', 'bulles', 'aucun'];
 const EFFETS_EVENEMENT = ['glitch', 'noir', 'flash', 'tremblement', 'epier', 'notification', 'appel', 'aucun'];
 const COTES_EPIER = ['droite', 'gauche', 'bas', 'haut'];
-const SONS_EVENEMENT = ['chute', 'crac', 'garage', 'coup', 'craquement', 'chuchotement', 'respiration', 'porte', 'silence', 'pas', 'grattement', 'coeur', 'statique', 'cloche', 'vibration', 'goutte', 'texto', 'mouches', 'aucun'];
+const SONS_EVENEMENT = ['chute', 'crac', 'garage', 'coups_garage', 'coup', 'craquement', 'chuchotement', 'respiration', 'porte', 'silence', 'pas', 'grattement', 'coeur', 'statique', 'cloche', 'vibration', 'goutte', 'texto', 'mouches', 'aucun'];
 // Ambiances : sons en boucle qui suivent le lieu de l'histoire (blocs « scene »)
 const NOMS_AMBIANCES = ['frigo', 'douche', 'gouttes', 'voiture', 'horloge', 'vent', 'climatiseur', 'neon', 'mouches', 'souffle'];
 // Entrée d'une « vue » (ce que le lecteur voit après un geste)
@@ -2224,6 +2231,8 @@ function normaliserBloc(b, i, r) {
       n.teinteOpacite = nombre(b.teinteOpacite, .25, 0, .8);
       n.ambiance = normaliserAmbiance(b.ambiance, r, ou);
       n.volume = nombre(b.volume, .6, 0, 1);
+      // le temps minimal pendant lequel cette scène reste à l'écran (une porte qui s'ouvre va jusqu'au bout)
+      n.tenir = nombre(b.tenir, 2600, 0, 15000);
       // Passage d'un décor à l'autre : par le noir (changement de lieu), en fondu enchaîné, ou coupe sèche
       const tr = normCle(b.transition);
       n.transition = ['noir', 'fondu', 'coupe'].includes(tr) ? tr : 'noir';
@@ -2494,7 +2503,9 @@ function nettoyerSVG(source, { fond = false } = {}) {
         const nom = attr.name.toLowerCase();
         const val = attr.value.trim();
         if (nom.startsWith('on') || /javascript:/i.test(val)) { el.removeAttribute(attr.name); continue; }
-        if ((nom === 'href' || nom === 'xlink:href') && !val.startsWith('#')) el.removeAttribute(attr.name);
+        // (seules exceptions : les photos de l'histoire, dans le site même — stories/img/…)
+        const photo = el.tagName.toLowerCase() === 'image' && /^stories\/img\/[\w\-/]+\.(jpe?g|webp|png)$/i.test(val) && !val.includes('..');
+        if ((nom === 'href' || nom === 'xlink:href') && !val.startsWith('#') && !photo) el.removeAttribute(attr.name);
       }
       if (el.id) ids.add(el.id);
     });
@@ -2753,7 +2764,7 @@ const Fond = {
   },
   // Scintillement : l'image « baisse » brièvement, comme une ampoule fatiguée
   scintiller(dt) {
-    const s = this.scintillement * (P().effetsIntenses ? 1 : .35);
+    const s = this.scintillement * (P().effetsIntenses ? .5 : .2);   // (doux : on lit par-dessus)
     const sc = this.scint;
     if (s <= 0) { if (sc.opacite) { this.voileScint.style.opacity = '0'; sc.opacite = 0; } return; }
     let op;
@@ -3732,6 +3743,48 @@ function sortieEffet(panv = 0, reverbEnPlus = 0) {
   if (reverbEnPlus > 0) { const e = A.gain(reverbEnPlus); A.relier(s, e, MoteurAudio.convolueur); }
   return s;
 }
+// Un objet qui résonne (synthèse modale) : chaque mode = [fréquence, amplitude, durée] ; c'est ce qui donne
+// la matière (une tôle, un os, un carton), là où un simple bruit filtré ne sonne que comme un souffle
+function modesResonants(t, liste, sortie, { v = 1, glisse = 0 } = {}) {
+  liste.forEach(([f, a, dec]) => {
+    const o = A.osc('sine', f), g = A.gain(0);
+    if (glisse) { o.frequency.setValueAtTime(f * (1 + glisse), t); o.frequency.exponentialRampToValueAtTime(f, t + Math.min(.15, dec)); }
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(Math.max(.0002, a * v), t + .002);
+    g.gain.exponentialRampToValueAtTime(.0001, t + dec);
+    A.relier(o, g, sortie);
+    o.start(t); o.stop(t + dec + .05);
+    o.onended = () => { try { g.disconnect(); } catch (e) {} };
+  });
+}
+// Un coup dans une grande tôle (porte de garage) : le choc, le « boum » qui ondule, les cliquetis dans les rails
+function coupTole(t, sortie, v = 1, clair = 1) {
+  const f0 = 58 * clair * hasard(.97, 1.03);
+  const ondule = A.gain(1), lfoO = A.osc('sine', hasard(6, 8.5)), prof = A.gain(.35);
+  A.relier(lfoO, prof, ondule.gain); ondule.connect(sortie);
+  lfoO.start(t); lfoO.stop(t + 1.2);
+  modesResonants(t, [[f0, .55, .9], [f0 * 1.59, .4, .75], [f0 * 2.13, .3, .6], [f0 * 2.65, .22, .5], [f0 * 3.5, .16, .38],
+    [f0 * 4.06, .12, .3], [f0 * 5.2, .08, .22], [f0 * 7.3, .05, .15], [f0 * 9.8, .03, .1]], ondule, { v, glisse: .04 });
+  const b = A.bruit(t, .05), lp = A.filtre('lowpass', 900), g = A.gain(0);
+  A.enveloppe(g.gain, t, .002, .7 * v, .05);
+  A.relier(b, lp, g, sortie);
+  for (let k = 0, n = 3 + Math.floor(Math.random() * 4); k < n; k++) {
+    modesResonants(t + hasard(.04, .28), [[hasard(1900, 2400), .08, .04], [hasard(3100, 3600), .05, .03], [hasard(4400, 5000), .03, .02]], sortie, { v: v * hasard(.4, 1) });
+  }
+}
+// Une grosse boîte lourde qui tombe à plat sur le béton : le choc sourd, la claque du carton, un petit rebond
+function chuteCarton(t, sortie, v = 1) {
+  const o = A.osc('sine', 54), g = A.gain(0);
+  o.frequency.setValueAtTime(54, t); o.frequency.exponentialRampToValueAtTime(36, t + .3);
+  A.enveloppe(g.gain, t, .003, 1.1 * v, .38);
+  A.relier(o, g, sortie); o.start(t); o.stop(t + .6);
+  modesResonants(t, [[96, .45, .14], [148, .3, .1], [230, .2, .07]], sortie, { v });
+  const b = A.bruit(t, .06), bp = A.filtre('bandpass', 620, 1.1), gb = A.gain(0);
+  A.enveloppe(gb.gain, t, .002, .55 * v, .04);
+  A.relier(b, bp, gb, sortie);
+  for (let k = 0; k < 9; k++) modesResonants(t + .01 + k * hasard(.012, .022), [[hasard(1300, 2600), .05, .015]], sortie, { v: v * (1 - k / 10) });
+  modesResonants(t + .12, [[60, .35, .16], [110, .15, .08]], sortie, { v });
+}
 function coupUnique(t, v, panv) {
   const sortie = sortieEffet(panv);
   const o = A.osc('sine', 150);
@@ -3975,49 +4028,59 @@ const SONS = {
     A.relier(cr, cb, cg, sortie);
     o.onended = () => { try { sortie.disconnect(); } catch (e) {} };
   },
-  // Un petit craquement sec, étouffé (quelque chose qui casse à l'intérieur d'une boîte)
+  // Un petit craquement sec et sourd, à l'intérieur d'une boîte : deux ou trois micro-cassures
+  // (des modes « bois / os » très brefs), étouffées par le carton
   crac(t) {
-    const sortie = sortieEffet(.1, .15);
-    const b = A.bruit(t, .08), bp = A.filtre('bandpass', 1700, 1.1), lp = A.filtre('lowpass', 2600), g = A.gain(0);
-    A.enveloppe(g.gain, t, .002, .9, .05);
-    A.relier(b, bp, lp, g, sortie);
-    const b2 = A.bruit(t + .018, .06), bp2 = A.filtre('bandpass', 2600, 1.4), g2 = A.gain(0);
-    A.enveloppe(g2.gain, t + .018, .002, .5, .035);
-    A.relier(b2, bp2, g2, sortie);
-    const o = A.osc('sine', 120), go = A.gain(0);
-    o.frequency.setValueAtTime(120, t); o.frequency.exponentialRampToValueAtTime(70, t + .08);
-    A.enveloppe(go.gain, t, .003, .35, .09);
-    A.relier(o, go, sortie); o.start(t); o.stop(t + .2);
-    o.onended = () => { try { sortie.disconnect(); } catch (e) {} };
+    const sortie = sortieEffet(.1, .12), etouffe = A.filtre('lowpass', 2300, .7);
+    etouffe.connect(sortie);
+    [0, .009, .021].forEach((d, k) => modesResonants(t + d, [[880 * hasard(.95, 1.05), .5, .035], [1460, .32, .025], [2280, .18, .018]], etouffe, { v: [1, .7, .45][k] }));
+    modesResonants(t, [[120, .5, .09], [190, .2, .06]], sortie, { v: .6 });
+    setTimeout(() => { try { sortie.disconnect(); } catch (e) {} }, 800);
   },
-  // Une vieille porte de garage qui s'enroule : les roulettes qui claquent dans le rail, le métal qui
-  // hurle (deux fois, comme si elle protestait), puis le choc en haut
+  // Trois coups de pied dans une vieille porte de garage en tôle (elle boume, ondule, cliquette dans ses rails),
+  // puis la grosse boîte qui glisse des bras et tombe sur le béton
+  'coups_garage'(t) {
+    const sortie = sortieEffet(0, .3);
+    [.03, .4, .76].forEach((d, k) => coupTole(t + d, sortie, 1 - k * .08 + (k === 2 ? .15 : 0)));
+    chuteCarton(t + 1.45, sortie, 1);
+    setTimeout(() => { try { sortie.disconnect(); } catch (e) {} }, 4000);
+  },
+  // Une vieille porte de garage qu'on décoince puis qui s'enroule : on tire, on tape (ça cliquette), elle cède
+  // d'un coup ; les ressorts grincent, les roulettes claquent à chaque joint du rail, une charnière hurle
+  // (deux fois, elle proteste), puis elle cogne en haut
   garage(t) {
-    const sortie = sortieEffet(0, .35), d = 2.6;
-    for (let x = t; x < t + d - .2; x += hasard(.045, .075)) {
-      const b = A.bruit(x, .03), bp = A.filtre('bandpass', hasard(700, 1100), 1.5), g = A.gain(0);
-      A.enveloppe(g.gain, x, .002, hasard(.12, .3), .025);
-      A.relier(b, bp, g, sortie);
+    const sortie = sortieEffet(0, .28), d0 = 1.6, fin = 4.2;
+    [.2, .62, 1.1].forEach((d, k) => coupTole(t + d, sortie, .45 + k * .15));
+    // elle cède : un « pop » de tôle
+    coupTole(t + d0, sortie, .8, 1.25);
+    // les ressorts : un grincement (frottement collé-glissé : une dent de scie lente dans des résonances étroites)
+    const scie = A.osc('sawtooth', 28), r1 = A.filtre('bandpass', 720, 14), r2 = A.filtre('bandpass', 1260, 16), gr = A.gain(0);
+    for (let x = t + d0; x < t + fin; x += .045) scie.frequency.setValueAtTime(hasard(18, 46), x);
+    scie.connect(r1); scie.connect(r2); r1.connect(gr); r2.connect(gr); gr.connect(sortie);
+    [[d0, 2.0, .5], [2.0, 2.6, .12], [2.6, 3.4, .55], [3.4, fin, .3]].forEach(([a0, a1, v]) => {
+      gr.gain.setTargetAtTime(v * 1.6, t + a0, .05); gr.gain.setTargetAtTime(v * .9, t + (a0 + a1) / 2, .2);
+    });
+    gr.gain.setTargetAtTime(0, t + fin, .06);
+    scie.start(t + d0); scie.stop(t + fin + .4);
+    // les roulettes qui passent les joints du rail
+    for (const [a0, a1] of [[d0, 2.0], [2.6, 3.4], [3.5, fin]]) {
+      for (let x = t + a0 + hasard(.02, .08); x < t + a1; x += hasard(.13, .22)) {
+        modesResonants(x, [[540 * hasard(.95, 1.05), .3, .06], [1190, .2, .045], [2060, .12, .03], [95, .35, .08]], sortie, { v: hasard(.6, 1) });
+      }
     }
-    [[.15, .9, 1250], [1.1, 1.2, 1550]].forEach(([d0, du, f]) => {
-      const x = t + d0, o = A.osc('sawtooth', f), o2 = A.osc('square', f * 1.502);
-      for (let y = x; y < x + du; y += .03) { o.frequency.setValueAtTime(f * hasard(.96, 1.05), y); o2.frequency.setValueAtTime(f * 1.5 * hasard(.97, 1.04), y); }
-      const bp = A.filtre('bandpass', f * 1.4, 6), g = A.gain(0), g2 = A.gain(.25);
-      g.gain.setValueAtTime(0, x);
-      g.gain.linearRampToValueAtTime(.16, x + .12);
-      g.gain.linearRampToValueAtTime(.09, x + du * .6);
+    // la charnière qui hurle : un son aigu, instable, qui proteste deux fois
+    [[d0 + .05, 0.5, 1850], [2.65, .7, 2150]].forEach(([a0, du, f]) => {
+      const x = t + a0, o = A.osc('triangle', f), o2 = A.osc('sine', f * 2.01), bp = A.filtre('bandpass', f * 1.2, 3), g = A.gain(0), g2 = A.gain(.25);
+      for (let y = x; y < x + du; y += .025) { const j = hasard(.97, 1.035); o.frequency.setValueAtTime(f * j, y); o2.frequency.setValueAtTime(f * 2.01 * j, y); }
+      g.gain.setValueAtTime(0, x); g.gain.linearRampToValueAtTime(.09, x + .06);
+      for (let y = x + .08; y < x + du - .1; y += hasard(.06, .14)) g.gain.linearRampToValueAtTime(hasard(.03, .1), y);
       g.gain.linearRampToValueAtTime(0, x + du);
       A.relier(o, bp, g, sortie); A.relier(o2, g2, bp);
       o.start(x); o2.start(x); o.stop(x + du + .05); o2.stop(x + du + .05);
     });
-    const x = t + d - .15, o = A.osc('sine', 90), g = A.gain(0);
-    o.frequency.setValueAtTime(90, x); o.frequency.exponentialRampToValueAtTime(48, x + .3);
-    A.enveloppe(g.gain, x, .004, .8, .4);
-    A.relier(o, g, sortie); o.start(x); o.stop(x + .6);
-    const b = A.bruit(x, .2), bl = A.filtre('bandpass', 600, .8), bg = A.gain(0);
-    A.enveloppe(bg.gain, x, .003, .7, .15);
-    A.relier(b, bl, bg, sortie);
-    o.onended = () => { try { sortie.disconnect(); } catch (e) {} };
+    // en haut : elle cogne contre les butées
+    coupTole(t + fin, sortie, .9, 1.4);
+    setTimeout(() => { try { sortie.disconnect(); } catch (e) {} }, (fin + 2) * 1000);
   },
   porte(t) {
     SONS.craquement(t, { duree: 700, pan: .3 });
@@ -5136,8 +5199,10 @@ const Scenes = {
     if (i === this.cible) return;
     this.cible = i;
     clearTimeout(this.minuterie);
-    if (this.courante === undefined) this.appliquer(i);
-    else this.minuterie = setTimeout(() => this.appliquer(i), 160);
+    if (this.courante === undefined) { this.appliquer(i); return; }
+    // (un millimètre de défilement ne coupe pas une scène qui vient d'apparaître : elle va au bout)
+    const reste = Math.max(160, (this.tenirJusqua || 0) - Date.now());
+    this.minuterie = setTimeout(() => this.appliquer(this.cible), reste);
   },
   // L'environnement complet d'une scène (i = -1 : le fond de l'histoire)
   environnement(i) {
@@ -5159,6 +5224,7 @@ const Scenes = {
     if (!etat.histoire) return;
     const e = this.environnement(i), avant = this.env, premiere = !avant;
     this.courante = i;
+    this.tenirJusqua = Date.now() + (i >= 0 ? etat.histoire.blocs[i].tenir || 0 : 0);
     this.env = e;
     if (i >= 0) etat.journal.push({ i, effet: 'scene', son: e.ambiance.join('+') || 'aucune', heure: new Date().toISOString() });
     // En remontant, on revient avec le fondu de la scène qu'on quitte (une coupe sèche reste sèche)
