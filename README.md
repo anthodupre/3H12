@@ -20,5 +20,6 @@ Le site est servi par **GitHub Pages** depuis la branche `main` (dossier racine)
 - Toucher l'écran d'entrée pour entrer (ça débloque aussi le son sur iPhone).
 - En haut à gauche : couper le son. En haut à droite : le menu (volume, paramètres).
 - **Une histoire ne vit que 24 heures** (3 h 12 → 3 h 12) : pas d'archives, pas de favoris, pas de sauvegarde.
-- À la fin : la question de la nuit et la boîte à suggestions (envoyées par courriel au créateur, qui décide quoi en faire).
+- À la fin : la boîte « Un mot pour la prochaine nuit » (envoyée par courriel au créateur, qui décide quoi en faire).
+- Saison : une histoire par nuit du 20 au 31 octobre 2026 (décompte avant, écran de fin après). Les histoires choisies par le créateur passent en premier.
 - Mode DEV : Paramètres → toucher **3 fois** le numéro de version tout en bas → code secret.

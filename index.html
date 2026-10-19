@@ -198,6 +198,10 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   margin: 1.4rem auto 0; max-width: 22rem; font-size: .95rem; line-height: 1.45;
   color: var(--accent-fond);
 }
+.entree-message.decompte {
+  font: 500 1.05rem/1.4 var(--police-mono); letter-spacing: .12em; font-variant-numeric: tabular-nums;
+  color: var(--horloge); text-shadow: 0 0 8px rgba(var(--horloge-rgb), .55);
+}
 .entree-lue { margin: .9rem 0 0; font-size: .74rem; letter-spacing: .2em; text-transform: uppercase; color: #5f5a54; }
 /* L'écran entier est le « bouton » : on touche n'importe où pour entrer */
 #ecran-entree { cursor: pointer; }
@@ -1336,6 +1340,10 @@ const CONFIG = {
   cleSauvegarde: '3h12-sauvegarde-v1',// clé dans localStorage
   codeDev: 'BURGER',                  // code secret du mode DEV
   heureSortie: 3, minuteSortie: 12,   // l'histoire du jour arrive à 3 h 12
+  // Saison : avant la première nuit, un décompte (les histoires d'essai restent en mode DEV) ;
+  // après la dernière nuit, l'écran d'entrée annonce que c'est fini.
+  premiereNuit: '2026-10-20',
+  derniereNuit: '2026-10-31',
   imagesParSeconde: 30,               // limite du fond animé
   motsParMinute: 190,                 // pour estimer la durée de lecture
   verificationMinutes: 10,            // vérifie s'il y a une nouvelle histoire toutes les X minutes
@@ -1706,6 +1714,7 @@ function normaliserIndex(d, brut) {
       tonique: chaine(e.tonique),
       gamme: chaine(e.gamme),
       palette: normaliserPalette(e.palette, PALETTE_DEFAUT, null),
+      essai: !!e.essai,   // histoire d'essai : lisible seulement en mode DEV
     };
   }).filter(Boolean).sort((a, b) => a.date.localeCompare(b.date));
   return { liste, rapport, brut };
@@ -1976,8 +1985,10 @@ function normaliserHistoire(d, dateFichier) {
   h.mots = compterMots(h);
   h.minutes = Math.max(1, Math.round(h.mots / CONFIG.motsParMinute));
   const nbEvenements = h.blocs.filter(b => b.type === 'evenement').length;
-  if (h.mots < 900 || h.mots > 1600) r.av(`Longueur : ${h.mots} mots (cible : 900 à 1600).`);
-  if (nbEvenements > 6) r.av(`${nbEvenements} événements (maximum conseillé : 6).`);
+  // Une traduction (histoire choisie par le créateur) garde sa longueur d'origine
+  h.traduction = d.origine === 'traduction';
+  if (!h.traduction && (h.mots < 900 || h.mots > 1600)) r.av(`Longueur : ${h.mots} mots (cible : 900 à 1600).`);
+  if (nbEvenements > (h.traduction ? 10 : 6)) r.av(`${nbEvenements} événements (maximum conseillé : ${h.traduction ? 10 : 6}).`);
   return { h, rapport: r };
 }
 
@@ -5045,7 +5056,7 @@ const Dev = {
     // Liste de toutes les histoires, y compris celles qui ne sont pas encore sorties
     // (les lecteurs, eux, n'ont accès qu'à l'histoire de la nuit en cours)
     $('#dev-histoires').innerHTML = etat.index.liste.slice().reverse().map(e =>
-      `<li><button data-ouvrir-date="${e.date}" class="${e.date > sortie ? 'futur' : ''}"><span>N° ${e.numero} · ${echapper(texteBrut(e.titre))}</span><span>${e.date}${e.date > sortie ? ' (à venir)' : e.date < sortie ? ' (disparue)' : ' (cette nuit)'}</span></button></li>`).join('')
+      `<li><button data-ouvrir-date="${e.date}" class="${e.date > sortie ? 'futur' : ''}"><span>N° ${e.numero} · ${echapper(texteBrut(e.titre))}</span><span>${e.date}${e.essai ? ' (essai)' : e.date > sortie ? ' (à venir)' : e.date < sortie ? ' (disparue)' : ' (cette nuit)'}</span></button></li>`).join('')
       || '<li class="dev-vide">index.json vide ou illisible.</li>';
     // Boîte à suggestions
     $('#dev-boite').value = S.dev.boiteSuggestions || '';
@@ -5053,7 +5064,7 @@ const Dev = {
       ? 'Branchée : les suggestions des lecteurs arrivent dans ta boîte courriel.'
       : 'Pas encore branchée : les lecteurs ne voient pas la boîte (toi, si, en mode DEV).';
     // Bouton : lire la prochaine histoire (pas encore sortie)
-    const prochaine = etat.index.liste.find(e => e.date > sortie);
+    const prochaine = etat.index.liste.find(e => e.date > sortie && !e.essai);
     const bouton = $('#dev-prochaine');
     if (prochaine) {
       bouton.textContent = `Lire la prochaine : n° ${prochaine.numero} · ${texteBrut(prochaine.titre)} — sort le ${Dates.longue(prochaine.date)}, 3 h 12`;
@@ -5177,6 +5188,65 @@ const HISTOIRE_DEMO = {
 };
 
 /* =====================================================================
+   23 bis. DÉCOMPTE AVANT LA PREMIÈRE NUIT, ET FIN DE SAISON
+   Avant CONFIG.premiereNuit (3 h 12), l'écran d'entrée affiche un décompte en direct au lieu
+   d'une histoire. Après CONFIG.derniereNuit, il annonce que c'est fini.
+   ===================================================================== */
+const Decompte = {
+  minuterie: null,
+  // Millisecondes avant 3 h 12 le jour donné (heure de Toronto)
+  msAvant(jour) {
+    const p = {};
+    new Intl.DateTimeFormat('en-CA', {
+      timeZone: CONFIG.fuseau, year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23',
+    }).formatToParts(new Date()).forEach(x => { p[x.type] = x.value; });
+    const ici = `${p.year}-${p.month}-${p.day}`;
+    const secondes = (parseInt(p.hour, 10) % 24) * 3600 + parseInt(p.minute, 10) * 60 + parseInt(p.second, 10);
+    const cible = CONFIG.heureSortie * 3600 + CONFIG.minuteSortie * 60;
+    return (Dates.ecart(ici, jour) * 86400 + cible - secondes) * 1000;
+  },
+  texte(ms) {
+    const s = Math.max(0, Math.floor(ms / 1000));
+    const j = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60);
+    const deux = n => String(n).padStart(2, '0');
+    return `${j ? `${j} j ` : ''}${h} h ${deux(m)} min ${deux(s % 60)} s`;
+  },
+  afficher() {
+    this.ecran('N° 1', 'Première nuit', 'Une histoire chaque nuit, jusqu’à l’Halloween.');
+    const msg = $('#entree-message');
+    msg.classList.remove('cache');
+    msg.classList.add('decompte');
+    const maj = () => {
+      const ms = this.msAvant(CONFIG.premiereNuit);
+      if (ms <= 0) { this.arreter(); chargerHistoireDuMoment(); return; }
+      msg.textContent = `Dans ${this.texte(ms)}`;
+    };
+    maj();
+    this.minuterie = setInterval(maj, 1000);
+  },
+  finSaison() { this.ecran('Fin', 'C’est fini.', 'Il n’y a plus d’histoire à 3 h 12.'); },
+  // Écran d'entrée sans histoire : l'horloge, quelques mots, rien à toucher
+  ecran(num, titre, genre) {
+    this.arreter();
+    $('#entree-num').textContent = num;
+    const t = $('#entree-titre');
+    t.textContent = titre;
+    t.style.fontFamily = '';
+    $('#entree-genre').textContent = genre;
+    $('#entree-message').classList.add('cache');
+    $('#entree-lue').classList.add('cache');
+    $('#btn-entrer').disabled = true;
+    Halloween.maj();
+  },
+  arreter() {
+    clearInterval(this.minuterie);
+    this.minuterie = null;
+    $('#entree-message').classList.remove('decompte');
+  },
+};
+
+/* =====================================================================
    24. CHARGEMENT DE L'HISTOIRE DU MOMENT
    Une histoire ne vit que 24 h : celle datée J sort à J 3 h 12 et disparaît à J+1 3 h 12.
    1. lit stories/index.json
@@ -5191,6 +5261,10 @@ async function chargerHistoireDuMoment() {
   if (etat.ecran === 'histoire') afficherEntree();
   etat.index = await Chargement.index();
   const liste = etat.index.liste;
+  // Avant la première nuit : décompte ; après la dernière : c'est fini (les essais restent en DEV)
+  Decompte.arreter();
+  if (CONFIG.premiereNuit && sortie < CONFIG.premiereNuit) { etat.dateDuMoment = null; Decompte.afficher(); return; }
+  if (CONFIG.derniereNuit && sortie > CONFIG.derniereNuit) { etat.dateDuMoment = null; Decompte.finSaison(); return; }
   // Les positions des nuits passées ne servent plus à rien
   const positions = Sauvegarde.donnees.positions;
   Object.keys(positions).forEach(d => { if (d !== sortie) delete positions[d]; });
@@ -5217,6 +5291,7 @@ async function verifierNouvelleHistoire() {
   if (!etat.index || document.hidden) return;
   const sortie = Dates.nuit();
   if (etat.dateDuMoment === sortie) return;
+  if (sortie < (CONFIG.premiereNuit || '') || sortie > (CONFIG.derniereNuit || '9999')) return; // le décompte s'en charge
   const index = await Chargement.index();
   if (!index.liste.length) return;
   etat.index = index;

@@ -10,7 +10,11 @@ Puis tu **envoies l'aperçu complet de celle de demain** dans ta réponse finale
 
 **24 heures, pas plus** : dans l'app, une histoire ne vit que de sa sortie (J, 3 h 12) à la suivante (J+1, 3 h 12). Pas d'archives, pas de favoris, pas de sauvegarde. Chaque histoire doit donc se suffire à elle-même.
 
-**Les lecteurs ont leur mot à dire, la personne décide** : à la fin de chaque histoire, l'app pose la **question de la nuit** (champ `question`, obligatoire) et offre une boîte « Un mot pour la prochaine nuit ». Les réponses arrivent par courriel à la personne. Chaque jour vers 18 h, tu les lui résumes (section « Courrier de 18 h » à la fin de ce fichier) ; c'est **elle** qui décide quoi changer. Tu n'appliques jamais une suggestion de lecteur qu'elle n'a pas approuvée.
+**La saison** : une histoire par nuit du **20 au 31 octobre 2026** (la nuit d'Halloween est la dernière). Avant le 20, l'app affiche un décompte ; après le 31, elle annonce que c'est fini. Les histoires du 17 au 19 octobre sont des **essais** (`"essai": true` dans l'index) : lisibles seulement en mode DEV, ignorées pour la numérotation et la variété. N'écris **jamais** d'histoire datée après le 31 octobre 2026.
+
+**Les choix de la personne d'abord** : la personne peut te donner une histoire existante (souvent une creepypasta en anglais) dont l'auteur lui a donné la permission. Tu la **traduis** (étape 4 bis) et elle passe **avant** tes histoires originales. Tu n'écris une histoire originale que pour une nuit où aucun choix de la personne n'attend.
+
+**Les lecteurs ont leur mot à dire, la personne décide** : à la fin de chaque histoire, l'app offre une boîte « Un mot pour la prochaine nuit » (**plus de question à choix** : n'ajoute jamais de champ `question`). Les mots arrivent par courriel à la personne. Chaque jour vers 18 h, tu les lui résumes (section « Courrier de 18 h » à la fin de ce fichier) ; c'est **elle** qui décide quoi changer. Tu n'appliques jamais une suggestion de lecteur qu'elle n'a pas approuvée.
 
 Ton travail : écrire des histoires vraiment effrayantes, les habiller avec soin, valider les fichiers, publier.
 
@@ -37,7 +41,9 @@ done
 
 Pour **chaque date « À ÉCRIRE »**, dans l'ordre (**aujourd'hui d'abord, puis demain**), fais les étapes 1 à 8 avec `DATE` égal à cette date (`DATE=$AUJOURDHUI`, puis `DATE=$DEMAIN`). Quand tu écris celle de demain, l'histoire d'aujourd'hui est « l'histoire précédente » (même mise en page interdite, etc.).
 
-Si les deux existent déjà : pas d'écriture ; passe directement à l'étape 9 (aperçu de demain).
+Si les deux existent déjà : pas d'écriture ; passe directement à l'étape 9 (aperçu de demain). Si `DEMAIN` est après le 31 octobre 2026 : n'écris rien, et dis simplement que la saison est finie.
+
+**Histoires choisies par la personne** : relis la conversation. Toute histoire que la personne t'a donnée et qui n'est pas encore publiée prend la **première nuit pas encore sortie** (dans l'ordre où elle les a données), y compris en **remplaçant une histoire originale pas encore sortie** (dans ce cas, réécris le fichier de cette date ; le numéro reste le même). Elle est traduite selon l'étape 4 bis, au lieu des étapes 3 à 5. Une histoire déjà sortie n'est jamais remplacée.
 
 **Consignes de la personne** : relis ses derniers messages dans la conversation (en particulier ses réponses au courrier de 18 h et à l'aperçu de la veille). Toute consigne pour « la prochaine histoire » ou « les prochaines » qui n'a pas encore été appliquée **s'applique à celle que tu écris maintenant** (sans enfreindre les règles de ce fichier). Mentionne-la dans la ligne d'état de ta réponse finale.
 
@@ -50,7 +56,7 @@ Lis **en entier** `SCHEMA.md` (format exact, valeurs permises, mises en page, ef
 ```bash
 python3 - <<'EOF'
 import json
-h = json.load(open('stories/index.json', encoding='utf-8'))['histoires'][-30:]
+h = [x for x in json.load(open('stories/index.json', encoding='utf-8'))['histoires'] if not x.get('essai')][-30:]
 print('n°  date        mise en page    fond        musique                 Qc  sous-genre / lieu')
 for x in h:
     print(f"{x['numero']:<3} {x['date']}  {x['miseEnPage']:<15} {x.get('effetFond',''):<11} {x.get('tonique','')+' '+x.get('gamme',''):<23} {'Q' if x.get('auQuebec') else '-'}   {x['sousGenre']} / {x['lieu']}")
@@ -120,13 +126,24 @@ Chaque histoire **doit** finir sur un retournement majeur qui **change le sens d
 - **900 à 1600 mots** au total (5 à 8 minutes de lecture). Compte réel vérifié à l'étape 7.
 - **Tension lente qui monte.** Commencer dans le banal et le précis (dates, heures, objets, gestes). La peur vient de l'**ambiance**, des **détails qui clochent** (une habitude brisée, un chiffre qui ne colle pas, un son au mauvais endroit) et de **ce qui n'est pas dit**. Montrer peu le monstre.
 - **La `phraseFinale`** est affichée seule, en très grand, après l'histoire : elle doit frapper (courte, 5 à 20 mots), sans répéter le dernier bloc. C'est le dernier coup de couteau.
-- **La `question` de la nuit** (obligatoire) : une question courte au lecteur, avec **2 à 4 choix** de quelques mots, qui l'aide à orienter **les prochaines** histoires : une peur (« quelque chose dans la maison » / « quelqu'un qu'on connaît »), un lieu, une époque, un format, un rythme… Jamais une question sur le sens de l'histoire qu'il vient de lire, jamais de révélation. Le ton reste celui de 3h12 (sobre, inquiétant). Varie-la d'une nuit à l'autre.
 - **Utiliser le format pour vrai.** Un rapport a des sections, un ton administratif, des champs, des tampons, des passages caviardés, des annotations de supérieur. Des SMS ont des heures, des fautes de frappe, des « Vu », des silences. Un forum a des pseudos, des signatures, des modérateurs, des messages espacés dans le temps. Une transcription a des horodatages, des `[inaudible]`, des chevauchements. Un journal intime a des dates en tête de section et une écriture qui se dégrade.
 - **Effets de texte avec parcimonie** (SCHEMA.md §11) : `##chuchoté##`, `||caviardé||` (jamais pour une information indispensable), `%%glitch%%` (plutôt en technologique), `^^lent^^` (une phrase clé), `__accent__`, `~~rature~~`, `[annotation]`. Styles de bloc (`gros`, `agite`, `espace`, `lent`…) pour un ou deux moments forts.
 - **3 à 6 événements** (`evenement`) aux moments clés, placés **juste après** la phrase qui les justifie (un coup frappé juste après « ça a cogné », un `silence` sur l'instant de bascule, un `noir` avec un court `texte` avant la fin). Pas de jumpscare gratuit.
 - Rappel des interdits : violence sexuelle, torture détaillée, gore gratuit, enfants blessés explicitement, personnes réelles (pas de vraies personnes, pas de vrais crimes, pas de noms d'entreprises existantes dans un rôle négatif), contenu haineux. Les animaux peuvent mourir hors champ, sans détails.
 - **Le 31 octobre** : l'histoire de l'Halloween est l'événement de l'année (l'app affiche un décompte). La plus ambitieuse et la plus terrifiante du mois : proche de 1600 mots, 5 ou 6 événements, le retournement le plus fort.
 - Relis-toi : orthographe, typographie française (espaces avant `: ; ? !`, guillemets « », apostrophes ’), cohérence des heures et des noms.
+
+## Étape 4 bis — Traduire une histoire choisie par la personne
+
+- **Traduction fidèle et soignée** en français : tout le texte, sans rien couper ni ajouter, dans le même ordre ; le ton et le registre de l'original (un témoignage familier reste familier ; les jurons restent des jurons, en français naturel). Garde les noms, les lieux et les références (marques, films). Typographie française.
+- **Aucun crédit** : ni auteur, ni site d'origine, ni lien, nulle part (la personne a l'accord de l'auteur).
+- Champ racine `"origine": "traduction"` (et la même chose dans l'entrée de l'index). La longueur reste celle de l'original : pas de cible de 900 à 1600 mots.
+- Le titre : la traduction du titre d'origine, en 1 à 5 mots ; le titre complet peut aller dans `sousTitre`.
+- **Un bloc par paragraphe** de l'original. Les textos cités deviennent des blocs `sms` (`"de": "eux"`). Quelques `pause` aux grandes coupures de l'histoire (2 à 4).
+- **3 à 10 événements**, placés juste après la phrase qui les justifie (un bruit, une porte, un silence, un téléphone qui vibre).
+- `retournement` : décris en quelques mots la chute de l'original.
+- Habillage complet comme d'habitude (étape 5) : mise en page qui sert le texte (`recit` pour un long témoignage), palette, polices, fond, illustration originale, musique.
+- `phraseFinale` : la toute dernière phrase de l'original (retirée du dernier bloc pour ne pas la répéter).
 
 ## Étape 5 — Habiller l'histoire
 
@@ -159,9 +176,9 @@ histoire = {
   "fond": {"effet": "", "intensite": 0.45, "vignette": 0.75, "grain": 0.3, "scintillement": 0.1, "svgOpacite": 0.22, "svg": ""},
   "musique": {"tempo": 56, "tonique": "", "gamme": "", "reverb": 0.7, "desaccord": 0.25, "evolution": "monte", "finale": "fondu", "couches": []},
   "blocs": [],
-  "phraseFinale": "",
-  "question": {"texte": "", "choix": ["", ""]}       # question de la nuit : 2 à 4 choix courts
+  "phraseFinale": ""
 }
+# Histoire choisie par la personne (traduction) : ajouter "origine": "traduction" ici ET dans l'index
 # ... remplir ici (texte, svg, blocs) ...
 json.dump(histoire, open(f'stories/{DATE}.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
 
@@ -176,6 +193,7 @@ idx['histoires'].append({
   "polices": {k: v for k, v in histoire["theme"]["polices"].items() if k in ("titre", "texte", "notes")},
   "evenements": sum(1 for b in histoire["blocs"] if b["type"] == "evenement"),
   "retournement": histoire["retournement"],
+  **({"origine": "traduction"} if histoire.get("origine") == "traduction" else {}),
 })
 idx['histoires'].sort(key=lambda x: x['date'])
 json.dump(idx, open('stories/index.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
@@ -252,7 +270,7 @@ if not isinstance(liste, list): E('index.json : « histoires » doit être un ta
 dates = [x.get('date') for x in liste if isinstance(x, dict)]
 if len(dates) != len(set(dates)): E('index.json : une date apparaît deux fois')
 if dates != sorted(dates): E('index.json : les entrées doivent être triées par date croissante')
-avant = [x for x in liste if isinstance(x, dict) and x.get('date', '') < date]
+avant = [x for x in liste if isinstance(x, dict) and x.get('date', '') < date and not x.get('essai')]  # les essais ne comptent pas
 entree = next((x for x in liste if isinstance(x, dict) and x.get('date') == date), None)
 if entree is None: E(f'index.json : aucune entrée pour {date}')
 if h.get('version') != 1: E('version doit valoir 1')
@@ -261,10 +279,11 @@ attendu = max([x.get('numero', 0) for x in avant] or [0]) + 1
 if h.get('numero') != attendu: E(f'numero = {h.get("numero")}, attendu {attendu}')
 for c in ['titre', 'sousGenre', 'lieu', 'epoque', 'format', 'resume', 'phraseFinale', 'retournement']:
     if not isinstance(h.get(c), str) or not h.get(c).strip(): E(f'{c} manquant ou vide')
-qn = h.get('question')
-if not isinstance(qn, dict) or not isinstance(qn.get('texte'), str) or not qn['texte'].strip(): E('question de la nuit manquante : {"texte": "…", "choix": ["…", "…"]}')
-elif not isinstance(qn.get('choix'), list) or not 2 <= len(qn['choix']) <= 4 or not all(isinstance(c, str) and c.strip() for c in qn['choix']): E('question : il faut 2 à 4 choix (textes non vides)')
-elif any(len(c) > 60 for c in qn['choix']): W('question : des choix de plus de 60 caractères (garder court)')
+if 'question' in h: E('question : plus de question à choix (la personne n’en veut plus) ; retirer le champ')
+trad = h.get('origine') == 'traduction'
+if 'origine' in h and not trad: E('origine : seule valeur permise, "traduction"')
+if date > '2026-10-31': E('après le 31 octobre 2026 : la saison est finie, aucune histoire')
+if date < '2026-10-20': E('avant le 20 octobre 2026 : ce sont des essais, ne rien écrire')
 if not isinstance(h.get('auQuebec'), bool): E('auQuebec doit être true ou false')
 mep = h.get('miseEnPage')
 if mep not in MEPS: E(f'miseEnPage invalide : {mep}')
@@ -347,15 +366,17 @@ for i, b in enumerate(blocs):
         if 'duree' in b and not num(b['duree'], 100, 15000): E(f'{ou} : duree en millisecondes (100 à 15000)')
         if 'nombre' in b and not num(b['nombre'], 1, 12): E(f'{ou} : nombre entre 1 et 12')
 mots += len(brut(h.get('phraseFinale', '')).split())
-if not 3 <= nb_ev <= 6: E(f'{nb_ev} événements (il en faut 3 à 6)')
-if mots < 850 or mots > 1700: E(f'{mots} mots (il en faut 900 à 1600)')
+if not 3 <= nb_ev <= (10 if trad else 6): E(f'{nb_ev} événements (il en faut 3 à {10 if trad else 6})')
+if trad:
+    if mots < 300: E(f'{mots} mots : traduction incomplète ?')
+elif mots < 850 or mots > 1700: E(f'{mots} mots (il en faut 900 à 1600)')
 elif mots < 900 or mots > 1600: W(f'{mots} mots (cible : 900 à 1600)')
 if entree:
     pairs = [('numero', h.get('numero')), ('titre', h.get('titre')), ('sousGenre', h.get('sousGenre')), ('lieu', h.get('lieu')),
              ('auQuebec', h.get('auQuebec')), ('epoque', h.get('epoque')), ('format', h.get('format')), ('miseEnPage', mep),
              ('tonique', m.get('tonique')), ('gamme', m.get('gamme')), ('effetFond', f.get('effet')), ('palette', pal),
              ('polices', {k: pol.get(k) for k in ['titre', 'texte', 'notes'] if k in pol}), ('evenements', nb_ev),
-             ('retournement', h.get('retournement'))]
+             ('retournement', h.get('retournement')), ('origine', h.get('origine'))]
     for k, v in pairs:
         if entree.get(k) != v: E(f'index.json : {k} = {json.dumps(entree.get(k), ensure_ascii=False)}, mais l’histoire dit {json.dumps(v, ensure_ascii=False)}')
 recentes = sorted(avant, key=lambda x: x.get('date', ''))[-30:]
@@ -422,7 +443,11 @@ print(f"Sort le **{jours[j.weekday()]} {j.day} {mois[j.month - 1]} à 3 h 12** �
 print(f"Format : {h['format']} · mise en page `{h['miseEnPage']}`")
 print(f"Ambiance : fond `{f['effet']}` · musique {m['tonique']} {m['gamme']}, {len(m['couches'])} couches ({', '.join(c['type'] for c in m['couches'])}), évolution {m['evolution']} · palette {th['palette']['fond']} / {th['palette']['surface']} / {th['palette']['accent']} · polices {th['polices']['titre']} + {th['polices']['texte']}")
 print(f"Résumé : {h['resume']}\n\n---\n")
-for b in h['blocs']:
+blocs = h['blocs']
+if h.get('origine') == 'traduction':   # la personne connaît déjà le texte : le début et la fin suffisent
+    print(f"*(Traduction : {len(blocs)} blocs. Voici le début et la fin.)*\n")
+    blocs = blocs[:4] + [{'type': 'pause'}] + blocs[-4:]
+for b in blocs:
     ty = b['type']
     if ty == 'titre': print(f"\n**{t(b['texte'])}**\n")
     elif ty == 'paragraphe': print(t(b['texte']) + '\n')
@@ -437,8 +462,6 @@ for b in h['blocs']:
     elif ty == 'champs': print('\n'.join(f"- {t(c.get('nom'))} : {t(c.get('valeur'))}" for c in b['champs']) + '\n')
     elif ty == 'tampon': print(f"[TAMPON : {t(b['texte'])}]\n")
 print(f"---\n\n**Phrase finale :** {t(h['phraseFinale'])}")
-q = h.get('question') or {}
-if q: print(f"\n**Question de la nuit :** {t(q.get('texte'))} — " + ' / '.join(t(c) for c in q.get('choix', [])))
 APERCU
 ```
 
@@ -457,8 +480,9 @@ Ta **réponse finale** (le message que la personne lira) contient, dans cet ordr
 - [ ] Histoire en français, québécois naturel dans les dialogues si elle se passe au Québec.
 - [ ] Vraiment effrayante : montée implacable, une scène d'effroi prolongée, de vrais enjeux, pas de fin heureuse.
 - [ ] **Gros retournement** dans le dernier quart, préparé par 2-3 indices, type différent des 10 dernières histoires, noté dans `retournement`.
-- [ ] 900 à 1600 mots, `phraseFinale` courte et glaçante.
-- [ ] `question` de la nuit : 2 à 4 choix courts, tournée vers les prochaines histoires.
+- [ ] Histoire originale : 900 à 1600 mots, `phraseFinale` courte et glaçante.
+- [ ] Pas de champ `question`. Histoires choisies par la personne publiées en premier (traduction fidèle, `origine`, aucun crédit).
+- [ ] Aucune histoire après le 31 octobre 2026.
 - [ ] Consignes de la personne (courrier de 18 h, retouches) appliquées si elles visaient cette histoire.
 - [ ] Le format est utilisé pour vrai (le document ressemble au document).
 - [ ] 3 à 6 événements, bien placés ; effets de texte avec parcimonie.
@@ -479,10 +503,9 @@ Si un navigateur est disponible, on peut servir le dossier (`python3 -m http.ser
 
 Une deuxième routine te réveille chaque jour vers 18 h (heure de Toronto). Ce n'est **pas** une nuit d'écriture : tu n'écris aucune nouvelle histoire.
 
-1. **Lis les suggestions** reçues depuis le dernier courrier : dans Gmail, cherche `from:formsubmit.co newer_than:1d` (objets « 3h12 — suggestion après le n° N »). Chaque courriel contient l'histoire, la question, la réponse choisie et le mot libre. Ignore les courriels de test et l'activation.
+1. **Lis les suggestions** reçues depuis le dernier courrier : dans Gmail, cherche `from:formsubmit.co newer_than:1d` (objets « 3h12 — suggestion après le n° N »). Chaque courriel contient l'histoire et le mot du lecteur. Ignore les courriels de test et l'activation.
 2. **Réponds dans la conversation**, court et clair :
    - le nombre de suggestions reçues ;
-   - pour la question de la nuit : le décompte des réponses par choix ;
    - les mots libres, regroupés par thème (cite les plus parlants, tels quels) ; écarte le pourriel et tout ce qui est haineux ou viserait une vraie personne ;
    - un rappel : « L'histoire de demain (n° N, *Titre*) est déjà écrite. Dis-moi ce que je change : elle, ou les suivantes. »
 3. **Rien à signaler** (aucun courriel) : une seule ligne, « Pas de suggestion aujourd'hui. Une consigne pour la prochaine nuit ? ».

@@ -22,6 +22,8 @@ Sommaire : [1. Fichiers](#1-fichiers) · [2. index.json](#2-storiesindexjson) ·
 
 **24 heures, pas plus** : une histoire datée J apparaît dans l'app à **J, 3 h 12** (heure de Toronto) et **disparaît à J+1, 3 h 12**, remplacée par la suivante. Il n'y a ni archives, ni favoris, ni sauvegarde : une histoire manquée est perdue. On peut pousser l'histoire du lendemain d'avance : elle reste cachée jusqu'à sa sortie. Si l'histoire de la nuit manque, l'app n'en montre **pas** une plus ancienne : elle affiche « Silence radio » (« Rien cette nuit. Reviens à 3 h 12. »). Les histoires passées et à venir ne s'ouvrent qu'en mode DEV (en aperçu).
 
+**Saison** (`CONFIG.premiereNuit` et `CONFIG.derniereNuit` dans `index.html`) : du 20 au 31 octobre 2026. Avant la première nuit, l'écran d'entrée affiche un décompte en direct jusqu'à 3 h 12 ; après la dernière, il annonce que c'est fini. Les histoires d'essai (`"essai": true` dans l'index) ne s'ouvrent qu'en mode DEV.
+
 ---
 
 ## 2. `stories/index.json`
@@ -72,6 +74,8 @@ Sommaire : [1. Fichiers](#1-fichiers) · [2. index.json](#2-storiesindexjson) ·
 | `polices` | objet | oui | Copie de `theme.polices` (titre, texte, notes). |
 | `evenements` | entier | oui | Nombre de blocs `evenement` dans l'histoire. |
 | `retournement` | chaîne | oui | Même valeur que dans l'histoire (sert à varier les retournements). |
+| `origine` | chaîne | non | `"traduction"` si l'histoire est une traduction choisie par le créateur (même valeur que dans l'histoire). |
+| `essai` | booléen | non | `true` : histoire d'essai, lisible seulement en mode DEV, ignorée pour la numérotation et la variété. |
 
 Ces champs servent aussi à l'automatisation pour éviter de se répéter : **ils doivent être exacts**.
 
@@ -103,11 +107,12 @@ Fichier `stories/AAAA-MM-JJ.json` :
 | `musique` | objet | oui | drone + bruit | Musique synthétisée (section 8). |
 | `blocs` | tableau | oui | — | Le texte, bloc par bloc (section 9). |
 | `phraseFinale` | chaîne | oui | — | La dernière phrase, affichée seule, en grand, après l'histoire. Balisage permis. |
-| `question` | objet | oui (DAILY) | aucune | La **question de la nuit**, posée au lecteur à la fin, au-dessus de la boîte à suggestions : `{ "texte": "…", "choix": ["…", "…"] }`, **2 à 4 choix** courts. Elle sert à orienter les prochaines histoires (une peur, un lieu, un format, une époque…) sans rien gâcher de celle-ci. Balisage permis. Absente ou invalide → seulement la boîte « Un mot pour la prochaine nuit ». |
+| `origine` | chaîne | non | — | `"traduction"` : histoire existante choisie par le créateur et traduite (sa longueur d'origine est gardée, 3 à 10 événements). Jamais affiché. |
+| `question` | objet | **plus utilisé** | aucune | Ancienne « question de la nuit » à choix (`{ "texte", "choix" }`). Le créateur n'en veut plus : ne pas l'ajouter. Le moteur la sait encore afficher. |
 
-**Fin de l'histoire** : après la `phraseFinale`, l'app affiche « Fin », la date de la prochaine histoire, « Cette histoire disparaît à 3 h 12. », puis la **boîte à suggestions** (la `question` avec ses choix, et un champ libre « Un mot pour la prochaine nuit »). Les réponses partent par courriel (FormSubmit) au créateur de 3h12, qui décide quoi en faire ; elles ne modifient rien automatiquement.
+**Fin de l'histoire** : après la `phraseFinale`, l'app affiche « Fin », la date de la prochaine histoire, « Cette histoire disparaît à 3 h 12. », puis la **boîte à suggestions** (un champ libre « Un mot pour la prochaine nuit »). Les mots partent par courriel (FormSubmit) au créateur de 3h12, qui décide quoi en faire ; ils ne modifient rien automatiquement.
 
-**Durée de lecture** : calculée automatiquement (190 mots/min) à partir de tous les textes. Visez **900 à 1600 mots**.
+**Durée de lecture** : calculée automatiquement (190 mots/min) à partir de tous les textes. Visez **900 à 1600 mots** (sauf traduction : longueur de l'original).
 
 ---
 
@@ -498,7 +503,6 @@ Exemple court mais complet et valide (une vraie histoire doit compter 900 à 160
     { "type": "evenement", "effet": "noir", "son": "silence", "duree": 2500, "texte": "La corne s'est tue." },
     { "type": "paragraphe", "texte": "Je n'ai pas allumé la lanterne ce soir. ^^Pourtant, le phare brille.^^", "style": "espace" }
   ],
-  "phraseFinale": "Le bateau n'a jamais approché. __C'est la côte qui s'éloigne.__",
-  "question": { "texte": "La prochaine nuit, tu veux avoir peur…", "choix": ["sur l'eau", "sous la terre", "dans une maison pleine de monde"] }
+  "phraseFinale": "Le bateau n'a jamais approché. __C'est la côte qui s'éloigne.__"
 }
 ```
