@@ -36,7 +36,7 @@
     "vignette": 0.85,
     "grain": 0.3,
     "scintillement": 0.12,
-    "svgOpacite": 0.22,
+    "svgOpacite": 0.42,
     "couleur": "#d9cdb8",
     "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 860' preserveAspectRatio='xMidYMax slice'><defs><linearGradient id='mg' x1='0' y1='0' x2='1' y2='0'><stop offset='0' stop-color='#211b17'/><stop offset='1' stop-color='#2a221d'/></linearGradient><linearGradient id='md' x1='0' y1='0' x2='1' y2='0'><stop offset='0' stop-color='#272019'/><stop offset='1' stop-color='#1b1612'/></linearGradient><linearGradient id='pl' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#1d1611'/><stop offset='1' stop-color='#0e0b09'/></linearGradient><radialGradient id='jour' cx='0.5' cy='0.5' r='0.5'><stop offset='0' stop-color='#e6d3a8' stop-opacity='0.5'/><stop offset='0.5' stop-color='#e6d3a8' stop-opacity='0.2'/><stop offset='1' stop-color='#e6d3a8' stop-opacity='0'/></radialGradient><linearGradient id='tapis' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#2a1b18'/><stop offset='1' stop-color='#170f0d'/></linearGradient><linearGradient id='flaque' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#e6d3a8' stop-opacity='0.2'/><stop offset='1' stop-color='#e6d3a8' stop-opacity='0'/></linearGradient></defs><rect x='0' y='0' width='400' height='860' fill='#15110e' /><polygon points='0,0 400,0 262,300 138,300' fill='#1a1512' /><polygon points='0,0 138,300 138,560 0,860' fill='url(#mg)' /><polygon points='400,0 262,300 262,560 400,860' fill='url(#md)' /><rect x='138' y='300' width='124' height='260' fill='#2c241e' /><ellipse cx='200' cy='420' rx='170' ry='200' fill='url(#jour)'/><rect x='160' y='338' width='80' height='222' fill='#3a2f27' /><rect x='164' y='342' width='72' height='218' fill='#33291f' /><rect x='174' y='354' width='52' height='70' fill='#d7c39b' opacity='.7'/><line x1='200' y1='354' x2='200' y2='424' stroke='#3a2f27' stroke-width='3'/><circle cx='228' cy='470' r='3.5' fill='#8a7656'/><polygon points='0,860 138,560 262,560 400,860' fill='url(#pl)' /><line x1='134' y1='560' x2='-172' y2='860' stroke='#0a0806' stroke-width='1.2' opacity='.8'/><line x1='145' y1='560' x2='-110' y2='860' stroke='#0a0806' stroke-width='1.2' opacity='.8'/><line x1='156' y1='560' x2='-48' y2='860' stroke='#0a0806' stroke-width='1.2' opacity='.8'/><line x1='167' y1='560' x2='14' y2='860' stroke='#0a0806' stroke-width='1.2' opacity='.8'/><line x1='178' y1='560' x2='76' y2='860' stroke='#0a0806' stroke-width='1.2' opacity='.8'/><line x1='189' y1='560' x2='138' y2='860' stroke='#0a0806' stroke-width='1.2' opacity='.8'/><line x1='200' y1='560' x2='200' y2='860' stroke='#0a0806' stroke-width='1.2' opacity='.8'/><line x1='211' y1='560' x2='262' y2='860' stroke='#0a0806' stroke-width='1.2' opacity='.8'/><line x1='222' y1='560' x2='324' y2='860' stroke='#0a0806' stroke-width='1.2' opacity='.8'/><line x1='233' y1='560' x2='386' y2='860' stroke='#0a0806' stroke-width='1.2' opacity='.8'/><line x1='244' y1='560' x2='448' y2='860' stroke='#0a0806' stroke-width='1.2' opacity='.8'/><line x1='255' y1='560' x2='510' y2='860' stroke='#0a0806' stroke-width='1.2' opacity='.8'/><line x1='266' y1='560' x2='572' y2='860' stroke='#0a0806' stroke-width='1.2' opacity='.8'/><polygon points='118,860 180,562 220,562 282,860' fill='url(#tapis)' /><polygon points='150,860 186,562 214,562 250,860' fill='url(#flaque)' /><polygon points='38,318 100,340 100,448 38,438' fill='#3b3029' stroke='#4d4036' stroke-width='3'/><polygon points='46,328 92,345 92,438 46,430' fill='#1f1a17' /><path d='M58 432 Q60 392 68 386 Q78 392 80 434 Z' fill='#cfc6b5' opacity='.8'/><circle cx='68' cy='378' r='6' fill='#8c7f70'/><path d='M76 436 Q78 396 86 392 Q92 398 92 437 Z' fill='#0d0b0a'/><circle cx='85' cy='384' r='5.5' fill='#6d6156'/><polygon points='46,328 70,337 52,430 46,430' fill='#fff' opacity='.05'/><polygon points='0,600 70,584 70,594 0,614' fill='#2e251f' /><rect x='56' y='594' width='6' height='70' fill='#1c1612' /><ellipse cx='36' cy='592' rx='14' ry='4' fill='#3e342c'/><polygon points='330,860 330,470 400,440 400,860' fill='#100d0b' /><line x1='330' y1='470' x2='330' y2='860' stroke='#3a3029' stroke-width='1.5'/></svg>",
     "decors": {
@@ -155,7 +155,7 @@
     {
       "type": "scene",
       "decor": "couloir-jour-elle",
-      "opacite": 0.3,
+      "opacite": 0.5,
       "fondu": 3200
     },
     {
@@ -204,7 +204,7 @@
       "ambiance": [
         "frigo"
       ],
-      "opacite": 0.34,
+      "opacite": 0.54,
       "teinte": "#14263a",
       "teinteOpacite": 0.22,
       "fondu": 3600,
@@ -316,7 +316,7 @@
     {
       "type": "scene",
       "decor": "chambre-coffre",
-      "opacite": 0.32,
+      "opacite": 0.52,
       "fondu": 2200
     },
     {
@@ -401,7 +401,7 @@
       "ambiance": [
         "douche"
       ],
-      "opacite": 0.36,
+      "opacite": 0.56,
       "effet": "brouillard",
       "intensite": 0.55,
       "couleur": "#c9d2d8",
@@ -538,7 +538,7 @@
       "ambiance": [
         "gouttes"
       ],
-      "opacite": 0.34,
+      "opacite": 0.54,
       "effet": "poussiere",
       "intensite": 0.15,
       "teinte": "#2a2014",
@@ -687,7 +687,7 @@
       "type": "scene",
       "decor": "fenetre-elle",
       "ambiance": [],
-      "opacite": 0.36,
+      "opacite": 0.56,
       "teinte": "#3a3f52",
       "teinteOpacite": 0.12,
       "fondu": 2600
@@ -1021,7 +1021,7 @@
       "ambiance": [
         "mouches"
       ],
-      "opacite": 0.24,
+      "opacite": 0.44,
       "effet": "poussiere",
       "intensite": 0.3,
       "teinte": "#16201a",
@@ -1190,7 +1190,7 @@
       "ambiance": [
         "souffle"
       ],
-      "opacite": 0.32,
+      "opacite": 0.52,
       "effet": "poussiere",
       "intensite": 0.25,
       "teinte": "#16201a",
@@ -1415,7 +1415,7 @@
         "climatiseur",
         "neon"
       ],
-      "opacite": 0.3,
+      "opacite": 0.5,
       "teinte": "#3a0d10",
       "teinteOpacite": 0.18,
       "fondu": 4000,
