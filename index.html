@@ -1539,7 +1539,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
    1. CONFIGURATION — les réglages faciles à modifier
    ===================================================================== */
 const CONFIG = {
-  version: '1.9',
+  version: '2.0',
   fuseau: 'America/Toronto',          // toutes les dates sont calculées à Toronto
   dossierHistoires: 'stories/',       // dossier des fichiers JSON
   cleSauvegarde: '3h12-sauvegarde-v1',// clé dans localStorage
@@ -4149,14 +4149,17 @@ const AMBIANCES = {
     src.forEach(x => x.start(t));
     return arreterTout(src);
   },
-  // Douche qui coule
+  // Douche qui coule : un souffle d'eau lisse (le jet sur le rideau, l'eau au fond du bain), qui varie
+  // lentement. (Pas de trémolo rapide : un volume qui papillote sonne comme des gouttes qui grésillent.)
   douche(t, s) {
     const src = [];
-    const b1 = sourceBruit(), hp = A.filtre('highpass', 900, .5), bp = A.filtre('bandpass', 3000, .35), g1 = A.gain(.75);
-    A.relier(b1, hp, bp, g1, s); src.push(b1);
-    const b2 = sourceBruit(true), bp2 = A.filtre('bandpass', 650, .7), g2 = A.gain(1.1);
-    A.relier(b2, bp2, g2, s); src.push(b2);
-    src.push(lfo(.31, 500, bp.frequency), lfo(.17, 160, bp2.frequency), lfo(5.3, .12, g1.gain, 'triangle'));
+    const jet = sourceBruit(true), hp = A.filtre('highpass', 380, .5), lp = A.filtre('lowpass', 5200, .4), gj = A.gain(.58);
+    A.relier(jet, hp, lp, gj, s); src.push(jet);
+    const fond = sourceBruit(true), bp = A.filtre('bandpass', 520, .6), gf = A.gain(.62);
+    A.relier(fond, bp, gf, s); src.push(fond);
+    const air = sourceBruit(), ba = A.filtre('bandpass', 2600, .5), ga = A.gain(.035);
+    A.relier(air, ba, ga, s); src.push(air);
+    src.push(lfo(.07, .06, gj.gain), lfo(.11, 70, bp.frequency), lfo(.05, 400, lp.frequency));
     src.forEach(x => x.start(t));
     return arreterTout(src);
   },
@@ -4291,7 +4294,7 @@ const AMBIANCES = {
   },
 };
 // Volume relatif de chaque ambiance (pour qu'elles se mélangent bien à 60 %)
-const VOLUMES_AMBIANCE = { frigo: 1, douche: .8, gouttes: .7, voiture: .9, horloge: .55, vent: .8, climatiseur: .7, neon: .8, mouches: .9, souffle: .55 };
+const VOLUMES_AMBIANCE = { frigo: 1, douche: .58, gouttes: .7, voiture: .9, horloge: .55, vent: .8, climatiseur: .7, neon: .8, mouches: .9, souffle: .55 };
 
 const Ambiance = {
   actives: new Map(),
