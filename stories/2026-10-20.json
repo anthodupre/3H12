@@ -140,11 +140,13 @@
     },
     {
       "type": "paragraphe",
-      "texte": "La deuxième fois, c’est arrivé trois jours plus tard. Il était environ deux heures du matin, et je m’étais levé pour boire quelque chose. J’étais debout devant l’îlot de la cuisine, le pot de jus d’orange à la main, quand j’ai eu la forte impression qu’on me regardait."
+      "texte": "La deuxième fois, c’est arrivé trois jours plus tard. Il était environ deux heures du matin, et je m’étais levé pour boire quelque chose. J’étais debout devant l’îlot de la cuisine, le pot de jus d’orange à la main, quand j’ai eu la forte impression qu’on me regardait.",
+      "style": "lampe"
     },
     {
       "type": "paragraphe",
-      "texte": "Je ne sais pas pourquoi, j’ai baissé les yeux vers le plancher, et j’ai vu le visage souriant de ma femme qui me fixait. Elle me regardait de l’autre côté de l’îlot, les yeux levés vers moi, grands ouverts, sans cligner, avec un grand sourire. Un sourire comme celui du chat d’*Alice au pays des merveilles*."
+      "texte": "Je ne sais pas pourquoi, j’ai baissé les yeux vers le plancher, et j’ai vu le visage souriant de ma femme qui me fixait. Elle me regardait de l’autre côté de l’îlot, les yeux levés vers moi, grands ouverts, sans cligner, avec un grand sourire. Un sourire comme celui du chat d’*Alice au pays des merveilles*.",
+      "style": "lampe"
     },
     {
       "type": "paragraphe",
@@ -361,15 +363,22 @@
     },
     {
       "type": "evenement",
+      "effet": "appel",
+      "son": "aucun",
+      "titre": "Lynn",
+      "duree": 8000
+    },
+    {
+      "type": "paragraphe",
+      "texte": "Lynn avait appelé quatre fois et m’avait envoyé une avalanche de textos, tous pour me demander où j’étais et pourquoi j’étais parti « comme ça »."
+    },
+    {
+      "type": "evenement",
       "effet": "notification",
       "son": "vibration",
       "titre": "Lynn",
       "texte": "Où es-tu ? Pourquoi tu es parti comme ça ?",
       "duree": 6500
-    },
-    {
-      "type": "paragraphe",
-      "texte": "Lynn avait appelé quatre fois et m’avait envoyé une avalanche de textos, tous pour me demander où j’étais et pourquoi j’étais parti « comme ça »."
     },
     {
       "type": "paragraphe",
@@ -434,7 +443,8 @@
       "effet": "epier",
       "son": "aucun",
       "cote": "gauche",
-      "duree": 2400
+      "duree": 2600,
+      "attaque": true
     },
     {
       "type": "paragraphe",
@@ -695,27 +705,41 @@
     },
     {
       "type": "paragraphe",
-      "texte": "La maison était silencieuse comme une tombe, et sombre, même s’il était dix heures du matin. Tous les rideaux étaient bien fermés et ne laissaient pas entrer la lumière du jour. Si je n’étais pas parti de là deux jours plus tôt, j’aurais cru que la maison était abandonnée."
+      "texte": "La maison était silencieuse comme une tombe, et sombre, même s’il était dix heures du matin. Tous les rideaux étaient bien fermés et ne laissaient pas entrer la lumière du jour. Si je n’étais pas parti de là deux jours plus tôt, j’aurais cru que la maison était abandonnée.",
+      "style": "lampe"
     },
     {
       "type": "paragraphe",
-      "texte": "On a fait toutes les pièces, en vérifiant chaque endroit où elle aurait pu se cacher, et en l’appelant de temps en temps."
+      "texte": "On a fait toutes les pièces, en vérifiant chaque endroit où elle aurait pu se cacher, et en l’appelant de temps en temps.",
+      "style": "lampe"
     },
     {
       "type": "paragraphe",
-      "texte": "« Pourquoi tu regardes en dessous du divan ? a fini par demander Chris. C’est bien ta femme qu’on cherche, non ? » Il me regardait comme si j’étais un idiot."
+      "texte": "« Pourquoi tu regardes en dessous du divan ? a fini par demander Chris. C’est bien ta femme qu’on cherche, non ? » Il me regardait comme si j’étais un idiot.",
+      "style": "lampe"
+    },
+    {
+      "type": "evenement",
+      "effet": "epier",
+      "son": "aucun",
+      "cote": "bas",
+      "duree": 2400,
+      "attaque": true
     },
     {
       "type": "paragraphe",
-      "texte": "« On monte, c’est tout », j’ai chuchoté. Il a secoué la tête, mais il m’a suivi dans l’escalier pour vérifier la salle de bain et la chambre d’amis. En montant, j’ai entendu craquer sous mes chaussures des morceaux de verre éparpillés sur quelques marches."
+      "texte": "« On monte, c’est tout », j’ai chuchoté. Il a secoué la tête, mais il m’a suivi dans l’escalier pour vérifier la salle de bain et la chambre d’amis. En montant, j’ai entendu craquer sous mes chaussures des morceaux de verre éparpillés sur quelques marches.",
+      "style": "lampe"
     },
     {
       "type": "paragraphe",
-      "texte": "Une de nos photos de mariage, accrochée au mur le long de l’escalier, avait été fracassée. Le cadre pendait de travers, et il n’y avait plus de vitre. J’ai regardé la photo, la gorge serrée. On l’avait prise juste à la sortie de l’église, après nos vœux. Elle était tellement belle, dans sa robe blanche. J’ai regardé le beau visage de Lynn. Jamais je n’aurais imaginé que ce visage-là me ferait un jour aussi peur."
+      "texte": "Une de nos photos de mariage, accrochée au mur le long de l’escalier, avait été fracassée. Le cadre pendait de travers, et il n’y avait plus de vitre. J’ai regardé la photo, la gorge serrée. On l’avait prise juste à la sortie de l’église, après nos vœux. Elle était tellement belle, dans sa robe blanche. J’ai regardé le beau visage de Lynn. Jamais je n’aurais imaginé que ce visage-là me ferait un jour aussi peur.",
+      "style": "lampe"
     },
     {
       "type": "paragraphe",
-      "texte": "On a monté le reste des marches et vérifié la chambre d’amis, mais personne n’y avait touché."
+      "texte": "On a monté le reste des marches et vérifié la chambre d’amis, mais personne n’y avait touché.",
+      "style": "lampe"
     },
     {
       "type": "paragraphe",
@@ -776,11 +800,13 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Lentement, j’ai regardé partout dans la chambre."
+      "texte": "Lentement, j’ai regardé partout dans la chambre.",
+      "style": "lampe"
     },
     {
       "type": "paragraphe",
-      "texte": "« Mon Dieu », j’ai murmuré quand j’ai enfin vu ce qu’on n’avait pas vu. Sous le lit, couchée sur le côté, à nous regarder avec l’excitation d’une enfant le matin de Noël, il y avait ma femme."
+      "texte": "« Mon Dieu », j’ai murmuré quand j’ai enfin vu ce qu’on n’avait pas vu. Sous le lit, couchée sur le côté, à nous regarder avec l’excitation d’une enfant le matin de Noël, il y avait ma femme.",
+      "style": "lampe"
     },
     {
       "type": "evenement",
@@ -958,7 +984,8 @@
       "effet": "epier",
       "son": "aucun",
       "cote": "haut",
-      "duree": 4800
+      "duree": 3200,
+      "attaque": true
     }
   ],
   "phraseFinale": "Je suis seul, j’ai peur, et je n’arrive pas à me défaire de l’impression __qu’on me regarde…__"
