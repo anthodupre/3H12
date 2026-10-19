@@ -30,7 +30,7 @@ Sommaire : [1. Fichiers](#1-fichiers) · [2. index.json](#2-storiesindexjson) ·
 
 ```json
 {
-  "moteur": "1.4",
+  "moteur": "1.5",
   "version": 1,
   "histoires": [
     {
