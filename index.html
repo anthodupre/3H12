@@ -416,6 +416,8 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
 .bloc.deja { transition: none; }
 .bloc-evenement { height: 2px; margin: 0; pointer-events: none; }
 .bloc-scene { height: 0; margin: 0; pointer-events: none; }
+/* Une fenêtre : un vide dans le texte, le temps de voir ce qui se passe dans le décor */
+.bloc-scene.fenetre { margin: 1.5rem 0; }
 .mep-sms .bloc-scene:not(.visible) { display: none; }
 .bloc p { margin: 0 0 .9em; }
 .bloc p:last-child { margin-bottom: 0; }
@@ -1529,7 +1531,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
    1. CONFIGURATION — les réglages faciles à modifier
    ===================================================================== */
 const CONFIG = {
-  version: '1.7',
+  version: '1.8',
   fuseau: 'America/Toronto',          // toutes les dates sont calculées à Toronto
   dossierHistoires: 'stories/',       // dossier des fichiers JSON
   cleSauvegarde: '3h12-sauvegarde-v1',// clé dans localStorage
@@ -1558,7 +1560,7 @@ const TYPES_BLOCS = ['paragraphe', 'titre', 'dialogue', 'sms', 'note', 'citation
 const EFFETS_FOND = ['pluie', 'neige', 'brouillard', 'poussiere', 'braises', 'statique', 'lucioles', 'cendres', 'etoiles', 'bulles', 'aucun'];
 const EFFETS_EVENEMENT = ['glitch', 'noir', 'flash', 'tremblement', 'epier', 'notification', 'appel', 'aucun'];
 const COTES_EPIER = ['droite', 'gauche', 'bas', 'haut'];
-const SONS_EVENEMENT = ['coup', 'craquement', 'chuchotement', 'respiration', 'porte', 'silence', 'pas', 'grattement', 'coeur', 'statique', 'cloche', 'vibration', 'goutte', 'texto', 'mouches', 'aucun'];
+const SONS_EVENEMENT = ['chute', 'coup', 'craquement', 'chuchotement', 'respiration', 'porte', 'silence', 'pas', 'grattement', 'coeur', 'statique', 'cloche', 'vibration', 'goutte', 'texto', 'mouches', 'aucun'];
 // Ambiances : sons en boucle qui suivent le lieu de l'histoire (blocs « scene »)
 const NOMS_AMBIANCES = ['frigo', 'douche', 'gouttes', 'voiture', 'horloge', 'vent', 'climatiseur', 'neon', 'mouches', 'souffle'];
 // Entrée d'une « vue » (ce que le lecteur voit après un geste)
@@ -2171,6 +2173,7 @@ function normaliserBloc(b, i, r) {
       const cote = normCle(b.cote);
       n.cote = COTES_EPIER.includes(cote) ? cote : 'droite';   // epier : bord de l'écran
       n.attaque = b.attaque === true;   // epier : si on ne la touche pas à temps, elle bondit
+      n.visage = chaine(b.visage);   // epier : le décor du visage (sinon « epieur »)
       // notification : une seule, ou une rafale (« messages ») qui s'empile en haut de l'écran
       n.app = normCle(b.app) === 'telephone' ? 'telephone' : 'messages';
       n.messages = (Array.isArray(b.messages) ? b.messages : []).map(m => {
@@ -2213,6 +2216,8 @@ function normaliserBloc(b, i, r) {
       n.teinteOpacite = nombre(b.teinteOpacite, .25, 0, .8);
       n.ambiance = normaliserAmbiance(b.ambiance, r, ou);
       n.volume = nombre(b.volume, .6, 0, 1);
+      // Une fenêtre dans le texte : un vide où le décor se voit en entier pendant qu'il défile
+      n.fenetre = b.fenetre === true ? .85 : nombre(b.fenetre, 0, 0, 1.2);
       // Durée du passage au nouveau décor (ms) : 0 = coupe sèche, 1800 par défaut, jusqu'à 6000 (très lent)
       n.fondu = Math.round(nombre(b.fondu, 1800, 0, 6000));
       break;
@@ -2595,6 +2600,13 @@ const Illustration = {
         const image = couche.firstElementChild;
         if (image) image.style.animationDelay = `-${((performance.now() / 1000) % 52).toFixed(2)}s`;
         el.appendChild(couche);
+        // Ses animations (une tête qui se retire, une bave qui coule…) partent de zéro maintenant
+        if (image && image.setCurrentTime) {
+          try {
+            image.setCurrentTime(0);
+            if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) { image.pauseAnimations(); image.setCurrentTime(120); }
+          } catch (e) {}
+        }
         // Nouveau lieu : le décor s'illumine quelques secondes, puis se pose derrière le texte
         if (!immediat) {
           this.revele = Date.now() + Math.max(2600, fondu + 800);
@@ -2612,6 +2624,11 @@ const Illustration = {
     }
     this.maj(window.scrollY || 0, etat.progression || 0);
   },
+  fenetre(ouverte) {
+    if (ouverte === !!this.ouverte) return;
+    this.ouverte = ouverte;
+    this.maj(window.scrollY || 0, etat.progression || 0);
+  },
   // Plus visible sur le carton de titre, puis s'efface vers son opacité normale
   maj(y, progression) {
     const el = $('#calque-illustration');
@@ -2619,6 +2636,7 @@ const Illustration = {
     const haut = borner(y / (window.innerHeight || 800), 0, 1);
     let op = this.base * (2.2 - 1.2 * haut);
     if (Date.now() < (this.revele || 0)) op = Math.max(op, Math.min(.92, this.base * 1.9));
+    if (this.ouverte) op = Math.max(op, .96);   // une fenêtre dans le texte : le décor, en entier
     el.style.opacity = Math.min(1, op).toFixed(3);
     el.style.transform = `translateY(${(-progression * 3).toFixed(2)}%)`;
   },
@@ -3058,6 +3076,9 @@ const MoteurAudio = {
     this.busMusique.connect(this.maitre);
     this.busEffets = c.createGain();
     this.busEffets.connect(this.maitre);
+    // Sons collés à l'oreille (une respiration) : pas de réverbération, sinon ça sonne comme la mer
+    this.busSec = c.createGain();
+    this.busSec.connect(this.maitre);
     this.convolueur = c.createConvolver();
     this.retourReverb = c.createGain();
     this.convolueur.connect(this.retourReverb);
@@ -3121,6 +3142,7 @@ const MoteurAudio = {
     this.maitre.gain.setTargetAtTime(p.muet ? 0 : p.volumeGeneral, t, .05);
     this.busMusique.gain.setTargetAtTime(p.volumeMusique, t, .05);
     this.busEffets.gain.setTargetAtTime(p.volumeEffets, t, .05);
+    this.busSec.gain.setTargetAtTime(p.volumeEffets, t, .05);
   },
   suspendre() { if (this.ctx && this.ctx.state === 'running') this.ctx.suspend().catch(() => {}); if (this.audioMuet) this.audioMuet.pause(); },
   reprendre() {
@@ -3741,19 +3763,73 @@ function battement(t, v) {
   o.start(t); o.stop(t + .3); o2.start(t); o2.stop(t + .3);
   o.onended = () => { try { sortie.disconnect(); } catch (e) {} };
 }
-function souffle(t, duree, fDebut, fFin, v, panv) {
-  const sortie = sortieEffet(panv);
-  const src = A.bruit(t, duree + .1, true);
-  const bp = A.filtre('bandpass', fDebut, .6);
-  bp.frequency.setValueAtTime(fDebut, t);
-  bp.frequency.linearRampToValueAtTime(fFin, t + duree);
-  const lp = A.filtre('lowpass', 3200, .5);
-  const g = A.gain(0);
-  g.gain.setValueAtTime(0, t);
-  g.gain.linearRampToValueAtTime(v, t + duree * .55);
-  g.gain.linearRampToValueAtTime(0, t + duree);
-  A.relier(src, bp, lp, g, sortie);
-  src.onended = () => { try { sortie.disconnect(); } catch (e) {} };
+// Une respiration humaine, tout près de l'oreille : un souffle (bruit blanc) coloré par la gorge et
+// la bouche (trois résonances étroites, aucun grave), une attaque nette, une fin qui retombe vite.
+// L'expiration porte un peu de voix rauque (des impulsions irrégulières) : c'est ce qui la rend humaine.
+// (Un bruit grave qui monte et descend lentement, avec de l'écho, sonne comme des vagues.)
+function haleine(t, { dedans = true, duree = 1, v = 1, rauque = 0, tremble = 0, pan = 0, dest = null } = {}) {
+  let sortie = dest;
+  if (!sortie) { sortie = A.pan(pan); sortie.connect(MoteurAudio.busSec); }
+  const fin = t + duree, noeuds = [];
+  const env = A.gain(0), g = env.gain;
+  g.setValueAtTime(0, t);
+  if (dedans) {
+    g.linearRampToValueAtTime(v * .75, t + duree * .2);
+    g.linearRampToValueAtTime(v, t + duree * .78);
+    g.linearRampToValueAtTime(0, fin);
+  } else {
+    g.linearRampToValueAtTime(v, t + .07);
+    g.linearRampToValueAtTime(v * .55, t + duree * .35);
+    g.linearRampToValueAtTime(v * .18, t + duree * .78);
+    g.linearRampToValueAtTime(0, fin);
+  }
+  let vers = env;
+  if (tremble > 0) {
+    // souffle qui tremble (excitation, peur) : le volume vacille vite
+    const tr = A.gain(1), o = A.osc('sine', hasard(6.5, 9.5)), og = A.gain(tremble * .45);
+    A.relier(o, og, tr.gain);
+    o.start(t); o.stop(fin + .05);
+    env.connect(tr); vers = tr; noeuds.push(tr, og);
+  }
+  vers.connect(sortie);
+  const src = A.bruit(t, duree + .1);
+  const hp = A.filtre('highpass', dedans ? 820 : 380, .7);
+  src.connect(hp);
+  // gorge et bouche : l'inspiration (bouche ouverte, entre les dents) est plus aiguë
+  const formants = dedans ? [[1250, 5, .9], [2350, 6, .7], [3900, 4, .38]] : [[640, 4, .95], [1180, 5, .7], [2550, 5, .32]];
+  formants.forEach(([f, q, gain]) => {
+    const bp = A.filtre('bandpass', f, q), gg = A.gain(gain);
+    bp.frequency.setValueAtTime(f * (dedans ? .93 : 1.05), t);
+    bp.frequency.linearRampToValueAtTime(f * (dedans ? 1.06 : .93), fin);
+    A.relier(hp, bp, gg, env); noeuds.push(bp, gg);
+  });
+  const air = A.filtre('highpass', 3200, .7), ag = A.gain(dedans ? .13 : .06);
+  A.relier(hp, air, ag, env); noeuds.push(air, ag);
+  if (!dedans && rauque > 0) {
+    // la voix qui accroche, tout au fond de la gorge
+    const o = A.osc('sawtooth', 70), bp = A.filtre('bandpass', 760, 1.3), lp = A.filtre('lowpass', 2200), rg = A.gain(0);
+    for (let x = t; x < fin; x += .035) o.frequency.setValueAtTime(hasard(58, 84), x);
+    rg.gain.setValueAtTime(0, t);
+    rg.gain.linearRampToValueAtTime(rauque * v * .06, t + .06);
+    rg.gain.linearRampToValueAtTime(rauque * v * .035, t + duree * .5);
+    rg.gain.linearRampToValueAtTime(0, t + duree * .8);
+    A.relier(o, bp, lp, rg, sortie);
+    o.start(t); o.stop(fin + .05);
+    noeuds.push(o, bp, lp, rg);
+  }
+  src.onended = () => [hp, env, ...noeuds, ...(dest ? [] : [sortie])].forEach(n => { try { n.disconnect(); } catch (e) {} });
+}
+// Respirer quelques fois, de façon irrégulière (d'une seconde à l'autre, ce n'est jamais pareil)
+function respirer(t, fin, { dest = null, pan = 0, rauque = .5 } = {}) {
+  let x = t;
+  while (x < fin - 1.2) {
+    const di = hasard(.75, 1.15), de = hasard(1.05, 1.55);
+    haleine(x, { dedans: true, duree: di, v: hasard(.75, 1), tremble: Math.random() < .45 ? hasard(.3, .7) : 0, pan, dest });
+    const e = x + di + hasard(.04, .2);
+    haleine(e, { dedans: false, duree: de, v: hasard(.85, 1.1), rauque: rauque * hasard(.6, 1.3), pan: -pan * .5, dest });
+    x = e + de + hasard(.3, 1.1);
+  }
+  return x;
 }
 function claquement(t, v) {
   const sortie = sortieEffet(.1, .7);
@@ -3834,12 +3910,44 @@ const SONS = {
     src.onended = () => { try { sortie.disconnect(); } catch (e) {} };
   },
   respiration(t, o) {
-    const cycles = Math.max(1, Math.round(((o.duree || 5200) / 1000) / 2.7));
-    for (let k = 0; k < cycles; k++) {
-      const x = t + k * 2.75;
-      souffle(x, 1.15, 1300, 2200, 1.3, .2);        // inspiration
-      souffle(x + 1.35, 1.35, 650, 1100, 1.6, -.1); // expiration
-    }
+    respirer(t, t + Math.max(3, (o.duree || 5200) / 1000), { pan: .15 });
+  },
+  // Quelqu'un tombe dans une chute à déchets de six étages : ça cogne et racle contre le métal, de plus
+  // en plus vite et de plus en plus loin (plus sourd), puis le choc, lourd et mou, tout en bas
+  chute(t) {
+    const sortie = sortieEffet(0, .7);
+    const racle = A.bruit(t, 2.4), rb = A.filtre('bandpass', 2200, 2.2), rl = A.filtre('lowpass', 5000), rg = A.gain(0);
+    rb.frequency.setValueAtTime(2200, t); rb.frequency.exponentialRampToValueAtTime(500, t + 2.3);
+    rl.frequency.setValueAtTime(5000, t); rl.frequency.exponentialRampToValueAtTime(600, t + 2.3);
+    rg.gain.setValueAtTime(0, t); rg.gain.linearRampToValueAtTime(.35, t + .08); rg.gain.exponentialRampToValueAtTime(.01, t + 2.3);
+    A.relier(racle, rb, rl, rg, sortie);
+    const coups = [.04, .36, .62, .83, 1.0, 1.15, 1.28, 1.4, 1.5, 1.6, 1.69, 1.78, 1.86, 1.94, 2.01, 2.08];
+    coups.forEach((d, k) => {
+      const x = t + d + hasard(-.015, .015), loin = k / coups.length;
+      const lp = A.filtre('lowpass', 5200 * Math.pow(.86, k)), g = A.gain(0);
+      A.enveloppe(g.gain, x, .002, (1 - loin * .8) * hasard(.7, 1), .2 + .15 * (1 - loin));
+      A.relier(lp, g, sortie);
+      const f0 = hasard(150, 260);
+      [1, 2.76, 5.4, 8.93].forEach((m, j) => {
+        const o = A.osc('sine', f0 * m), og = A.gain([.6, .35, .22, .12][j]);
+        A.relier(o, og, lp); o.start(x); o.stop(x + .5);
+      });
+      const b = A.bruit(x, .05), bg = A.gain(.5);
+      A.relier(b, bg, lp);
+    });
+    // Tout en bas : le choc sourd d'un corps qui tombe sur des sacs
+    const x = t + 2.42;
+    const o = A.osc('sine', 62), og = A.gain(0);
+    o.frequency.setValueAtTime(62, x); o.frequency.exponentialRampToValueAtTime(30, x + .45);
+    A.enveloppe(og.gain, x, .006, 1.4, .7);
+    A.relier(o, og, sortie); o.start(x); o.stop(x + .9);
+    const b = A.bruit(x, .5), bl = A.filtre('lowpass', 380), bg = A.gain(0);
+    A.enveloppe(bg.gain, x, .004, 2.2, .35);
+    A.relier(b, bl, bg, sortie);
+    const cr = A.bruit(x + .03, .25), cb = A.filtre('bandpass', 900, 1.2), cg = A.gain(0);
+    A.enveloppe(cg.gain, x + .03, .004, .5, .18);
+    A.relier(cr, cb, cg, sortie);
+    o.onended = () => { try { sortie.disconnect(); } catch (e) {} };
   },
   porte(t) {
     SONS.craquement(t, { duree: 700, pan: .3 });
@@ -4125,27 +4233,35 @@ const AMBIANCES = {
     src.forEach(x => x.start(t + Math.random() * .3));
     return arreterTout(src);
   },
-  // Quelqu'un respire, tout près, dans le noir
+  // Quelqu'un respire, tout près, dans le noir (parfois un petit hoquet, la voix qui accroche)
   souffle(t, s) {
-    let actif = true;
-    const respirer = () => {
+    let actif = true, minuterie = null;
+    const p = A.pan(.25);
+    p.connect(s);
+    const suite = () => {
       if (!actif || !MoteurAudio.ctx) return;
       const x = MoteurAudio.ctx.currentTime + .05;
-      [[0, 1.1, 1300, 2100, .9], [1.3, 1.4, 650, 1050, 1.2]].forEach(([d, duree, f1, f2, v]) => {
-        const b = sourceBruit(true), bp = A.filtre('bandpass', f1, .6), g = A.gain(0);
-        bp.frequency.setValueAtTime(f1, x + d);
-        bp.frequency.linearRampToValueAtTime(f2, x + d + duree);
-        g.gain.setValueAtTime(0, x + d);
-        g.gain.linearRampToValueAtTime(v, x + d + duree * .55);
-        g.gain.linearRampToValueAtTime(0, x + d + duree);
-        A.relier(b, bp, g, s);
-        b.start(x + d); b.stop(x + d + duree + .05);
-        A.liberer(b, bp, g);
-      });
+      let fin;
+      if (Math.random() < .15) {
+        // le petit hoquet de gorge, deux ou trois fois
+        fin = x;
+        for (let k = 0, n = 2 + Math.floor(Math.random() * 2); k < n; k++) {
+          haleine(fin, { dedans: true, duree: .16, v: 1.1, dest: p });
+          fin += hasard(.22, .32);
+        }
+        haleine(fin, { dedans: false, duree: 1.2, v: .9, rauque: .8, dest: p });
+        fin += 1.2;
+      } else {
+        const di = hasard(.8, 1.2);
+        haleine(x, { dedans: true, duree: di, v: hasard(.8, 1), tremble: Math.random() < .5 ? hasard(.3, .7) : 0, dest: p });
+        const de = hasard(1.1, 1.6), e = x + di + hasard(.04, .18);
+        haleine(e, { dedans: false, duree: de, v: hasard(.85, 1.05), rauque: hasard(.3, .8), dest: p });
+        fin = e + de;
+      }
+      minuterie = setTimeout(suite, (fin - MoteurAudio.ctx.currentTime + hasard(.5, 1.8)) * 1000);
     };
-    respirer();
-    const iv = setInterval(respirer, 3100);
-    return () => { actif = false; clearInterval(iv); };
+    suite();
+    return () => { actif = false; clearTimeout(minuterie); setTimeout(() => { try { p.disconnect(); } catch (e) {} }, 3000); };
   },
 };
 // Volume relatif de chaque ambiance (pour qu'elles se mélangent bien à 60 %)
@@ -4177,7 +4293,7 @@ const Ambiance = {
       const a = this.actives.get(nom);
       if (a) { a.gain.gain.cancelScheduledValues(t); a.gain.gain.setTargetAtTime(v, t, .7); return; }
       const g = A.gain(0);
-      g.connect(MoteurAudio.busEffets);
+      g.connect(nom === 'souffle' ? MoteurAudio.busSec : MoteurAudio.busEffets);
       let arret;
       try { arret = AMBIANCES[nom](t + .02, g); } catch (e) { console.warn('Ambiance', nom, e); g.disconnect(); return; }
       g.gain.setValueAtTime(0, t);
@@ -4719,7 +4835,11 @@ const Rendu = {
   },
   bloc(b, i, ctx) {
     if (b.type === 'evenement') return `<div class="bloc-evenement" data-i="${i}" aria-hidden="true"></div>`;
-    if (b.type === 'scene') return `<div class="bloc-scene" data-i="${i}" aria-hidden="true"></div>`;
+    if (b.type === 'scene') {
+      if (!b.fenetre) return `<div class="bloc-scene" data-i="${i}" aria-hidden="true"></div>`;
+      const h = Math.round(b.fenetre * 100);
+      return `<div class="bloc-scene fenetre" data-i="${i}" style="height:${h}vh;height:${h}svh" aria-hidden="true"></div>`;
+    }
     let contenu;
     try {
       const f = (ctx.mep.blocs && ctx.mep.blocs[b.type]) || RENDUS[b.type];
@@ -4936,12 +5056,15 @@ const Scenes = {
   maj() {
     if (etat.ecran !== 'histoire' || !etat.histoire) return;
     const h = window.innerHeight, ligne = etat.mep === 'sms' ? 1 : .6;
-    let i = -1;
+    let i = -1, ouverte = false;
     for (const s of this.liste) {
       if (!s.el.isConnected || !s.el.getClientRects().length) continue;
-      if (s.el.getBoundingClientRect().top < h * ligne) i = s.i; else break;
+      const r = s.el.getBoundingClientRect();
+      if (s.el.classList.contains('fenetre') && r.top < h * .55 && r.bottom > h * .45) ouverte = true;
+      if (r.top < h * ligne) i = s.i; else break;
     }
     this.viser(i);
+    Illustration.fenetre(ouverte);
   },
   viser(i) {
     if (i === this.cible) return;
@@ -5043,7 +5166,9 @@ const Lecture = {
           this.declenches.add(ev.i);
           this.dernierEvenement = Date.now();
           // Si le lecteur est déjà loin plus bas, on ne déclenche pas l'effet hors contexte
-          if (ev.el.getBoundingClientRect().top > -window.innerHeight) declencherEvenement(etat.histoire.blocs[ev.i], ev.i);
+          // (un visage qui épie doit arriver à sa place : sinon, rien)
+          const b = etat.histoire.blocs[ev.i], limite = b.effet === 'epier' ? -.35 : -1;
+          if (ev.el.getBoundingClientRect().top > limite * window.innerHeight) declencherEvenement(b, ev.i);
         },
       });
     });
@@ -5405,7 +5530,7 @@ function declencherEvenement(b, i) {
     case 'flash': Effets.flash(duree, intenses); break;
     case 'glitch': Effets.glitch(duree, intenses); break;
     case 'tremblement': Effets.tremblement(duree, intenses); break;
-    case 'epier': Effets.epier(duree, b.cote, b.attaque); break;
+    case 'epier': Effets.epier(duree, b.cote, b.attaque, b.visage); break;
     case 'appel': Effets.appel(b.titre, b.texte, duree); break;
     case 'notification': Effets.notification(b, duree); break;
     default: break;
@@ -5500,17 +5625,19 @@ const VISAGE_EPIEUR = `<svg viewBox="0 0 160 260" aria-hidden="true">
   <path d="M50 52 Q40 104 46 150 Q48 180 42 214 M62 56 Q54 100 60 140 M96 58 Q106 108 100 160 Q98 186 104 222 M110 60 Q122 110 116 150 M78 54 Q74 84 79 100" stroke="#040303" stroke-width="2.4" fill="none" opacity=".92"/>
 </svg>`;
 // Le visage qui épie : celui de l'histoire (décor nommé « epieur ») s'il y en a un, sinon celui du moteur
-function visageEpieur() {
-  const propre = etat.histoire && etat.histoire.fond.decors.epieur ? nettoyerSVG(etat.histoire.fond.decors.epieur) : '';
+function visageEpieur(nom) {
+  const decors = etat.histoire ? etat.histoire.fond.decors : {};
+  const svg = (nom && decors[nom]) || decors.epieur;
+  const propre = svg ? nettoyerSVG(svg) : '';
   return propre || VISAGE_EPIEUR.replace(/-ID/g, `-e${Date.now().toString(36)}`);
 }
 Object.assign(Effets, {
   // Elle sort la tête d'un bord de l'écran, te regarde sans cligner, puis se cache.
   // Si on la touche, elle se cache tout de suite.
-  epier(duree, cote = 'droite', attaque = false) {
+  epier(duree, cote = 'droite', attaque = false, visage = '') {
     const el = document.createElement('div');
     el.className = `epieur epieur-${cote}`;
-    el.innerHTML = visageEpieur();
+    el.innerHTML = visageEpieur(visage);
     if (cote === 'droite' || cote === 'gauche') el.style.top = `${Math.round(hasard(24, 58))}%`;
     else el.style.left = `${Math.round(hasard(18, 62))}%`;
     document.body.appendChild(el);
@@ -5533,7 +5660,7 @@ Object.assign(Effets, {
       if (touchee || !el.isConnected) return;
       if (!Lecture.calme()) { partir(true); return; }   // une vue est ouverte : elle recule plutôt que bondir
       el.remove();
-      this.bondir();
+      this.bondir(visage);
     }, 1000 + approche);
   },
   // Les visages qui épient s'en vont (une vue s'ouvre par-dessus)
@@ -5541,11 +5668,11 @@ Object.assign(Effets, {
     $$('.epieur').forEach(e => { e.classList.add('part', 'vite'); e.classList.remove('visible', 'approche'); setTimeout(() => e.remove(), 400); });
   },
   // Le visage bondit vers le lecteur (adouci si les effets intenses sont coupés)
-  bondir() {
+  bondir(visage = '') {
     const intenses = P().effetsIntenses;
     const s = document.createElement('div');
     s.className = `epieur-saut${intenses ? '' : ' doux'}`;
-    s.innerHTML = visageEpieur();
+    s.innerHTML = visageEpieur(visage);
     document.body.appendChild(s);
     if (intenses) { this.noir(650, ''); this.tremblement(600, true); }
     jouerSon('coup', { nombre: 1 });

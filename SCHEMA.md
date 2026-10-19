@@ -363,7 +363,7 @@ Ordered array. Each block has a `type` and, optionally, a `style` (section 10). 
 | `champs` | `titre` (optional), `champs`: `[{ "nom": "…", "valeur": "…" }]` | Table of official fields (form, record card). |
 | `tampon` | `texte`, `rotation` (-30 to 30, optional) | Ink stamp ("RECEIVED", "FILED", "DO NOT RELEASE"). |
 | `geste` | `texte` (the button), `mode` (`"toucher"` = tap or `"maintenir"` = hold), `duree` (hold: 400 to 6000 ms, default 1600), `son` (optional, played when done), `aide` (optional, small text under the button), **`vue`** (mandatory, see §9b) | **The reader must act**: a button in the style of the story. Everything that follows stays hidden until they tap it (or keep their finger on it: a gauge fills up, letting go too early starts over). Then the **view** opens full screen: you see what the character sees. Only then does the rest appear. In SMS, the conversation waits for the gesture. |
-| `scene` | `decor` (name in `fond.decors`) or `svg`; optional: `opacite`, `effet`, `intensite`, `couleur`, `scintillement`, `vignette`, `teinte`, `teinteOpacite`, `ambiance`, `volume`, `fondu` | Invisible. **The place changes** when the reader gets there (§9a). |
+| `scene` | `decor` (name in `fond.decors`) or `svg`; optional: `opacite`, `effet`, `intensite`, `couleur`, `scintillement`, `vignette`, `teinte`, `teinteOpacite`, `ambiance`, `volume`, `fondu`, `fenetre` | Invisible. **The place changes** when the reader gets there (§9a). |
 
 Examples:
 ```json
@@ -397,6 +397,9 @@ A missing field takes the value of the story's `fond` (**not** the previous scen
 | `ambiance` | string or array (3 at most) | none | Looping sounds: `frigo` (fridge hum), `douche` (running shower water), `gouttes` (drips in the bathtub, with echo), `voiture` (engine and road), `horloge` (clock ticking), `vent` (wind), `climatiseur` (air conditioner), `neon` (neon buzz), `mouches` (flies), `souffle` (someone breathing very close, in the dark), `aucune` (none). |
 | `volume` | 0 to 1 | 0.6 | Volume of the ambient sound. |
 | `fondu` | 0 to 6000 ms | 1800 | Duration of the crossfade to the new decor. **Slow** (3000 or more) so that she appears gently; **`0`** for a hard cut ("she was gone at once"). |
+| `fenetre` | `true` or 0.3 to 1.2 | none | **A window in the text**: an empty gap of that fraction of the screen height (`true` = 0.85) where the decor shows **at full strength** while it scrolls by. Use one at **every change of place** (0.5 to 0.6) and a bigger one when **something happens in the decor** (the creature appears, a reveal: 0.8 to 0.9). Not right after a gesture's view (the reader just saw it), not before the first paragraph. |
+
+**Animated decors.** A decor can act out the text with SVG animations (SMIL: `<animate>`, `<animateTransform>`, `<set>`): she slowly pulls her head back out of the shower, a face slides out from behind a counter, a lid closes, drool runs down the glass, hands tremble, a bag swings. The clock starts **when the decor appears** (the engine resets it), so `begin` times are counted from the scene: put the action a few seconds in, where the reader reaches the sentence. Keep it slow and small, `fill='freeze'` for one-time movements, `repeatCount='indefinite'` for trembling or dripping.
 
 ### 9b. `vue`: what the gesture shows
 
@@ -476,12 +479,14 @@ Example: `{ "type": "paragraphe", "texte": "It's still here.", "style": "centre 
 | `reste` | 0 to 999 | 0 | With `notification`: after the burst, the "and N more" counter climbs by that much more, very fast ("dozens of texts"). |
 | `app` | string | `messages` | With `notification`: `messages` (green bubble) or `telephone` (missed call). |
 | `attaque` | boolean | `false` | With `epier`: the face slowly comes closer during `duree`; if the reader doesn't touch it, it leaps at the screen (a thud, a vibration). |
+| `visage` | string | `epieur` | With `epier`: the name of the face decor in `fond.decors` (e.g. `epieur-beant` for the gaping-mouth version when the text says her mouth hangs open). An `epier` that the reader has already scrolled well past is dropped, never shown late. |
 | `cote` | string | `droite` | With `epier`: `droite` (right), `gauche` (left), `bas` (bottom) or `haut` (top, upside down, as if hanging from the ceiling). |
 
 **Sounds**:
 
 | `son` | Description |
 |---|---|
+| `chute` | Someone falling down a long metal shaft (a garbage chute): bangs and scraping, faster and farther, then a heavy dull impact far below (about 2.5 s). |
 | `coup` | Knocks on wood (door, wall). |
 | `craquement` | A floor or door that creaks. |
 | `chuchotement` | An unintelligible whispered voice moving from left to right. |
