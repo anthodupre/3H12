@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "histoires": [
+    {
+      "date": "2026-10-18",
+      "numero": 1,
+      "titre": "Sept Pâques",
+      "sousGenre": "folklore québécois",
+      "lieu": "Rang Saint-Isidore, Saint-Aurèle-des-Monts (Lanaudière)",
+      "auQuebec": true,
+      "epoque": "1987",
+      "format": "Rapport d’événement de police, avec déclaration de témoin et note au dossier",
+      "miseEnPage": "rapport",
+      "tonique": "D",
+      "gamme": "phrygien",
+      "effetFond": "neige",
+      "palette": {
+        "fond": "#0a0d12",
+        "surface": "#e7e3d6",
+        "texte": "#1f1d1a",
+        "accent": "#a3201c",
+        "secondaire": "#27407a"
+      },
+      "polices": {
+        "titre": "Special Elite",
+        "texte": "Courier Prime",
+        "notes": "Reenie Beanie"
+      },
+      "evenements": 6
+    }
+  ]
+}
