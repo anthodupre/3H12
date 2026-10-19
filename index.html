@@ -1025,6 +1025,60 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
 .epieur.part { transition-duration: .8s; transition-timing-function: ease-in; }
 .epieur.part.vite { transition-duration: .22s; }
 
+/* Elle se rapproche (epier avec attaque), puis bondit */
+.epieur.approche { transition-duration: var(--approche, 2500ms); transition-timing-function: linear; }
+.epieur-droite.approche { transform: translate(18%, -50%) scale(1.45); }
+.epieur-gauche.approche { transform: translate(-18%, -50%) scale(1.45); }
+.epieur-bas.approche { transform: translate(-50%, 22%) scale(1.45); }
+.epieur-haut.approche { transform: translate(-50%, -18%) rotate(180deg) scale(1.45); }
+.epieur-saut {
+  position: fixed; z-index: 38; left: 50%; top: 50%; width: min(118vw, 640px); pointer-events: none;
+  filter: grayscale(.5) contrast(1.25) brightness(.8);
+  animation: epieur-bond .45s cubic-bezier(.2, 1.5, .35, 1) forwards; transition: opacity .4s ease;
+}
+.epieur-saut svg { display: block; width: 100%; height: auto; }
+.epieur-saut.doux { width: min(70vw, 360px); filter: grayscale(.6) brightness(.55); }
+.epieur-saut.fin { opacity: 0; }
+@keyframes epieur-bond { from { transform: translate(-50%, -42%) scale(.25); opacity: 0; } 30% { opacity: 1; } to { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+
+/* Lampe de poche : tout est noir sauf un cercle de lumière qui suit le doigt */
+#lampe {
+  position: fixed; inset: 0; z-index: 15; pointer-events: none; opacity: 0; visibility: hidden;
+  background: rgba(1, 1, 1, .975); transition: opacity .9s ease, visibility .9s;
+  -webkit-mask-image: radial-gradient(circle var(--lr, 108px) at var(--lx, 50%) var(--ly, 42%), transparent 0, transparent 52%, #000 100%);
+  mask-image: radial-gradient(circle var(--lr, 108px) at var(--lx, 50%) var(--ly, 42%), transparent 0, transparent 52%, #000 100%);
+}
+#lampe.actif { opacity: 1; visibility: visible; }
+#lampe-aide {
+  position: fixed; z-index: 16; left: 0; right: 0; bottom: calc(var(--bas) + 46px); margin: 0; pointer-events: none;
+  text-align: center; font: 400 .68rem/1.3 var(--police-ui); letter-spacing: .24em; text-transform: uppercase;
+  color: #9a9389; opacity: 0; transition: opacity .8s ease;
+}
+#lampe-aide.visible { opacity: .75; animation: pouls-horloge 3s ease-in-out infinite; }
+
+/* Appel entrant (comme sur un iPhone) */
+.appel {
+  position: fixed; inset: 0; z-index: 36; display: flex; flex-direction: column; justify-content: space-between; align-items: center;
+  padding: calc(var(--haut) + 70px) 24px calc(var(--bas) + 60px); color: #f2f2f7;
+  background: linear-gradient(#3a3a40, #121214 70%); font-family: system-ui, -apple-system, sans-serif;
+  opacity: 0; transform: translateY(4%); transition: opacity .4s ease, transform .5s cubic-bezier(.2, 1, .3, 1);
+}
+.appel.visible { opacity: 1; transform: none; }
+.appel-haut { text-align: center; }
+.appel-avatar { width: 84px; height: 84px; margin: 0 auto 14px; border-radius: 50%; display: grid; place-items: center; font-size: 2.1rem; font-weight: 500; background: linear-gradient(#8e8e93, #5a5a60); }
+.appel-nom { margin: 0; font-size: 2rem; font-weight: 400; }
+.appel-etat { margin: 6px 0 0; font-size: 1rem; opacity: .65; font-variant-numeric: tabular-nums; }
+.appel-sous { min-height: 1.4em; margin: 0; font-style: italic; opacity: .55; text-align: center; }
+.appel-boutons { display: flex; justify-content: space-between; width: 100%; max-width: 320px; }
+.appel-boutons > div { display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: .85rem; }
+.appel-btn { width: 76px; height: 76px; border-radius: 50%; display: grid; place-items: center; }
+.appel-btn svg { width: 36px; height: 36px; fill: #fff; }
+.appel-btn.refuser { background: #ff3b30; }
+.appel-btn.accepter { background: #34c759; animation: appel-pouls 1.4s ease-in-out infinite; }
+@keyframes appel-pouls { 0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(52, 199, 89, .5); } 50% { transform: scale(1.06); box-shadow: 0 0 0 12px rgba(52, 199, 89, 0); } }
+.appel.en-cours .appel-boutons > div:last-child { visibility: hidden; }
+.appel.termine .appel-boutons { opacity: .3; pointer-events: none; }
+
 /* Notification de téléphone (un texto qui arrive en haut de l'écran) */
 .notif {
   position: fixed; z-index: 35; left: calc(var(--gauche) + 8px); right: calc(var(--droite) + 8px); top: calc(var(--haut) + 8px);
@@ -1421,13 +1475,13 @@ const CONFIG = {
 // Listes des valeurs permises (voir SCHEMA.md)
 const TYPES_BLOCS = ['paragraphe', 'titre', 'dialogue', 'sms', 'note', 'citation', 'pause', 'evenement', 'image', 'signature', 'champs', 'tampon', 'geste'];
 const EFFETS_FOND = ['pluie', 'neige', 'brouillard', 'poussiere', 'braises', 'statique', 'lucioles', 'cendres', 'etoiles', 'bulles', 'aucun'];
-const EFFETS_EVENEMENT = ['glitch', 'noir', 'flash', 'tremblement', 'epier', 'notification', 'aucun'];
+const EFFETS_EVENEMENT = ['glitch', 'noir', 'flash', 'tremblement', 'epier', 'notification', 'appel', 'aucun'];
 const COTES_EPIER = ['droite', 'gauche', 'bas', 'haut'];
 const SONS_EVENEMENT = ['coup', 'craquement', 'chuchotement', 'respiration', 'porte', 'silence', 'pas', 'grattement', 'coeur', 'statique', 'cloche', 'vibration', 'goutte', 'aucun'];
 const TYPES_COUCHES = ['drone', 'pad', 'cloche', 'pulsation', 'bruit', 'boite_a_musique', 'cordes', 'choeur', 'piano'];
 const EVOLUTIONS = ['monte', 'stable', 'descend', 'rupture'];
-const STYLES_BLOC = ['centre', 'droite', 'gros', 'petit', 'agite', 'efface', 'accent', 'majuscules', 'espace', 'lent'];
-const DUREES_EFFETS = { noir: 1600, flash: 700, glitch: 800, tremblement: 900, epier: 2600, notification: 6000, aucun: 0 };
+const STYLES_BLOC = ['centre', 'droite', 'gros', 'petit', 'agite', 'efface', 'accent', 'majuscules', 'espace', 'lent', 'lampe'];
+const DUREES_EFFETS = { noir: 1600, flash: 700, glitch: 800, tremblement: 900, epier: 2600, notification: 6000, appel: 7000, aucun: 0 };
 
 // Gammes musicales : intervalles en demi-tons à partir de la tonique
 const GAMMES = {
@@ -1972,6 +2026,7 @@ function normaliserBloc(b, i, r) {
       n.titre = chaine(b.titre);   // notification : nom de l'expéditeur
       const cote = normCle(b.cote);
       n.cote = COTES_EPIER.includes(cote) ? cote : 'droite';   // epier : bord de l'écran
+      n.attaque = b.attaque === true;   // epier : si on ne la touche pas à temps, elle bondit
       if (n.effet === 'notification' && !texte) r.av(`${ou} : notification sans texte.`);
       if (n.effet === 'aucun' && n.son === 'aucun') r.av(`${ou} : événement sans effet ni son.`);
       break;
@@ -3677,6 +3732,32 @@ function jouerTic() {
   } catch (e) {}
 }
 
+// Sonnerie d'appel (petite mélodie qui revient toutes les 2,2 s). Renvoie une fonction pour l'arrêter.
+function demarrerSonnerie() {
+  let actif = true, minuterie = null;
+  const motif = [1318.5, 987.8, 1318.5, 1661.2, 1318.5, 987.8];
+  const sonner = () => {
+    if (!actif) return;
+    if (MoteurAudio.pret) {
+      try {
+        const t0 = MoteurAudio.ctx.currentTime + .02;
+        const sortie = sortieEffet(0);
+        motif.forEach((f, k) => {
+          const o = A.osc('triangle', f), g = A.gain(0), t = t0 + k * .13;
+          A.enveloppe(g.gain, t, .005, .14, .24);
+          A.relier(o, g, sortie);
+          o.start(t); o.stop(t + .32);
+        });
+        setTimeout(() => { try { sortie.disconnect(); } catch (e) {} }, 1600);
+      } catch (e) {}
+    }
+    if (P().effetsIntenses && navigator.vibrate) { try { navigator.vibrate(350); } catch (e) {} }
+    minuterie = setTimeout(sonner, 2200);
+  };
+  sonner();
+  return () => { actif = false; clearTimeout(minuterie); };
+}
+
 // Clic de clavier très doux (barre de saisie SMS)
 function jouerTouche() {
   if (!MoteurAudio.pret) return;
@@ -4218,6 +4299,57 @@ const etat = {
 };
 
 /* =====================================================================
+   15 ter. LAMPE DE POCHE : les blocs de style « lampe » sont dans le noir
+   Quand un de ces blocs est au milieu de l'écran, tout devient noir sauf un cercle de lumière
+   qui suit le doigt (il reste là où on l'a laissé). La lumière vacille un peu.
+   ===================================================================== */
+const Lampe = {
+  actif: false, x: .5, y: .42, rayon: 108, guide: false,
+  installer() {
+    this.el = document.createElement('div');
+    this.el.id = 'lampe';
+    this.el.setAttribute('aria-hidden', 'true');
+    this.aide = document.createElement('p');
+    this.aide.id = 'lampe-aide';
+    this.aide.setAttribute('aria-hidden', 'true');
+    this.aide.textContent = 'Glisse ton doigt pour éclairer';
+    document.body.append(this.el, this.aide);
+    const suivre = (cx, cy) => {
+      this.x = cx / window.innerWidth;
+      this.y = cy / window.innerHeight;
+      if (this.actif) { this.guide = true; this.aide.classList.remove('visible'); }
+    };
+    window.addEventListener('touchstart', e => { const t = e.touches[0]; if (t) suivre(t.clientX, t.clientY); }, { passive: true });
+    window.addEventListener('touchmove', e => { const t = e.touches[0]; if (t) suivre(t.clientX, t.clientY); }, { passive: true });
+    window.addEventListener('pointermove', e => { if (e.pointerType === 'mouse') suivre(e.clientX, e.clientY); }, { passive: true });
+  },
+  // Appelé au défilement : y a-t-il un bloc « lampe » au milieu de l'écran ?
+  maj() {
+    if (!this.el) return;
+    const h = window.innerHeight;
+    const actif = etat.ecran === 'histoire' && $$('#histoire .st-lampe').some(b => {
+      if (!b.getClientRects().length) return false;
+      const r = b.getBoundingClientRect();
+      return r.bottom > h * .25 && r.top < h * .75;
+    });
+    if (actif === this.actif) return;
+    this.actif = actif;
+    this.el.classList.toggle('actif', actif);
+    this.aide.classList.toggle('visible', actif && !this.guide);
+    if (actif) this.boucle();
+  },
+  boucle() {
+    if (!this.actif) return;
+    const r = this.rayon * (.93 + Math.random() * .12);
+    this.el.style.setProperty('--lx', `${(this.x * 100).toFixed(1)}%`);
+    this.el.style.setProperty('--ly', `${(this.y * 100).toFixed(1)}%`);
+    this.el.style.setProperty('--lr', `${r.toFixed(0)}px`);
+    setTimeout(() => requestAnimationFrame(() => this.boucle()), 70);
+  },
+  eteindre() { this.actif = false; if (this.el) { this.el.classList.remove('actif'); this.aide.classList.remove('visible'); } },
+};
+
+/* =====================================================================
    15 bis. GESTES : le lecteur doit agir pour que l'histoire continue
    Un bloc « geste » est un bouton (« Ouvrir la porte »). Tant qu'il n'est pas fait, tout ce
    qui suit reste caché. Mode « toucher » : un toucher. Mode « maintenir » : garder le doigt
@@ -4551,6 +4683,7 @@ const Lecture = {
     $('#barre-progression').style.transform = `scaleX(${p.toFixed(4)})`;
     if (MoteurAudio.musique) MoteurAudio.musique.progression(p);
     Illustration.maj(y, p);
+    Lampe.maj();
     if (etat.ecran !== 'histoire') return;
     if (etat.mep === 'sms') this.majSMS();
     this.verifierDeclencheurs();
@@ -4688,7 +4821,8 @@ function declencherEvenement(b, i) {
     case 'flash': Effets.flash(duree, intenses); break;
     case 'glitch': Effets.glitch(duree, intenses); break;
     case 'tremblement': Effets.tremblement(duree, intenses); break;
-    case 'epier': Effets.epier(duree, b.cote); break;
+    case 'epier': Effets.epier(duree, b.cote, b.attaque); break;
+    case 'appel': Effets.appel(b.titre, b.texte, duree); break;
     case 'notification': Effets.notification(b.titre, b.texte, duree); break;
     default: break;
   }
@@ -4784,7 +4918,7 @@ const VISAGE_EPIEUR = `<svg viewBox="0 0 160 260" aria-hidden="true">
 Object.assign(Effets, {
   // Elle sort la tête d'un bord de l'écran, te regarde sans cligner, puis se cache.
   // Si on la touche, elle se cache tout de suite.
-  epier(duree, cote = 'droite') {
+  epier(duree, cote = 'droite', attaque = false) {
     const el = document.createElement('div');
     el.className = `epieur epieur-${cote}`;
     el.innerHTML = VISAGE_EPIEUR.replace(/-ID/g, `-e${Date.now().toString(36)}`);
@@ -4798,9 +4932,71 @@ Object.assign(Effets, {
       el.classList.remove('visible');
       setTimeout(() => el.remove(), vite ? 400 : 900);
     };
-    el.addEventListener('pointerdown', e => { e.stopPropagation(); partir(true); });
+    let touchee = false;
+    el.addEventListener('pointerdown', e => { e.stopPropagation(); touchee = true; partir(true); });
     requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('visible')));
-    setTimeout(() => partir(false), 900 + Math.max(800, duree));
+    if (!attaque) { setTimeout(() => partir(false), 900 + Math.max(800, duree)); return; }
+    // Elle attaque : elle se rapproche lentement ; la toucher la fait reculer, sinon elle bondit
+    const approche = Math.max(1600, duree);
+    el.style.setProperty('--approche', `${approche}ms`);
+    setTimeout(() => { if (!touchee) el.classList.add('approche'); }, 1000);
+    setTimeout(() => { if (touchee || !el.isConnected) return; el.remove(); this.bondir(); }, 1000 + approche);
+  },
+  // Le visage bondit vers le lecteur (adouci si les effets intenses sont coupés)
+  bondir() {
+    const intenses = P().effetsIntenses;
+    const s = document.createElement('div');
+    s.className = `epieur-saut${intenses ? '' : ' doux'}`;
+    s.innerHTML = VISAGE_EPIEUR.replace(/-ID/g, `-s${Date.now().toString(36)}`);
+    document.body.appendChild(s);
+    if (intenses) { this.noir(650, ''); this.tremblement(600, true); }
+    jouerSon('coup', { nombre: 1 });
+    if (intenses && navigator.vibrate) { try { navigator.vibrate([60, 40, 120]); } catch (e) {} }
+    setTimeout(() => s.classList.add('fin'), 650);
+    setTimeout(() => s.remove(), 1100);
+  },
+  // Appel entrant (comme sur un iPhone) : Refuser ou Accepter. Accepter : on l'entend respirer.
+  appel(titre, texte, duree) {
+    if ($('.appel')) return;
+    const a = document.createElement('div');
+    a.className = 'appel';
+    a.setAttribute('role', 'dialog');
+    a.innerHTML = `<div class="appel-haut"><div class="appel-avatar" aria-hidden="true">${echapper((Array.from(texteBrut(titre || '?'))[0] || '?').toUpperCase())}</div>
+        <p class="appel-nom">${formater(titre || 'Inconnu')}</p><p class="appel-etat">appel mobile…</p></div>
+      <p class="appel-sous"></p>
+      <div class="appel-boutons">
+        <div><button class="appel-btn refuser" aria-label="Refuser"><svg viewBox="0 0 24 24"><path d="M3 13.5c5-4.6 13-4.6 18 0l-2.3 2.6c-.4.4-1 .5-1.5.2l-2.2-1.3c-.4-.3-.6-.8-.5-1.3l.3-1.4c-2-.7-4.4-.7-6.4 0l.3 1.4c.1.5-.1 1-.5 1.3l-2.2 1.3c-.5.3-1.1.2-1.5-.2z"/></svg></button><span>Refuser</span></div>
+        <div><button class="appel-btn accepter" aria-label="Accepter"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg></button><span>Accepter</span></div>
+      </div>`;
+    document.body.appendChild(a);
+    requestAnimationFrame(() => requestAnimationFrame(() => a.classList.add('visible')));
+    const arreterSonnerie = demarrerSonnerie();
+    const etatEl = $('.appel-etat', a);
+    let fini = false, chrono = null;
+    const fermer = (message, delai = 1100) => {
+      if (fini) return;
+      fini = true;
+      arreterSonnerie();
+      clearInterval(chrono);
+      etatEl.textContent = message;
+      a.classList.add('termine');
+      setTimeout(() => { a.classList.remove('visible'); setTimeout(() => a.remove(), 500); }, delai);
+    };
+    $('.refuser', a).addEventListener('click', e => { e.stopPropagation(); fermer('Appel refusé', 500); });
+    $('.accepter', a).addEventListener('click', e => {
+      e.stopPropagation();
+      if (a.classList.contains('en-cours')) return;
+      arreterSonnerie();
+      a.classList.add('en-cours');
+      const debut = Date.now();
+      const deux = n => String(n).padStart(2, '0');
+      etatEl.textContent = '00:00';
+      chrono = setInterval(() => { const s = Math.floor((Date.now() - debut) / 1000); etatEl.textContent = `${deux(Math.floor(s / 60))}:${deux(s % 60)}`; }, 250);
+      if (texte) setTimeout(() => { $('.appel-sous', a).innerHTML = formater(texte); }, 1800);
+      setTimeout(() => jouerSon('respiration', { duree: Math.max(3000, duree - 1500) }), 700);
+      setTimeout(() => fermer('Appel terminé'), Math.max(4000, duree));
+    });
+    setTimeout(() => { if (!a.classList.contains('en-cours')) fermer('Appel manqué'); }, 15000);
   },
   // Fausse notification de téléphone, en haut de l'écran (un texto qui arrive)
   notification(titre, texte, duree) {
@@ -5044,6 +5240,7 @@ function remplirEntree(h, message) {
   Halloween.maj();
 }
 function afficherEntree() {
+  Lampe.eteindre();
   const e = $('#ecran-entree');
   e.classList.remove('cache');
   requestAnimationFrame(() => e.classList.remove('sortie'));
@@ -5523,6 +5720,7 @@ async function verifierNouvelleHistoire() {
    ===================================================================== */
 function installerEcouteurs() {
   Gestes.installer();
+  Lampe.installer();
   // Le premier toucher, n'importe où, débloque l'audio sur iOS
   const debloquer = () => MoteurAudio.debloquer();
   ['touchend', 'click', 'keydown'].forEach(t => document.addEventListener(t, debloquer, { passive: true }));

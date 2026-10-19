@@ -133,6 +133,9 @@ Chaque histoire **doit** finir sur un retournement majeur qui **change le sens d
   - **2 à 5 gestes** (bloc `geste`, SCHEMA.md §9) aux moments où le personnage hésite : « Ouvrir la porte », « Regarder sous le lit », « Se retourner », « Ouvrir la photo ». Le texte qui suit reste caché tant que le lecteur n'a pas agi. `"mode": "maintenir"` (garder le doigt appuyé, 1,5 à 2,5 s) pour les gestes qu'on redoute ; `"toucher"` pour les autres. Le geste se place **juste avant** la révélation.
   - **`epier`** (un visage sort d'un bord de l'écran, `cote` : droite, gauche, bas, haut) : 1 à 3 fois, quand le texte parle d'être regardé ou juste après une phrase inquiétante. Le dernier peut être tout à la fin.
   - **`notification`** (un faux texto arrive en haut de l'écran, avec `titre` et `texte`) : quand un message arrive dans l'histoire.
+  - **`appel`** (le téléphone du lecteur sonne, plein écran, `titre` = qui appelle ; Refuser ou Accepter, et si on accepte, on entend respirer) : quand quelqu'un appelle dans l'histoire. Une fois par histoire au plus.
+  - **`epier` avec `"attaque": true`** : le visage se rapproche lentement ; si le lecteur ne le touche pas à temps, il bondit sur l'écran. Pas avant le milieu de l'histoire (le premier `epier` doit être inoffensif, pour apprendre), 1 à 3 fois, dont souvent le dernier tout à la fin.
+  - **La lampe de poche** (style `lampe` sur 2 à 8 blocs de suite) : quand ces blocs passent au milieu de l'écran, tout devient noir sauf un cercle de lumière qui suit le doigt. Pour les scènes dans le noir (une cave, une maison aux rideaux fermés, une nuit sans lune, le moment où le personnage se retourne). 1 à 3 passages par histoire.
 - Rappel des interdits : violence sexuelle, torture détaillée, gore gratuit, enfants blessés explicitement, personnes réelles (pas de vraies personnes, pas de vrais crimes, pas de noms d'entreprises existantes dans un rôle négatif), contenu haineux. Les animaux peuvent mourir hors champ, sans détails.
 - **Le 31 octobre** : l'histoire de l'Halloween est l'événement de l'année (l'app affiche un décompte). La plus ambitieuse et la plus terrifiante du mois : proche de 1600 mots, 5 ou 6 événements, le retournement le plus fort.
 - Relis-toi : orthographe, typographie française (espaces avant `: ; ? !`, guillemets « », apostrophes ’), cohérence des heures et des noms.
@@ -227,13 +230,13 @@ E = erreurs.append
 W = avert.append
 MEPS = ['manuscrit', 'journal_intime', 'rapport', 'sms', 'transcription', 'forum', 'lettre', 'recit', 'terminal', 'coupure']
 EFFETS_FOND = ['pluie', 'neige', 'brouillard', 'poussiere', 'braises', 'statique', 'lucioles', 'cendres', 'etoiles', 'bulles', 'aucun']
-EFFETS_EV = ['glitch', 'noir', 'flash', 'tremblement', 'epier', 'notification', 'aucun']
+EFFETS_EV = ['glitch', 'noir', 'flash', 'tremblement', 'epier', 'notification', 'appel', 'aucun']
 SONS = ['coup', 'craquement', 'chuchotement', 'respiration', 'porte', 'silence', 'pas', 'grattement', 'coeur', 'statique', 'cloche', 'vibration', 'goutte', 'aucun']
 COUCHES = ['drone', 'pad', 'cloche', 'pulsation', 'bruit', 'boite_a_musique', 'cordes', 'choeur', 'piano']
 GAMMES = ['mineur', 'phrygien', 'locrien', 'chromatique', 'pentatonique_mineure', 'ton_par_ton', 'harmonique_mineure', 'dorien', 'diminuee', 'hongroise_mineure', 'phrygien_dominant', 'lydien', 'majeur']
 EVOL = ['monte', 'stable', 'descend', 'rupture']
 TYPES = ['paragraphe', 'titre', 'dialogue', 'sms', 'note', 'citation', 'pause', 'evenement', 'image', 'signature', 'champs', 'tampon', 'geste']
-STYLES = ['centre', 'droite', 'gros', 'petit', 'agite', 'efface', 'accent', 'majuscules', 'espace', 'lent']
+STYLES = ['centre', 'droite', 'gros', 'petit', 'agite', 'efface', 'accent', 'majuscules', 'espace', 'lent', 'lampe']
 ONDES = ['sine', 'triangle', 'sawtooth', 'square']
 def hexok(c): return isinstance(c, str) and re.fullmatch(r'#[0-9a-fA-F]{6}', c) is not None
 def lum(c):
@@ -377,6 +380,8 @@ for i, b in enumerate(blocs):
         if 'nombre' in b and not num(b['nombre'], 1, 12): E(f'{ou} : nombre entre 1 et 12')
         if b.get('effet') == 'notification' and not (isinstance(b.get('texte'), str) and b['texte'].strip()): E(f'{ou} : notification sans texte')
         if b.get('effet') == 'epier' and b.get('cote', 'droite') not in ['droite', 'gauche', 'bas', 'haut']: E(f'{ou} : cote = droite, gauche, bas ou haut')
+        if 'attaque' in b and not isinstance(b['attaque'], bool): E(f'{ou} : attaque = true ou false')
+        if b.get('effet') == 'appel' and not (isinstance(b.get('titre'), str) and b['titre'].strip()): E(f'{ou} : appel sans titre (le nom de qui appelle)')
 mots += len(brut(h.get('phraseFinale', '')).split())
 if not 3 <= nb_ev <= (14 if trad else 8): E(f'{nb_ev} événements (il en faut 3 à {14 if trad else 8})')
 if nb_gestes < 2: E(f'{nb_gestes} geste(s) : il en faut au moins 2 (interactivité)')

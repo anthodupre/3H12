@@ -382,6 +382,7 @@ Optionnel, sur n'importe quel bloc : une chaîne de mots séparés par des espac
 | `majuscules` | En majuscules espacées. |
 | `espace` | Grand espace avant le bloc (pour isoler une phrase). |
 | `lent` | Apparition très lente (2,8 s). |
+| `lampe` | **Lampe de poche** : quand le bloc passe au milieu de l'écran, tout devient noir sauf un cercle de lumière qui suit le doigt du lecteur. À mettre sur plusieurs blocs de suite (une scène dans le noir). |
 
 Exemple : `{ "type": "paragraphe", "texte": "Il est encore là.", "style": "centre gros lent" }`
 
@@ -417,12 +418,13 @@ Bloc `evenement` : invisible, il se déclenche **une seule fois** quand il passe
 
 | Clé | Type | Défaut | Description |
 |---|---|---|---|
-| `effet` | chaîne | `aucun` | Effet visuel : `glitch` (écran qui se brouille, couleurs décalées), `noir` (écran noir complet), `flash` (éclair blanc), `tremblement` (l'écran tremble), `epier` (un visage pâle sort d'un bord de l'écran, regarde le lecteur sans cligner, puis se cache ; le toucher le fait fuir), `notification` (un faux texto arrive en haut de l'écran, comme sur un iPhone ; le toucher le ferme), `aucun`. |
+| `effet` | chaîne | `aucun` | Effet visuel : `glitch` (écran qui se brouille, couleurs décalées), `noir` (écran noir complet), `flash` (éclair blanc), `tremblement` (l'écran tremble), `epier` (un visage pâle sort d'un bord de l'écran, regarde le lecteur sans cligner, puis se cache ; le toucher le fait fuir), `notification` (un faux texto arrive en haut de l'écran, comme sur un iPhone ; le toucher le ferme), `appel` (appel entrant plein écran avec sonnerie : Refuser ou Accepter ; si on accepte, on entend respirer, puis « Appel terminé »), `aucun`. |
 | `son` | chaîne | `aucun` | Son synthétisé (liste ci-dessous). |
 | `duree` | millisecondes | noir 1600, flash 700, glitch 800, tremblement 900, epier 2600, notification 6000 | Durée de l'effet **et** du son (pour les sons qui ont une durée). |
 | `nombre` | 1 à 12 | selon le son | Répétitions pour `coup` (3), `pas` (5), `coeur` (5), `vibration` (2), `goutte` (3). |
-| `texte` | chaîne | — | Avec `noir` : texte affiché sur l'écran noir. Avec `notification` : le message (obligatoire). Balisage permis. |
-| `titre` | chaîne | — | Avec `notification` : l'expéditeur (« Lynn », « Numéro inconnu »). |
+| `texte` | chaîne | — | Avec `noir` : texte affiché sur l'écran noir. Avec `notification` : le message (obligatoire). Avec `appel` : une ligne affichée pendant l'appel, si on accepte (« [respiration] »). Balisage permis. |
+| `titre` | chaîne | — | Avec `notification` : l'expéditeur (« Lynn », « Numéro inconnu »). Avec `appel` : qui appelle (obligatoire). |
+| `attaque` | booléen | `false` | Avec `epier` : le visage se rapproche lentement pendant `duree` ; si le lecteur ne le touche pas, il bondit sur l'écran (un coup, une vibration). |
 | `cote` | chaîne | `droite` | Avec `epier` : `droite`, `gauche`, `bas` ou `haut` (à l'envers, comme pendue au plafond). |
 
 **Sons** :
