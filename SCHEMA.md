@@ -349,6 +349,7 @@ Tableau ordonné. Chaque bloc a un `type` et, optionnellement, un `style` (secti
 | `signature` | `texte` | Signature manuscrite alignée à droite. |
 | `champs` | `titre` (optionnel), `champs` : `[{ "nom": "…", "valeur": "…" }]` | Tableau de champs officiels (formulaire, fiche). |
 | `tampon` | `texte`, `rotation` (-30 à 30, optionnel) | Tampon encré (« REÇU », « CLASSÉ », « NE PAS DIFFUSER »). |
+| `geste` | `texte` (le bouton), `mode` (`"toucher"` ou `"maintenir"`), `duree` (maintenir : 400 à 6000 ms, défaut 1600), `son` (optionnel, joué quand c'est fait), `aide` (optionnel, petit texte sous le bouton) | **Le lecteur doit agir** : un bouton dans le style de l'histoire. Tout ce qui suit reste caché tant qu'il n'a pas touché (ou gardé le doigt appuyé : une jauge se remplit, lâcher trop tôt recommence). En SMS, la conversation attend le geste. |
 
 Exemples :
 ```json
@@ -361,7 +362,8 @@ Exemples :
 { "type": "champs", "titre": "Personne disparue", "champs": [{ "nom": "Nom", "valeur": "LAFOND, Gérard" }, { "nom": "Âge", "valeur": "52 ans" }] },
 { "type": "tampon", "texte": "Classé", "rotation": -8 },
 { "type": "pause" },
-{ "type": "image", "legende": "Annexe A — plan du sous-sol.", "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 200'>…</svg>" }
+{ "type": "image", "legende": "Annexe A — plan du sous-sol.", "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 200'>…</svg>" },
+{ "type": "geste", "texte": "Ouvrir la porte", "mode": "maintenir", "duree": 2000, "son": "craquement" }
 ```
 
 ---
@@ -415,11 +417,13 @@ Bloc `evenement` : invisible, il se déclenche **une seule fois** quand il passe
 
 | Clé | Type | Défaut | Description |
 |---|---|---|---|
-| `effet` | chaîne | `aucun` | Effet visuel : `glitch` (écran qui se brouille, couleurs décalées), `noir` (écran noir complet), `flash` (éclair blanc), `tremblement` (l'écran tremble), `aucun`. |
+| `effet` | chaîne | `aucun` | Effet visuel : `glitch` (écran qui se brouille, couleurs décalées), `noir` (écran noir complet), `flash` (éclair blanc), `tremblement` (l'écran tremble), `epier` (un visage pâle sort d'un bord de l'écran, regarde le lecteur sans cligner, puis se cache ; le toucher le fait fuir), `notification` (un faux texto arrive en haut de l'écran, comme sur un iPhone ; le toucher le ferme), `aucun`. |
 | `son` | chaîne | `aucun` | Son synthétisé (liste ci-dessous). |
-| `duree` | millisecondes | noir 1600, flash 700, glitch 800, tremblement 900 | Durée de l'effet **et** du son (pour les sons qui ont une durée). |
+| `duree` | millisecondes | noir 1600, flash 700, glitch 800, tremblement 900, epier 2600, notification 6000 | Durée de l'effet **et** du son (pour les sons qui ont une durée). |
 | `nombre` | 1 à 12 | selon le son | Répétitions pour `coup` (3), `pas` (5), `coeur` (5), `vibration` (2), `goutte` (3). |
-| `texte` | chaîne | — | Avec `noir` : texte affiché sur l'écran noir (balisage permis). |
+| `texte` | chaîne | — | Avec `noir` : texte affiché sur l'écran noir. Avec `notification` : le message (obligatoire). Balisage permis. |
+| `titre` | chaîne | — | Avec `notification` : l'expéditeur (« Lynn », « Numéro inconnu »). |
+| `cote` | chaîne | `droite` | Avec `epier` : `droite`, `gauche`, `bas` ou `haut` (à l'envers, comme pendue au plafond). |
 
 **Sons** :
 
@@ -440,7 +444,7 @@ Bloc `evenement` : invisible, il se déclenche **une seule fois** quand il passe
 | `goutte` | Gouttes d'eau qui tombent, avec écho. |
 | `aucun` | Pas de son. |
 
-Règles : **3 à 6 événements par histoire**, aux moments clés. Pas de jumpscare gratuit : un événement doit prolonger ce que le texte vient de dire. `flash` et `tremblement` deviennent très doux si l'utilisateur a désactivé les effets intenses.
+Règles : **3 à 8 événements par histoire** (14 pour une traduction), aux moments clés, et **2 à 5 gestes**. Pas de jumpscare gratuit : un événement doit prolonger ce que le texte vient de dire. `flash` et `tremblement` deviennent très doux si l'utilisateur a désactivé les effets intenses.
 
 ---
 

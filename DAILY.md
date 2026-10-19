@@ -122,25 +122,29 @@ Chaque histoire **doit** finir sur un retournement majeur qui **change le sens d
 
 ### Forme et règles d'écriture
 
-- **En français.** Si l'histoire se passe au Québec, les dialogues sont en **québécois naturel** (« y'est pas là », « pantoute », « c'te nuit-là », « m'as aller voir », « icitte », « astheure », « pis »), la narration reste en bon français. Sans caricature ni accumulation de sacres.
+- **En français simple, facile à lire, compréhensible au Québec.** Des mots de tous les jours et des phrases claires : les meilleurs textes se lisent sans effort. **Pas de québécois écrit** (pas de joual, pas de phonétique) et **pas d'argot de France** (« foutre », « trouille », « chiant », « mec »…). Évite les mots rares ou littéraires (« épier », « détaler », « glauque », « rictus », « embrasure »…) : préfère « regarder en cachette », « partir en courant », « inquiétant », « grimace », « cadre de porte ». Les mots courants au Québec et compris partout sont les bienvenus (chandail, dîner pour le repas du midi, garde-robe).
 - **900 à 1600 mots** au total (5 à 8 minutes de lecture). Compte réel vérifié à l'étape 7.
 - **Tension lente qui monte.** Commencer dans le banal et le précis (dates, heures, objets, gestes). La peur vient de l'**ambiance**, des **détails qui clochent** (une habitude brisée, un chiffre qui ne colle pas, un son au mauvais endroit) et de **ce qui n'est pas dit**. Montrer peu le monstre.
 - **La `phraseFinale`** est affichée seule, en très grand, après l'histoire : elle doit frapper (courte, 5 à 20 mots), sans répéter le dernier bloc. C'est le dernier coup de couteau.
 - **Utiliser le format pour vrai.** Un rapport a des sections, un ton administratif, des champs, des tampons, des passages caviardés, des annotations de supérieur. Des SMS ont des heures, des fautes de frappe, des « Vu », des silences. Un forum a des pseudos, des signatures, des modérateurs, des messages espacés dans le temps. Une transcription a des horodatages, des `[inaudible]`, des chevauchements. Un journal intime a des dates en tête de section et une écriture qui se dégrade.
 - **Effets de texte avec parcimonie** (SCHEMA.md §11) : `##chuchoté##`, `||caviardé||` (jamais pour une information indispensable), `%%glitch%%` (plutôt en technologique), `^^lent^^` (une phrase clé), `__accent__`, `~~rature~~`, `[annotation]`. Styles de bloc (`gros`, `agite`, `espace`, `lent`…) pour un ou deux moments forts.
-- **3 à 6 événements** (`evenement`) aux moments clés, placés **juste après** la phrase qui les justifie (un coup frappé juste après « ça a cogné », un `silence` sur l'instant de bascule, un `noir` avec un court `texte` avant la fin). Pas de jumpscare gratuit.
+- **3 à 8 événements** (`evenement`) aux moments clés, placés **juste après** la phrase qui les justifie (un coup frappé juste après « ça a cogné », un `silence` sur l'instant de bascule, un `noir` avec un court `texte` avant la fin). Pas de jumpscare gratuit.
+- **Interactivité (obligatoire)** : le lecteur doit vivre l'histoire, pas seulement la lire.
+  - **2 à 5 gestes** (bloc `geste`, SCHEMA.md §9) aux moments où le personnage hésite : « Ouvrir la porte », « Regarder sous le lit », « Se retourner », « Ouvrir la photo ». Le texte qui suit reste caché tant que le lecteur n'a pas agi. `"mode": "maintenir"` (garder le doigt appuyé, 1,5 à 2,5 s) pour les gestes qu'on redoute ; `"toucher"` pour les autres. Le geste se place **juste avant** la révélation.
+  - **`epier`** (un visage sort d'un bord de l'écran, `cote` : droite, gauche, bas, haut) : 1 à 3 fois, quand le texte parle d'être regardé ou juste après une phrase inquiétante. Le dernier peut être tout à la fin.
+  - **`notification`** (un faux texto arrive en haut de l'écran, avec `titre` et `texte`) : quand un message arrive dans l'histoire.
 - Rappel des interdits : violence sexuelle, torture détaillée, gore gratuit, enfants blessés explicitement, personnes réelles (pas de vraies personnes, pas de vrais crimes, pas de noms d'entreprises existantes dans un rôle négatif), contenu haineux. Les animaux peuvent mourir hors champ, sans détails.
 - **Le 31 octobre** : l'histoire de l'Halloween est l'événement de l'année (l'app affiche un décompte). La plus ambitieuse et la plus terrifiante du mois : proche de 1600 mots, 5 ou 6 événements, le retournement le plus fort.
 - Relis-toi : orthographe, typographie française (espaces avant `: ; ? !`, guillemets « », apostrophes ’), cohérence des heures et des noms.
 
 ## Étape 4 bis — Traduire une histoire choisie par la personne
 
-- **Traduction fidèle et soignée** en français : tout le texte, sans rien couper ni ajouter, dans le même ordre ; le ton et le registre de l'original (un témoignage familier reste familier ; les jurons restent des jurons, en français naturel). Garde les noms, les lieux et les références (marques, films). Typographie française.
+- **Traduction fidèle et soignée**, en français simple (voir « Forme et règles d'écriture ») : tout le texte, sans rien couper ni ajouter, dans le même ordre ; le ton de l'original (un témoignage familier reste familier, avec des mots simples ; jurons légers et neutres : « merde », « mon Dieu »). Garde les noms, les lieux et les références (marques, films). Typographie française.
 - **Aucun crédit** : ni auteur, ni site d'origine, ni lien, nulle part (la personne a l'accord de l'auteur).
 - Champ racine `"origine": "traduction"` (et la même chose dans l'entrée de l'index). La longueur reste celle de l'original : pas de cible de 900 à 1600 mots.
 - Le titre : la traduction du titre d'origine, en 1 à 5 mots ; le titre complet peut aller dans `sousTitre`.
 - **Un bloc par paragraphe** de l'original. Les textos cités deviennent des blocs `sms` (`"de": "eux"`). Quelques `pause` aux grandes coupures de l'histoire (2 à 4).
-- **3 à 10 événements**, placés juste après la phrase qui les justifie (un bruit, une porte, un silence, un téléphone qui vibre).
+- **3 à 14 événements**, placés juste après la phrase qui les justifie (un bruit, une porte, un silence, un visage qui épie, un texto qui arrive en notification), et **2 à 5 gestes** aux moments où le personnage hésite (voir « Interactivité »).
 - `retournement` : décris en quelques mots la chute de l'original.
 - Habillage complet comme d'habitude (étape 5) : mise en page qui sert le texte (`recit` pour un long témoignage), palette, polices, fond, illustration originale, musique.
 - `phraseFinale` : la toute dernière phrase de l'original (retirée du dernier bloc pour ne pas la répéter).
@@ -223,12 +227,12 @@ E = erreurs.append
 W = avert.append
 MEPS = ['manuscrit', 'journal_intime', 'rapport', 'sms', 'transcription', 'forum', 'lettre', 'recit', 'terminal', 'coupure']
 EFFETS_FOND = ['pluie', 'neige', 'brouillard', 'poussiere', 'braises', 'statique', 'lucioles', 'cendres', 'etoiles', 'bulles', 'aucun']
-EFFETS_EV = ['glitch', 'noir', 'flash', 'tremblement', 'aucun']
+EFFETS_EV = ['glitch', 'noir', 'flash', 'tremblement', 'epier', 'notification', 'aucun']
 SONS = ['coup', 'craquement', 'chuchotement', 'respiration', 'porte', 'silence', 'pas', 'grattement', 'coeur', 'statique', 'cloche', 'vibration', 'goutte', 'aucun']
 COUCHES = ['drone', 'pad', 'cloche', 'pulsation', 'bruit', 'boite_a_musique', 'cordes', 'choeur', 'piano']
 GAMMES = ['mineur', 'phrygien', 'locrien', 'chromatique', 'pentatonique_mineure', 'ton_par_ton', 'harmonique_mineure', 'dorien', 'diminuee', 'hongroise_mineure', 'phrygien_dominant', 'lydien', 'majeur']
 EVOL = ['monte', 'stable', 'descend', 'rupture']
-TYPES = ['paragraphe', 'titre', 'dialogue', 'sms', 'note', 'citation', 'pause', 'evenement', 'image', 'signature', 'champs', 'tampon']
+TYPES = ['paragraphe', 'titre', 'dialogue', 'sms', 'note', 'citation', 'pause', 'evenement', 'image', 'signature', 'champs', 'tampon', 'geste']
 STYLES = ['centre', 'droite', 'gros', 'petit', 'agite', 'efface', 'accent', 'majuscules', 'espace', 'lent']
 ONDES = ['sine', 'triangle', 'sawtooth', 'square']
 def hexok(c): return isinstance(c, str) and re.fullmatch(r'#[0-9a-fA-F]{6}', c) is not None
@@ -333,7 +337,7 @@ else:
         for k in ['volume', 'densite', 'seuil']:
             if k in c and not num(c[k], 0, 1): E(f'{ou}.{k} entre 0 et 1')
 blocs = h.get('blocs')
-mots, nb_ev = 0, 0
+mots, nb_ev, nb_gestes = 0, 0, 0
 if not isinstance(blocs, list) or not blocs: E('blocs manquant ou vide'); blocs = []
 for i, b in enumerate(blocs):
     ou = f'blocs[{i}]'
@@ -347,7 +351,13 @@ for i, b in enumerate(blocs):
     for k in ['texte', 'legende', 'source', 'personnage', 'signature']:
         verifier_balisage(b.get(k), f'{ou}.{k}')
         if isinstance(b.get(k), str) and k in ['texte', 'legende', 'source']: mots += len(brut(b[k]).split())
-    if t in ['paragraphe', 'titre', 'note', 'signature', 'citation', 'dialogue', 'sms'] and not (isinstance(b.get('texte'), str) and b['texte'].strip()):
+    if t == 'geste':
+        nb_gestes += 1
+        if b.get('mode', 'toucher') not in ['toucher', 'maintenir']: E(f'{ou} (geste) : mode "toucher" ou "maintenir"')
+        if 'duree' in b and not num(b['duree'], 400, 6000): E(f'{ou} (geste) : duree entre 400 et 6000 ms')
+        if b.get('son', 'aucun') not in SONS: E(f'{ou} (geste) : son invalide')
+        mots -= len(brut(b.get('texte', '')).split())  # le libellé du bouton ne compte pas comme du texte
+    if t in ['paragraphe', 'titre', 'note', 'signature', 'citation', 'dialogue', 'sms', 'geste'] and not (isinstance(b.get('texte'), str) and b['texte'].strip()):
         E(f'{ou} ({t}) : texte manquant')
     if t == 'dialogue' and not b.get('personnage'): W(f'{ou} (dialogue) : personnage manquant')
     if t == 'sms' and b.get('de') not in ['moi', 'eux']: E(f'{ou} (sms) : de doit être "moi" ou "eux"')
@@ -365,8 +375,12 @@ for i, b in enumerate(blocs):
         if b.get('effet', 'aucun') == 'aucun' and b.get('son', 'aucun') == 'aucun': E(f'{ou} : événement sans effet ni son')
         if 'duree' in b and not num(b['duree'], 100, 15000): E(f'{ou} : duree en millisecondes (100 à 15000)')
         if 'nombre' in b and not num(b['nombre'], 1, 12): E(f'{ou} : nombre entre 1 et 12')
+        if b.get('effet') == 'notification' and not (isinstance(b.get('texte'), str) and b['texte'].strip()): E(f'{ou} : notification sans texte')
+        if b.get('effet') == 'epier' and b.get('cote', 'droite') not in ['droite', 'gauche', 'bas', 'haut']: E(f'{ou} : cote = droite, gauche, bas ou haut')
 mots += len(brut(h.get('phraseFinale', '')).split())
-if not 3 <= nb_ev <= (10 if trad else 6): E(f'{nb_ev} événements (il en faut 3 à {10 if trad else 6})')
+if not 3 <= nb_ev <= (14 if trad else 8): E(f'{nb_ev} événements (il en faut 3 à {14 if trad else 8})')
+if nb_gestes < 2: E(f'{nb_gestes} geste(s) : il en faut au moins 2 (interactivité)')
+elif nb_gestes > 6: W(f'{nb_gestes} gestes : c’est beaucoup (2 à 5 conseillés)')
 if trad:
     if mots < 300: E(f'{mots} mots : traduction incomplète ?')
 elif mots < 850 or mots > 1700: E(f'{mots} mots (il en faut 900 à 1600)')
@@ -461,6 +475,7 @@ for b in blocs:
     elif ty == 'signature': print(f"— {t(b['texte'])}\n")
     elif ty == 'champs': print('\n'.join(f"- {t(c.get('nom'))} : {t(c.get('valeur'))}" for c in b['champs']) + '\n')
     elif ty == 'tampon': print(f"[TAMPON : {t(b['texte'])}]\n")
+    elif ty == 'geste': print(f"👆 **[{t(b['texte'])}]** ({'maintenir' if b.get('mode') == 'maintenir' else 'toucher'})\n")
 print(f"---\n\n**Phrase finale :** {t(h['phraseFinale'])}")
 APERCU
 ```
@@ -485,7 +500,8 @@ Ta **réponse finale** (le message que la personne lira) contient, dans cet ordr
 - [ ] Aucune histoire après le 31 octobre 2026.
 - [ ] Consignes de la personne (courrier de 18 h, retouches) appliquées si elles visaient cette histoire.
 - [ ] Le format est utilisé pour vrai (le document ressemble au document).
-- [ ] 3 à 6 événements, bien placés ; effets de texte avec parcimonie.
+- [ ] 3 à 8 événements (14 pour une traduction), bien placés ; 2 à 5 gestes ; `epier` et `notification` quand ils servent ; effets de texte avec parcimonie.
+- [ ] Français simple et facile à lire, compréhensible au Québec, sans québécois écrit ni argot de France.
 - [ ] Mise en page différente de l'histoire précédente ; sous-genre, lieu, palette et musique variés.
 - [ ] Contraste texte/surface ≥ 7 ; polices de la liste vérifiée.
 - [ ] Illustration SVG originale, avec un détail inquiétant discret.
