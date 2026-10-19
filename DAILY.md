@@ -130,12 +130,12 @@ Chaque histoire **doit** finir sur un retournement majeur qui **change le sens d
 - **Effets de texte avec parcimonie** (SCHEMA.md §11) : `##chuchoté##`, `||caviardé||` (jamais pour une information indispensable), `%%glitch%%` (plutôt en technologique), `^^lent^^` (une phrase clé), `__accent__`, `~~rature~~`, `[annotation]`. Styles de bloc (`gros`, `agite`, `espace`, `lent`…) pour un ou deux moments forts.
 - **3 à 8 événements** (`evenement`) aux moments clés, placés **juste après** la phrase qui les justifie (un coup frappé juste après « ça a cogné », un `silence` sur l'instant de bascule, un `noir` avec un court `texte` avant la fin). Pas de jumpscare gratuit.
 - **Interactivité (obligatoire)** : le lecteur doit vivre l'histoire, pas seulement la lire.
-  - **2 à 5 gestes** (bloc `geste`, SCHEMA.md §9) aux moments où le personnage hésite : « Ouvrir la porte », « Regarder sous le lit », « Se retourner », « Ouvrir la photo ». Le texte qui suit reste caché tant que le lecteur n'a pas agi. `"mode": "maintenir"` (garder le doigt appuyé, 1,5 à 2,5 s) pour les gestes qu'on redoute ; `"toucher"` pour les autres. Le geste se place **juste avant** la révélation.
+  - **L'environnement suit l'histoire** (blocs `scene`, SCHEMA.md §9 bis) : **chaque fois que le lieu change** (cuisine, douche, voiture, motel…), une scène change le décor (illustration en fondu), la teinte, le fond animé et l'**ambiance sonore en boucle** (`frigo`, `douche`, `gouttes`, `voiture`, `horloge`, `vent`, `climatiseur`, `neon`, `mouches`, `souffle`). Et quand la créature apparaît dans le lieu, une **variante du décor où on la voit** (fondu lent pour qu'elle apparaisse doucement ; `"fondu": 0` pour qu'elle disparaisse d'un coup). 4 à 20 scènes par histoire. Les décors sont dessinés une fois dans `fond.decors` et nommés.
+  - **2 à 5 gestes** (bloc `geste`, SCHEMA.md §9) aux moments où le personnage hésite : « Regarder sous la porte », « Tourner la tête », « Ouvrir la garde-robe », « Se retourner », « Ouvrir la photo ». **Un geste doit toujours MONTRER quelque chose** : chaque geste a une `vue` (une image plein écran de ce que le personnage voit, avec une entrée `baisser`, `tourner`, `ouvrir`, `zoom`, `photo` ou `fondu`, et un son). Un bouton qui ne fait que laisser continuer la lecture ne sert à rien : pas de geste sans `vue`. `"mode": "maintenir"` (garder le doigt appuyé, 1,5 à 2,5 s) pour les gestes qu'on redoute ; `"toucher"` pour les autres. Le geste se place **juste avant** la révélation ; le texte qui suit raconte ce que la vue vient de montrer.
   - **`epier`** (un visage sort d'un bord de l'écran, `cote` : droite, gauche, bas, haut) : 1 à 3 fois, quand le texte parle d'être regardé ou juste après une phrase inquiétante. Le dernier peut être tout à la fin.
-  - **`notification`** (un faux texto arrive en haut de l'écran, avec `titre` et `texte`) : quand un message arrive dans l'histoire.
+  - **`notification`** (des textos qui arrivent en haut de l'écran, avec le son du téléphone : `"son": "texto"`) : quand un message arrive dans l'histoire. **Quand quelqu'un écrit plusieurs fois, mets-les TOUS** dans `messages` (ils s'empilent, un compteur « et N autres » monte, `reste` en ajoute d'un coup) ; `"app": "telephone"` pour des appels manqués.
   - **`appel`** (le téléphone du lecteur sonne, plein écran, `titre` = qui appelle ; Refuser ou Accepter, et si on accepte, on entend respirer) : quand quelqu'un appelle dans l'histoire. Une fois par histoire au plus.
   - **`epier` avec `"attaque": true`** : le visage se rapproche lentement ; si le lecteur ne le touche pas à temps, il bondit sur l'écran. Pas avant le milieu de l'histoire (le premier `epier` doit être inoffensif, pour apprendre), 1 à 3 fois, dont souvent le dernier tout à la fin.
-  - **La lampe de poche** (style `lampe` sur 2 à 8 blocs de suite) : quand ces blocs passent au milieu de l'écran, tout devient noir sauf un cercle de lumière qui suit le doigt. Pour les scènes dans le noir (une cave, une maison aux rideaux fermés, une nuit sans lune, le moment où le personnage se retourne). 1 à 3 passages par histoire.
 - Rappel des interdits : violence sexuelle, torture détaillée, gore gratuit, enfants blessés explicitement, personnes réelles (pas de vraies personnes, pas de vrais crimes, pas de noms d'entreprises existantes dans un rôle négatif), contenu haineux. Les animaux peuvent mourir hors champ, sans détails.
 - **Le 31 octobre** : l'histoire de l'Halloween est l'événement de l'année (l'app affiche un décompte). La plus ambitieuse et la plus terrifiante du mois : proche de 1600 mots, 5 ou 6 événements, le retournement le plus fort.
 - Relis-toi : orthographe, typographie française (espaces avant `: ; ? !`, guillemets « », apostrophes ’), cohérence des heures et des noms.
@@ -146,8 +146,8 @@ Chaque histoire **doit** finir sur un retournement majeur qui **change le sens d
 - **Aucun crédit** : ni auteur, ni site d'origine, ni lien, nulle part (la personne a l'accord de l'auteur).
 - Champ racine `"origine": "traduction"` (et la même chose dans l'entrée de l'index). La longueur reste celle de l'original : pas de cible de 900 à 1600 mots.
 - Le titre : la traduction du titre d'origine, en 1 à 5 mots ; le titre complet peut aller dans `sousTitre`.
-- **Un bloc par paragraphe** de l'original. Les textos cités deviennent des blocs `sms` (`"de": "eux"`). Quelques `pause` aux grandes coupures de l'histoire (2 à 4).
-- **3 à 14 événements**, placés juste après la phrase qui les justifie (un bruit, une porte, un silence, un visage qui épie, un texto qui arrive en notification), et **2 à 5 gestes** aux moments où le personnage hésite (voir « Interactivité »).
+- **Un bloc par paragraphe** de l'original. Un texto important cité dans le texte devient un bloc `sms` (`"de": "eux"`) ; quand le personnage reçoit **plusieurs** textos ou appels (« une avalanche de textos », « des dizaines de messages »), mets-les **tous** dans une `notification` en rafale (`messages`). Quelques `pause` aux grandes coupures de l'histoire (2 à 4).
+- **3 à 14 événements**, placés juste après la phrase qui les justifie (un bruit, une porte, un silence, un visage qui épie, des textos qui arrivent en notification), **2 à 5 gestes avec leur vue**, et **une scène à chaque changement de lieu** (voir « Interactivité »).
 - `retournement` : décris en quelques mots la chute de l'original.
 - Habillage complet comme d'habitude (étape 5) : mise en page qui sert le texte (`recit` pour un long témoignage), palette, polices, fond, illustration originale, musique.
 - `phraseFinale` : la toute dernière phrase de l'original (retirée du dernier bloc pour ne pas la répéter).
@@ -160,6 +160,7 @@ Tout l'habillage doit **servir l'histoire**. Détails et valeurs permises : SCHE
 - **Polices** : uniquement des noms de la liste vérifiée de SCHEMA.md §4.2 (ou polices système d'iPhone). Le `texte` doit rester très lisible sur un téléphone.
 - **Fond animé** : un `effet` cohérent (neige pour l'hiver, brouillard pour la mer, statique pour le technologique, poussière pour une maison fermée, cendres après un incendie, lucioles pour un été trop calme, étoiles pour le cosmique, bulles sous l'eau…), `intensite` 0.3 à 0.6, `vignette` 0.6 à 0.85, `grain` 0.2 à 0.4, `scintillement` 0 à 0.3.
 - **Illustration SVG originale** (`fond.svg`, obligatoire) : `viewBox='0 0 400 860'`, `preserveAspectRatio='xMidYMax slice'`, **apostrophes simples** pour les attributs, 5 à 15 Ko, silhouettes et aplats, une ou deux lumières, **un détail inquiétant discret** (une silhouette dans une fenêtre, des yeux dans le champ, une porte entrouverte, une forme sous l'eau). Pas de `<text>`, pas de script, pas d'image externe. `svgOpacite` 0.18 à 0.28. Astuce : génère le SVG avec un petit script Python (boucles pour les arbres, les vagues, les poteaux, les étoiles).
+- **Décors des scènes** (`fond.decors`, un SVG par lieu et par variante, mêmes règles que `fond.svg`, 2 à 15 Ko chacun) : dessine-les avec un script Python et des fonctions réutilisables (un lieu = une fonction, avec un paramètre `elle=True` pour la variante où la créature apparaît, au même endroit d'une variante à l'autre). La créature est **petite et discrète** dans le décor (au coin d'un mur, dans une fente de porte, derrière une vitre), et pâle sur fond sombre pour se voir à travers le texte. Les **vues** des gestes (aussi dans `fond.decors`) sont plein écran et peuvent être plus détaillées : surtout du noir, une lumière sur l'essentiel, du grain (`feTurbulence`), un peu de flou (`feGaussianBlur`). Pas de visage « dessin animé » : yeux grands ouverts avec du blanc tout autour, sourcils, cernes, dents en rangée continue attachées à la gencive, cheveux qui tombent devant le visage.
 - **Images dans le texte** (optionnel, bloc `image`) : un croquis, un plan, une pièce à conviction, quand ça ajoute à l'histoire (`viewBox` paysage, ex. `0 0 320 200`, traits simples).
 - **Musique** : choisir `gamme` et `tonique` selon l'ambiance (mélancolie : `dorien` ; ancien/rituel : `phrygien`, `phrygien_dominant` ; cauchemar : `diminuee`, `locrien` ; irréel/rêve : `ton_par_ton` ; innocence corrompue : `majeur` ou `lydien` avec `desaccord` 0.35+ et une `boite_a_musique`). 3 à 6 couches : une base (`drone` ou `bruit`), une texture, et une ou deux couches avec un `seuil` (0.5 à 0.8) qui n'arrivent que lorsque la tension monte. `evolution` : `monte` par défaut, `rupture` si l'histoire bascule d'un coup (régler `rupture` à la position de la bascule, ex. 0.7). `finale` : `silence` pour une fin sèche, `fondu` sinon.
 - **document** (SCHEMA.md §5) : remplir les champs utiles à la mise en page choisie (organisme, référence, contact, destinataire, journal…). Tout est fictif.
@@ -231,12 +232,14 @@ W = avert.append
 MEPS = ['manuscrit', 'journal_intime', 'rapport', 'sms', 'transcription', 'forum', 'lettre', 'recit', 'terminal', 'coupure']
 EFFETS_FOND = ['pluie', 'neige', 'brouillard', 'poussiere', 'braises', 'statique', 'lucioles', 'cendres', 'etoiles', 'bulles', 'aucun']
 EFFETS_EV = ['glitch', 'noir', 'flash', 'tremblement', 'epier', 'notification', 'appel', 'aucun']
-SONS = ['coup', 'craquement', 'chuchotement', 'respiration', 'porte', 'silence', 'pas', 'grattement', 'coeur', 'statique', 'cloche', 'vibration', 'goutte', 'aucun']
+SONS = ['coup', 'craquement', 'chuchotement', 'respiration', 'porte', 'silence', 'pas', 'grattement', 'coeur', 'statique', 'cloche', 'vibration', 'goutte', 'texto', 'mouches', 'aucun']
+AMBIANCES = ['frigo', 'douche', 'gouttes', 'voiture', 'horloge', 'vent', 'climatiseur', 'neon', 'mouches', 'souffle', 'aucune']
+ENTREES = ['fondu', 'zoom', 'tourner', 'baisser', 'ouvrir', 'photo']
 COUCHES = ['drone', 'pad', 'cloche', 'pulsation', 'bruit', 'boite_a_musique', 'cordes', 'choeur', 'piano']
 GAMMES = ['mineur', 'phrygien', 'locrien', 'chromatique', 'pentatonique_mineure', 'ton_par_ton', 'harmonique_mineure', 'dorien', 'diminuee', 'hongroise_mineure', 'phrygien_dominant', 'lydien', 'majeur']
 EVOL = ['monte', 'stable', 'descend', 'rupture']
-TYPES = ['paragraphe', 'titre', 'dialogue', 'sms', 'note', 'citation', 'pause', 'evenement', 'image', 'signature', 'champs', 'tampon', 'geste']
-STYLES = ['centre', 'droite', 'gros', 'petit', 'agite', 'efface', 'accent', 'majuscules', 'espace', 'lent', 'lampe']
+TYPES = ['paragraphe', 'titre', 'dialogue', 'sms', 'note', 'citation', 'pause', 'evenement', 'image', 'signature', 'champs', 'tampon', 'geste', 'scene']
+STYLES = ['centre', 'droite', 'gros', 'petit', 'agite', 'efface', 'accent', 'majuscules', 'espace', 'lent']
 ONDES = ['sine', 'triangle', 'sawtooth', 'square']
 def hexok(c): return isinstance(c, str) and re.fullmatch(r'#[0-9a-fA-F]{6}', c) is not None
 def lum(c):
@@ -319,6 +322,17 @@ for c in ['intensite', 'vignette', 'grain', 'scintillement', 'svgOpacite']:
 if 'couleur' in f and not hexok(f['couleur']): E('fond.couleur doit être #rrggbb')
 if not f.get('svg'): E('fond.svg manquant : chaque histoire a son illustration originale')
 else: verifier_svg(f['svg'], 'fond.svg')
+decors = f.get('decors') or {}
+if not isinstance(decors, dict): E('fond.decors doit être un objet { "nom": "<svg…>" }'); decors = {}
+for nom, svg in decors.items(): verifier_svg(svg, f'fond.decors.{nom}')
+def verifier_ambiance(a, ou):
+    for x in (a if isinstance(a, list) else [a]):
+        if x not in AMBIANCES: E(f'{ou} : ambiance inconnue « {x} » (valeurs : {", ".join(AMBIANCES)})')
+if 'ambiance' in f: verifier_ambiance(f['ambiance'], 'fond.ambiance')
+utilises = set()
+taille = len(json.dumps(h, ensure_ascii=False))
+if taille > 450000: E(f'fichier trop gros ({taille // 1000} Ko) : alléger les décors')
+elif taille > 350000: W(f'fichier gros ({taille // 1000} Ko)')
 m = h.get('musique') or {}
 if not num(m.get('tempo'), 30, 180): E('musique.tempo doit être entre 30 et 180')
 if not re.fullmatch(r'(?i)(do|re|ré|mi|fa|sol|la|si|[a-g])(#|b)?', str(m.get('tonique', ''))): E(f'musique.tonique invalide : {m.get("tonique")}')
@@ -340,7 +354,7 @@ else:
         for k in ['volume', 'densite', 'seuil']:
             if k in c and not num(c[k], 0, 1): E(f'{ou}.{k} entre 0 et 1')
 blocs = h.get('blocs')
-mots, nb_ev, nb_gestes = 0, 0, 0
+mots, nb_ev, nb_gestes, nb_scenes = 0, 0, 0, 0
 if not isinstance(blocs, list) or not blocs: E('blocs manquant ou vide'); blocs = []
 for i, b in enumerate(blocs):
     ou = f'blocs[{i}]'
@@ -360,6 +374,30 @@ for i, b in enumerate(blocs):
         if 'duree' in b and not num(b['duree'], 400, 6000): E(f'{ou} (geste) : duree entre 400 et 6000 ms')
         if b.get('son', 'aucun') not in SONS: E(f'{ou} (geste) : son invalide')
         mots -= len(brut(b.get('texte', '')).split())  # le libellé du bouton ne compte pas comme du texte
+        v = b.get('vue')
+        if not isinstance(v, dict): E(f'{ou} (geste) : « vue » manquante — un geste doit montrer quelque chose')
+        else:
+            if v.get('decor'):
+                utilises.add(v['decor'])
+                if v['decor'] not in decors: E(f'{ou} (geste) : vue.decor « {v["decor"]} » absent de fond.decors')
+            elif v.get('svg'): verifier_svg(v['svg'], f'{ou}.vue.svg')
+            else: E(f'{ou} (geste) : vue sans decor ni svg')
+            if v.get('entree', 'fondu') not in ENTREES: E(f'{ou} (geste) : vue.entree parmi {", ".join(ENTREES)}')
+            if v.get('son', 'aucun') not in SONS: E(f'{ou} (geste) : vue.son invalide')
+            if 'duree' in v and not num(v['duree'], 1200, 12000): E(f'{ou} (geste) : vue.duree entre 1200 et 12000 ms')
+    if t == 'scene':
+        nb_scenes += 1
+        if b.get('decor'):
+            utilises.add(b['decor'])
+            if b['decor'] not in decors: E(f'{ou} (scene) : decor « {b["decor"]} » absent de fond.decors')
+        elif 'svg' in b: verifier_svg(b['svg'], f'{ou}.svg')
+        if 'effet' in b and b['effet'] not in EFFETS_FOND: E(f'{ou} (scene) : effet invalide')
+        for k in ['opacite', 'intensite', 'scintillement', 'vignette', 'teinteOpacite', 'volume']:
+            if k in b and not num(b[k], 0, 1): E(f'{ou} (scene) : {k} entre 0 et 1')
+        for k in ['couleur', 'teinte']:
+            if k in b and not hexok(b[k]): E(f'{ou} (scene) : {k} doit être #rrggbb')
+        if 'ambiance' in b: verifier_ambiance(b['ambiance'], f'{ou} (scene)')
+        if 'fondu' in b and not num(b['fondu'], 0, 6000): E(f'{ou} (scene) : fondu entre 0 et 6000 ms')
     if t in ['paragraphe', 'titre', 'note', 'signature', 'citation', 'dialogue', 'sms', 'geste'] and not (isinstance(b.get('texte'), str) and b['texte'].strip()):
         E(f'{ou} ({t}) : texte manquant')
     if t == 'dialogue' and not b.get('personnage'): W(f'{ou} (dialogue) : personnage manquant')
@@ -378,7 +416,14 @@ for i, b in enumerate(blocs):
         if b.get('effet', 'aucun') == 'aucun' and b.get('son', 'aucun') == 'aucun': E(f'{ou} : événement sans effet ni son')
         if 'duree' in b and not num(b['duree'], 100, 15000): E(f'{ou} : duree en millisecondes (100 à 15000)')
         if 'nombre' in b and not num(b['nombre'], 1, 12): E(f'{ou} : nombre entre 1 et 12')
-        if b.get('effet') == 'notification' and not (isinstance(b.get('texte'), str) and b['texte'].strip()): E(f'{ou} : notification sans texte')
+        if b.get('effet') == 'notification':
+            msgs = b.get('messages')
+            if msgs is not None and (not isinstance(msgs, list) or not msgs or len(msgs) > 40): E(f'{ou} : messages = 1 à 40 textos')
+            if not msgs and not (isinstance(b.get('texte'), str) and b['texte'].strip()): E(f'{ou} : notification sans texte ni messages')
+            if b.get('son', 'aucun') == 'aucun': W(f'{ou} : notification muette (mettre "son": "texto")')
+            if 'app' in b and b['app'] not in ['messages', 'telephone']: E(f'{ou} : app = "messages" ou "telephone"')
+            if 'intervalle' in b and not num(b['intervalle'], 150, 5000): E(f'{ou} : intervalle entre 150 et 5000 ms')
+            if 'reste' in b and not num(b['reste'], 0, 999): E(f'{ou} : reste entre 0 et 999')
         if b.get('effet') == 'epier' and b.get('cote', 'droite') not in ['droite', 'gauche', 'bas', 'haut']: E(f'{ou} : cote = droite, gauche, bas ou haut')
         if 'attaque' in b and not isinstance(b['attaque'], bool): E(f'{ou} : attaque = true ou false')
         if b.get('effet') == 'appel' and not (isinstance(b.get('titre'), str) and b['titre'].strip()): E(f'{ou} : appel sans titre (le nom de qui appelle)')
@@ -386,6 +431,10 @@ mots += len(brut(h.get('phraseFinale', '')).split())
 if not 3 <= nb_ev <= (14 if trad else 8): E(f'{nb_ev} événements (il en faut 3 à {14 if trad else 8})')
 if nb_gestes < 2: E(f'{nb_gestes} geste(s) : il en faut au moins 2 (interactivité)')
 elif nb_gestes > 6: W(f'{nb_gestes} gestes : c’est beaucoup (2 à 5 conseillés)')
+if nb_scenes < 4: E(f'{nb_scenes} scène(s) : il en faut au moins 4 (le décor suit l’histoire, un lieu = une scène)')
+elif nb_scenes > 40: W(f'{nb_scenes} scènes : c’est beaucoup')
+for nom in decors:
+    if nom not in utilises and decors[nom] != f.get('svg'): W(f'fond.decors.{nom} n’est utilisé par aucune scène ni vue')
 if trad:
     if mots < 300: E(f'{mots} mots : traduction incomplète ?')
 elif mots < 850 or mots > 1700: E(f'{mots} mots (il en faut 900 à 1600)')
@@ -413,7 +462,7 @@ if recentes:
     q = [x.get('auQuebec') for x in recentes[-3:]]
     if len(q) == 3 and not any(q) and not h.get('auQuebec'): W('aucune des 4 dernières histoires au Québec : la prochaine devrait l’être (environ 1 sur 3)')
     if len(q) >= 2 and all(q[-2:]) and h.get('auQuebec'): W('3 histoires de suite au Québec : varier les lieux')
-print(f'Histoire {date} : n° {h.get("numero")} « {h.get("titre")} » · {mep} · {mots} mots · {nb_ev} événements')
+print(f'Histoire {date} : n° {h.get("numero")} « {h.get("titre")} » · {mep} · {mots} mots · {nb_ev} événements · {nb_gestes} gestes · {nb_scenes} scènes · {taille // 1000} Ko')
 for a in avert: print('  AVERTISSEMENT :', a)
 for e in erreurs: print('  ERREUR :', e)
 if erreurs:
@@ -465,6 +514,8 @@ print(f"Résumé : {h['resume']}\n\n---\n")
 blocs = h['blocs']
 if h.get('origine') == 'traduction':   # la personne connaît déjà le texte : le début et la fin suffisent
     print(f"*(Traduction : {len(blocs)} blocs. Voici le début et la fin.)*\n")
+    scenes = [b.get('decor') for b in blocs if b['type'] == 'scene']
+    print(f"*Lieux : {' → '.join(dict.fromkeys(scenes))}*\n")
     blocs = blocs[:4] + [{'type': 'pause'}] + blocs[-4:]
 for b in blocs:
     ty = b['type']
@@ -480,7 +531,8 @@ for b in blocs:
     elif ty == 'signature': print(f"— {t(b['texte'])}\n")
     elif ty == 'champs': print('\n'.join(f"- {t(c.get('nom'))} : {t(c.get('valeur'))}" for c in b['champs']) + '\n')
     elif ty == 'tampon': print(f"[TAMPON : {t(b['texte'])}]\n")
-    elif ty == 'geste': print(f"👆 **[{t(b['texte'])}]** ({'maintenir' if b.get('mode') == 'maintenir' else 'toucher'})\n")
+    elif ty == 'geste': print(f"👆 **[{t(b['texte'])}]** ({'maintenir' if b.get('mode') == 'maintenir' else 'toucher'}) → vue « {(b.get('vue') or {}).get('decor', '?')} »\n")
+    elif ty == 'scene': print(f"`🎬 {b.get('decor') or 'décor de base'}{(' · ' + '+'.join(b['ambiance'] if isinstance(b['ambiance'], list) else [b['ambiance']])) if b.get('ambiance') else ''}`\n")
 print(f"---\n\n**Phrase finale :** {t(h['phraseFinale'])}")
 APERCU
 ```
@@ -505,11 +557,11 @@ Ta **réponse finale** (le message que la personne lira) contient, dans cet ordr
 - [ ] Aucune histoire après le 31 octobre 2026.
 - [ ] Consignes de la personne (courrier de 18 h, retouches) appliquées si elles visaient cette histoire.
 - [ ] Le format est utilisé pour vrai (le document ressemble au document).
-- [ ] 3 à 8 événements (14 pour une traduction), bien placés ; 2 à 5 gestes ; `epier` et `notification` quand ils servent ; effets de texte avec parcimonie.
+- [ ] 3 à 8 événements (14 pour une traduction), bien placés ; 2 à 5 gestes, **chacun avec sa vue** ; une scène à chaque changement de lieu (décor + ambiance) ; `epier` quand il sert ; **toutes** les rafales de textos en `notification` avec `"son": "texto"` ; effets de texte avec parcimonie.
 - [ ] Français simple et facile à lire, compréhensible au Québec, sans québécois écrit ni argot de France.
 - [ ] Mise en page différente de l'histoire précédente ; sous-genre, lieu, palette et musique variés.
 - [ ] Contraste texte/surface ≥ 7 ; polices de la liste vérifiée.
-- [ ] Illustration SVG originale, avec un détail inquiétant discret.
+- [ ] Illustration SVG originale et décors des scènes, avec un détail inquiétant discret ; vues des gestes soignées (pas de visage « dessin animé »).
 - [ ] Validation : **VALIDE ✔**.
 - [ ] Un commit « 3h12 — n° N — Titre » par histoire, poussé sur `main`.
 - [ ] Aperçu complet de l'histoire de demain envoyé dans la réponse finale.

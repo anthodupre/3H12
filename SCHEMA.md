@@ -243,7 +243,12 @@ Palettes par défaut (utilisées si `theme.palette` est absent ; à titre d'insp
 "fond": {
   "effet": "neige", "intensite": 0.42, "vignette": 0.8, "grain": 0.35, "scintillement": 0.12,
   "svgOpacite": 0.24, "couleur": "#e8eef5",
-  "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 860'>…</svg>"
+  "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 860'>…</svg>",
+  "decors": {
+    "cuisine": "<svg …>…</svg>",
+    "cuisine-elle": "<svg …>…</svg>",
+    "vue-sous-lit": "<svg …>…</svg>"
+  }
 }
 ```
 
@@ -257,6 +262,9 @@ Palettes par défaut (utilisées si `theme.palette` est absent ; à titre d'insp
 | `svg` | chaîne | — | **Illustration originale** affichée derrière le texte, semi-transparente (voir ci-dessous). |
 | `svgOpacite` | 0 à 1 | 0.22 | Opacité de l'illustration pendant la lecture (elle est ~2× plus visible sur le carton d'ouverture). 0.15 à 0.3 conseillé. |
 | `couleur` | `#rrggbb` | selon l'effet | (optionnel) Couleur des particules. |
+| `decors` | objet | `{}` | **Décors nommés** : `{ "nom": "<svg…>" }`. Utilisés par les blocs `scene` (le lieu change) et par les `vue` des gestes (ce que le personnage voit). Mêmes règles que `svg`. Un décor = un lieu ; une variante (`cuisine-elle`) = le même lieu, dessiné pareil, avec la créature en plus. |
+| `teinte`, `teinteOpacite` | `#rrggbb`, 0 à 0.8 | aucune, 0.25 | (optionnel) Couleur posée sur le décor, sous le texte, au début de l'histoire. |
+| `ambiance`, `volumeAmbiance` | chaîne ou tableau, 0 à 1 | aucune, 0.6 | (optionnel) Ambiance sonore du début (voir `scene`). |
 
 **Effets** : `pluie`, `neige`, `brouillard`, `poussiere` (grains dans un rayon de lumière), `braises` (orange, montent), `statique` (neige de télé), `lucioles`, `cendres` (tombent en tournoyant, quelques-unes rougeoient), `etoiles` (scintillent, étoile filante), `bulles` (sous l'eau), `aucun`.
 
@@ -349,7 +357,8 @@ Tableau ordonné. Chaque bloc a un `type` et, optionnellement, un `style` (secti
 | `signature` | `texte` | Signature manuscrite alignée à droite. |
 | `champs` | `titre` (optionnel), `champs` : `[{ "nom": "…", "valeur": "…" }]` | Tableau de champs officiels (formulaire, fiche). |
 | `tampon` | `texte`, `rotation` (-30 à 30, optionnel) | Tampon encré (« REÇU », « CLASSÉ », « NE PAS DIFFUSER »). |
-| `geste` | `texte` (le bouton), `mode` (`"toucher"` ou `"maintenir"`), `duree` (maintenir : 400 à 6000 ms, défaut 1600), `son` (optionnel, joué quand c'est fait), `aide` (optionnel, petit texte sous le bouton) | **Le lecteur doit agir** : un bouton dans le style de l'histoire. Tout ce qui suit reste caché tant qu'il n'a pas touché (ou gardé le doigt appuyé : une jauge se remplit, lâcher trop tôt recommence). En SMS, la conversation attend le geste. |
+| `geste` | `texte` (le bouton), `mode` (`"toucher"` ou `"maintenir"`), `duree` (maintenir : 400 à 6000 ms, défaut 1600), `son` (optionnel, joué quand c'est fait), `aide` (optionnel, petit texte sous le bouton), **`vue`** (obligatoire, voir §9 ter) | **Le lecteur doit agir** : un bouton dans le style de l'histoire. Tout ce qui suit reste caché tant qu'il n'a pas touché (ou gardé le doigt appuyé : une jauge se remplit, lâcher trop tôt recommence). Puis la **vue** s'ouvre en plein écran : on voit ce que le personnage voit. Ensuite seulement, la suite apparaît. En SMS, la conversation attend le geste. |
+| `scene` | `decor` (nom dans `fond.decors`) ou `svg` ; optionnels : `opacite`, `effet`, `intensite`, `couleur`, `scintillement`, `vignette`, `teinte`, `teinteOpacite`, `ambiance`, `volume`, `fondu` | Invisible. **Le lieu change** quand le lecteur y arrive (§9 bis). |
 
 Exemples :
 ```json
@@ -363,8 +372,41 @@ Exemples :
 { "type": "tampon", "texte": "Classé", "rotation": -8 },
 { "type": "pause" },
 { "type": "image", "legende": "Annexe A — plan du sous-sol.", "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 200'>…</svg>" },
-{ "type": "geste", "texte": "Ouvrir la porte", "mode": "maintenir", "duree": 2000, "son": "craquement" }
+{ "type": "scene", "decor": "cuisine", "ambiance": "frigo", "teinte": "#14263a", "teinteOpacite": 0.22 },
+{ "type": "geste", "texte": "Ouvrir la garde-robe", "mode": "maintenir", "duree": 2000, "son": "craquement",
+  "vue": { "decor": "vue-garde-robe", "entree": "ouvrir", "son": "mouches", "duree": 4500 } }
 ```
+
+### 9 bis. `scene` : l'environnement suit l'histoire
+
+Un bloc `scene` se place **juste avant** le paragraphe qui arrive dans un nouveau lieu (ou qui change le lieu : la créature apparaît, la lumière s'éteint, la douche s'arrête). Quand ce paragraphe passe à 60 % de l'écran, l'environnement change : l'**illustration** passe au nouveau décor en fondu, le **fond animé**, la **teinte** et la **vignette** suivent, et l'**ambiance sonore** (en boucle) passe à la nouvelle en fondu enchaîné. Si le lecteur remonte, le lieu d'avant revient. Avant la première scène : le `fond` de l'histoire.
+
+Un champ absent reprend la valeur du `fond` de l'histoire (**pas** celle de la scène d'avant) : chaque scène décrit son lieu au complet.
+
+| Clé | Type | Défaut | Description |
+|---|---|---|---|
+| `decor` | chaîne | `fond.svg` | Nom d'un décor de `fond.decors`. (Ou `svg` : le SVG directement.) |
+| `opacite` | 0 à 1 | `fond.svgOpacite` | Opacité du décor derrière le texte (un peu plus, 0.3 à 0.36, quand la créature est dans le décor). |
+| `effet`, `intensite`, `couleur`, `scintillement`, `vignette` | | ceux du `fond` | Fond animé du lieu (`brouillard` pour la vapeur d'une douche, `statique`, `poussiere`…). |
+| `teinte`, `teinteOpacite` | `#rrggbb`, 0 à 0.8 | aucune, 0.25 | Couleur du lieu (bleu froid d'un frigo, rouge d'un néon, vert d'une maison qui pourrit). 0.12 à 0.25. |
+| `ambiance` | chaîne ou tableau (3 au plus) | aucune | Sons en boucle : `frigo` (bourdonnement), `douche` (l'eau qui coule), `gouttes` (gouttes dans le bain, avec écho), `voiture` (moteur et route), `horloge` (tic-tac), `vent`, `climatiseur`, `neon` (grésillement), `mouches`, `souffle` (quelqu'un respire tout près, dans le noir), `aucune`. |
+| `volume` | 0 à 1 | 0.6 | Volume de l'ambiance. |
+| `fondu` | 0 à 6000 ms | 1800 | Durée du passage au nouveau décor. **Lent** (3000 et plus) pour qu'elle apparaisse doucement ; **`0`** pour une coupe sèche (« elle a tout de suite disparu »). |
+
+### 9 ter. `vue` : ce que le geste montre
+
+Un geste qui ne fait que laisser continuer la lecture ne sert à rien : **chaque geste a une `vue`**, une image plein écran de ce que le personnage voit (sous la porte, dans la garde-robe, sous le lit, la photo reçue). Elle se ferme seule après `duree`, ou d'un toucher.
+
+| Clé | Type | Défaut | Description |
+|---|---|---|---|
+| `decor` | chaîne | — | Nom d'un décor de `fond.decors` (ou `svg` directement). Portrait `0 0 400 860`, sauf pour `photo` (paysage, ex. `0 0 320 220`). |
+| `entree` | chaîne | `fondu` | Comment on la découvre : `fondu`, `zoom` (les yeux s'habituent au noir), `tourner` (on tourne la tête), `baisser` (on se penche, on regarde en bas), `ouvrir` (deux portes s'ouvrent), `photo` (comme une photo reçue sur un téléphone, avec `titre` en haut). |
+| `son` | chaîne | `aucun` | Son joué quand la vue apparaît (`respiration`, `coeur`, `mouches`, `silence`…). |
+| `duree` | 1200 à 12000 ms | 3400 | Temps avant qu'elle se ferme seule. |
+| `titre` | chaîne | — | Avec `photo` : l'expéditeur affiché en haut (« Numéro inconnu »). |
+| `texte` | chaîne | — | (optionnel) Une courte ligne en bas de la vue. |
+
+Les vues peuvent être plus détaillées que les décors : surtout du noir, une lumière sur l'essentiel, du grain (`feTurbulence`), un peu de flou (`feGaussianBlur`), et même une animation SMIL (`<animate>` : un œil qui cligne, des mains qui tremblent, des mouches qui bougent).
 
 ---
 
@@ -382,7 +424,6 @@ Optionnel, sur n'importe quel bloc : une chaîne de mots séparés par des espac
 | `majuscules` | En majuscules espacées. |
 | `espace` | Grand espace avant le bloc (pour isoler une phrase). |
 | `lent` | Apparition très lente (2,8 s). |
-| `lampe` | **Lampe de poche** : quand le bloc passe au milieu de l'écran, tout devient noir sauf un cercle de lumière qui suit le doigt du lecteur. À mettre sur plusieurs blocs de suite (une scène dans le noir). |
 
 Exemple : `{ "type": "paragraphe", "texte": "Il est encore là.", "style": "centre gros lent" }`
 
@@ -418,12 +459,16 @@ Bloc `evenement` : invisible, il se déclenche **une seule fois** quand il passe
 
 | Clé | Type | Défaut | Description |
 |---|---|---|---|
-| `effet` | chaîne | `aucun` | Effet visuel : `glitch` (écran qui se brouille, couleurs décalées), `noir` (écran noir complet), `flash` (éclair blanc), `tremblement` (l'écran tremble), `epier` (un visage pâle sort d'un bord de l'écran, regarde le lecteur sans cligner, puis se cache ; le toucher le fait fuir), `notification` (un faux texto arrive en haut de l'écran, comme sur un iPhone ; le toucher le ferme), `appel` (appel entrant plein écran avec sonnerie : Refuser ou Accepter ; si on accepte, on entend respirer, puis « Appel terminé »), `aucun`. |
+| `effet` | chaîne | `aucun` | Effet visuel : `glitch` (écran qui se brouille, couleurs décalées), `noir` (écran noir complet), `flash` (éclair blanc), `tremblement` (l'écran tremble), `epier` (un visage pâle sort d'un bord de l'écran, regarde le lecteur sans cligner, puis se cache ; le toucher le fait fuir), `notification` (des textos arrivent en haut de l'écran, comme sur un iPhone, avec le son ; ils s'empilent, la plus récente en haut ; au-delà de 4, un compteur « et N autres notifications » monte ; un toucher les chasse), `appel` (appel entrant plein écran avec sonnerie : Refuser ou Accepter ; si on accepte, on entend respirer, puis « Appel terminé »), `aucun`. |
 | `son` | chaîne | `aucun` | Son synthétisé (liste ci-dessous). |
 | `duree` | millisecondes | noir 1600, flash 700, glitch 800, tremblement 900, epier 2600, notification 6000 | Durée de l'effet **et** du son (pour les sons qui ont une durée). |
 | `nombre` | 1 à 12 | selon le son | Répétitions pour `coup` (3), `pas` (5), `coeur` (5), `vibration` (2), `goutte` (3). |
-| `texte` | chaîne | — | Avec `noir` : texte affiché sur l'écran noir. Avec `notification` : le message (obligatoire). Avec `appel` : une ligne affichée pendant l'appel, si on accepte (« [respiration] »). Balisage permis. |
+| `texte` | chaîne | — | Avec `noir` : texte affiché sur l'écran noir. Avec `notification` : le message (s'il n'y a pas de `messages`). Avec `appel` : une ligne affichée pendant l'appel, si on accepte (« [respiration] »). Balisage permis. |
 | `titre` | chaîne | — | Avec `notification` : l'expéditeur (« Lynn », « Numéro inconnu »). Avec `appel` : qui appelle (obligatoire). |
+| `messages` | tableau | — | Avec `notification` : **une rafale** de 1 à 40 textos, qui arrivent un à un. Chacun : une chaîne, ou `{ "texte": "…", "titre": "…", "app": "telephone" }` (un appel manqué au milieu des textos). Quand quelqu'un écrit plusieurs fois, mettez-les **tous**. |
+| `intervalle` | 150 à 5000 ms | 900 | Avec `notification` : temps entre deux textos de la rafale (400 à 600 = elle s'acharne). |
+| `reste` | 0 à 999 | 0 | Avec `notification` : après la rafale, le compteur « et N autres » monte encore d'autant, très vite (« des dizaines de textos »). |
+| `app` | chaîne | `messages` | Avec `notification` : `messages` (bulle verte) ou `telephone` (appel manqué). |
 | `attaque` | booléen | `false` | Avec `epier` : le visage se rapproche lentement pendant `duree` ; si le lecteur ne le touche pas, il bondit sur l'écran (un coup, une vibration). |
 | `cote` | chaîne | `droite` | Avec `epier` : `droite`, `gauche`, `bas` ou `haut` (à l'envers, comme pendue au plafond). |
 
@@ -444,9 +489,11 @@ Bloc `evenement` : invisible, il se déclenche **une seule fois** quand il passe
 | `cloche` | Un coup de cloche grave (accordé sur la tonique de la musique). |
 | `vibration` | Téléphone qui vibre. |
 | `goutte` | Gouttes d'eau qui tombent, avec écho. |
+| `texto` | Le son d'un texto reçu (trois petites notes). **À mettre sur les notifications.** |
+| `mouches` | Des mouches qui bourdonnent et tournent autour (pendant `duree`). |
 | `aucun` | Pas de son. |
 
-Règles : **3 à 8 événements par histoire** (14 pour une traduction), aux moments clés, et **2 à 5 gestes**. Pas de jumpscare gratuit : un événement doit prolonger ce que le texte vient de dire. `flash` et `tremblement` deviennent très doux si l'utilisateur a désactivé les effets intenses.
+Règles : **3 à 8 événements par histoire** (14 pour une traduction), aux moments clés, **2 à 5 gestes** (chacun avec sa vue) et une **scène** à chaque changement de lieu. Pas de jumpscare gratuit : un événement doit prolonger ce que le texte vient de dire. `flash` et `tremblement` deviennent très doux si l'utilisateur a désactivé les effets intenses.
 
 ---
 

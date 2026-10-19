@@ -116,6 +116,10 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   opacity: 0; overflow: hidden; transition: opacity 1.2s ease;
   will-change: opacity, transform;
 }
+/* Chaque décor est dans sa propre couche : le nouveau apparaît en fondu par-dessus l'ancien */
+#calque-illustration .illu { position: absolute; inset: 0; opacity: 0; transition: opacity 1.8s ease; }
+#calque-illustration .illu.visible { opacity: 1; }
+#calque-illustration .illu.sortante { opacity: 0; transition-duration: 1.4s; }
 #calque-illustration svg {
   position: absolute; left: -4%; top: -3%; width: 108%; height: 106%;
   animation: respiration-illustration 26s ease-in-out infinite alternate;
@@ -126,7 +130,12 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 }
 #calque-fond {
   position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; height: 100lvh;
-  z-index: 2; pointer-events: none;
+  z-index: 2; pointer-events: none; transition: opacity .6s ease;
+}
+/* Teinte du lieu (scènes) : sous le texte, par-dessus le décor */
+#calque-teinte {
+  position: fixed; inset: 0; z-index: 2; pointer-events: none; opacity: 0;
+  transition: opacity 2.2s ease, background-color 2.2s ease;
 }
 #calque-voiles { position: fixed; inset: 0; z-index: 4; pointer-events: none; overflow: hidden; }
 #voile-vignette {
@@ -403,6 +412,8 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
 .bloc.visible { opacity: 1; transform: none; }
 .bloc.deja { transition: none; }
 .bloc-evenement { height: 2px; margin: 0; pointer-events: none; }
+.bloc-scene { height: 0; margin: 0; pointer-events: none; }
+.mep-sms .bloc-scene:not(.visible) { display: none; }
 .bloc p { margin: 0 0 .9em; }
 .bloc p:last-child { margin-bottom: 0; }
 .titre-bloc { font-family: var(--police-titre); font-weight: 400; font-size: 1.3em; line-height: 1.25; margin: 1.6em 0 .7em; }
@@ -1041,21 +1052,6 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
 .epieur-saut.fin { opacity: 0; }
 @keyframes epieur-bond { from { transform: translate(-50%, -42%) scale(.25); opacity: 0; } 30% { opacity: 1; } to { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
 
-/* Lampe de poche : tout est noir sauf un cercle de lumière qui suit le doigt */
-#lampe {
-  position: fixed; inset: 0; z-index: 15; pointer-events: none; opacity: 0; visibility: hidden;
-  background: rgba(1, 1, 1, .975); transition: opacity .9s ease, visibility .9s;
-  -webkit-mask-image: radial-gradient(circle var(--lr, 108px) at var(--lx, 50%) var(--ly, 42%), transparent 0, transparent 52%, #000 100%);
-  mask-image: radial-gradient(circle var(--lr, 108px) at var(--lx, 50%) var(--ly, 42%), transparent 0, transparent 52%, #000 100%);
-}
-#lampe.actif { opacity: 1; visibility: visible; }
-#lampe-aide {
-  position: fixed; z-index: 16; left: 0; right: 0; bottom: calc(var(--bas) + 46px); margin: 0; pointer-events: none;
-  text-align: center; font: 400 .68rem/1.3 var(--police-ui); letter-spacing: .24em; text-transform: uppercase;
-  color: #9a9389; opacity: 0; transition: opacity .8s ease;
-}
-#lampe-aide.visible { opacity: .75; animation: pouls-horloge 3s ease-in-out infinite; }
-
 /* Appel entrant (comme sur un iPhone) */
 .appel {
   position: fixed; inset: 0; z-index: 36; display: flex; flex-direction: column; justify-content: space-between; align-items: center;
@@ -1079,23 +1075,94 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
 .appel.en-cours .appel-boutons > div:last-child { visibility: hidden; }
 .appel.termine .appel-boutons { opacity: .3; pointer-events: none; }
 
-/* Notification de téléphone (un texto qui arrive en haut de l'écran) */
-.notif {
+/* Notifications de téléphone : elles s'empilent en haut de l'écran (la plus récente en haut) */
+#pile-notifs {
   position: fixed; z-index: 35; left: calc(var(--gauche) + 8px); right: calc(var(--droite) + 8px); top: calc(var(--haut) + 8px);
-  max-width: 30rem; margin: 0 auto; display: flex; gap: 11px; align-items: flex-start; padding: 11px 14px;
-  border-radius: 22px; background: rgba(38, 38, 40, .8); color: #f2f2f7;
+  max-width: 30rem; margin: 0 auto; display: flex; flex-direction: column; gap: 7px; pointer-events: none;
+  transition: transform .45s cubic-bezier(.4, 0, .6, 1), opacity .45s ease;
+}
+#pile-notifs.sortie { transform: translateY(calc(-100% - var(--haut) - 30px)); opacity: 0; }
+.notif {
+  display: flex; gap: 11px; align-items: flex-start; padding: 11px 14px; pointer-events: auto; cursor: pointer;
+  border-radius: 22px; background: rgba(34, 34, 36, .95); color: #f2f2f7;
   -webkit-backdrop-filter: blur(24px) saturate(1.6); backdrop-filter: blur(24px) saturate(1.6);
   box-shadow: 0 12px 34px rgba(0, 0, 0, .45); font: 400 .92rem/1.3 system-ui, -apple-system, sans-serif;
-  transform: translateY(calc(-100% - var(--haut) - 24px)); transition: transform .55s cubic-bezier(.2, 1.25, .35, 1);
+  transform: translateY(-120%) scale(.96); opacity: 0;
+  transition: transform .5s cubic-bezier(.2, 1.25, .35, 1), opacity .3s ease;
 }
-.notif.visible { transform: none; }
+.notif.visible { transform: none; opacity: 1; }
+.notif:nth-child(3) { opacity: .9; }
+.notif:nth-child(4) { opacity: .75; }
 .notif-icone { flex: none; width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; background: linear-gradient(#67f07c, #1ec03f); }
 .notif-icone svg { width: 25px; height: 25px; fill: #fff; }
 .notif-corps { flex: 1; min-width: 0; }
 .notif-haut { display: flex; justify-content: space-between; gap: 10px; }
 .notif-titre { font-weight: 600; }
+.notif-telephone .notif-texte { opacity: .8; }
 .notif-heure { font-size: .8rem; opacity: .55; white-space: nowrap; }
-.notif-texte { margin: 2px 0 0; }
+.notif-texte { margin: 2px 0 0; overflow-wrap: anywhere; }
+.notifs-reste {
+  order: 99; align-self: center; margin: 2px 0 0; padding: 5px 13px; border-radius: 999px; pointer-events: auto;
+  background: rgba(38, 38, 40, .7); color: #f2f2f7; font: 600 .78rem/1.2 system-ui, -apple-system, sans-serif;
+  -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); font-variant-numeric: tabular-nums;
+}
+.notifs-reste:empty { display: none; }
+
+/* Vue : ce que le lecteur voit, en plein écran, après un geste (toucher pour revenir) */
+.vue {
+  position: fixed; inset: 0; z-index: 37; overflow: hidden; background: #000; cursor: pointer;
+  opacity: 0; transition: opacity .5s ease; -webkit-user-select: none; user-select: none;
+}
+.vue.visible { opacity: 1; }
+.vue.sortie { transition-duration: .7s; }
+.vue-image { position: absolute; inset: 0; }
+.vue-image svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.vue::before {
+  content: ""; position: absolute; inset: -120px; z-index: 3; pointer-events: none; opacity: .1;
+  background-image: var(--texture-grain); background-size: 128px 128px; animation: grain .8s steps(1) infinite;
+}
+.vue::after {
+  content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: radial-gradient(ellipse 120% 92% at 50% 46%, transparent 45%, rgba(0, 0, 0, .9) 100%);
+}
+.vue-zoom .vue-image { transform: scale(1.3); filter: blur(12px); transition: transform 2.4s cubic-bezier(.2, .8, .2, 1), filter 1.7s ease; }
+.vue-tourner .vue-image { transform: translateX(42%) scale(1.15); filter: blur(10px); transition: transform 1.2s cubic-bezier(.3, .7, .2, 1), filter 1s ease; }
+.vue-baisser .vue-image { transform: translateY(-34%); filter: blur(8px); transition: transform 1.5s cubic-bezier(.3, .7, .2, 1), filter 1.1s ease; }
+.vue-fondu .vue-image { transform: scale(1.06); transition: transform 5s ease-out; }
+.vue.visible .vue-image { transform: none; filter: none; }
+.vue-porte {
+  position: absolute; top: 0; bottom: 0; width: 50.5%; z-index: 1;
+  background: linear-gradient(90deg, #120e0c, #1e1814 40%, #0d0a09); box-shadow: inset 0 0 60px rgba(0, 0, 0, .8);
+  transition: transform 1.7s cubic-bezier(.6, 0, .3, 1) .3s;
+}
+.vue-porte.g { left: 0; border-right: 1px solid #000; }
+.vue-porte.d { right: 0; border-left: 1px solid #000; }
+.vue-porte.g::after, .vue-porte.d::after { content: ""; position: absolute; top: 50%; width: 6px; height: 40px; border-radius: 3px; background: #3a3129; }
+.vue-porte.g::after { right: 14px; } .vue-porte.d::after { left: 14px; }
+.vue-ouvrir.visible .vue-porte.g { transform: translateX(-100%); }
+.vue-ouvrir.visible .vue-porte.d { transform: translateX(100%); }
+.vue-photo { background: #000; }
+.vue-photo::after { display: none; }
+.vue-photo .vue-image { inset: auto 0; top: 50%; transform: translateY(-50%) scale(.86); opacity: 0; transition: transform .45s cubic-bezier(.2, 1.2, .3, 1), opacity .3s ease; }
+.vue-photo.visible .vue-image { transform: translateY(-50%); opacity: 1; }
+.vue-photo .vue-image svg { position: static; height: auto; }
+.vue-photo-haut {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 4; display: flex; align-items: center; justify-content: space-between;
+  padding: calc(var(--haut) + 10px) 16px 12px; background: rgba(22, 22, 24, .88); color: #f2f2f7;
+  font: 600 1rem/1.2 system-ui, -apple-system, sans-serif;
+}
+.vue-photo-haut .retour { color: #0a84ff; font-weight: 400; font-size: 1.6rem; line-height: 1; width: 40px; }
+.vue-photo-haut .heure { font-weight: 400; font-size: .8rem; opacity: .6; width: 40px; text-align: right; }
+.vue-texte {
+  position: absolute; z-index: 4; left: 24px; right: 24px; bottom: calc(var(--bas) + 64px); margin: 0;
+  text-align: center; color: #d8d1c6; font: italic 1.05rem/1.4 var(--police-texte); text-shadow: 0 2px 12px #000;
+}
+.vue-aide {
+  position: absolute; z-index: 4; left: 0; right: 0; bottom: calc(var(--bas) + 24px); margin: 0; text-align: center;
+  font: 400 .68rem/1.3 var(--police-ui); letter-spacing: .24em; text-transform: uppercase; color: #9a9389;
+  opacity: 0; transition: opacity .8s ease;
+}
+.vue.aide-visible .vue-aide { opacity: .7; }
 
 /* =====================================================================
    9. PANNEAUX (paramètres, mode DEV)
@@ -1233,7 +1300,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
 /* Accessibilité : si l'iPhone demande moins d'animations */
 @media (prefers-reduced-motion: reduce) {
   .bloc { transition-duration: .4s; transform: none; }
-  #calque-illustration svg, #voile-grain, .chuchote .mot, .st-agite .mot { animation: none; }
+  #calque-illustration svg, #voile-grain, .vue::before, .chuchote .mot, .st-agite .mot { animation: none; }
 }
 /* Écrans plus larges (iPad, ordinateur) */
 @media (min-width: 700px) {
@@ -1249,6 +1316,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
 <!-- ===== Calques de fond (derrière le texte) ===== -->
 <div id="calque-illustration" aria-hidden="true"></div>
 <canvas id="calque-fond" aria-hidden="true"></canvas>
+<div id="calque-teinte" aria-hidden="true"></div>
 
 <!-- ===== L'histoire ===== -->
 <main id="ecran-histoire">
@@ -1417,6 +1485,9 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
     <h3 class="section-titre">Tester un son</h3>
     <div class="dev-grille" id="dev-sons"></div>
 
+    <h3 class="section-titre">Tester une ambiance (lieu)</h3>
+    <div class="dev-grille" id="dev-ambiances"></div>
+
     <h3 class="section-titre">Tester un effet visuel</h3>
     <div class="dev-grille" id="dev-effets"></div>
 
@@ -1448,7 +1519,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
    1. CONFIGURATION — les réglages faciles à modifier
    ===================================================================== */
 const CONFIG = {
-  version: '1.1',
+  version: '1.2',
   fuseau: 'America/Toronto',          // toutes les dates sont calculées à Toronto
   dossierHistoires: 'stories/',       // dossier des fichiers JSON
   cleSauvegarde: '3h12-sauvegarde-v1',// clé dans localStorage
@@ -1473,14 +1544,18 @@ const CONFIG = {
 };
 
 // Listes des valeurs permises (voir SCHEMA.md)
-const TYPES_BLOCS = ['paragraphe', 'titre', 'dialogue', 'sms', 'note', 'citation', 'pause', 'evenement', 'image', 'signature', 'champs', 'tampon', 'geste'];
+const TYPES_BLOCS = ['paragraphe', 'titre', 'dialogue', 'sms', 'note', 'citation', 'pause', 'evenement', 'image', 'signature', 'champs', 'tampon', 'geste', 'scene'];
 const EFFETS_FOND = ['pluie', 'neige', 'brouillard', 'poussiere', 'braises', 'statique', 'lucioles', 'cendres', 'etoiles', 'bulles', 'aucun'];
 const EFFETS_EVENEMENT = ['glitch', 'noir', 'flash', 'tremblement', 'epier', 'notification', 'appel', 'aucun'];
 const COTES_EPIER = ['droite', 'gauche', 'bas', 'haut'];
-const SONS_EVENEMENT = ['coup', 'craquement', 'chuchotement', 'respiration', 'porte', 'silence', 'pas', 'grattement', 'coeur', 'statique', 'cloche', 'vibration', 'goutte', 'aucun'];
+const SONS_EVENEMENT = ['coup', 'craquement', 'chuchotement', 'respiration', 'porte', 'silence', 'pas', 'grattement', 'coeur', 'statique', 'cloche', 'vibration', 'goutte', 'texto', 'mouches', 'aucun'];
+// Ambiances : sons en boucle qui suivent le lieu de l'histoire (blocs « scene »)
+const NOMS_AMBIANCES = ['frigo', 'douche', 'gouttes', 'voiture', 'horloge', 'vent', 'climatiseur', 'neon', 'mouches', 'souffle'];
+// Entrée d'une « vue » (ce que le lecteur voit après un geste)
+const ENTREES_VUE = ['fondu', 'zoom', 'tourner', 'baisser', 'ouvrir', 'photo'];
 const TYPES_COUCHES = ['drone', 'pad', 'cloche', 'pulsation', 'bruit', 'boite_a_musique', 'cordes', 'choeur', 'piano'];
 const EVOLUTIONS = ['monte', 'stable', 'descend', 'rupture'];
-const STYLES_BLOC = ['centre', 'droite', 'gros', 'petit', 'agite', 'efface', 'accent', 'majuscules', 'espace', 'lent', 'lampe'];
+const STYLES_BLOC = ['centre', 'droite', 'gros', 'petit', 'agite', 'efface', 'accent', 'majuscules', 'espace', 'lent'];
 const DUREES_EFFETS = { noir: 1600, flash: 700, glitch: 800, tremblement: 900, epier: 2600, notification: 6000, appel: 7000, aucun: 0 };
 
 // Gammes musicales : intervalles en demi-tons à partir de la tonique
@@ -1887,7 +1962,48 @@ function normaliserFond(f, r) {
     svg: typeof f.svg === 'string' ? f.svg : '',
     svgOpacite: nombre(f.svgOpacite, .22, 0, 1),
     couleur: couleurValide(f.couleur) ? developperHex(f.couleur) : null,
+    // Teinte posée sur le décor (sous le texte) et ambiance sonore du début
+    teinte: couleurValide(f.teinte) ? developperHex(f.teinte) : null,
+    teinteOpacite: nombre(f.teinteOpacite, .25, 0, .8),
+    ambiance: normaliserAmbiance(f.ambiance, r, 'fond'),
+    volumeAmbiance: nombre(f.volumeAmbiance, .6, 0, 1),
+    // Décors nommés, réutilisés par les blocs « scene » et les « vue » des gestes
+    decors: normaliserDecors(f.decors, r),
   };
+}
+// Une ou plusieurs ambiances (au plus 3) : « douche », ["climatiseur", "neon"], « aucune »
+function normaliserAmbiance(v, r, ou) {
+  const liste = (Array.isArray(v) ? v : (v == null ? [] : [v])).map(normCle).filter(a => a && a !== 'aucune' && a !== 'aucun');
+  const bonnes = liste.filter(a => NOMS_AMBIANCES.includes(a));
+  liste.filter(a => !bonnes.includes(a)).forEach(a => r.av(`${ou} : ambiance inconnue « ${a} », ignorée.`));
+  return [...new Set(bonnes)].slice(0, 3);
+}
+function normaliserDecors(d, r) {
+  const decors = {};
+  if (!d || typeof d !== 'object' || Array.isArray(d)) return decors;
+  Object.entries(d).forEach(([nom, svg]) => {
+    if (typeof svg === 'string' && /<svg[\s>]/i.test(svg)) decors[chaine(nom)] = svg;
+    else r.av(`fond.decors.${nom} : pas un SVG, ignoré.`);
+  });
+  return decors;
+}
+// Ce que le lecteur voit, en plein écran, quand il fait un geste
+function normaliserVue(v, r, ou) {
+  if (v == null || v === false) return null;
+  if (typeof v === 'string') v = /^\s*<svg[\s>]/i.test(v) ? { svg: v } : { decor: v };
+  if (typeof v !== 'object' || Array.isArray(v)) { r.av(`${ou} : vue illisible, ignorée.`); return null; }
+  const son = normCle(v.son) || 'aucun', entree = normCle(v.entree);
+  const vue = {
+    svg: typeof v.svg === 'string' ? v.svg : '',
+    decor: chaine(v.decor),
+    son: SONS_EVENEMENT.includes(son) ? son : (r.av(`${ou} : son de vue inconnu « ${v.son} ».`), 'aucun'),
+    duree: nombre(v.duree, 3400, 1200, 12000),
+    entree: ENTREES_VUE.includes(entree) ? entree : 'fondu',
+    titre: chaine(v.titre),
+    texte: chaine(v.texte),
+  };
+  if (!/<svg[\s>]/i.test(vue.svg) && !vue.decor) { r.av(`${ou} : vue sans svg ni decor, ignorée.`); return null; }
+  return vue;
 }
 
 // Tonique : « D », « F# », « Bb », « Ré », « fa dièse »… → classe de hauteur 0-11
@@ -2027,7 +2143,17 @@ function normaliserBloc(b, i, r) {
       const cote = normCle(b.cote);
       n.cote = COTES_EPIER.includes(cote) ? cote : 'droite';   // epier : bord de l'écran
       n.attaque = b.attaque === true;   // epier : si on ne la touche pas à temps, elle bondit
-      if (n.effet === 'notification' && !texte) r.av(`${ou} : notification sans texte.`);
+      // notification : une seule, ou une rafale (« messages ») qui s'empile en haut de l'écran
+      n.app = normCle(b.app) === 'telephone' ? 'telephone' : 'messages';
+      n.messages = (Array.isArray(b.messages) ? b.messages : []).map(m => {
+        if (typeof m === 'string') return { titre: '', texte: chaine(m), app: '' };
+        if (!m || typeof m !== 'object') return null;
+        const app = normCle(m.app);
+        return { titre: chaine(m.titre), texte: chaine(m.texte), app: app === 'telephone' || app === 'messages' ? app : '' };
+      }).filter(m => m && m.texte).slice(0, 40);
+      n.intervalle = nombre(b.intervalle, 900, 150, 5000);
+      n.reste = Math.round(nombre(b.reste, 0, 0, 999));   // « et N autres » qui défilent à la fin
+      if (n.effet === 'notification' && !texte && !n.messages.length) r.av(`${ou} : notification sans texte.`);
       if (n.effet === 'aucun' && n.son === 'aucun') r.av(`${ou} : événement sans effet ni son.`);
       break;
     }
@@ -2039,6 +2165,28 @@ function normaliserBloc(b, i, r) {
       const son = normCle(b.son) || 'aucun';
       n.son = SONS_EVENEMENT.includes(son) ? son : 'aucun';
       n.aide = chaine(b.aide);
+      n.vue = normaliserVue(b.vue, r, ou);
+      if (!n.vue) r.av(`${ou} : geste sans « vue » (un geste doit montrer quelque chose).`);
+      break;
+    }
+    case 'scene': {
+      // Le décor change avec le lieu de l'histoire : illustration, fond animé, teinte, ambiance sonore.
+      // Un champ absent reprend la valeur du « fond » de l'histoire (pas celle de la scène d'avant).
+      n.decor = chaine(b.decor);
+      n.svg = typeof b.svg === 'string' && /<svg[\s>]/i.test(b.svg) ? b.svg : null;
+      n.opacite = nombre(b.opacite ?? b.svgOpacite, null, 0, 1);
+      const effet = normCle(b.effet);
+      n.effet = !effet ? null : (EFFETS_FOND.includes(effet) ? effet : (r.av(`${ou} : effet de fond inconnu « ${b.effet} ».`), null));
+      n.intensite = nombre(b.intensite, null, 0, 1);
+      n.couleur = couleurValide(b.couleur) ? developperHex(b.couleur) : null;
+      n.scintillement = nombre(b.scintillement, null, 0, 1);
+      n.vignette = nombre(b.vignette, null, 0, 1);
+      n.teinte = couleurValide(b.teinte) ? developperHex(b.teinte) : null;
+      n.teinteOpacite = nombre(b.teinteOpacite, .25, 0, .8);
+      n.ambiance = normaliserAmbiance(b.ambiance, r, ou);
+      n.volume = nombre(b.volume, .6, 0, 1);
+      // Durée du passage au nouveau décor (ms) : 0 = coupe sèche, 1800 par défaut, jusqu'à 6000 (très lent)
+      n.fondu = Math.round(nombre(b.fondu, 1800, 0, 6000));
       break;
     }
     case 'image':
@@ -2112,6 +2260,11 @@ function normaliserHistoire(d, dateFichier) {
     if (texte && choix.length >= 2) h.question = { texte, choix };
     else r.av('question ignorée : il faut un texte et 2 à 4 choix.');
   }
+  // Les décors nommés doivent exister
+  h.blocs.forEach((b, i) => {
+    const nom = b.type === 'scene' ? b.decor : (b.vue && !b.vue.svg ? b.vue.decor : '');
+    if (nom && !h.fond.decors[nom]) r.av(`Bloc n° ${i + 1} : décor « ${nom} » absent de fond.decors.`);
+  });
   h.mots = compterMots(h);
   h.minutes = Math.max(1, Math.round(h.mots / CONFIG.motsParMinute));
   const nbEvenements = h.blocs.filter(b => b.type === 'evenement').length;
@@ -2346,7 +2499,9 @@ const Textures = {
       img.data[i + 3] = 25 + Math.random() * 110;
     }
     x.putImageData(img, 0, 0);
-    $('#voile-grain').style.backgroundImage = `url(${c.toDataURL()})`;
+    const grain = `url(${c.toDataURL()})`;
+    $('#voile-grain').style.backgroundImage = grain;
+    document.documentElement.style.setProperty('--texture-grain', grain);
   },
   papier(surface) {
     if (this.derniereSurface === surface) return;
@@ -2388,17 +2543,45 @@ const Textures = {
 
 /* --- Illustration SVG de fond (semi-transparente, derrière le texte) --- */
 const Illustration = {
-  base: .22,
+  base: .22, svgActuel: null,
   definir(svg, opacite) {
+    this.svgActuel = null;
+    this.changer(svg, opacite, true);
+  },
+  // Change de décor : le nouveau apparaît en fondu par-dessus, puis l'ancien est retiré
+  changer(svg, opacite, immediat = false, fondu = 1800) {
     const el = $('#calque-illustration');
-    el.innerHTML = nettoyerSVG(svg, { fond: true });
     this.base = opacite;
-    this.maj(window.scrollY || 0, 0);
+    if (fondu < 60) immediat = true;
+    if (svg !== this.svgActuel) {
+      this.svgActuel = svg;
+      const propre = svg ? nettoyerSVG(svg, { fond: true }) : '';
+      const anciennes = $$('.illu', el);
+      clearTimeout(this.tRetrait);
+      if (propre) {
+        const couche = document.createElement('div');
+        couche.className = 'illu';
+        couche.style.transitionDuration = `${fondu}ms`;
+        couche.innerHTML = propre;
+        // La « respiration » du décor continue sans à-coup d'un décor à l'autre
+        const image = couche.firstElementChild;
+        if (image) image.style.animationDelay = `-${((performance.now() / 1000) % 52).toFixed(2)}s`;
+        el.appendChild(couche);
+        if (immediat) couche.classList.add('visible');
+        else requestAnimationFrame(() => requestAnimationFrame(() => couche.classList.add('visible')));
+      }
+      if (immediat) anciennes.forEach(c => c.remove());
+      else {
+        if (!propre) anciennes.forEach(c => { c.style.transitionDuration = `${fondu}ms`; c.classList.add('sortante'); });
+        this.tRetrait = setTimeout(() => anciennes.forEach(c => c.remove()), fondu + 250);
+      }
+    }
+    this.maj(window.scrollY || 0, etat.progression || 0);
   },
   // Plus visible sur le carton de titre, puis s'efface vers son opacité normale
   maj(y, progression) {
     const el = $('#calque-illustration');
-    if (!el.firstChild) { el.style.opacity = '0'; return; }
+    if (!el.querySelector('svg')) { el.style.opacity = '0'; return; }
     const haut = borner(y / (window.innerHeight || 800), 0, 1);
     el.style.opacity = Math.min(1, this.base * (2.2 - 1.2 * haut)).toFixed(3);
     el.style.transform = `translateY(${(-progression * 3).toFixed(2)}%)`;
@@ -2407,9 +2590,13 @@ const Illustration = {
 
 /* --- Vignette, grain, scintillement (valeurs du JSON) --- */
 const Voiles = {
-  appliquer(f) {
+  appliquer(f, fondu = 2200) {
     $('#voile-vignette').style.opacity = (f.vignette * .95).toFixed(2);
     $('#voile-grain').style.opacity = (f.grain * .2).toFixed(3);
+    const t = $('#calque-teinte');
+    t.style.transitionDuration = `${Math.max(fondu, 0)}ms`;
+    if (f.teinte) t.style.backgroundColor = f.teinte;
+    t.style.opacity = f.teinte ? f.teinteOpacite.toFixed(2) : '0';
   },
 };
 
@@ -2476,6 +2663,13 @@ const Fond = {
     this.ctx.clearRect(0, 0, this.l, this.h);
     const e = EFFETS[this.effet];
     if (e && e.init) e.init(this);
+  },
+  // Changement de lieu : le fond animé s'efface, change, puis revient
+  changer(f, immediat = false) {
+    clearTimeout(this.tChange);
+    if (immediat || !this.actif) { this.canvas.style.opacity = ''; this.configurer(f); return; }
+    this.canvas.style.opacity = '0';
+    this.tChange = setTimeout(() => { this.configurer(f); this.canvas.style.opacity = ''; }, 650);
   },
   demarrer() { this.actif = true; this.reprendre(); },
   arreter() { this.actif = false; this.pause(); this.ctx.clearRect(0, 0, this.l, this.h); this.voileScint.style.opacity = '0'; },
@@ -2853,6 +3047,7 @@ const MoteurAudio = {
     if (!navigator.audioSession) this.contournerSourdine();
     this.appliquerVolumes();
     this.pret = true;
+    Ambiance.sync();
     // Musique en attente : l'histoire est déjà affichée, on la lance maintenant
     if (etat.ecran === 'histoire' && etat.histoire && !this.musique) setTimeout(() => { if (!this.musique) demarrerMusique(etat.histoire.musique); }, 0);
   },
@@ -3704,6 +3899,256 @@ const SONS = {
       x += hasard(.55, 1.3);
     }
   },
+  // Texto reçu : trois petites notes claires, comme un téléphone
+  texto(t, o) {
+    const n = o.nombre || 1;
+    for (let k = 0; k < n; k++) {
+      const x = t + k * 1.1;
+      const sortie = sortieEffet(0, .12);
+      [[1318.5, 0], [1760, .12], [2637, .24]].forEach(([f, d]) => {
+        [[1, .19, .42], [2.76, .045, .1]].forEach(([mult, v, dec]) => {
+          const osc = A.osc('sine', f * mult), g = A.gain(0);
+          A.enveloppe(g.gain, x + d, .003, v, dec);
+          A.relier(osc, g, sortie);
+          osc.start(x + d); osc.stop(x + d + dec + .05);
+        });
+      });
+      setTimeout(() => { try { sortie.disconnect(); } catch (e) {} }, (x - t + 1.2) * 1000);
+    }
+  },
+  // Des mouches qui bourdonnent et tournent autour
+  mouches(t, o) {
+    const d = Math.max(1.5, (o.duree || 4000) / 1000);
+    const g = A.gain(0);
+    g.connect(sortieEffet(0));
+    const arret = AMBIANCES.mouches(t, g);
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(1, t + .5);
+    g.gain.setValueAtTime(1, t + d - .8);
+    g.gain.linearRampToValueAtTime(0, t + d);
+    setTimeout(() => { arret(); try { g.disconnect(); } catch (e) {} }, (d + .4) * 1000);
+  },
+};
+
+/* --- Ambiances : sons en boucle qui suivent le lieu (blocs « scene ») ---
+   Chaque fonction branche ses sources sur « s » (un gain) et renvoie une fonction qui les arrête. */
+function sourceBruit(rose = false) {
+  const b = A.c.createBufferSource();
+  b.buffer = rose ? MoteurAudio.bruitRose : MoteurAudio.bruitBlanc;
+  b.loop = true;
+  b.loopStart = 0;
+  return b;
+}
+// Oscillateur lent qui fait varier un paramètre (fréquence, volume, panoramique…)
+function lfo(frequence, profondeur, param, type = 'sine') {
+  const o = A.osc(type, frequence), g = A.gain(profondeur);
+  A.relier(o, g, param);
+  return o;
+}
+// Petit tampon audio fabriqué une seule fois (tic-tac, gouttes) puis joué en boucle
+const tamponsAmbiance = {};
+function tamponAmbiance(nom, secondes, remplir) {
+  const c = MoteurAudio.ctx;
+  if (!tamponsAmbiance[nom] || tamponsAmbiance[nom].sampleRate !== c.sampleRate) {
+    const t = c.createBuffer(1, Math.floor(c.sampleRate * secondes), c.sampleRate);
+    remplir(t.getChannelData(0), c.sampleRate);
+    tamponsAmbiance[nom] = t;
+  }
+  const b = c.createBufferSource();
+  b.buffer = tamponsAmbiance[nom];
+  b.loop = true;
+  return b;
+}
+function arreterTout(sources, extra) {
+  return () => { sources.forEach(x => { try { x.stop(); } catch (e) {} }); if (extra) extra(); };
+}
+const AMBIANCES = {
+  // Réfrigérateur ouvert : bourdonnement qui bat doucement
+  frigo(t, s) {
+    const src = [], lp = A.filtre('lowpass', 900, .7);
+    lp.connect(s);
+    [[120, .5], [120.9, .45], [240, .3], [360, .18], [480.6, .1]].forEach(([f, v]) => {
+      const o = A.osc('sine', f), g = A.gain(v * .16);
+      A.relier(o, g, lp); src.push(o);
+    });
+    const b = sourceBruit(true), bp = A.filtre('bandpass', 380, .8), bg = A.gain(.5);
+    A.relier(b, bp, bg, s); src.push(b);
+    const aigu = A.osc('sine', 7800), ag = A.gain(.006);
+    A.relier(aigu, ag, s); src.push(aigu);
+    src.push(lfo(.09, .2, bg.gain));
+    src.forEach(x => x.start(t));
+    return arreterTout(src);
+  },
+  // Douche qui coule
+  douche(t, s) {
+    const src = [];
+    const b1 = sourceBruit(), hp = A.filtre('highpass', 900, .5), bp = A.filtre('bandpass', 3000, .35), g1 = A.gain(.75);
+    A.relier(b1, hp, bp, g1, s); src.push(b1);
+    const b2 = sourceBruit(true), bp2 = A.filtre('bandpass', 650, .7), g2 = A.gain(1.1);
+    A.relier(b2, bp2, g2, s); src.push(b2);
+    src.push(lfo(.31, 500, bp.frequency), lfo(.17, 160, bp2.frequency), lfo(5.3, .12, g1.gain, 'triangle'));
+    src.forEach(x => x.start(t));
+    return arreterTout(src);
+  },
+  // Gouttes qui tombent dans le bain (résonne)
+  gouttes(t, s) {
+    const b = tamponAmbiance('gouttes', 7, (d, sr) => {
+      const alea = aleaSeme(77);
+      [.3, 1.9, 2.6, 4.1, 5.8, 6.3].forEach(pos => {
+        const f0 = 520 + alea() * 300, n = Math.floor(sr * .16), debut = Math.floor(pos * sr);
+        let phase = 0;
+        for (let i = 0; i < n && debut + i < d.length; i++) {
+          const x = i / sr, f = f0 * (1 + 1.7 * Math.min(1, x / .04));
+          phase += 2 * Math.PI * f / sr;
+          d[debut + i] += Math.sin(phase) * Math.exp(-x * 34) * (.5 + alea() * .3);
+        }
+      });
+    });
+    const g = A.gain(.9), envoi = A.gain(.9);
+    A.relier(b, g, s);
+    A.relier(g, envoi, MoteurAudio.convolueur);
+    b.start(t);
+    return arreterTout([b], () => { try { envoi.disconnect(); } catch (e) {} });
+  },
+  // En voiture, la nuit : moteur et route
+  voiture(t, s) {
+    const src = [];
+    const lp = A.filtre('lowpass', 260, .8);
+    lp.connect(s);
+    [[46, .6], [92.5, .35], [138.2, .12]].forEach(([f, v]) => {
+      const o = A.osc('sawtooth', f), g = A.gain(v * .3);
+      A.relier(o, g, lp); src.push(o, lfo(.11, f * .05, o.frequency));
+    });
+    const route = sourceBruit(true), rl = A.filtre('lowpass', 700, .5), rg = A.gain(1.6);
+    A.relier(route, rl, rg, s); src.push(route);
+    const pneus = sourceBruit(), pb = A.filtre('bandpass', 1400, .5), pg = A.gain(.06);
+    A.relier(pneus, pb, pg, s); src.push(pneus, lfo(.23, .25, rg.gain));
+    src.forEach(x => x.start(t));
+    return arreterTout(src);
+  },
+  // Horloge : tic… tac…
+  horloge(t, s) {
+    const b = tamponAmbiance('horloge', 2, (d, sr) => {
+      [[0, 3400, 1], [1, 2500, .8]].forEach(([pos, f, v]) => {
+        const debut = Math.floor(pos * sr), n = Math.floor(sr * .045);
+        for (let i = 0; i < n; i++) {
+          const x = i / sr;
+          d[debut + i] += (Math.sin(2 * Math.PI * f * x) * .6 + (Math.random() * 2 - 1) * .5) * Math.exp(-x * 160) * v;
+        }
+      });
+    });
+    const bp = A.filtre('bandpass', 2900, .9), g = A.gain(.9), envoi = A.gain(.25);
+    A.relier(b, bp, g, s);
+    A.relier(g, envoi, MoteurAudio.convolueur);
+    b.start(t);
+    return arreterTout([b], () => { try { envoi.disconnect(); } catch (e) {} });
+  },
+  // Vent dehors
+  vent(t, s) {
+    const src = [];
+    const b = sourceBruit(true), bp = A.filtre('bandpass', 520, .9), g = A.gain(1.2);
+    A.relier(b, bp, g, s); src.push(b, lfo(.07, 280, bp.frequency), lfo(.13, .5, g.gain));
+    const w = sourceBruit(), wb = A.filtre('bandpass', 1800, 7), wg = A.gain(.05);
+    A.relier(w, wb, wg, s); src.push(w, lfo(.05, 400, wb.frequency), lfo(.09, .04, wg.gain));
+    src.forEach(x => x.start(t));
+    return arreterTout(src);
+  },
+  // Climatiseur de motel : souffle et cliquetis
+  climatiseur(t, s) {
+    const src = [];
+    const b = sourceBruit(true), lp = A.filtre('lowpass', 1100, .6), g = A.gain(1.3);
+    A.relier(b, lp, g, s); src.push(b);
+    const r = A.osc('square', 23), rb = A.filtre('bandpass', 420, 3), rg = A.gain(.05);
+    A.relier(r, rb, rg, s); src.push(r, lfo(.19, .04, rg.gain));
+    const h = A.osc('sine', 240), hg = A.gain(.025);
+    A.relier(h, hg, s); src.push(h);
+    src.forEach(x => x.start(t));
+    return arreterTout(src);
+  },
+  // Néon qui grésille
+  neon(t, s) {
+    const src = [];
+    const o = A.osc('sawtooth', 120), bp = A.filtre('bandpass', 1700, 1.4), g = A.gain(.07);
+    A.relier(o, bp, g, s); src.push(o);
+    const o2 = A.osc('sawtooth', 60), lp = A.filtre('lowpass', 420), g2 = A.gain(.05);
+    A.relier(o2, lp, g2, s); src.push(o2, lfo(7.3, .025, g.gain, 'square'), lfo(.37, .03, g.gain));
+    src.forEach(x => x.start(t));
+    return arreterTout(src);
+  },
+  // Mouches : trois qui tournent, s'approchent et s'éloignent
+  mouches(t, s) {
+    const src = [];
+    for (let k = 0; k < 3; k++) {
+      const f = hasard(175, 240), o = A.osc('sawtooth', f);
+      const bp = A.filtre('bandpass', hasard(700, 1200), .8), g = A.gain(.05), p = A.pan(hasard(-.6, .6));
+      A.relier(o, bp, g, p, s);
+      src.push(o, lfo(hasard(5, 9), hasard(4, 8), o.frequency), lfo(hasard(.2, .5), hasard(15, 30), o.frequency),
+        lfo(hasard(.08, .2), .045, g.gain));
+      if (p.pan) src.push(lfo(hasard(.05, .15), .7, p.pan));
+    }
+    src.forEach(x => x.start(t + Math.random() * .3));
+    return arreterTout(src);
+  },
+  // Quelqu'un respire, tout près, dans le noir
+  souffle(t, s) {
+    let actif = true;
+    const respirer = () => {
+      if (!actif || !MoteurAudio.ctx) return;
+      const x = MoteurAudio.ctx.currentTime + .05;
+      [[0, 1.1, 1300, 2100, .9], [1.3, 1.4, 650, 1050, 1.2]].forEach(([d, duree, f1, f2, v]) => {
+        const b = sourceBruit(true), bp = A.filtre('bandpass', f1, .6), g = A.gain(0);
+        bp.frequency.setValueAtTime(f1, x + d);
+        bp.frequency.linearRampToValueAtTime(f2, x + d + duree);
+        g.gain.setValueAtTime(0, x + d);
+        g.gain.linearRampToValueAtTime(v, x + d + duree * .55);
+        g.gain.linearRampToValueAtTime(0, x + d + duree);
+        A.relier(b, bp, g, s);
+        b.start(x + d); b.stop(x + d + duree + .05);
+        A.liberer(b, bp, g);
+      });
+    };
+    respirer();
+    const iv = setInterval(respirer, 3100);
+    return () => { actif = false; clearInterval(iv); };
+  },
+};
+// Volume relatif de chaque ambiance (pour qu'elles se mélangent bien à 60 %)
+const VOLUMES_AMBIANCE = { frigo: 1, douche: .8, gouttes: .7, voiture: .9, horloge: .55, vent: .8, climatiseur: .7, neon: .8, mouches: .9, souffle: .55 };
+
+const Ambiance = {
+  actives: new Map(),
+  voulue: { noms: [], volume: .6 },
+  jouer(noms, volume = .6) {
+    this.voulue = { noms: (noms || []).filter(n => AMBIANCES[n]), volume };
+    this.sync();
+  },
+  arreter(fondu = 1.5) { this.voulue = { noms: [], volume: 0 }; this.sync(fondu); },
+  // Fait correspondre ce qui joue à ce qui est voulu (fondus enchaînés)
+  sync(fondu = 2.2) {
+    if (!MoteurAudio.pret || !MoteurAudio.ctx) return;
+    const t = MoteurAudio.ctx.currentTime;
+    const { noms, volume } = this.voulue;
+    for (const [nom, a] of this.actives) {
+      if (noms.includes(nom)) continue;
+      this.actives.delete(nom);
+      a.gain.gain.cancelScheduledValues(t);
+      a.gain.gain.setValueAtTime(a.gain.gain.value, t);
+      a.gain.gain.linearRampToValueAtTime(0, t + fondu);
+      setTimeout(() => { a.arret(); try { a.gain.disconnect(); } catch (e) {} }, (fondu + .3) * 1000);
+    }
+    noms.forEach(nom => {
+      const v = volume * (VOLUMES_AMBIANCE[nom] || 1);
+      const a = this.actives.get(nom);
+      if (a) { a.gain.gain.cancelScheduledValues(t); a.gain.gain.setTargetAtTime(v, t, .7); return; }
+      const g = A.gain(0);
+      g.connect(MoteurAudio.busEffets);
+      let arret;
+      try { arret = AMBIANCES[nom](t + .02, g); } catch (e) { console.warn('Ambiance', nom, e); g.disconnect(); return; }
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(v, t + 2.6);
+      this.actives.set(nom, { gain: g, arret });
+    });
+  },
 };
 
 // Joue un son par son nom (sans planter si l'audio n'est pas prêt)
@@ -4231,6 +4676,7 @@ const Rendu = {
   },
   bloc(b, i, ctx) {
     if (b.type === 'evenement') return `<div class="bloc-evenement" data-i="${i}" aria-hidden="true"></div>`;
+    if (b.type === 'scene') return `<div class="bloc-scene" data-i="${i}" aria-hidden="true"></div>`;
     let contenu;
     try {
       const f = (ctx.mep.blocs && ctx.mep.blocs[b.type]) || RENDUS[b.type];
@@ -4299,57 +4745,6 @@ const etat = {
 };
 
 /* =====================================================================
-   15 ter. LAMPE DE POCHE : les blocs de style « lampe » sont dans le noir
-   Quand un de ces blocs est au milieu de l'écran, tout devient noir sauf un cercle de lumière
-   qui suit le doigt (il reste là où on l'a laissé). La lumière vacille un peu.
-   ===================================================================== */
-const Lampe = {
-  actif: false, x: .5, y: .42, rayon: 108, guide: false,
-  installer() {
-    this.el = document.createElement('div');
-    this.el.id = 'lampe';
-    this.el.setAttribute('aria-hidden', 'true');
-    this.aide = document.createElement('p');
-    this.aide.id = 'lampe-aide';
-    this.aide.setAttribute('aria-hidden', 'true');
-    this.aide.textContent = 'Glisse ton doigt pour éclairer';
-    document.body.append(this.el, this.aide);
-    const suivre = (cx, cy) => {
-      this.x = cx / window.innerWidth;
-      this.y = cy / window.innerHeight;
-      if (this.actif) { this.guide = true; this.aide.classList.remove('visible'); }
-    };
-    window.addEventListener('touchstart', e => { const t = e.touches[0]; if (t) suivre(t.clientX, t.clientY); }, { passive: true });
-    window.addEventListener('touchmove', e => { const t = e.touches[0]; if (t) suivre(t.clientX, t.clientY); }, { passive: true });
-    window.addEventListener('pointermove', e => { if (e.pointerType === 'mouse') suivre(e.clientX, e.clientY); }, { passive: true });
-  },
-  // Appelé au défilement : y a-t-il un bloc « lampe » au milieu de l'écran ?
-  maj() {
-    if (!this.el) return;
-    const h = window.innerHeight;
-    const actif = etat.ecran === 'histoire' && $$('#histoire .st-lampe').some(b => {
-      if (!b.getClientRects().length) return false;
-      const r = b.getBoundingClientRect();
-      return r.bottom > h * .25 && r.top < h * .75;
-    });
-    if (actif === this.actif) return;
-    this.actif = actif;
-    this.el.classList.toggle('actif', actif);
-    this.aide.classList.toggle('visible', actif && !this.guide);
-    if (actif) this.boucle();
-  },
-  boucle() {
-    if (!this.actif) return;
-    const r = this.rayon * (.93 + Math.random() * .12);
-    this.el.style.setProperty('--lx', `${(this.x * 100).toFixed(1)}%`);
-    this.el.style.setProperty('--ly', `${(this.y * 100).toFixed(1)}%`);
-    this.el.style.setProperty('--lr', `${r.toFixed(0)}px`);
-    setTimeout(() => requestAnimationFrame(() => this.boucle()), 70);
-  },
-  eteindre() { this.actif = false; if (this.el) { this.el.classList.remove('actif'); this.aide.classList.remove('visible'); } },
-};
-
-/* =====================================================================
    15 bis. GESTES : le lecteur doit agir pour que l'histoire continue
    Un bloc « geste » est un bouton (« Ouvrir la porte »). Tant qu'il n'est pas fait, tout ce
    qui suit reste caché. Mode « toucher » : un toucher. Mode « maintenir » : garder le doigt
@@ -4377,16 +4772,24 @@ const Gestes = {
     });
     art.classList.toggle('geste-en-attente', !!premier);
   },
+  // Geste fait : son, puis la « vue » (ce que le personnage voit) en plein écran, puis la suite
   terminer(g) {
     if (!g || g.classList.contains('fait')) return;
     g.classList.add('fait');
     const b = $('.geste-bouton', g);
     if (b && b.dataset.son && b.dataset.son !== 'aucun') jouerSon(b.dataset.son, {});
     if (P().effetsIntenses && navigator.vibrate) { try { navigator.vibrate(30); } catch (e) {} }
-    this.masquer();
-    const ok = this.attentes.get(g);
-    if (ok) { this.attentes.delete(g); ok(); }
-    requestAnimationFrame(() => Lecture.surDefilement());
+    const i = +g.dataset.i, bloc = etat.histoire && etat.histoire.blocs[i];
+    const suite = () => {
+      this.masquer();
+      const ok = this.attentes.get(g);
+      if (ok) { this.attentes.delete(g); ok(); }
+      requestAnimationFrame(() => Lecture.surDefilement());
+    };
+    if (bloc && bloc.vue) {
+      etat.journal.push({ i, effet: 'vue', son: bloc.vue.son, heure: new Date().toISOString() });
+      Vues.montrer(bloc.vue).then(suite);
+    } else suite();
   },
   attendre(g) {
     if (g.classList.contains('fait')) return Promise.resolve();
@@ -4419,6 +4822,119 @@ const Gestes = {
 };
 
 /* =====================================================================
+   15 ter. VUES : ce que le personnage voit quand le lecteur fait le geste
+   Plein écran, avec une entrée (fondu, zoom, tourner la tête, baisser les yeux, ouvrir des
+   portes, photo). Se ferme seule après « duree », ou d'un toucher.
+   ===================================================================== */
+const Vues = {
+  montrer(v) {
+    return new Promise(ok => {
+      const svg = v.svg || (etat.histoire && etat.histoire.fond.decors[v.decor]) || '';
+      const photo = v.entree === 'photo';
+      const propre = nettoyerSVG(svg, { fond: !photo });
+      if (!propre) { ok(); return; }
+      const el = document.createElement('div');
+      el.className = `vue vue-${v.entree}`;
+      el.setAttribute('role', 'dialog');
+      el.setAttribute('aria-label', texteBrut(v.titre || v.texte || 'Vue'));
+      const heure = new Intl.DateTimeFormat('fr-CA', { hour: 'numeric', minute: '2-digit', timeZone: CONFIG.fuseau }).format(new Date());
+      el.innerHTML = (photo ? `<div class="vue-photo-haut"><span class="retour" aria-hidden="true">‹</span><span>${formater(v.titre || 'Photo')}</span><span class="heure">${echapper(heure)}</span></div>` : '')
+        + `<div class="vue-image">${propre}</div>`
+        + (v.entree === 'ouvrir' ? '<div class="vue-porte g"></div><div class="vue-porte d"></div>' : '')
+        + (v.texte ? `<p class="vue-texte">${formater(v.texte)}</p>` : '')
+        + '<p class="vue-aide">Toucher pour revenir</p>';
+      document.body.appendChild(el);
+      requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('visible')));
+      if (v.son && v.son !== 'aucun') setTimeout(() => jouerSon(v.son, { duree: Math.max(1500, v.duree - 600) }), v.entree === 'ouvrir' ? 900 : 300);
+      const debut = Date.now();
+      let fini = false;
+      const fermer = () => {
+        if (fini) return;
+        fini = true;
+        clearTimeout(tAuto); clearTimeout(tAide);
+        el.classList.add('sortie');
+        el.classList.remove('visible');
+        setTimeout(() => { el.remove(); ok(); }, 700);
+      };
+      const tAuto = setTimeout(fermer, v.duree + (v.entree === 'ouvrir' ? 1400 : 0));
+      const tAide = setTimeout(() => el.classList.add('aide-visible'), 1800);
+      el.addEventListener('click', e => { e.stopPropagation(); if (Date.now() - debut > 900) fermer(); });
+      this.fermer = fermer;
+    });
+  },
+};
+
+/* =====================================================================
+   15 quater. SCÈNES : le décor suit l'histoire
+   Un bloc « scene » change le lieu quand le lecteur y arrive : illustration (en fondu), fond
+   animé, teinte, vignette, ambiance sonore en boucle. Si le lecteur remonte, le lieu d'avant
+   revient. Avant la première scène : le « fond » de l'histoire.
+   ===================================================================== */
+const Scenes = {
+  liste: [], courante: undefined, cible: undefined, env: null, minuterie: null,
+  preparer(art) {
+    this.liste = $$('.bloc-scene', art).map(el => ({ el, i: +el.dataset.i }));
+  },
+  // Retour à l'écran d'entrée : tout sera réappliqué en revenant
+  oublier() {
+    clearTimeout(this.minuterie);
+    this.courante = this.cible = undefined;
+    this.env = null;
+    Ambiance.arreter(1.5);
+  },
+  // Au défilement : la dernière scène passée au-dessus de la ligne (60 % de l'écran)
+  maj() {
+    if (etat.ecran !== 'histoire' || !etat.histoire) return;
+    const h = window.innerHeight, ligne = etat.mep === 'sms' ? 1 : .6;
+    let i = -1;
+    for (const s of this.liste) {
+      if (!s.el.isConnected || !s.el.getClientRects().length) continue;
+      if (s.el.getBoundingClientRect().top < h * ligne) i = s.i; else break;
+    }
+    this.viser(i);
+  },
+  viser(i) {
+    if (i === this.cible) return;
+    this.cible = i;
+    clearTimeout(this.minuterie);
+    if (this.courante === undefined) this.appliquer(i);
+    else this.minuterie = setTimeout(() => this.appliquer(i), 160);
+  },
+  // L'environnement complet d'une scène (i = -1 : le fond de l'histoire)
+  environnement(i) {
+    const f = etat.histoire.fond, s = i >= 0 ? etat.histoire.blocs[i] : null;
+    const val = (k, d) => (s && s[k] != null ? s[k] : d);
+    let svg = f.svg;
+    if (s && s.svg) svg = s.svg;
+    else if (s && s.decor && f.decors[s.decor]) svg = f.decors[s.decor];
+    return {
+      svg, opacite: val('opacite', f.svgOpacite),
+      effet: val('effet', f.effet), intensite: val('intensite', f.intensite), couleur: val('couleur', f.couleur),
+      scintillement: val('scintillement', f.scintillement), vignette: val('vignette', f.vignette), grain: f.grain,
+      teinte: s ? s.teinte : f.teinte, teinteOpacite: s ? s.teinteOpacite : f.teinteOpacite,
+      ambiance: s ? s.ambiance : f.ambiance, volume: s ? s.volume : f.volumeAmbiance,
+      fondu: s ? s.fondu : 1800,
+    };
+  },
+  appliquer(i) {
+    if (!etat.histoire) return;
+    const e = this.environnement(i), avant = this.env, premiere = !avant;
+    this.courante = i;
+    this.env = e;
+    if (i >= 0) etat.journal.push({ i, effet: 'scene', son: e.ambiance.join('+') || 'aucune', heure: new Date().toISOString() });
+    // En remontant, on revient avec le fondu de la scène qu'on quitte (une coupe sèche reste sèche)
+    const fondu = avant && avant.fondu < e.fondu && i < this.precedente ? avant.fondu : e.fondu;
+    this.precedente = i;
+    Illustration.changer(e.svg, e.opacite, premiere, fondu);
+    const fondChange = premiere || e.effet !== avant.effet || e.couleur !== avant.couleur
+      || Math.abs(e.intensite - avant.intensite) > .01 || e.scintillement !== avant.scintillement;
+    if (fondChange) Fond.changer(e, premiere || fondu < 60);
+    Voiles.appliquer(e, premiere ? 0 : Math.max(fondu, 400));
+    if (!etat.finie) Ambiance.jouer(e.ambiance, e.volume);
+  },
+};
+
+/* =====================================================================
    16. LECTURE : apparition des blocs, événements, position
    ===================================================================== */
 const Lecture = {
@@ -4442,7 +4958,9 @@ const Lecture = {
       blocs.forEach(b => { if (+b.dataset.i < positionBloc) { b.classList.add('visible', 'deja'); this.terminerBloc(b, true); } });
       this.evenements.forEach(e => { if (e.i < positionBloc) this.declenches.add(e.i); });
     }
+    $$('.bloc-scene', art).forEach(s => { if (+s.dataset.i < positionBloc) s.classList.add('visible'); });
     Gestes.preparer(art, positionBloc);
+    Scenes.preparer(art);
     this.dernierEvenement = 0;
     clearInterval(this.minuterieDeclencheurs);
     this.minuterieDeclencheurs = setInterval(() => { if (etat.ecran === 'histoire' && !document.hidden) this.verifierDeclencheurs(); }, 250);
@@ -4468,7 +4986,8 @@ const Lecture = {
         // Toujours dans l'ordre, au moins 1,2 s après l'événement précédent
         pret: () => avant.every(a => this.declenches.has(a.i))
           && Date.now() - this.dernierEvenement > 1200
-          && (!precedent || precedent.classList.contains('visible')),
+          // (ou déjà passé au-dessus de l'écran : un défilement très rapide ne l'a jamais « vu »)
+          && (!precedent || precedent.classList.contains('visible') || precedent.getBoundingClientRect().bottom < 0),
         action: () => {
           this.declenches.add(ev.i);
           this.dernierEvenement = Date.now();
@@ -4502,7 +5021,7 @@ const Lecture = {
      téléphone presse le pas. */
   preparerConversation(art) {
     const objet = $('.objet', art);
-    this.file = objet ? $$(':scope > .bloc, :scope > .bloc-evenement', objet)
+    this.file = objet ? $$(':scope > .bloc, :scope > .bloc-evenement, :scope > .bloc-scene', objet)
       .filter(el => el.classList.contains('bloc-evenement') ? !this.declenches.has(+el.dataset.i) : !el.classList.contains('visible')) : [];
     this.totalConv = objet ? $$(':scope > .bloc', objet).length : 0;
     art.classList.toggle('conversation-finie', !this.file.some(el => el.classList.contains('bloc')));
@@ -4524,6 +5043,9 @@ const Lecture = {
         if (!this.declenches.has(i)) { this.declenches.add(i); this.dernierEvenement = Date.now(); declencherEvenement(b, i); }
         const duree = b.duree || DUREES_EFFETS[b.effet] || 1000;
         pause = b.effet === 'noir' ? duree + 700 : borner(duree * .6, 1200, 3000);
+      } else if (el.classList.contains('bloc-scene')) {
+        el.classList.add('visible');   // le lieu change à sa place dans la conversation
+        pause = 400;
       } else {
         const sms = el.classList.contains('bloc-sms');
         const texte = ((sms && el.querySelector('.bulle')) || el).textContent.trim();
@@ -4683,8 +5205,8 @@ const Lecture = {
     $('#barre-progression').style.transform = `scaleX(${p.toFixed(4)})`;
     if (MoteurAudio.musique) MoteurAudio.musique.progression(p);
     Illustration.maj(y, p);
-    Lampe.maj();
     if (etat.ecran !== 'histoire') return;
+    Scenes.maj();
     if (etat.mep === 'sms') this.majSMS();
     this.verifierDeclencheurs();
     // Barre du haut plus discrète pendant la lecture
@@ -4766,6 +5288,7 @@ const Lecture = {
       Sauvegarde.planifier();
     }
     if (MoteurAudio.musique) MoteurAudio.musique.finir();
+    Ambiance.arreter(4);
     majFin();
   },
   quitterFin() {
@@ -4774,6 +5297,7 @@ const Lecture = {
     fin.classList.remove('visible');
     etat.finie = false;
     if (MoteurAudio.musique) MoteurAudio.musique.reprendreApresFin();
+    if (Scenes.env) Ambiance.jouer(Scenes.env.ambiance, Scenes.env.volume);
   },
 };
 
@@ -4815,7 +5339,8 @@ function declencherEvenement(b, i) {
   etat.journal.push({ i, effet: b.effet, son: b.son, heure: new Date().toISOString() });
   const intenses = P().effetsIntenses;
   const duree = b.duree || DUREES_EFFETS[b.effet] || 1000;
-  if (b.son && b.son !== 'aucun') jouerSon(b.son, { duree: b.duree || undefined, nombre: b.nombre || undefined });
+  // (Notification : chaque message joue son propre son, voir Effets.notification)
+  if (b.son && b.son !== 'aucun' && b.effet !== 'notification') jouerSon(b.son, { duree: b.duree || undefined, nombre: b.nombre || undefined });
   switch (b.effet) {
     case 'noir': Effets.noir(duree, b.texte); break;
     case 'flash': Effets.flash(duree, intenses); break;
@@ -4823,7 +5348,7 @@ function declencherEvenement(b, i) {
     case 'tremblement': Effets.tremblement(duree, intenses); break;
     case 'epier': Effets.epier(duree, b.cote, b.attaque); break;
     case 'appel': Effets.appel(b.titre, b.texte, duree); break;
-    case 'notification': Effets.notification(b.titre, b.texte, duree); break;
+    case 'notification': Effets.notification(b, duree); break;
     default: break;
   }
   if (intenses && navigator.vibrate && (b.effet === 'tremblement' || b.son === 'coup')) { try { navigator.vibrate([40, 60, 40]); } catch (e) {} }
@@ -4998,21 +5523,67 @@ Object.assign(Effets, {
     });
     setTimeout(() => { if (!a.classList.contains('en-cours')) fermer('Appel manqué'); }, 15000);
   },
-  // Fausse notification de téléphone, en haut de l'écran (un texto qui arrive)
-  notification(titre, texte, duree) {
-    $$('.notif').forEach(n => n.remove());
-    const n = document.createElement('div');
-    n.className = 'notif';
-    n.setAttribute('role', 'status');
-    n.innerHTML = `<div class="notif-icone" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5C6.8 3.5 2.8 6.9 2.8 11.1c0 2.4 1.3 4.5 3.4 5.9-.2 1.3-.9 2.6-2 3.5 2-.1 3.8-.8 5-1.9 1 .3 1.9.4 2.8.4 5.2 0 9.2-3.4 9.2-7.9S17.2 3.5 12 3.5z"/></svg></div>
-      <div class="notif-corps"><div class="notif-haut"><span class="notif-titre">${formater(titre || 'Messages')}</span><span class="notif-heure">maintenant</span></div><p class="notif-texte">${formater(texte)}</p></div>`;
-    document.body.appendChild(n);
-    const fermer = () => { n.classList.remove('visible'); setTimeout(() => n.remove(), 600); };
-    n.addEventListener('pointerdown', e => { e.stopPropagation(); fermer(); });
-    requestAnimationFrame(() => requestAnimationFrame(() => n.classList.add('visible')));
-    setTimeout(fermer, Math.max(2500, duree));
+  // Notifications de téléphone en haut de l'écran : une seule, ou une rafale (« messages ») qui
+  // s'empile, la plus récente en haut ; au-delà de 4, un compteur « et N autres » monte.
+  // Elles s'ajoutent à celles déjà affichées. Un toucher les chasse toutes.
+  notification(b, duree) {
+    const liste = b.messages && b.messages.length ? b.messages : [{ titre: '', texte: b.texte || '', app: '' }];
+    let pile = $('#pile-notifs');
+    if (!pile) {
+      pile = document.createElement('div');
+      pile.id = 'pile-notifs';
+      pile.setAttribute('role', 'status');
+      pile.innerHTML = '<p class="notifs-reste"></p>';
+      pile.addEventListener('pointerdown', e => { e.stopPropagation(); this.chasserNotifs(); });
+      document.body.appendChild(pile);
+    }
+    pile.classList.remove('sortie');
+    clearTimeout(this.tNotifs);
+    const gen = this.genNotifs = (this.genNotifs || 0) + 1;
+    const intervalle = b.intervalle || 900;
+    const MAX = 4;
+    const majReste = () => {
+      const n = this.notifsCachees || 0;
+      $('.notifs-reste', pile).textContent = n ? `et ${n} autre${n > 1 ? 's' : ''} notification${n > 1 ? 's' : ''}` : '';
+    };
+    const ajouter = m => {
+      const app = m.app || b.app || 'messages';
+      const n = document.createElement('div');
+      n.className = `notif notif-${app}`;
+      n.innerHTML = `<div class="notif-icone" aria-hidden="true">${app === 'telephone' ? ICONE_TELEPHONE : ICONE_MESSAGES}</div>
+        <div class="notif-corps"><div class="notif-haut"><span class="notif-titre">${formater(m.titre || b.titre || (app === 'telephone' ? 'Téléphone' : 'Messages'))}</span><span class="notif-heure">maintenant</span></div><p class="notif-texte">${formater(m.texte)}</p></div>`;
+      pile.insertBefore(n, pile.firstChild);
+      requestAnimationFrame(() => requestAnimationFrame(() => n.classList.add('visible')));
+      $$('.notif', pile).slice(MAX).forEach(c => { c.remove(); this.notifsCachees = (this.notifsCachees || 0) + 1; });
+      majReste();
+      if (b.son && b.son !== 'aucun') jouerSon(b.son, {});
+      if (P().effetsIntenses && navigator.vibrate) { try { navigator.vibrate(60); } catch (e) {} }
+    };
+    liste.forEach((m, k) => setTimeout(() => { if (gen === this.genNotifs) ajouter(m); }, k * intervalle));
+    // Le compteur s'emballe : des dizaines d'autres messages arrivent d'un coup
+    const finListe = (liste.length - 1) * intervalle;
+    const reste = b.reste || 0;
+    for (let k = 0; k < reste; k++) {
+      setTimeout(() => {
+        if (gen !== this.genNotifs) return;
+        this.notifsCachees = (this.notifsCachees || 0) + 1;
+        majReste();
+        if (k % 3 === 0) jouerTic();
+      }, finListe + 700 + k * 70);
+    }
+    this.tNotifs = setTimeout(() => { if (gen === this.genNotifs) this.chasserNotifs(); }, finListe + (reste ? 700 + reste * 70 : 0) + Math.max(2500, duree));
+  },
+  chasserNotifs() {
+    const pile = $('#pile-notifs');
+    this.genNotifs = (this.genNotifs || 0) + 1;
+    clearTimeout(this.tNotifs);
+    if (!pile) return;
+    pile.classList.add('sortie');
+    setTimeout(() => { if (pile.classList.contains('sortie')) { pile.remove(); this.notifsCachees = 0; } }, 500);
   },
 });
+const ICONE_MESSAGES = '<svg viewBox="0 0 24 24"><path d="M12 3.5C6.8 3.5 2.8 6.9 2.8 11.1c0 2.4 1.3 4.5 3.4 5.9-.2 1.3-.9 2.6-2 3.5 2-.1 3.8-.8 5-1.9 1 .3 1.9.4 2.8.4 5.2 0 9.2-3.4 9.2-7.9S17.2 3.5 12 3.5z"/></svg>';
+const ICONE_TELEPHONE = '<svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>';
 function bandesAleatoires() {
   const arrets = [];
   let y = 0;
@@ -5096,6 +5667,7 @@ function installerHistoire(res, { estDuJour = false, estDuMoment = false, mepFor
     console.error('Rendu impossible', e);
     $('#histoire').innerHTML = `<section class="carton"><h1 class="carton-titre">${echapper(res.h.titre)}</h1><p class="carton-meta">Cette histoire n’a pas pu être affichée.</p></section>`;
   }
+  Scenes.oublier();
   try { Illustration.definir(res.h.fond.svg, res.h.fond.svgOpacite); } catch (e) { console.warn('Illustration', e); }
   Voiles.appliquer(res.h.fond);
   document.title = `3h12 — N° ${res.h.numero || '—'} · ${texteBrut(res.h.titre)}`;
@@ -5240,7 +5812,6 @@ function remplirEntree(h, message) {
   Halloween.maj();
 }
 function afficherEntree() {
-  Lampe.eteindre();
   const e = $('#ecran-entree');
   e.classList.remove('cache');
   requestAnimationFrame(() => e.classList.remove('sortie'));
@@ -5250,6 +5821,9 @@ function afficherEntree() {
   Tiroir.fermer();
   etat.ecran = 'entree';
   Fond.arreter();
+  Scenes.oublier();
+  if (Vues.fermer) Vues.fermer();
+  Effets.chasserNotifs();
   if (MoteurAudio.musique) { MoteurAudio.musique.arreter(1.5); MoteurAudio.musique = null; }
 }
 function cacherEntree() {
@@ -5493,6 +6067,7 @@ const Dev = {
     $('#dev-intensite').value = Math.round(Fond.intensite * 100);
     $('#dev-val-intensite').textContent = `${$('#dev-intensite').value} %`;
     $('#dev-sons').innerHTML = SONS_EVENEMENT.filter(s => s !== 'aucun').map(s => `<button data-dev-son="${s}">${s}</button>`).join('');
+    $('#dev-ambiances').innerHTML = NOMS_AMBIANCES.map(a => `<button data-dev-ambiance="${a}">${a}</button>`).join('') + '<button data-dev-ambiance="aucune">silence</button>';
     $('#dev-effets').innerHTML = EFFETS_EVENEMENT.filter(s => s !== 'aucun').map(s => `<button data-dev-effet="${s}">${s}</button>`).join('');
     $('#dev-couches').innerHTML = TYPES_COUCHES.map(s => `<button data-dev-couche="${s}">${s.replace(/_/g, ' ')}</button>`).join('');
     // JSON brut + rapport d'erreurs
@@ -5720,7 +6295,6 @@ async function verifierNouvelleHistoire() {
    ===================================================================== */
 function installerEcouteurs() {
   Gestes.installer();
-  Lampe.installer();
   // Le premier toucher, n'importe où, débloque l'audio sur iOS
   const debloquer = () => MoteurAudio.debloquer();
   ['touchend', 'click', 'keydown'].forEach(t => document.addEventListener(t, debloquer, { passive: true }));
@@ -5792,10 +6366,16 @@ function installerEcouteurs() {
     if (effet) {
       const nom = effet.dataset.devEffet;
       const textes = { noir: 'Effet « noir »', notification: 'Je t’ai trouvé.' };
+      const rafale = ['Où es-tu ?', 'Pourquoi tu es parti comme ça ?', 'Réponds-moi.', 'Je t’aime.', 'Où es-tu ?', 'Reviens.'].map(texte => ({ texte }));
       fermerPanneaux();
-      setTimeout(() => declencherEvenement({ effet: nom, son: 'aucun', duree: null, texte: textes[nom] || '', titre: 'Numéro inconnu', cote: COTES_EPIER[Math.floor(Math.random() * 4)] }, -1), 500);
+      setTimeout(() => declencherEvenement({
+        effet: nom, son: nom === 'notification' ? 'texto' : 'aucun', duree: null, texte: textes[nom] || '', titre: nom === 'notification' ? 'Lynn' : 'Numéro inconnu',
+        cote: COTES_EPIER[Math.floor(Math.random() * 4)], messages: nom === 'notification' ? rafale : [], intervalle: 650, reste: 9, app: 'messages',
+      }, -1), 500);
       return;
     }
+    const ambiance = e.target.closest('[data-dev-ambiance]');
+    if (ambiance) { MoteurAudio.debloquer(); const a = ambiance.dataset.devAmbiance; Ambiance.jouer(a === 'aucune' ? [] : [a], .7); return; }
     const couche = e.target.closest('[data-dev-couche]');
     if (couche) { Dev.testerCouche(couche.dataset.devCouche); return; }
   });
@@ -5988,7 +6568,7 @@ async function demarrer() {
 }
 
 // Accès pour le débogage (console Safari / tests)
-window.TROISH12 = { etat, Sauvegarde, MoteurAudio, Fond, Lecture, Dev, SONS, jouerSon, normaliserHistoire, MISES_EN_PAGE, Effets, Gestes };
+window.TROISH12 = { etat, Sauvegarde, MoteurAudio, Fond, Lecture, Dev, SONS, jouerSon, normaliserHistoire, MISES_EN_PAGE, Effets, Gestes, Scenes, Vues, Ambiance, Illustration };
 
 demarrer();
 </script>
