@@ -1,5 +1,5 @@
 {
-  "moteur": "1.5",
+  "moteur": "1.6",
   "version": 1,
   "histoires": [
     {
@@ -116,6 +116,35 @@
       },
       "evenements": 13,
       "retournement": "ce n’est plus vraiment elle ; la chasse ne finit pas : elle l’a trouvé",
+      "origine": "traduction"
+    },
+    {
+      "date": "2026-10-21",
+      "numero": 2,
+      "titre": "Je vais sortir les poubelles",
+      "sousGenre": "horreur domestique",
+      "lieu": "Un appartement au sixième étage, aux États-Unis",
+      "auQuebec": false,
+      "epoque": "aujourd’hui",
+      "format": "Témoignage, écrit le jour même",
+      "miseEnPage": "recit",
+      "tonique": "F#",
+      "gamme": "phrygien",
+      "effetFond": "aucun",
+      "palette": {
+        "fond": "#0b0c0e",
+        "surface": "#0b0c0e",
+        "texte": "#dcd9d1",
+        "accent": "#a9c25f",
+        "secondaire": "#8a908c"
+      },
+      "polices": {
+        "titre": "Oswald",
+        "texte": "Newsreader",
+        "notes": "Caveat"
+      },
+      "evenements": 10,
+      "retournement": "elle était déjà morte : c’est elle, dans les sacs, qui revient se sortir elle-même",
       "origine": "traduction"
     }
   ]
