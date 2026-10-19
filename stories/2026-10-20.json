@@ -1,0 +1,554 @@
+{
+  "version": 1,
+  "numero": 3,
+  "date": "2026-10-20",
+  "titre": "Station 47",
+  "sousTitre": "Gouffre d’Ourdinkoa, massif des Arbailles — août 1994",
+  "sousGenre": "survie",
+  "lieu": "Gouffre d’Ourdinkoa, massif des Arbailles (Pyrénées-Atlantiques, France)",
+  "epoque": "août 1994",
+  "auQuebec": false,
+  "format": "Transcription judiciaire du dictaphone d’un topographe spéléologue",
+  "resume": "Le dictaphone d’un topographe a enregistré la dernière descente d’une équipe de spéléologues jusqu’à un siphon inconnu, à 482 mètres sous terre.",
+  "avertissement": "Espaces confinés, noyade.",
+  "miseEnPage": "transcription",
+  "retournement": "doublure : l’équipière n’est jamais descendue ; ils étaient deux, la troisième voix était autre chose",
+  "theme": {
+    "palette": {
+      "fond": "#0b0907",
+      "surface": "#ece9e1",
+      "texte": "#1b1a17",
+      "accent": "#b5541c",
+      "secondaire": "#3d5866"
+    },
+    "polices": {
+      "titre": "Space Mono",
+      "texte": "IBM Plex Mono",
+      "notes": "IBM Plex Mono"
+    },
+    "cssPersonnalise": ""
+  },
+  "document": {
+    "organisme": "Gendarmerie nationale — Brigade de recherches de Mauléon",
+    "typeDocument": "Transcription d’enregistrement",
+    "reference": "Microcassette, scellé 94/117-7",
+    "dateDocument": "29 août 1994",
+    "duree": "03:51:52",
+    "auteurDocument": "Adj. M. Etchepare",
+    "sujet": "Disparition de deux spéléologues, gouffre d’Ourdinkoa",
+    "champs": [
+      {
+        "nom": "Découverte",
+        "valeur": "bord du siphon, cote −482, le 21 août 1994"
+      },
+      {
+        "nom": "Appareil",
+        "valeur": "dictaphone de Y. Goyhenetche (topographie)"
+      }
+    ]
+  },
+  "fond": {
+    "effet": "poussiere",
+    "intensite": 0.38,
+    "vignette": 0.85,
+    "grain": 0.32,
+    "scintillement": 0.18,
+    "svgOpacite": 0.24,
+    "couleur": "#e9d9a8",
+    "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 860' preserveAspectRatio='xMidYMax slice'><defs><linearGradient id='ciel' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#040302'/><stop offset='.6' stop-color='#0b0806'/><stop offset='1' stop-color='#120d09'/></linearGradient><linearGradient id='eau' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#0d1a1e'/><stop offset='1' stop-color='#020506'/></linearGradient><radialGradient id='halo' cx='.5' cy='.5' r='.5'><stop offset='0' stop-color='#fff1c2' stop-opacity='.95'/><stop offset='.35' stop-color='#f3d58c' stop-opacity='.35'/><stop offset='1' stop-color='#f3d58c' stop-opacity='0'/></radialGradient><linearGradient id='faisceau' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#f7e2a4' stop-opacity='.38'/><stop offset='1' stop-color='#f7e2a4' stop-opacity='0'/></linearGradient><radialGradient id='noye' cx='.5' cy='.5' r='.5'><stop offset='0' stop-color='#cfe6ea' stop-opacity='.55'/><stop offset='1' stop-color='#cfe6ea' stop-opacity='0'/></radialGradient></defs><rect width='400' height='860' fill='url(#ciel)'/><polygon points='-10,-10 33,-10 44,29 38,73 42,115 30,160 60,199 33,228 57,279 39,322 81,374 64,418 70,451 69,488 53,521 85,558 82,595 84,638 71,670 96,722 71,749 84,778 93,816 85,868 -10,880' fill='#020101'/><polygon points='410,-10 377,-10 378,23 349,76 365,117 349,167 358,204 366,239 335,290 363,333 344,370 341,397 352,441 357,475 349,517 317,562 319,614 319,655 349,700 310,743 345,769 328,812 302,862 410,880' fill='#020101'/><path d='M99 84 q77 5 200 6' stroke='#1a140e' stroke-width='1' fill='none' opacity='.55'/><path d='M83 151 q89 -9 188 -2' stroke='#1a140e' stroke-width='1' fill='none' opacity='.55'/><path d='M98 228 q76 5 208 5' stroke='#1a140e' stroke-width='1' fill='none' opacity='.55'/><path d='M80 298 q86 -10 186 -3' stroke='#1a140e' stroke-width='1' fill='none' opacity='.55'/><path d='M82 354 q73 -5 161 1' stroke='#1a140e' stroke-width='1' fill='none' opacity='.55'/><path d='M68 424 q63 -6 196 6' stroke='#1a140e' stroke-width='1' fill='none' opacity='.55'/><path d='M82 506 q76 2 156 -2' stroke='#1a140e' stroke-width='1' fill='none' opacity='.55'/><path d='M60 572 q80 -7 176 -5' stroke='#1a140e' stroke-width='1' fill='none' opacity='.55'/><path d='M61 639 q68 -9 158 -4' stroke='#1a140e' stroke-width='1' fill='none' opacity='.55'/><polygon points='70,0 83,0 76,61' fill='#030201'/><polygon points='85,0 97,0 91,64' fill='#030201'/><polygon points='94,0 100,0 97,58' fill='#030201'/><circle cx='97' cy='73' r='1.2' fill='#9fb3b8' opacity='.35'/><polygon points='120,0 125,0 122,35' fill='#030201'/><polygon points='136,0 141,0 138,59' fill='#030201'/><circle cx='138' cy='66' r='1.2' fill='#9fb3b8' opacity='.35'/><polygon points='147,0 152,0 150,33' fill='#030201'/><polygon points='165,0 178,0 172,29' fill='#030201'/><circle cx='172' cy='52' r='1.2' fill='#9fb3b8' opacity='.35'/><polygon points='176,0 188,0 182,50' fill='#030201'/><circle cx='182' cy='59' r='1.2' fill='#9fb3b8' opacity='.35'/><polygon points='188,0 199,0 194,40' fill='#030201'/><circle cx='194' cy='65' r='1.2' fill='#9fb3b8' opacity='.35'/><polygon points='212,0 219,0 216,52' fill='#030201'/><circle cx='216' cy='90' r='1.2' fill='#9fb3b8' opacity='.35'/><polygon points='224,0 236,0 230,43' fill='#030201'/><polygon points='246,0 259,0 252,65' fill='#030201'/><polygon points='257,0 266,0 262,64' fill='#030201'/><polygon points='281,0 287,0 284,46' fill='#030201'/><polygon points='301,0 311,0 306,64' fill='#030201'/><circle cx='306' cy='71' r='1.2' fill='#9fb3b8' opacity='.35'/><polygon points='313,0 325,0 319,56' fill='#030201'/><polygon points='330,0 343,0 336,54' fill='#030201'/><polygon points='339,0 347,0 343,49' fill='#030201'/><path d='M-10 690 Q60 670 150 684 Q190 690 205 712 L205 880 L-10 880 Z' fill='#0a0705'/><path d='M-10 690 Q60 670 150 684 Q190 690 205 712' stroke='#2a2016' stroke-width='1.5' fill='none'/><ellipse cx='275' cy='772' rx='118' ry='26' fill='url(#eau)'/><path d='M170 768 Q275 758 385 770' stroke='#4f6a70' stroke-width='.8' fill='none' opacity='.5'/><path d='M140 880 Q250 806 410 806 L410 880 Z' fill='#050302'/><ellipse cx='300' cy='781' rx='16' ry='5' fill='url(#noye)' opacity='.7'/><circle cx='300' cy='781' r='1.2' fill='#e4f2f4' opacity='.45'/><polygon points='118,618 300,740 250,790' fill='url(#faisceau)'/><g fill='#010101'><path d='M100 690 L104 650 Q106 636 116 634 Q128 634 130 650 L134 690 Z'/><circle cx='117' cy='623' r='11'/><path d='M104 616 Q117 602 131 616 L131 621 L104 621 Z'/><path d='M128 652 L150 668 L147 673 L126 660 Z'/></g><circle cx='126' cy='617' r='16' fill='url(#halo)'/><circle cx='126' cy='617' r='2.4' fill='#fff8de'/><g fill='#060403' stroke='#4a3d2e' stroke-width='.6' stroke-opacity='.28'><path d='M78 690 L80 628 Q82 604 95 600 Q109 602 111 628 L112 690 Z'/><ellipse cx='95' cy='586' rx='9.5' ry='12.5'/></g><rect x='190' y='554' width='1' height='8' fill='#d8e4e6' opacity='0.25'/><rect x='197' y='475' width='1' height='8' fill='#d8e4e6' opacity='0.29'/><rect x='302' y='695' width='1' height='9' fill='#d8e4e6' opacity='0.31'/><rect x='259' y='630' width='1' height='9' fill='#d8e4e6' opacity='0.33'/><rect x='232' y='466' width='1' height='4' fill='#d8e4e6' opacity='0.25'/><rect x='258' y='627' width='1' height='6' fill='#d8e4e6' opacity='0.26'/></svg>"
+  },
+  "musique": {
+    "tempo": 44,
+    "tonique": "A",
+    "gamme": "locrien",
+    "reverb": 0.9,
+    "desaccord": 0.3,
+    "evolution": "rupture",
+    "rupture": 0.84,
+    "finale": "silence",
+    "couches": [
+      {
+        "type": "drone",
+        "onde": "sawtooth",
+        "octave": 1,
+        "volume": 0.5,
+        "filtre": 260,
+        "densite": 0.6
+      },
+      {
+        "type": "bruit",
+        "volume": 0.42,
+        "filtre": 420,
+        "densite": 0.55
+      },
+      {
+        "type": "cloche",
+        "octave": 5,
+        "volume": 0.16,
+        "densite": 0.08
+      },
+      {
+        "type": "pulsation",
+        "onde": "sine",
+        "octave": 1,
+        "volume": 0.4,
+        "filtre": 380,
+        "densite": 0.5,
+        "seuil": 0.62
+      },
+      {
+        "type": "choeur",
+        "octave": 3,
+        "volume": 0.14,
+        "densite": 0.35,
+        "seuil": 0.78
+      }
+    ]
+  },
+  "blocs": [
+    {
+      "type": "paragraphe",
+      "texte": "Début de la bande. Écho important, bruit d’eau courante en continu. Le dictaphone servait à Y. Goyhenetche à dicter ses mesures topographiques ; il le portait sur la poitrine, sous la combinaison. Les voix sont identifiées d’après les prénoms employés sur la bande."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "00:00:04",
+      "texte": "Station trente-huit. Azimut deux cent douze, pente moins trente, distance six mètres quarante. Banquette d’argile rive gauche. Courant d’air aspirant, fort."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Marc",
+      "horodatage": "00:00:19",
+      "texte": "Note aussi qu’il fait quatre degrés et que Marc a faim."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "00:00:23",
+      "texte": "Je note pas ça."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Marc",
+      "horodatage": "00:00:27",
+      "texte": "Alors note que pour une fille qui boitait au camp hier matin, Hélène descend les puits comme une chèvre."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Hélène",
+      "horodatage": "00:00:33",
+      "texte": "Ça va mieux."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Marc",
+      "horodatage": "00:00:36",
+      "texte": "Ça va mieux, elle dit. Elle a rien mangé depuis ce matin, non plus. Hélène, un bout de saucisson ?"
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Hélène",
+      "horodatage": "00:00:41",
+      "texte": "Non."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Marc",
+      "horodatage": "00:00:45",
+      "texte": "Bon. Alors on chante. Comme d’habitude, Hélène, tu fais la deuxième voix."
+    },
+    {
+      "type": "paragraphe",
+      "texte": "M. Irigoyen fredonne une chanson basque pendant une quarantaine de secondes. Personne ne l’accompagne."
+    },
+    {
+      "type": "paragraphe",
+      "texte": "[rires (MARC)] Bruits de mousquetons et de corde. Le groupe progresse pendant une vingtaine de minutes. Seules les mesures sont dictées ; elles ne sont pas toutes reproduites ici."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "00:21:50",
+      "texte": "Station quarante-quatre. Terminus du relevé de 1989. À partir d’ici, c’est du neuf, les amis."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Hélène",
+      "horodatage": "00:22:03",
+      "texte": "Par là. À droite, derrière la lame de roche."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "00:22:07",
+      "texte": "Comment tu sais ? Y a rien sur le relevé."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Hélène",
+      "horodatage": "00:22:10",
+      "texte": "J’entends l’eau."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Marc",
+      "horodatage": "00:29:41",
+      "texte": "Oh. Oh, les gars, regardez-moi ça. Un siphon. Un vrai. L’eau est noire comme de l’encre, on voit pas le fond."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "00:29:55",
+      "texte": "Station quarante-sept. Vasque de siphon, quatre mètres sur trois. Cote moins quatre cent quatre-vingt-deux. Marc, la température ?"
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Marc",
+      "horodatage": "00:30:04",
+      "texte": "Quatre degrés, peut-être moins. J’ai quarante minutes d’air. Je fais une pointe, je pose le fil, je reviens. Dix minutes, pas plus."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Hélène",
+      "horodatage": "00:30:15",
+      "texte": "Il fait plus froid de l’autre côté."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Marc",
+      "horodatage": "00:30:18",
+      "texte": "Merci, maman. Yann, tu tiens le dévidoir. Un coup sur le fil : tout va bien. Trois coups : tu tires. Ça va, ça va."
+    },
+    {
+      "type": "note",
+      "texte": "« Ça va, ça va » : tic de langage de M. Irigoyen, confirmé par plusieurs proches."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "00:41:07",
+      "texte": "Marc plonge à zéro heure quarante et une. Le fil part bien."
+    },
+    {
+      "type": "evenement",
+      "effet": "aucun",
+      "son": "goutte",
+      "nombre": 3
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "00:49:30",
+      "texte": "Huit minutes. Le fil a arrêté de filer. Un coup. Il est sorti de l’autre côté, il dit que ça va."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "00:58:02",
+      "texte": "Hélène, rallume ta lampe, j’aime pas ça."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Hélène",
+      "horodatage": "00:58:05",
+      "texte": "Elle marche plus."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "00:58:09",
+      "texte": "Prends ma frontale de secours. Hélène ? T’es où ? Je te vois pas."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Hélène",
+      "horodatage": "00:58:13",
+      "texte": "Ici."
+    },
+    {
+      "type": "note",
+      "texte": "Sur toute la bande, la voix identifiée comme HÉLÈNE est captée au même niveau que celle de Y. Goyhenetche, qui porte l’appareil. Comme si elle parlait la bouche contre le micro."
+    },
+    {
+      "type": "paragraphe",
+      "texte": "Pendant vingt minutes, seulement l’eau. Puis des pas lents, dans l’argile, qui font le tour de la vasque. Ils s’arrêtent. Ils reprennent."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "01:18:26",
+      "texte": "Hélène, qu’est-ce que tu fais ?"
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Hélène",
+      "horodatage": "01:18:29",
+      "texte": "Je regarde."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "01:18:32",
+      "texte": "T’as pas de lampe. Tu vois rien."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Hélène",
+      "horodatage": "01:18:35",
+      "texte": "Je regarde quand même."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "01:18:51",
+      "texte": "Attends, je t’éclaire… Pourquoi t’es mouillée ? T’es trempée, Hélène. Jusqu’aux épaules."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Hélène",
+      "horodatage": "01:18:58",
+      "texte": "J’ai glissé."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "01:21:40",
+      "texte": "Quarante minutes. Il a plus d’air. Hélène, il a plus d’air."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Hélène",
+      "horodatage": "01:21:47",
+      "texte": "Il respire, de l’autre côté."
+    },
+    {
+      "type": "paragraphe",
+      "texte": "[silence de quatre minutes ; seul le bruit de l’eau est audible]"
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "01:25:58",
+      "texte": "Le fil bouge. Il bouge ! Un… deux… trois. Trois coups. Il veut que je tire. Aide-moi ! Hélène, aide-moi, bon Dieu !"
+    },
+    {
+      "type": "paragraphe",
+      "texte": "Respiration rapide (Y. GOYHENETCHE). Le dévidoir cliquette pendant cinquante-deux secondes. Aucun bruit d’effort n’est audible de la part d’HÉLÈNE."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "01:26:57",
+      "texte": "C’est lourd. C’est lourd, il vient, je le sens au bout…"
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "01:27:09",
+      "texte": "… Le fil est coupé. Net. Comme au couteau."
+    },
+    {
+      "type": "evenement",
+      "effet": "aucun",
+      "son": "silence",
+      "duree": 4500
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Hélène",
+      "horodatage": "01:27:20",
+      "texte": "Il revient pas par là."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "01:27:31",
+      "texte": "Faut remonter. Le téléphone est à moins trois cents, on y est dans deux heures. On prévient le camp. Hélène, on y va."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Hélène",
+      "horodatage": "01:27:40",
+      "texte": "Je l’attends."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "01:27:43",
+      "texte": "Je te laisse pas là sans lumière."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Hélène",
+      "horodatage": "01:27:47",
+      "texte": "Alors je viens avec toi."
+    },
+    {
+      "type": "paragraphe",
+      "texte": "Remontée. Pendant près de deux heures, on n’entend que l’effort de Y. Goyhenetche dans les puits, ses jurons, son souffle. Il ne parle plus."
+    },
+    {
+      "type": "note",
+      "texte": "À partir de 01:52, une seconde respiration, lente et régulière, est audible au contact du micro, dans les intervalles de celle de Y. Goyhenetche. Elle ne s’accélère jamais, même dans les puits."
+    },
+    {
+      "type": "evenement",
+      "effet": "aucun",
+      "son": "respiration",
+      "duree": 5600
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "03:29:13",
+      "texte": "Hélène. T’es derrière moi ?"
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Hélène",
+      "horodatage": "03:29:14",
+      "texte": "Oui."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "03:29:20",
+      "texte": "T’es même pas essoufflée."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Hélène",
+      "horodatage": "03:29:24",
+      "texte": "Non."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "03:29:37",
+      "texte": "Chante-moi la chanson de Marc. Celle des puits. Tu la connais par cœur, Hélène, tu la chantes avec lui depuis dix ans."
+    },
+    {
+      "type": "paragraphe",
+      "texte": "[silence de onze secondes]"
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Hélène",
+      "horodatage": "03:29:52",
+      "texte": "Je l’attends."
+    },
+    {
+      "type": "paragraphe",
+      "texte": "Arrivée au poste téléphonique, cote −300. Bruit de manivelle. Grésillements sur la ligne."
+    },
+    {
+      "type": "evenement",
+      "effet": "aucun",
+      "son": "statique",
+      "duree": 1800
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "03:31:02",
+      "texte": "Camp, ici Yann, à moins trois cents. Répondez. Peio, réponds !"
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Peio (camp)",
+      "horodatage": "03:31:19",
+      "texte": "Yann ? Je t’entends mal. Qu’est-ce qui se passe ?"
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "03:31:24",
+      "texte": "Marc a plongé dans un siphon à moins quatre cent quatre-vingts. Il est pas ressorti. Je crois qu’il est mort, Peio. Je remonte avec Hélène. Appelle le spéléo-secours."
+    },
+    {
+      "type": "paragraphe",
+      "texte": "[silence de six secondes]"
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Peio (camp)",
+      "horodatage": "03:31:41",
+      "texte": "Yann… Hélène est ici."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "03:31:44",
+      "texte": "Quoi ?"
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Peio (camp)",
+      "horodatage": "03:31:47",
+      "texte": "Elle est à côté de moi, sous la bâche. Sa cheville, Yann. Elle est jamais descendue. Vous êtes partis à deux, hier matin. Toi et Marc."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Peio (camp)",
+      "horodatage": "03:31:58",
+      "texte": "Yann. Qui est avec toi ?"
+    },
+    {
+      "type": "evenement",
+      "effet": "noir",
+      "son": "chuchotement",
+      "duree": 2800,
+      "texte": "##Qui est avec toi ?##"
+    },
+    {
+      "type": "paragraphe",
+      "texte": "Le combiné heurte la paroi. Chute de pierres. Y. GOYHENETCHE court, tombe. D’après le bruit, sa lampe frontale se brise."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Marc",
+      "horodatage": "03:32:40",
+      "texte": "Ça va, ça va."
+    },
+    {
+      "type": "note",
+      "texte": "C’est la voix de M. Irigoyen. Elle est captée au contact du micro."
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Yann",
+      "horodatage": "03:32:43",
+      "texte": "##Non. Non. Non.##"
+    },
+    {
+      "type": "dialogue",
+      "personnage": "Hélène",
+      "horodatage": "03:32:49",
+      "texte": "Par là."
+    },
+    {
+      "type": "paragraphe",
+      "texte": "Fin des voix à 03:32:51. Les dix-neuf dernières minutes de la bande ne contiennent qu’un bruit d’eau, de plus en plus proche, et le frottement de quelque chose qu’on traîne sur l’argile.",
+      "style": "espace"
+    },
+    {
+      "type": "note",
+      "texte": "Le dictaphone a été retrouvé le 21 août par l’équipe de secours, au bord du siphon, cote −482. À côté reposait le corps de Marc Irigoyen, sorti de l’eau et allongé sur la banquette d’argile, les mains croisées sur la poitrine. Selon le médecin légiste, il est mort noyé vers 0 h 50, moins de dix minutes après sa plongée. Yann Goyhenetche n’a pas été retrouvé."
+    },
+    {
+      "type": "paragraphe",
+      "texte": "Entendue le 28 août, Hélène Vasseur a reconnu sa propre voix sur la bande. Elle n’a pas su l’expliquer. Elle a demandé à faire partie de l’équipe qui redescend chercher Yann."
+    }
+  ],
+  "phraseFinale": "Hélène redescend demain. __Elle dit qu’elle connaît le chemin.__",
+  "question": {
+    "texte": "La prochaine nuit, on remonte à quelle époque ?",
+    "choix": [
+      "La Nouvelle-France",
+      "Les années 1950",
+      "Les années 1990",
+      "Cette année"
+    ]
+  }
+}

@@ -56,6 +56,34 @@
       },
       "evenements": 6,
       "retournement": "celui qui rassure est la menace ; la victime devient la chose, et ça se transmet"
+    },
+    {
+      "date": "2026-10-20",
+      "numero": 3,
+      "titre": "Station 47",
+      "sousGenre": "survie",
+      "lieu": "Gouffre d’Ourdinkoa, massif des Arbailles (Pyrénées-Atlantiques, France)",
+      "auQuebec": false,
+      "epoque": "août 1994",
+      "format": "Transcription judiciaire du dictaphone d’un topographe spéléologue",
+      "miseEnPage": "transcription",
+      "tonique": "A",
+      "gamme": "locrien",
+      "effetFond": "poussiere",
+      "palette": {
+        "fond": "#0b0907",
+        "surface": "#ece9e1",
+        "texte": "#1b1a17",
+        "accent": "#b5541c",
+        "secondaire": "#3d5866"
+      },
+      "polices": {
+        "titre": "Space Mono",
+        "texte": "IBM Plex Mono",
+        "notes": "IBM Plex Mono"
+      },
+      "evenements": 5,
+      "retournement": "doublure : l’équipière n’est jamais descendue ; ils étaient deux, la troisième voix était autre chose"
     }
   ]
 }
