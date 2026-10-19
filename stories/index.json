@@ -91,12 +91,12 @@
     {
       "date": "2026-10-20",
       "numero": 1,
-      "titre": "Elle m’épie",
+      "titre": "Elle me regarde",
       "sousGenre": "horreur psychologique",
       "lieu": "Une maison de banlieue, aux États-Unis",
       "auQuebec": false,
       "epoque": "aujourd’hui",
-      "format": "Témoignage écrit d’une traite, dans une chambre de motel",
+      "format": "Témoignage écrit d’un seul coup, dans une chambre de motel",
       "miseEnPage": "recit",
       "tonique": "Eb",
       "gamme": "majeur",
@@ -113,7 +113,7 @@
         "texte": "Literata",
         "notes": "Caveat"
       },
-      "evenements": 8,
+      "evenements": 12,
       "retournement": "ce n’est plus vraiment elle ; la chasse ne finit pas : elle l’a trouvé",
       "origine": "traduction"
     }

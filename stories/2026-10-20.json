@@ -2,14 +2,14 @@
   "version": 1,
   "numero": 1,
   "date": "2026-10-20",
-  "titre": "Elle m’épie",
-  "sousTitre": "Ma femme m’épie derrière les coins et les meubles. C’est passé de bizarre à terrifiant.",
+  "titre": "Elle me regarde",
+  "sousTitre": "Ma femme me regarde en cachette, derrière les coins et les meubles. C’est passé de bizarre à terrifiant.",
   "sousGenre": "horreur psychologique",
   "lieu": "Une maison de banlieue, aux États-Unis",
   "epoque": "aujourd’hui",
   "auQuebec": false,
-  "format": "Témoignage écrit d’une traite, dans une chambre de motel",
-  "resume": "Depuis deux mois, Lynn épie son mari derrière les coins et les meubles. Au début, il trouvait ça drôle.",
+  "format": "Témoignage écrit d’un seul coup, dans une chambre de motel",
+  "resume": "Depuis deux mois, Lynn regarde son mari en cachette, derrière les coins et les meubles. Au début, il trouvait ça drôle.",
   "avertissement": "Sang, mutilation d’animaux (hors champ).",
   "miseEnPage": "recit",
   "origine": "traduction",
@@ -41,11 +41,11 @@
     "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 860' preserveAspectRatio='xMidYMax slice'><defs><linearGradient id='mur' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#09080a'/><stop offset='1' stop-color='#141114'/></linearGradient><linearGradient id='rideau' x1='0' y1='0' x2='1' y2='0'><stop offset='0' stop-color='#2b2523'/><stop offset='.5' stop-color='#3d3330'/><stop offset='1' stop-color='#241e1d'/></linearGradient><radialGradient id='lueur' cx='.5' cy='.5' r='.5'><stop offset='0' stop-color='#e9d7b0' stop-opacity='.42'/><stop offset='1' stop-color='#e9d7b0' stop-opacity='0'/></radialGradient><linearGradient id='plancher' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#100d0d'/><stop offset='1' stop-color='#050404'/></linearGradient></defs><rect width='400' height='860' fill='url(#mur)'/><rect x='120' y='300' width='120' height='190' fill='#0c0a0b'/><ellipse cx='180' cy='395' rx='90' ry='120' fill='url(#lueur)'/><rect x='178' y='302' width='4' height='186' fill='#efe0bd' opacity='.55'/><rect x='122' y='302' width='56' height='186' fill='url(#rideau)' opacity='.9'/><line x1='128' y1='304' x2='126' y2='486' stroke='#191414' stroke-width='2' opacity='.7'/><line x1='139' y1='304' x2='137' y2='486' stroke='#191414' stroke-width='2' opacity='.7'/><line x1='150' y1='304' x2='151' y2='486' stroke='#191414' stroke-width='2' opacity='.7'/><line x1='161' y1='304' x2='162' y2='486' stroke='#191414' stroke-width='2' opacity='.7'/><line x1='172' y1='304' x2='174' y2='486' stroke='#191414' stroke-width='2' opacity='.7'/><rect x='182' y='302' width='56' height='186' fill='url(#rideau)' opacity='.9'/><line x1='188' y1='304' x2='187' y2='486' stroke='#191414' stroke-width='2' opacity='.7'/><line x1='199' y1='304' x2='199' y2='486' stroke='#191414' stroke-width='2' opacity='.7'/><line x1='210' y1='304' x2='209' y2='486' stroke='#191414' stroke-width='2' opacity='.7'/><line x1='221' y1='304' x2='223' y2='486' stroke='#191414' stroke-width='2' opacity='.7'/><line x1='232' y1='304' x2='232' y2='486' stroke='#191414' stroke-width='2' opacity='.7'/><polygon points='0,860 120,520 240,520 400,860' fill='url(#plancher)'/><line x1='0' y1='842' x2='120' y2='520' stroke='#221c1b' stroke-width='3'/><line x1='240' y1='520' x2='400' y2='842' stroke='#221c1b' stroke-width='3'/><polygon points='0,0 120,250 120,520 0,860' fill='#0a0809'/><polygon points='400,0 240,250 240,520 400,860' fill='#0d0b0c'/><polygon points='20,300 70,330 70,420 20,410' fill='#141012' stroke='#2a2324' stroke-width='2'/><polygon points='12,470 74,480 74,560 12,560' fill='#141012' stroke='#2a2324' stroke-width='2'/><polygon points='290,330 352,318 358,402 296,414' fill='#16121a' stroke='#3a3036' stroke-width='2.5'/><circle cx='314' cy='356' r='7.5' fill='#2a2428'/><circle cx='337' cy='351' r='8' fill='#2a2428'/><path d='M300 410 Q303 374 314 370 Q326 374 329 406 Z' fill='#3a3238'/><path d='M323 404 Q326 368 337 365 Q349 368 354 400 Z' fill='#221d22'/><path d='M296 334 L322 372 L310 408' stroke='#4a4046' stroke-width='.8' fill='none'/><polygon points='330,860 330,470 400,440 400,860' fill='#050404'/><line x1='330' y1='470' x2='330' y2='860' stroke='#2b2324' stroke-width='1.5'/><path d='M330 586 Q316 588 312 602 Q310 622 316 640 L330 642 Z' fill='#cbbfb1' opacity='.75'/><ellipse cx='322' cy='612' rx='6.5' ry='3.6' fill='#efe9df'/><circle cx='320' cy='612' r='2.4' fill='#0a0606'/><path d='M314 606 Q322 602 330 606' stroke='#1b1414' stroke-width='1.2' fill='none'/><path d='M330 580 Q312 582 309 600 Q306 640 310 700 Q312 735 306 770' stroke='#0d0909' stroke-width='5' fill='none' stroke-linecap='round'/><path d='M330 582 Q318 590 314 620' stroke='#0d0909' stroke-width='3' fill='none'/><rect x='319' y='664' width='12' height='9' rx='4.5' fill='#bdb0a2' opacity='.7'/><rect x='318' y='676' width='12' height='9' rx='4.5' fill='#bdb0a2' opacity='.7'/><rect x='319' y='688' width='12' height='9' rx='4.5' fill='#bdb0a2' opacity='.7'/><rect x='318' y='700' width='12' height='9' rx='4.5' fill='#bdb0a2' opacity='.7'/></svg>"
   },
   "musique": {
-    "tempo": 58,
+    "tempo": 56,
     "tonique": "Eb",
     "gamme": "majeur",
-    "reverb": 0.78,
-    "desaccord": 0.38,
+    "reverb": 0.82,
+    "desaccord": 0.46,
     "evolution": "monte",
     "finale": "silence",
     "couches": [
@@ -83,69 +83,76 @@
         "type": "cordes",
         "onde": "sawtooth",
         "octave": 3,
-        "volume": 0.2,
+        "volume": 0.22,
         "filtre": 1000,
-        "densite": 0.4,
-        "seuil": 0.82
+        "densite": 0.45,
+        "seuil": 0.72
+      },
+      {
+        "type": "choeur",
+        "octave": 3,
+        "volume": 0.13,
+        "densite": 0.35,
+        "seuil": 0.86
       }
     ]
   },
   "blocs": [
     {
       "type": "paragraphe",
-      "texte": "Ma femme, « Lynn », et moi sommes ensemble depuis six ans, et mariés depuis onze mois. Toute notre histoire a été parfaitement normale ; jamais je n’ai remarqué de comportement étrange, ni le moindre signal d’alarme. Je n’insisterai jamais assez là-dessus : rien de tout ça ne lui ressemble."
+      "texte": "Ma femme, « Lynn », et moi sommes ensemble depuis six ans, et mariés depuis onze mois. Notre vie ensemble a toujours été parfaitement normale. Je n’ai jamais rien remarqué d’étrange chez elle, aucun signe inquiétant. Je ne le répéterai jamais assez : rien de tout ça ne lui ressemble."
     },
     {
       "type": "paragraphe",
-      "texte": "Lynn est gentille, intelligente et attentionnée. Elle a toujours été du genre sérieux, pas de niaiseries. Faire l’enfant ou essayer de me faire peur, ce n’est pas elle du tout."
+      "texte": "Lynn est gentille, intelligente et attentionnée. Elle a toujours été quelqu’un de sérieux, les deux pieds sur terre. Faire l’enfant ou essayer de me faire peur, ce n’est pas du tout elle."
     },
     {
       "type": "paragraphe",
-      "texte": "Elle n’aime même pas les films d’horreur. Quand on a commencé à sortir ensemble, elle avait accepté de regarder *Shining* avec moi parce qu’elle savait à quel point j’adore l’horreur. Elle a eu tellement peur qu’on a dû arrêter le film avant la moitié. Elle n’aime rien de ce qui est glauque, et elle n’a jamais été du genre à faire des farces. Ce n’est juste pas son truc. Et c’est correct. Mais c’est justement ce qui rendait tout ça si étrange. Ça ne lui ressemble tellement pas."
+      "texte": "Elle n’aime même pas les films d’horreur. Au début de notre relation, elle avait accepté de regarder *Shining* avec moi parce qu’elle savait à quel point j’adore l’horreur. Elle a eu tellement peur qu’on a dû arrêter le film avant la moitié. Elle n’aime rien de ce qui fait peur, et elle n’a jamais aimé les mauvais tours. Ce n’est juste pas son genre. Et c’est correct. Mais c’est justement pour ça que tout ça était si étrange. Ça ne lui ressemble tellement pas."
     },
     {
       "type": "paragraphe",
-      "texte": "Je dois aussi préciser qu’elle n’a jamais eu de problèmes de santé mentale et, à ma connaissance, il n’y en a pas dans sa famille. Je sais que certaines personnes arrivent à cacher ce genre de problèmes, mais en six ans, je pense que j’aurais vu un signe, n’importe lequel."
+      "texte": "Je dois aussi préciser qu’elle n’a jamais eu de problèmes de santé mentale et, à ma connaissance, il n’y en a pas dans sa famille. Je sais que certaines personnes arrivent à cacher ce genre de problèmes, mais en six ans, je pense que j’aurais remarqué quelque chose."
     },
     {
       "type": "paragraphe",
-      "texte": "Il y a deux mois, j’étais dans la cuisine à me faire un café avant le travail. J’étais un peu en retard ce matin-là, et je savais que je n’aurais pas le temps d’arrêter au Dunkin’ Donuts pour ma dose habituelle."
+      "texte": "Il y a deux mois, j’étais dans la cuisine à me faire un café avant d’aller travailler. J’étais un peu en retard ce matin-là, et je savais que je n’aurais pas le temps de m’arrêter au Dunkin’ Donuts comme d’habitude."
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai pris une gorgée de café en filant dans le couloir vers la porte d’entrée, quand j’ai remarqué Lynn qui m’épiait au coin du mur, devant moi. Je ne voyais que ses yeux, et une mèche de ses longs cheveux foncés qui pendait contre le mur. Le reste de son corps était caché derrière le coin. J’ai failli renverser mon café en la voyant. Je me suis brûlé les lèvres comme c’est pas permis, par contre."
+      "texte": "J’ai pris une gorgée de café en marchant vite dans le couloir vers la porte d’entrée, quand j’ai vu Lynn qui me regardait en cachette, au coin du mur, devant moi. Je ne voyais que ses yeux, et une mèche de ses longs cheveux foncés qui pendait contre le mur. Le reste de son corps était caché derrière le coin. J’ai failli renverser mon café en la voyant. Par contre, je me suis vraiment brûlé les lèvres."
     },
     {
       "type": "paragraphe",
-      "texte": "« Seigneur, Lynn, j’ai dit en essuyant quelques gouttes de café sur mon pantalon. Tu m’as foutu une de ces trouilles. »"
+      "texte": "« Mon Dieu, Lynn, j’ai dit en essuyant quelques gouttes de café sur mon pantalon. Tu m’as fait tellement peur. »"
     },
     {
       "type": "paragraphe",
-      "texte": "Elle a aussitôt disparu, comme une petite fille prise sur le fait. Je l’ai entendue détaler vers le salon et, le temps que j’arrive à la porte d’entrée, elle n’était plus là."
+      "texte": "Elle a tout de suite disparu, comme une petite fille prise sur le fait. Je l’ai entendue partir en courant vers le salon et, le temps que j’arrive à la porte d’entrée, je ne la voyais plus."
     },
     {
       "type": "paragraphe",
-      "texte": "C’était vraiment bizarre, et pas du tout son genre, comme je disais, mais je trouvais ça plutôt drôle qu’elle soit un peu plus joueuse et un peu moins sérieuse. Je lui ai crié que je l’aimais, et je l’ai traitée de cinglée. En refermant la porte derrière moi, je l’ai entendue rire."
+      "texte": "C’était vraiment bizarre, et pas du tout son genre, comme je disais, mais je trouvais ça plutôt drôle qu’elle soit un peu plus joueuse et un peu moins sérieuse. Je lui ai crié que je l’aimais, et je l’ai traitée de folle. En fermant la porte derrière moi, je l’ai entendue rire."
     },
     {
       "type": "paragraphe",
-      "texte": "Son comportement était un peu étrange, mais certainement pas de quoi appeler un prêtre. À midi, je n’y pensais plus et, quand je suis rentré, elle était redevenue elle-même. Je n’en ai pas parlé, elle non plus, et la vie a continué."
+      "texte": "Son comportement était un peu étrange, mais il n’y avait certainement pas de quoi appeler un prêtre. À midi, je n’y pensais déjà plus et, quand je suis rentré, elle était redevenue comme d’habitude. Je n’en ai pas parlé, elle non plus, et la vie a continué."
     },
     {
       "type": "paragraphe",
-      "texte": "L’incident suivant est arrivé trois jours plus tard. Il était environ deux heures du matin, et je m’étais levé pour boire quelque chose. J’étais debout devant l’îlot de la cuisine, le pichet de jus d’orange à la main, quand j’ai eu la très nette impression d’être observé."
+      "texte": "La deuxième fois, c’est arrivé trois jours plus tard. Il était environ deux heures du matin, et je m’étais levé pour boire quelque chose. J’étais debout devant l’îlot de la cuisine, le pot de jus d’orange à la main, quand j’ai eu la forte impression qu’on me regardait."
     },
     {
       "type": "paragraphe",
-      "texte": "Pour une raison que j’ignore, j’ai baissé les yeux vers le plancher, et j’ai vu le visage souriant de ma femme qui me fixait. Elle m’épiait de l’autre côté de l’îlot, les yeux levés vers moi, grands ouverts, sans cligner, avec un sourire. Un sourire de chat du Cheshire."
+      "texte": "Je ne sais pas pourquoi, j’ai baissé les yeux vers le plancher, et j’ai vu le visage souriant de ma femme qui me fixait. Elle me regardait de l’autre côté de l’îlot, les yeux levés vers moi, grands ouverts, sans cligner, avec un grand sourire. Un sourire comme celui du chat d’*Alice au pays des merveilles*."
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai crié, je l’avoue. Pas d’agacement : de peur. Pour une raison quelconque, à ce moment-là, j’avais peur."
+      "texte": "J’ai crié, je l’avoue. Pas parce que j’étais fâché : parce que j’avais peur. Je ne sais pas pourquoi, mais à ce moment-là, j’avais peur."
     },
     {
       "type": "paragraphe",
-      "texte": "Au son de mon cri, Lynn a reculé à toute vitesse hors de ma vue, ses mains et ses pieds claquant sur le carrelage pendant qu’elle se sauvait de la cuisine à quatre pattes. Je ne lui ai pas couru après, je ne l’ai même pas appelée. Je suis resté là, figé par le choc, à me demander ce qui avait bien pu lui prendre, bordel."
+      "texte": "Quand j’ai crié, Lynn a reculé très vite, hors de ma vue. J’entendais ses mains et ses pieds taper sur le plancher de céramique pendant qu’elle sortait de la cuisine à quatre pattes. Je ne lui ai pas couru après, je ne l’ai même pas appelée. Je suis resté là, figé, à me demander ce qui avait bien pu lui prendre."
     },
     {
       "type": "evenement",
@@ -155,15 +162,15 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Il m’a fallu un peu plus de temps que je voudrais l’admettre pour remonter, mais j’ai fini par le faire. Quand je suis arrivé dans notre chambre, Lynn était couchée sur le côté, endormie. Ou du moins, elle faisait semblant. Je suis resté là un bon moment à regarder sa respiration, pour être sûr qu’elle dormait vraiment."
+      "texte": "Il m’a fallu plus de temps que j’aimerais l’avouer pour remonter, mais j’ai fini par le faire. Quand je suis arrivé dans notre chambre, Lynn était couchée sur le côté, endormie. Ou alors elle faisait semblant. Je suis resté là un bon moment à regarder sa respiration, pour être sûr qu’elle dormait vraiment."
     },
     {
       "type": "paragraphe",
-      "texte": "J’avais l’impression qu’elle allait me sauter dessus dès que je me coucherais. Mais non. Je me suis glissé dans le lit, et elle n’a même pas bougé. Sa respiration était douce et profonde, et je commençais à me demander si je n’avais pas rêvé tout ça."
+      "texte": "J’avais l’impression qu’elle allait me sauter dessus dès que je me coucherais. Mais non. Je me suis glissé dans le lit, et elle n’a même pas bougé. Elle respirait doucement, profondément, et je commençais à me demander si je n’avais pas rêvé tout ça."
     },
     {
       "type": "paragraphe",
-      "texte": "Le lendemain matin, j’ai attendu qu’elle descende prendre son café et, après lui avoir tendu une tasse et embrassé la joue, j’ai décidé de lui en parler."
+      "texte": "Le lendemain matin, j’ai attendu qu’elle descende prendre son café. Je lui ai donné une tasse, je l’ai embrassée sur la joue, et j’ai décidé de lui en parler."
     },
     {
       "type": "paragraphe",
@@ -171,39 +178,39 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Elle a froncé les sourcils au-dessus de sa tasse en secouant la tête, comme si elle n’avait aucune idée de ce dont je parlais."
+      "texte": "Elle a froncé les sourcils au-dessus de sa tasse en secouant la tête, comme si elle ne savait pas du tout de quoi je parlais."
     },
     {
       "type": "paragraphe",
-      "texte": "« Tu m’épiais encore. De là-bas », j’ai dit en pointant l’endroit sur le plancher, près de l’îlot."
+      "texte": "« Tu me regardais encore en cachette. De là-bas », j’ai dit en montrant l’endroit sur le plancher, près de l’îlot."
     },
     {
       "type": "paragraphe",
-      "texte": "Elle a suivi mon regard et, quand elle s’est retournée vers moi, elle a éclaté de rire. Elle riait tellement que je n’ai pas pu m’empêcher de rire avec elle."
+      "texte": "Elle a regardé l’endroit et, quand elle s’est retournée vers moi, elle a éclaté de rire. Elle riait tellement que j’ai fini par rire avec elle."
     },
     {
       "type": "paragraphe",
-      "texte": "« Tu me fous les jetons, des fois, tu le sais ? » j’ai dit. Elle a gloussé, posé sa tasse sur le comptoir et passé ses bras autour de mon cou."
+      "texte": "« Tu me fais peur, des fois, tu le sais ? » j’ai dit. Elle a ri, elle a posé sa tasse sur le comptoir et elle a passé ses bras autour de mon cou."
     },
     {
       "type": "paragraphe",
-      "texte": "« Toi, tu me fous les jetons tout le temps. Alors on est quittes », elle m’a taquiné."
+      "texte": "« Toi, tu me fais peur tout le temps. Alors on est quittes », elle a dit pour me taquiner."
     },
     {
       "type": "paragraphe",
-      "texte": "On s’est dit au revoir et on est partis travailler. En conduisant, je n’arrêtais pas de repenser à quel point c’était glauque, de la voir me sourire comme ça, derrière l’îlot. Au bruit que faisaient ses mains sur le plancher pendant qu’elle s’éloignait à quatre pattes. Je me disais qu’elle essayait juste d’être drôle. D’embarquer avec moi dans mon amour de tout ce qui fait peur…"
+      "texte": "On s’est dit au revoir et on est partis travailler. En conduisant, je repensais sans arrêt à quel point c’était inquiétant de la voir me sourire comme ça, derrière l’îlot. Au bruit de ses mains sur le plancher pendant qu’elle s’éloignait à quatre pattes. Je me disais qu’elle voulait juste être drôle. Qu’elle essayait de partager mon amour pour tout ce qui fait peur…"
     },
     {
       "type": "paragraphe",
-      "texte": "Ce n’est pas que j’avais peur d’elle. Mais quelque chose ne passait pas."
+      "texte": "Ce n’est pas que j’avais peur d’elle. Mais quelque chose me dérangeait."
     },
     {
       "type": "paragraphe",
-      "texte": "Je l’ai surprise à m’épier de plus en plus souvent. Parfois derrière le divan, ou derrière les rideaux du salon. Une fois, elle a même réussi à se glisser dans le vieux coffre de sa grand-mère, celui qui est au pied de notre lit."
+      "texte": "Je l’ai surprise à me regarder en cachette de plus en plus souvent. Parfois derrière le divan, ou derrière les rideaux du salon. Une fois, elle a même réussi à se cacher dans le vieux coffre de sa grand-mère, celui qui est au pied de notre lit."
     },
     {
       "type": "paragraphe",
-      "texte": "Je ne l’aurais peut-être jamais su si les vieilles charnières du coffre ne l’avaient pas trahie."
+      "texte": "Je ne l’aurais peut-être jamais su si les vieilles charnières du coffre n’avaient pas grincé."
     },
     {
       "type": "evenement",
@@ -212,54 +219,61 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Elle avait soulevé le couvercle juste assez pour que la moitié de son visage dépasse. Elle souriait comme une enfant tout excitée. C’était troublant. Je ne savais même pas quoi lui dire. Je ne pouvais que la fixer. Quand j’ai enfin retrouvé ma voix, je lui ai demandé pourquoi, pour l’amour du ciel, elle faisait ça. Elle n’a pas répondu, mais elle a lentement refermé le couvercle, et elle s’est enfermée dans le coffre. Je suis parti, ébranlé."
+      "texte": "Elle avait soulevé le couvercle juste assez pour qu’on voie la moitié de son visage. Elle souriait comme une petite enfant tout excitée. C’était troublant. Je ne savais même pas quoi lui dire. Je ne pouvais que la regarder. Quand j’ai enfin retrouvé ma voix, je lui ai demandé pourquoi elle faisait ça. Elle n’a pas répondu, mais elle a refermé le couvercle tout doucement, et elle est restée enfermée dans le coffre. Je suis parti, secoué."
     },
     {
       "type": "paragraphe",
-      "texte": "Je ne comprenais pas pourquoi elle faisait ça, mais visiblement, ça la rendait heureuse. J’espérais seulement qu’elle se lasse vite du jeu."
+      "texte": "Je ne comprenais pas pourquoi elle faisait ça, mais on voyait bien que ça la rendait heureuse. J’espérais seulement qu’elle se lasserait vite de son jeu."
     },
     {
       "type": "paragraphe",
-      "texte": "Lynn ne m’a pas épié pendant les deux semaines suivantes. Je commençais à croire qu’elle en avait fini avec sa farce bizarre, et j’étais soulagé. Un soir qu’on regardait une série sur Netflix, je lui ai dit à la blague que je ne l’avais pas vue m’épier dernièrement, et qu’elle avait dû abandonner son petit jeu d’espionne. Elle a levé les yeux vers moi avec un petit sourire et elle a dit : « Ou alors, je suis juste devenue meilleure. »"
+      "texte": "Pendant les deux semaines suivantes, Lynn ne m’a plus regardé en cachette. Je commençais à croire qu’elle avait arrêté son jeu bizarre, et j’étais soulagé. Un soir, pendant qu’on regardait une série sur Netflix, je lui ai dit en riant que je ne l’avais pas vue me surveiller depuis un bout de temps, et qu’elle avait dû abandonner son jeu d’espionne. Elle a levé les yeux vers moi avec un petit sourire et elle a dit : « Ou alors, je suis juste devenue meilleure. »"
+    },
+    {
+      "type": "evenement",
+      "effet": "epier",
+      "son": "aucun",
+      "cote": "droite",
+      "duree": 1900
     },
     {
       "type": "paragraphe",
-      "texte": "Je n’ai rien dit, mais je me suis demandé si elle blaguait."
+      "texte": "Je n’ai rien répondu, mais je me suis demandé si elle blaguait."
     },
     {
       "type": "paragraphe",
-      "texte": "Pendant les jours suivants, je n’ai pas arrêté d’y penser. Est-ce qu’elle m’épiait encore quand je ne regardais pas, sans que je m’en rende compte ? Et si oui, qu’est-ce qu’elle pouvait bien en retirer ? Je suis devenu paranoïaque, à vérifier sans arrêt si elle me regardait du coin d’un mur ou de derrière une porte. Je sursautais pour un rien dès que j’étais à la maison et qu’elle n’était pas en pleine vue. Je me sentais stupide, et un peu fou."
+      "texte": "Les jours suivants, je n’arrêtais pas d’y penser. Est-ce qu’elle me regardait encore en cachette quand je ne regardais pas, sans que je m’en rende compte ? Et si oui, qu’est-ce que ça pouvait bien lui apporter ? Je suis devenu méfiant, à vérifier sans arrêt si elle me regardait au coin d’un mur ou derrière une porte. Je sursautais pour un rien dès que j’étais à la maison et qu’elle n’était pas devant moi. Je me sentais stupide, et un peu fou."
     },
     {
       "type": "paragraphe",
-      "texte": "Mais après quelques semaines sans incident, j’ai commencé à me détendre. J’ai arrêté de vérifier derrière les meubles et les murs, et je me suis dit que ce n’était qu’un mauvais souvenir."
+      "texte": "Mais après quelques semaines sans que rien n’arrive, j’ai commencé à me détendre. J’ai arrêté de vérifier derrière les meubles et les murs, et je me suis dit que ce n’était qu’un mauvais souvenir."
     },
     {
       "type": "pause"
     },
     {
       "type": "paragraphe",
-      "texte": "Puis, il y a quelques jours, les choses ont empiré. Beaucoup."
+      "texte": "Puis, il y a quelques jours, tout a empiré. Beaucoup."
     },
     {
       "type": "paragraphe",
-      "texte": "Lynn était partie chez une amie, et je flânais sur le divan à jouer à quelques jeux sur mon portable."
+      "texte": "Lynn était partie chez une amie, et j’étais tranquille sur le divan, à jouer à des jeux sur mon ordinateur portable."
     },
     {
       "type": "paragraphe",
-      "texte": "Vers 21 h, je suis allé prendre une douche et, pendant que je rinçais le savon de mes cheveux, j’ai ressenti cette horrible impression d’être observé. J’ai ouvert les yeux lentement, et j’ai failli faire une crise cardiaque."
+      "texte": "Vers 21 h, je suis allé prendre une douche et, pendant que je rinçais le savon de mes cheveux, j’ai eu cette horrible impression qu’on me regardait. J’ai ouvert les yeux lentement, et j’ai failli faire une crise cardiaque."
     },
     {
       "type": "paragraphe",
-      "texte": "Lynn m’épiait derrière le rideau de douche, la tête entière tendue à l’intérieur, le corps resté dehors. Ses longs cheveux foncés pendaient contre le rideau, les pointes dégoulinantes d’eau. Sa bouche était ouverte sur un sourire horrible, les yeux écarquillés et rouges, comme si elle n’avait pas cligné depuis longtemps. J’ai crié et je me suis plaqué contre le mur. Elle n’a pas bougé, et son sourire n’a pas faibli. Son maquillage coulait sur ses joues en deux traînées noires. Elle avait l’air ravie, et complètement dérangée. J’étais terrorisé."
+      "texte": "Lynn me regardait derrière le rideau de douche, la tête entière à l’intérieur de la douche, le corps resté dehors. Ses longs cheveux foncés pendaient contre le rideau, les pointes mouillées. Sa bouche était grande ouverte sur un sourire horrible, les yeux rouges et écarquillés, comme si elle n’avait pas cligné depuis longtemps. J’ai crié et je me suis collé contre le mur. Elle n’a pas bougé, et son sourire est resté le même. Son maquillage coulait sur ses joues en deux lignes noires. Elle avait l’air ravie, et complètement folle. J’étais terrorisé."
     },
     {
       "type": "paragraphe",
-      "texte": "On est restés comme ça un moment, sans rien dire, ni l’un ni l’autre. Finalement, après ce qui m’a paru une éternité, elle a lentement retiré sa tête de la douche, et j’ai regardé sa silhouette floue, à travers le rideau, reculer vers la porte de la salle de bain."
+      "texte": "On est restés comme ça un moment, sans rien dire, ni l’un ni l’autre. Finalement, après ce qui m’a semblé une éternité, elle a sorti sa tête de la douche, lentement, et j’ai vu sa silhouette floue, derrière le rideau, reculer vers la porte de la salle de bain."
     },
     {
       "type": "paragraphe",
-      "texte": "Une seconde plus tard, la porte de la salle de bain a claqué, assez fort pour faire trembler le miroir. J’ai crié encore, et j’ai sauté hors de la douche pour verrouiller la porte. Je suis resté enfermé dans la salle de bain plus d’une heure. Certains d’entre vous trouveront peut-être que j’ai exagéré. Mais farce ou pas, je n’allais plus endurer ces conneries. C’est ce que je me répétais en tournant en rond dans la salle de bain, en m’arrêtant toutes les quelques minutes pour écouter à la porte."
+      "texte": "Une seconde plus tard, la porte de la salle de bain a claqué, assez fort pour faire trembler le miroir. J’ai crié encore, et je suis sorti de la douche en vitesse pour verrouiller la porte. Je suis resté enfermé dans la salle de bain pendant plus d’une heure. Certains d’entre vous vont peut-être trouver que j’ai exagéré. Mais que ce soit une blague ou non, je n’allais plus endurer ces folies. C’est ce que je me répétais en tournant en rond dans la salle de bain, en m’arrêtant toutes les quelques minutes pour écouter à la porte."
     },
     {
       "type": "evenement",
@@ -269,43 +283,63 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Tout à coup, j’ai entendu un bruit étouffé, et j’ai collé mon oreille contre la porte pour écouter. Je n’entendais rien, mais j’imaginais Lynn debout de l’autre côté, en train de pouffer de rire devant sa blague."
+      "texte": "Tout à coup, j’ai entendu un petit bruit, et j’ai collé mon oreille contre la porte pour écouter. Je n’entendais rien, mais j’imaginais Lynn debout de l’autre côté, en train de rire tout bas de sa blague."
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai senti monter une bouffée de colère. J’étais hors de moi : on me faisait peur dans ma propre maison, on me forçait à me cacher une heure dans la salle de bain. Pour quoi ? Une blague ? Si c’en était une, elle était atroce."
+      "texte": "La colère est montée d’un coup. J’étais hors de moi : on me faisait peur dans ma propre maison, on m’obligeait à me cacher une heure dans la salle de bain. Pourquoi ? Pour une blague ? Si c’en était une, elle était horrible."
     },
     {
       "type": "paragraphe",
-      "texte": "« C’est quoi ton problème, Lynn ? j’ai lancé. Ça commence à être vraiment chiant, tes conneries. » J’ai attendu qu’elle s’excuse, ou qu’elle me traite de con. Mais à la place, j’ai entendu un faible gémissement, si léger que je me suis demandé si je l’avais vraiment entendu, puis un silence complet."
+      "texte": "« C’est quoi ton problème, Lynn ? j’ai crié. Ça commence à être vraiment fatigant, tes folies. » J’ai attendu qu’elle s’excuse, ou qu’elle me traite d’idiot. Mais à la place, j’ai entendu un petit gémissement, tellement faible que je me suis demandé si je l’avais vraiment entendu. Puis plus rien."
     },
     {
       "type": "paragraphe",
-      "texte": "« Lynn ? » j’ai appelé, sans arriver à cacher le tremblement dans ma voix. Pas de réponse. Juste ma propre respiration, lourde."
+      "texte": "« Lynn ? » j’ai appelé, sans réussir à cacher que ma voix tremblait. Pas de réponse. Juste ma propre respiration, lourde."
     },
     {
       "type": "paragraphe",
-      "texte": "« Je te jure, arrête ça, bordel ! » j’ai hurlé en frappant la porte du poing."
+      "texte": "« Je te le jure, arrête ça tout de suite ! » j’ai hurlé en frappant la porte avec mon poing."
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai attendu qu’elle m’engueule ; c’est ce que j’aurais attendu d’elle, après lui avoir parlé comme ça. Je ne lui avais jamais crié dessus avant."
+      "texte": "J’ai attendu qu’elle m’engueule. C’est ce qu’elle aurait fait, d’habitude, si je lui avais parlé comme ça. Je ne lui avais jamais crié dessus avant."
     },
     {
       "type": "paragraphe",
-      "texte": "Mais rien. Juste, de temps en temps, une goutte qui tombait du pommeau de douche."
+      "texte": "Mais rien. Juste, de temps en temps, une goutte qui tombait de la douche."
     },
     {
       "type": "paragraphe",
-      "texte": "Je ne vais pas mentir : j’avais peur. Trop peur pour ouvrir cette foutue porte et faire face à ma propre femme. J’ai attendu encore une trentaine de minutes, ce qui dure une éternité quand on a peur. Finalement, j’ai décidé que je n’allais pas passer la nuit caché dans ma salle de bain ; je me suis mis à genoux et j’ai regardé sous la porte. Je m’attendais presque à voir son visage me regarder en retour mais, Dieu merci, non. Je voyais tout le couloir jusqu’en haut de l’escalier, mais pas de Lynn. Je ne savais pas si je devais m’en réjouir. J’ai regardé plusieurs minutes, en attendant que sa tête surgisse en haut des marches, mais ce n’est jamais arrivé."
+      "texte": "Je ne vais pas mentir : j’avais peur. Trop peur pour ouvrir la porte et me retrouver face à ma propre femme. J’ai attendu encore une trentaine de minutes, et une demi-heure, ça dure une éternité quand on a peur. Finalement, j’ai décidé que je n’allais pas passer la nuit caché dans ma salle de bain. Je me suis mis à genoux pour regarder sous la porte."
+    },
+    {
+      "type": "geste",
+      "texte": "Regarder sous la porte",
+      "mode": "toucher",
+      "aide": "Toucher pour regarder"
     },
     {
       "type": "paragraphe",
-      "texte": "Je me suis relevé, la main au-dessus de la poignée, et je me suis préparé mentalement à ouvrir. J’ai tourné le verrou lentement, les doigts tremblants, et j’allais ouvrir la porte d’un coup quand j’ai entendu un son qui me donne encore la nausée quand j’y repense."
+      "texte": "Je m’attendais presque à voir son visage me regarder de l’autre côté mais, Dieu merci, non. Je voyais tout le couloir jusqu’en haut de l’escalier, et pas de Lynn. Je ne savais pas si je devais être content ou non. J’ai regardé plusieurs minutes, en attendant de voir sa tête apparaître en haut des marches, mais ce n’est jamais arrivé."
     },
     {
       "type": "paragraphe",
-      "texte": "Un gémissement, plus fort que le premier, mais cette fois, je savais exactement d’où il venait. J’ai tourné la tête vers la porte du placard, comme au ralenti, et mes yeux ont croisé ceux de ma femme, qui m’épiait par l’entrebâillement."
+      "texte": "Je me suis relevé, la main au-dessus de la poignée, et je me suis préparé à ouvrir. J’ai déverrouillé la porte lentement, les doigts tremblants."
+    },
+    {
+      "type": "geste",
+      "texte": "Ouvrir la porte",
+      "mode": "maintenir",
+      "duree": 2200
+    },
+    {
+      "type": "paragraphe",
+      "texte": "J’allais ouvrir la porte d’un coup quand j’ai entendu un son qui me donne encore envie de vomir quand j’y repense."
+    },
+    {
+      "type": "paragraphe",
+      "texte": "Un gémissement, plus fort que le premier. Mais cette fois, je savais exactement d’où il venait. J’ai tourné la tête vers la porte de la garde-robe, comme au ralenti, et mes yeux ont croisé ceux de ma femme, qui me regardait par la porte entrouverte."
     },
     {
       "type": "evenement",
@@ -315,43 +349,55 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Ses yeux étaient toujours aussi écarquillés, et sa bouche pendait, ouverte sur le sourire béant le plus grotesque que j’aie jamais vu. Je n’ai même pas crié. J’avais trop peur, même pour ça. Ses mains étaient jointes contre sa poitrine, et son corps tremblait de pur bonheur, comme si elle pouvait à peine contenir son excitation. Un court gémissement rauque est monté de sa gorge, profond et écorché, et un frisson m’a traversé le corps tout entier."
+      "texte": "Ses yeux étaient toujours aussi grands ouverts, et sa bouche était ouverte sur le pire sourire que j’aie jamais vu. Je n’ai même pas crié. J’avais trop peur, même pour ça. Elle tenait ses mains jointes contre sa poitrine, et tout son corps tremblait de joie, comme si elle avait du mal à contenir son excitation. Un petit gémissement rauque est sorti de sa gorge, grave et étrange, et j’ai eu un frisson dans tout le corps."
     },
     {
       "type": "paragraphe",
-      "texte": "Je ne sais pas comment, j’ai trouvé la force d’ouvrir la porte de la salle de bain, et j’ai couru aussi vite que j’ai pu jusqu’en bas de l’escalier, j’ai attrapé mes clés et mon téléphone sur la table du salon, puis je suis sorti en courant jusqu’à mon auto. J’entendais son rire perçant derrière moi, mais je ne l’entendais pas se rapprocher. Je n’ai même pas pris la peine de fermer la porte d’entrée. Je me suis éloigné de la maison plus vite que la loi le permet, en grelottant tout le long, de peur ou de froid. Sans doute un peu des deux. Je n’avais pas pris de manteau, ni même une paire de souliers. J’étais encore en boxer, les cheveux mouillés."
+      "texte": "Je ne sais pas comment, j’ai trouvé la force d’ouvrir la porte de la salle de bain. J’ai couru aussi vite que j’ai pu jusqu’en bas de l’escalier, j’ai attrapé mes clés et mon téléphone sur la table du salon, puis je suis sorti en courant jusqu’à ma voiture. J’entendais son rire aigu derrière moi, mais je ne l’entendais pas se rapprocher. Je n’ai même pas fermé la porte d’entrée. Je me suis éloigné de la maison beaucoup plus vite que la limite permise, en grelottant tout le long, de peur ou de froid. Sûrement un peu des deux. Je n’avais pas pris de manteau, pas même une paire de chaussures. J’étais encore en boxer, les cheveux mouillés."
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai roulé directement jusque chez mon frère Chris, à une quarantaine de minutes, en ignorant tous les appels et tous les textos que je recevais. Je n’ai pas regardé mon téléphone avant d’être garé en sécurité dans l’entrée de mon frère. Lynn avait appelé quatre fois et m’avait envoyé une avalanche de textos, tous pour me demander où j’étais passé et pourquoi j’étais parti « comme ça »."
+      "texte": "J’ai roulé directement jusque chez mon frère Chris, à une quarantaine de minutes, sans répondre à aucun appel ni aucun texto. Je n’ai pas regardé mon téléphone avant d’être garé dans son entrée."
+    },
+    {
+      "type": "evenement",
+      "effet": "notification",
+      "son": "vibration",
+      "titre": "Lynn",
+      "texte": "Où es-tu ? Pourquoi tu es parti comme ça ?",
+      "duree": 6500
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai lancé mon téléphone sur le tableau de bord, fou de rage devant son air de rien. Mon frère et sa femme ont été surpris de me voir, surtout en boxer, mais ils m’ont dit de rester aussi longtemps qu’il le faudrait. Chris m’a prêté des vêtements et m’a demandé ce qui s’était passé. Je lui ai dit que Lynn et moi, on s’était chicanés, sans entrer dans les détails. Je ne voulais pas qu’il pense que j’exagérais, à quitter ma femme pour une farce, même étrange. Après tout, est-ce que je ne l’avais pas encouragée pendant des années à se détendre, à être moins sérieuse ? Je voulais qu’elle relaxe, qu’elle lâche prise, mais ce n’était vraiment pas ce que j’avais en tête."
+      "texte": "Lynn avait appelé quatre fois et m’avait envoyé une avalanche de textos, tous pour me demander où j’étais et pourquoi j’étais parti « comme ça »."
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai essayé de dormir sur leur divan, mais mon cerveau refusait. Chaque fois que je fermais les yeux, je voyais le visage de Lynn qui me fixait depuis le placard. Savoir qu’elle avait été là, avec moi, tout ce temps, me donnait la chair de poule. Elle n’avait jamais quitté la foutue salle de bain. Elle s’était glissée dans le placard et elle avait claqué la porte pour me tromper."
+      "texte": "J’ai lancé mon téléphone sur le tableau de bord, enragé qu’elle fasse comme si de rien n’était. Mon frère et sa femme ont été surpris de me voir, surtout en boxer, mais ils m’ont dit de rester aussi longtemps que j’en avais besoin. Chris m’a prêté des vêtements et m’a demandé ce qui s’était passé. Je lui ai dit que Lynn et moi, on s’était disputés, sans entrer dans les détails. Je ne voulais pas qu’il pense que j’exagérais, à quitter ma femme pour une blague, même bizarre. Après tout, je l’avais encouragée pendant des années à se détendre, à être moins sérieuse, non ? Je voulais qu’elle lâche prise un peu, mais ce n’était vraiment pas ce que j’avais en tête."
     },
     {
       "type": "paragraphe",
-      "texte": "Rien que l’idée de rentrer à la maison me rendait anxieux. Je me tournais et me retournais, incapable de dormir. Chris a fini par me donner un somnifère pour que je puisse me reposer un peu. Mon sommeil était plein de rêves horribles. Tous avec le visage souriant de Lynn."
+      "texte": "J’ai essayé de dormir sur leur divan, mais mon cerveau refusait. Chaque fois que je fermais les yeux, je voyais le visage de Lynn qui me regardait depuis la garde-robe. Savoir qu’elle avait été là, avec moi, tout ce temps, me donnait la chair de poule. Elle n’était jamais sortie de la salle de bain. Elle s’était cachée dans la garde-robe et elle avait claqué la porte pour me faire croire qu’elle était partie."
     },
     {
       "type": "paragraphe",
-      "texte": "Je me suis réveillé au lever du soleil. J’avais mal partout à cause du divan, et je me sentais vidé. Je savais que je devrais appeler Lynn à un moment donné, mais je ne savais pas quoi lui dire. Je ne rentrerais pas à la maison tant qu’elle ne m’aurait pas donné sa parole de ne plus jamais faire ce genre de conneries glauques."
+      "texte": "Juste l’idée de rentrer à la maison me rendait anxieux. Je me tournais et me retournais, incapable de dormir. Chris a fini par me donner une pilule pour dormir, et j’ai pu me reposer un peu. J’ai fait des cauchemars horribles. Tous avec le visage souriant de Lynn."
     },
     {
       "type": "paragraphe",
-      "texte": "Je voulais juste retrouver ma femme. Sa bonne vieille nature sérieuse ne m’avait jamais paru aussi belle."
+      "texte": "Je me suis réveillé au lever du soleil. J’avais mal partout à cause du divan, et je me sentais vidé. Je savais que je devrais appeler Lynn à un moment donné, mais je ne savais pas quoi lui dire. Je ne rentrerais pas à la maison tant qu’elle ne m’aurait pas promis d’arrêter ses folies inquiétantes."
     },
     {
       "type": "paragraphe",
-      "texte": "J’étais en train de me décider à l’appeler pour lui dire tout ça quand cette sensation familière m’a envahi. On me regardait. Je fixais le plafond, le cœur dans la gorge. Je ne voulais pas détourner les yeux, mais plus j’ignorais la sensation, plus elle empirait."
+      "texte": "Je voulais juste retrouver ma femme. Elle qui était si sérieuse, avant… Ça ne m’avait jamais autant manqué."
     },
     {
       "type": "paragraphe",
-      "texte": "Mes yeux ont quitté le plafond presque d’eux-mêmes. Son visage était collé contre la fenêtre à côté du divan, penché sur moi, avec le même sourire béant. De la bave coulait de ses lèvres et laissait deux longues traînées sur la vitre. Je ne savais pas depuis combien de temps elle était là, mais quelque chose me disait que ça faisait longtemps. Peut-être toute la nuit."
+      "texte": "J’étais en train de me décider à l’appeler pour lui dire tout ça quand j’ai senti cette impression familière. On me regardait. Je fixais le plafond, le cœur dans la gorge. Je ne voulais pas regarder ailleurs, mais plus j’essayais d’ignorer cette impression, plus elle devenait forte."
+    },
+    {
+      "type": "paragraphe",
+      "texte": "Mes yeux ont quitté le plafond presque tout seuls. Son visage était collé contre la fenêtre à côté du divan, penché sur moi, avec le même sourire immense. De la bave coulait de ses lèvres et laissait deux longues traces sur la vitre. Je ne savais pas depuis combien de temps elle était là, mais quelque chose me disait que ça faisait longtemps. Peut-être toute la nuit."
     },
     {
       "type": "evenement",
@@ -361,31 +407,38 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Je n’ai même pas pris la peine de crier ; à ce moment-là, la colère l’emportait sur la peur. J’ai bondi du divan et j’ai frappé la vitre du plat de la main."
+      "texte": "Je n’ai même pas crié. À ce moment-là, j’étais plus en colère qu’effrayé. J’ai sauté du divan et j’ai frappé la vitre avec ma main."
     },
     {
       "type": "paragraphe",
-      "texte": "« Lynn ! T’es folle ? Qu’est-ce qui ne va pas chez toi ? Rentre à la maison ! j’ai crié. Tout de suite ! »"
+      "texte": "« Lynn ! Es-tu folle ? Qu’est-ce qui ne va pas chez toi ? Rentre à la maison ! j’ai crié. Tout de suite ! »"
     },
     {
       "type": "paragraphe",
-      "texte": "Elle n’a pas bougé, et son expression épouvantable n’a pas changé. Au contraire, son sourire s’est élargi, comme si elle n’avait jamais été aussi heureuse."
+      "texte": "Elle n’a pas bougé, et son visage horrible n’a pas changé. Au contraire, son sourire est devenu encore plus grand, comme si elle n’avait jamais été aussi heureuse."
     },
     {
       "type": "paragraphe",
-      "texte": "J’entendais Chris et sa femme bouger en haut. Comme si Lynn pouvait les entendre depuis dehors, sa tête a eu un petit tressaillement dans leur direction, et elle a commencé à refermer lentement la bouche."
+      "texte": "J’entendais Chris et sa femme bouger en haut. Comme si Lynn pouvait les entendre de dehors, sa tête a fait un petit mouvement brusque dans leur direction, et elle a commencé à refermer la bouche, lentement."
     },
     {
       "type": "paragraphe",
-      "texte": "Chris a crié mon nom d’en haut, visiblement inquiet. Je me suis retourné et je l’ai vu descendre l’escalier en vitesse avec sa femme, Rebecca. Quand je me suis retourné vers la fenêtre, Lynn n’était plus là. La seule preuve qu’elle y avait été, c’étaient les deux traînées de bave qui dégoulinaient encore sur la vitre."
+      "texte": "Chris a crié mon nom d’en haut, visiblement inquiet. Je me suis retourné et je l’ai vu descendre l’escalier en vitesse avec sa femme, Rebecca. Quand je me suis retourné vers la fenêtre, Lynn n’était plus là. La seule preuve qu’elle avait été là, c’était les deux traces de bave qui coulaient encore sur la vitre."
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai essayé d’expliquer à Chris et à Rebecca que je m’étais réveillé en voyant Lynn me regarder par leur fenêtre. Ils étaient sceptiques. Qui ne l’aurait pas été ? Chris et moi sommes sortis devant la fenêtre, mais il n’y avait aucune empreinte dans la terre, juste un léger creux. Un animal, sûrement, a supposé Chris, et je n’ai pas discuté. Rebecca et lui pensaient que j’avais rêvé toute la scène, mais ils ne comprenaient pas, et j’étais trop fatigué pour leur expliquer."
+      "texte": "J’ai essayé d’expliquer à Chris et à Rebecca que je m’étais réveillé et que Lynn me regardait par leur fenêtre. Ils ne me croyaient pas trop. Qui m’aurait cru ? Chris et moi, on est sortis devant la fenêtre, mais il n’y avait aucune trace de pas dans la terre, juste un léger creux. Sûrement un animal, a dit Chris, et je n’ai pas discuté. Rebecca et lui pensaient que j’avais rêvé, mais ils ne comprenaient pas, et j’étais trop fatigué pour leur expliquer."
+    },
+    {
+      "type": "evenement",
+      "effet": "epier",
+      "son": "aucun",
+      "cote": "gauche",
+      "duree": 2400
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai appelé au travail pour dire que je ne rentrerais pas, et j’ai éteint mon cellulaire. Je ne voulais pas affronter Lynn. Rien que lui parler, c’était trop pour moi à ce moment-là. Je commençais vraiment à croire que quelque chose s’était brisé en elle, pour de bon. Que peu importe ce qu’elle me promettrait, on ne serait plus jamais pareils. Cette pensée me désolait jusqu’au fond de l’âme. J’ai pleuré presque toute la matinée. Vers midi, je me suis dit que j’étais prêt à la confronter. À lui donner une dernière chance de s’expliquer. Je pouvais au moins lui donner ça, après six ans, je me suis dit. J’ai rallumé mon téléphone et j’ai vu les dizaines de textos qu’elle m’avait envoyés, tous d’une épouse en apparence inquiète."
+      "texte": "J’ai appelé au travail pour dire que je ne rentrerais pas, et j’ai fermé mon téléphone. Je ne voulais pas faire face à Lynn. Juste lui parler, c’était trop pour moi à ce moment-là. Je commençais vraiment à croire que quelque chose s’était brisé en elle, pour de bon. Que peu importe ce qu’elle me promettrait, on ne serait plus jamais comme avant. Ça me rendait profondément triste. J’ai pleuré presque toute la matinée. Vers midi, je me suis dit que j’étais prêt à lui parler. À lui donner une dernière chance de s’expliquer. Après six ans, je lui devais au moins ça. J’ai rallumé mon téléphone, et j’ai vu les dizaines de textos qu’elle m’avait envoyés, tous d’une femme qui avait l’air inquiète."
     },
     {
       "type": "sms",
@@ -419,39 +472,39 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Et d’autres du même genre. Tous pour me dire qu’elle m’aimait, qu’elle voulait que je revienne. À quel point elle était inquiète… Pas un maudit qui parlait des folies qu’elle avait faites. Comme si elle ne s’était pas comportée comme un personnage de Stephen King."
+      "texte": "Et plein d’autres du même genre. Tous pour me dire qu’elle m’aimait, qu’elle voulait que je revienne. À quel point elle était inquiète… Pas un seul ne parlait des choses folles qu’elle avait faites. Comme si elle ne s’était pas comportée comme un personnage de Stephen King."
     },
     {
       "type": "paragraphe",
-      "texte": "Même ses textos étaient différents. D’habitude, elle m’écrit des romans juste pour me dire d’acheter un pain ! On aurait pu croire qu’elle aurait eu plus à me dire, après ses manigances bizarres."
+      "texte": "Même ses textos étaient différents. D’habitude, elle m’écrit des romans juste pour me demander d’acheter du pain ! On aurait pu croire qu’elle aurait eu plus de choses à me dire, après ce qu’elle avait fait."
     },
     {
       "type": "paragraphe",
-      "texte": "Je sais que ça peut sembler enfantin pour certains d’entre vous, qui êtes à des kilomètres de tout ça. Mais si vous aviez vu la façon dont Lynn me regardait, comment elle détalait à quatre pattes comme une bête sauvage, comment elle me souriait depuis le placard comme une folle… alors je pense que vous trouveriez ma réaction justifiée."
+      "texte": "Je sais que ma réaction peut sembler exagérée pour certains d’entre vous, qui êtes loin de tout ça. Mais si vous aviez vu la façon dont Lynn me regardait, comment elle se sauvait à quatre pattes comme un animal sauvage, comment elle me souriait dans la garde-robe comme une folle… je pense que vous me comprendriez."
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai fini par rester chez Chris et Rebecca une nuit de plus. Hier, je ne me suis réveillé qu’après midi et, Dieu merci, je n’ai pas vu le visage de Lynn me regarder par la fenêtre."
+      "texte": "Je suis finalement resté chez Chris et Rebecca une nuit de plus. Hier, je ne me suis réveillé qu’après midi et, Dieu merci, je n’ai pas vu le visage de Lynn me regarder par la fenêtre."
     },
     {
       "type": "paragraphe",
-      "texte": "« Je ne veux pas me mêler de ce qui ne me regarde pas. Mais est-ce que cette chicane-là peut s’arranger ? » m’a demandé Rebecca. Elle nous avait fait des sandwichs pour midi, et je savais qu’elle voulait aborder le sujet sans avoir l’air indiscrète."
+      "texte": "« Je ne veux pas me mêler de ce qui ne me regarde pas. Mais est-ce que votre dispute, ça peut s’arranger ? » m’a demandé Rebecca. Elle nous avait fait des sandwichs pour le dîner, et je savais qu’elle voulait aborder le sujet sans avoir l’air de fouiner."
     },
     {
       "type": "paragraphe",
-      "texte": "« Je ne sais pas. C’est juste que… on dirait une autre personne », j’ai dit en choisissant mes mots avec soin. Je n’étais pas encore prêt à ce que Chris et elle sachent toute l’ampleur des folies que je vivais."
+      "texte": "« Je ne sais pas. C’est juste que… on dirait une autre personne », j’ai dit en choisissant bien mes mots. Je n’étais pas encore prêt à leur raconter à quel point c’était fou, ce que je vivais."
     },
     {
       "type": "paragraphe",
-      "texte": "« Les gens changent, Ben. Mais c’est encore la même femme que tu as épousée. Vous avez peut-être juste besoin de parler de vos problèmes. Peu importe ce qui se passe, je suis sûre que ça peut s’arranger », a-t-elle dit, pacificatrice comme toujours."
+      "texte": "« Les gens changent, Ben. Mais c’est encore la même femme que tu as mariée. Vous avez peut-être juste besoin de vous parler. Peu importe ce qui se passe, je suis sûre que ça peut s’arranger », a-t-elle dit. Rebecca voulait toujours que tout le monde s’entende."
     },
     {
       "type": "paragraphe",
-      "texte": "« Je pense qu’on est rendus plus loin que ça. Je ne pense pas que parler va aider. Je n’ai juste plus confiance en elle », j’ai dit. Les mots me serraient le cœur. Ma femme me manquait, je l’aimais. Mais comment vivre avec quelqu’un comme ça ? Vivre dans la peur constante, ce n’était pas très tentant."
+      "texte": "« Je pense que c’est rendu plus grave que ça. Je ne pense pas que parler va aider. Je n’ai plus confiance en elle, c’est tout », j’ai dit. Ces mots me faisaient mal au cœur. Ma femme me manquait, je l’aimais. Mais comment vivre avec quelqu’un comme ça ? Avoir peur tout le temps, ce n’était pas une vie."
     },
     {
       "type": "paragraphe",
-      "texte": "« Lynn t’aime. Elle doit être complètement anéantie », a-t-elle dit."
+      "texte": "« Lynn t’aime. Elle doit avoir tellement de peine », a-t-elle dit."
     },
     {
       "type": "paragraphe",
@@ -459,31 +512,31 @@
     },
     {
       "type": "paragraphe",
-      "texte": "« En tout cas, c’est l’impression qu’elle m’a donnée. Je ne l’ai jamais vue aussi bouleversée. Ça ne ressemble tellement pas à la Lynn que je connais », a dit Rebecca en secouant tristement la tête."
+      "texte": "« En tout cas, c’est ce qu’elle avait l’air. Je ne l’ai jamais vue aussi bouleversée. Ça ne ressemble pas du tout à la Lynn que je connais », a dit Rebecca en secouant tristement la tête."
     },
     {
       "type": "paragraphe",
-      "texte": "Il m’a fallu une bonne minute pour que ses mots fassent leur chemin et, quand c’est arrivé, j’ai senti l’effroi se faufiler sous ma peau."
+      "texte": "J’ai mis une bonne minute à comprendre ce qu’elle venait de dire. Et quand j’ai compris, j’ai senti la peur entrer sous ma peau."
     },
     {
       "type": "paragraphe",
-      "texte": "« Attends. Qu’est-ce que tu veux dire ? Tu l’as vue ? Tu as vu Lynn ? » j’ai demandé, la bouche soudain sèche."
+      "texte": "« Attends. Qu’est-ce que tu veux dire ? Tu l’as vue ? Tu as vu Lynn ? » j’ai demandé, la bouche tout à coup sèche."
     },
     {
       "type": "paragraphe",
-      "texte": "Rebecca a hoché la tête, l’air de rien, comme si ce n’était pas une image tout droit sortie d’un cauchemar. Pour elle, peut-être que ça ne l’était pas."
+      "texte": "Rebecca a fait oui de la tête, comme si de rien n’était. Comme si ce n’était pas une histoire de cauchemar. Pour elle, ce n’en était peut-être pas une."
     },
     {
       "type": "paragraphe",
-      "texte": "« Elle est passée ce matin, juste après que Chris est parti travailler, a-t-elle dit en ramassant les assiettes. Je n’ai pas vu son auto, par contre. Elle a peut-être pris un Uber, je ne sais pas. »"
+      "texte": "« Elle est passée ce matin, juste après que Chris est parti travailler, a-t-elle dit en ramassant les assiettes. Je n’ai pas vu sa voiture, par contre. Elle a peut-être pris un Uber, je ne sais pas. »"
     },
     {
       "type": "paragraphe",
-      "texte": "« Becca. Qu’est-ce qu’elle a dit ? Est-ce qu’elle… est-ce qu’elle est entrée ? » j’ai demandé, la sueur au front. Je me suis mis à regarder autour de moi, à examiner les coins comme si un prédateur s’y cachait."
+      "texte": "« Becca. Qu’est-ce qu’elle a dit ? Est-ce qu’elle… est-ce qu’elle est entrée ? » j’ai demandé, la sueur au front. Je me suis mis à regarder partout autour de moi, à surveiller les coins des murs, comme si un prédateur se cachait derrière."
     },
     {
       "type": "paragraphe",
-      "texte": "« Non. Elle a juste demandé si tu étais réveillé, et j’ai dit que non. Je lui ai demandé si elle voulait que je te réveille, mais elle a dit non. Elle a juste dit de te laisser dormir », a-t-elle répondu en lavant la vaisselle."
+      "texte": "« Non. Elle m’a juste demandé si tu étais réveillé, et j’ai dit que non. Je lui ai demandé si elle voulait que je te réveille, mais elle a dit non. Elle a juste dit de te laisser dormir », a-t-elle répondu en lavant la vaisselle."
     },
     {
       "type": "paragraphe",
@@ -491,7 +544,7 @@
     },
     {
       "type": "paragraphe",
-      "texte": "« Non. Elle avait l’air épouvantable, par contre. Comme si elle n’avait pas dormi depuis des jours. Je pense que tu devrais l’appeler. »"
+      "texte": "« Non. Par contre, elle avait l’air vraiment mal. Comme si elle n’avait pas dormi depuis des jours. Je pense que tu devrais l’appeler. »"
     },
     {
       "type": "paragraphe",
@@ -499,26 +552,26 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Je me sentais un peu mieux de savoir qu’au moins, elle n’était pas entrée. Mais il fallait quand même que je vérifie que les portes étaient bien verrouillées."
+      "texte": "Ça me rassurait un peu de savoir qu’au moins, elle n’était pas entrée. Mais je voulais quand même vérifier que les portes étaient bien verrouillées."
     },
     {
       "type": "paragraphe",
-      "texte": "Je suis resté assis un bon moment, à essayer de savoir quoi faire. Je ne voulais pas rentrer à la maison, mais je sentais que je devais à Lynn de l’aider, si je le pouvais. Est-ce que je n’avais pas juré de l’aimer et de l’honorer, dans la maladie comme dans la santé ? De toute évidence, elle était très malade."
+      "texte": "Je suis resté assis un bon moment à essayer de savoir quoi faire. Je ne voulais pas rentrer à la maison, mais je sentais que je devais aider Lynn, si je le pouvais. Je lui avais juré de l’aimer, dans la maladie comme dans la santé. Et de toute évidence, elle était très malade."
     },
     {
       "type": "paragraphe",
-      "texte": "Si elle était malade, et j’y croyais vraiment, je devais essayer de lui trouver l’aide dont elle avait besoin. Mais je ne savais même pas par où commencer. Je ne voulais pas appeler la police et, de toute façon, qu’est-ce que j’allais leur dire, bon sang ? Que ma femme m’épiait ? Qu’elle était glauque ? Aussi bizarre qu’elle ait été, elle n’avait commis aucun crime. Pas encore, en tout cas. La police m’aurait sans doute dit que j’exagérais. Mais ce n’était pas une farce. C’était mal. Dangereux, même. Comme si quelque chose de sinistre se cachait sous son sourire."
+      "texte": "Si elle était malade, et j’y croyais vraiment, je devais essayer de lui trouver de l’aide. Mais je ne savais même pas par où commencer. Je ne voulais pas appeler la police et, de toute façon, qu’est-ce que je leur aurais dit ? Que ma femme me regardait en cachette ? Qu’elle me faisait peur ? Aussi bizarre qu’elle ait été, elle n’avait commis aucun crime. Pas encore, en tout cas. La police m’aurait sûrement dit que j’exagérais. Mais ce n’était pas une blague. Quelque chose n’allait pas. C’était même dangereux. Comme si quelque chose de mauvais se cachait derrière son sourire."
     },
     {
       "type": "paragraphe",
-      "texte": "Je savais qu’en tant que mari, j’avais tout à fait le droit de la faire interner, mais si elle agissait normalement devant eux ? Elle avait bien réussi à faire croire à Rebecca qu’elle n’était qu’une épouse inquiète. Tant que les médecins ne la jugeraient pas dangereuse pour elle-même ou pour les autres, ils n’auraient pas d’autre choix que de la laisser sortir au bout de 72 heures. Je me sentais perdu et dépassé."
+      "texte": "Je savais qu’en tant que mari, j’avais le droit de la faire hospitaliser de force. Mais si elle agissait normalement devant les médecins ? Elle avait bien réussi à faire croire à Rebecca qu’elle n’était qu’une femme inquiète. Tant que les médecins ne la trouveraient pas dangereuse, pour elle-même ou pour les autres, ils devraient la laisser sortir au bout de 72 heures. Je me sentais perdu et dépassé."
     },
     {
       "type": "pause"
     },
     {
       "type": "paragraphe",
-      "texte": "Alors j’ai fait ce que n’importe quel mari aurait fait à ma place."
+      "texte": "Alors, j’ai fait ce que n’importe quel mari aurait fait à ma place."
     },
     {
       "type": "paragraphe",
@@ -531,15 +584,15 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Sa mère, Marianne, et moi n’avons jamais été en très bons termes. On ne s’est jamais disputés, rien de ça. C’est juste qu’elle n’était pas une personne très chaleureuse, ni très facile à vivre. Elle ne souriait presque jamais et, quand elle le faisait, seules ses lèvres bougeaient, en un sourire mince qui laissait ses yeux aussi vides qu’avant. Elle dégageait une aura qui donnait l’impression qu’elle était en permanence sur l’offensive."
+      "texte": "Sa mère, Marianne, et moi, on ne s’est jamais très bien entendus. On ne s’est jamais disputés, rien de ça. C’est juste qu’elle n’était pas une personne chaleureuse, ni facile à vivre. Elle ne souriait presque jamais et, quand elle le faisait, seules ses lèvres bougeaient, en un petit sourire mince, et ses yeux restaient vides. On avait l’impression qu’elle était toujours prête à attaquer."
     },
     {
       "type": "paragraphe",
-      "texte": "Je ne l’avais rencontrée que deux fois, et les deux fois pour de très courtes visites. J’avais l’impression qu’elle ne me trouvait pas assez bien pour sa fille. Lynn nous faisait toujours partir vite, parce qu’elle ne voulait pas que je sois mal à l’aise, et je lui en étais reconnaissant. Être en présence de sa mère était presque insupportable. Comme marcher sur du verre. J’avais été content qu’on déménage à trois États de là, pour ne pas avoir à la voir souvent. J’étais heureux d’éviter cette femme, mais j’avais besoin de son aide."
+      "texte": "Je ne l’avais rencontrée que deux fois, et les deux fois pour de très courtes visites. J’avais l’impression qu’elle ne me trouvait pas assez bien pour sa fille. Lynn nous faisait toujours partir vite, parce qu’elle ne voulait pas que je sois mal à l’aise, et je lui en étais reconnaissant. Être avec sa mère, c’était presque insupportable. Comme marcher sur du verre. J’étais content qu’on ait déménagé à trois États de chez elle, pour ne pas avoir à la voir souvent. J’étais très heureux d’éviter cette femme, mais là, j’avais besoin de son aide."
     },
     {
       "type": "paragraphe",
-      "texte": "Je n’avais vraiment pas envie de lui parler, mais il fallait que je parle à quelqu’un, et à quelqu’un qui connaissait Lynn mieux que moi. Alors j’ai serré les dents et j’ai fait ce que j’avais à faire."
+      "texte": "Je n’avais vraiment pas envie de lui parler, mais il fallait que je parle à quelqu’un. À quelqu’un qui connaissait Lynn mieux que moi. Alors j’ai serré les dents et je l’ai fait."
     },
     {
       "type": "paragraphe",
@@ -551,39 +604,39 @@
     },
     {
       "type": "paragraphe",
-      "texte": "« Je suis en train de faire des chèques mais, si vous insistez, je suppose que je peux vous accorder un moment. De quoi voulez-vous discuter, Benjamin ? » a-t-elle dit, froidement."
+      "texte": "« Je suis en train de faire des chèques mais, si vous insistez, je peux vous accorder un moment. De quoi voulez-vous parler, Benjamin ? » a-t-elle dit, froidement."
     },
     {
       "type": "paragraphe",
-      "texte": "« C’est à propos de Lynn. Elle a… un comportement étrange, et je me demandais si vous auriez une idée, s’il y a quelque chose qui… » Elle m’a coupé aussitôt."
+      "texte": "« C’est à propos de Lynn. Elle est… bizarre, ces temps-ci, et je me demandais si vous auriez une idée, s’il y a quelque chose qui… » Elle m’a coupé tout de suite."
     },
     {
       "type": "paragraphe",
-      "texte": "« C’est un peu difficile de suivre vos divagations, Benjamin. Qu’est-ce que vous attendez de moi, au juste ? » a-t-elle demandé. Je pouvais presque la voir, debout dans son chandail mince et son pantalon droit, à tapoter la table de ses ongles, impatiente."
+      "texte": "« J’ai du mal à vous suivre, Benjamin. Qu’est-ce que vous voulez de moi, au juste ? » a-t-elle demandé. Je pouvais presque la voir, debout dans son petit chandail mince et son pantalon bien droit, à tapoter la table avec ses ongles, impatiente."
     },
     {
       "type": "paragraphe",
-      "texte": "« Je voulais savoir si vous aviez déjà remarqué un comportement bizarre ? Ou peut-être des problèmes de santé mentale ? » j’ai demandé. Il y a eu une longue pause, inconfortable, et je n’arrivais pas à savoir si c’était parce qu’elle réfléchissait, ou… autre chose. Finalement, au bout de quelques secondes, elle a parlé."
+      "texte": "« Je voulais savoir si vous aviez déjà remarqué un comportement bizarre ? Ou peut-être des problèmes de santé mentale ? » j’ai demandé. Il y a eu un long silence, un silence gênant, et je ne savais pas si elle réfléchissait, ou… autre chose. Finalement, au bout de quelques secondes, elle a parlé."
     },
     {
       "type": "paragraphe",
-      "texte": "« Je ne sais pas si c’est une de vos plaisanteries, Benjamin, mais si c’est le cas, je ne la trouve pas drôle. J’ai des affaires à régler, comme je vous l’ai dit, alors si vous permettez… » Je l’ai coupée avant qu’elle puisse se débarrasser de moi."
+      "texte": "« Je ne sais pas si c’est une de vos blagues, Benjamin, mais si c’est le cas, je ne la trouve pas drôle. J’ai des choses à faire, comme je vous l’ai dit, alors si vous permettez… » Je l’ai coupée avant qu’elle puisse se débarrasser de moi."
     },
     {
       "type": "paragraphe",
-      "texte": "« Marianne, ce n’est pas une blague. Je m’inquiète sincèrement pour la santé mentale de Lynn. Son comportement est très instable depuis quelque temps. Je suis très inquiet pour elle, et je me disais qu’en tant que mère, vous le seriez aussi », j’ai dit, sans pouvoir cacher ma frustration."
+      "texte": "« Marianne, ce n’est pas une blague. Je m’inquiète vraiment pour la santé mentale de Lynn. Elle agit de façon très étrange depuis quelque temps. Je suis très inquiet pour elle, et je me disais que vous, sa mère, vous le seriez aussi », j’ai dit, sans pouvoir cacher que j’étais à bout."
     },
     {
       "type": "paragraphe",
-      "texte": "« Si vous êtes vraiment inquiet, je vous suggère de faire appel à des professionnels de la santé. Je ne sais pas ce que vous attendez de moi », a-t-elle répliqué sèchement. Je sentais qu’elle allait raccrocher d’une seconde à l’autre et, pour une raison que j’ignore, je voulais à tout prix l’en empêcher. J’avais l’impression qu’elle en savait beaucoup plus qu’elle ne voulait le dire."
+      "texte": "« Si vous êtes vraiment inquiet, je vous conseille d’appeler des professionnels de la santé. Je ne sais pas ce que vous attendez de moi », a-t-elle répondu sèchement. Je sentais qu’elle allait raccrocher d’une seconde à l’autre et, je ne sais pas pourquoi, je voulais à tout prix l’en empêcher. J’avais l’impression qu’elle en savait beaucoup plus qu’elle ne voulait le dire."
     },
     {
       "type": "paragraphe",
-      "texte": "« S’il vous plaît. Si ce n’est pas pour moi, faites-le pour Lynn », j’ai tenté."
+      "texte": "« S’il vous plaît. Si ce n’est pas pour moi, faites-le pour Lynn », j’ai essayé."
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai entendu une faible inspiration, tremblante, comme si elle essayait de garder intacte sa façade d’acier, sans y arriver."
+      "texte": "Je l’ai entendue respirer un petit coup, d’une respiration qui tremblait, comme si elle essayait de rester froide et dure, sans y arriver."
     },
     {
       "type": "paragraphe",
@@ -591,106 +644,117 @@
     },
     {
       "type": "paragraphe",
-      "texte": "« Benjamin, je ne sais pas quoi vous dire. Mon seul conseil serait de chercher une aide professionnelle. Ne rappelez plus ici. Au revoir. » J’ai essayé de la retenir, mais elle avait raccroché."
+      "texte": "« Benjamin, je ne sais pas quoi vous dire. Mon seul conseil, c’est d’aller chercher de l’aide professionnelle. Ne rappelez plus ici. Au revoir. » J’ai essayé de la retenir, mais elle avait raccroché."
     },
     {
       "type": "paragraphe",
-      "texte": "J’essayais de comprendre cet appel, et son refus de m’aider. Même si elle ne m’aimait pas, pourquoi est-ce qu’elle ne voudrait pas aider sa propre fille ? Je ne comprenais pas. J’ai repassé la conversation dans ma tête, désespéré de trouver ce que j’avais manqué."
+      "texte": "J’essayais de comprendre cet appel, et pourquoi elle refusait de m’aider. Même si elle ne m’aimait pas, pourquoi est-ce qu’elle ne voudrait pas aider sa propre fille ? Je ne comprenais pas. J’ai repassé la conversation dans ma tête, en cherchant désespérément ce que j’avais manqué."
     },
     {
       "type": "paragraphe",
-      "texte": "Au bout d’un moment, j’allais abandonner quand je me suis souvenu de ses tout derniers mots. « Chercher une aide professionnelle », avait-elle dit, avec une certaine urgence. Peut-être que je m’accrochais à n’importe quoi mais non, j’étais sûr que sa voix avait changé, très légèrement, quand elle avait dit ça. Comme si ces mots-là étaient très importants."
+      "texte": "J’étais sur le point d’abandonner quand je me suis souvenu de ses derniers mots. « Aller chercher de l’aide professionnelle. » Elle avait dit ça avec une sorte d’urgence. Peut-être que je m’accrochais à n’importe quoi mais non, j’étais sûr que sa voix avait changé, juste un peu, quand elle avait dit ces mots-là. Comme s’ils étaient très importants."
     },
     {
       "type": "paragraphe",
-      "texte": "Qu’est-ce qu’elle avait voulu dire ? J’avais supposé qu’elle parlait de médecins, mais peut-être qu’elle parlait de quelqu’un d’autre. De quelqu’un qu’elle ne se sentait pas à l’aise de nommer directement, pour une raison ou une autre. Ou peut-être que j’étais juste désespéré."
+      "texte": "Qu’est-ce qu’elle avait voulu dire ? J’avais pensé qu’elle parlait de médecins, mais peut-être qu’elle parlait de quelqu’un d’autre. De quelqu’un qu’elle n’osait pas nommer, pour une raison ou une autre. Ou peut-être que j’étais juste désespéré."
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai attendu que Chris rentre et, après une très longue conversation épuisante avec Rebecca et lui, je les ai convaincus que Lynn avait vraiment besoin d’une aide psychiatrique. Je ne leur ai pas tout dit. Je n’étais pas prêt à aller jusque-là, mais je leur ai raconté notre dernière rencontre. Comment elle s’était cachée dans la salle de bain, comment elle m’avait épié depuis le placard."
+      "texte": "J’ai attendu que Chris rentre et, après une très longue conversation épuisante avec Rebecca et lui, je les ai convaincus que Lynn avait vraiment besoin de l’aide d’un psychiatre. Je ne leur ai pas tout dit. Je n’étais pas prêt, mais je leur ai raconté la dernière fois. Comment elle s’était cachée dans la salle de bain, comment elle m’avait regardé depuis la garde-robe."
     },
     {
       "type": "paragraphe",
-      "texte": "Ils étaient évidemment sous le choc mais, heureusement, ils m’ont cru. Eux aussi voulaient seulement l’aider. Ils ne pensaient quand même pas que c’était si grave. Bizarre, peut-être, mais pas dangereux. Ils répétaient que Lynn devait faire une sorte de blague étrange. « Pour YouTube, peut-être ? » a proposé Rebecca, sans trop y croire."
+      "texte": "Évidemment, ils étaient sous le choc mais, heureusement, ils m’ont cru. Eux aussi voulaient juste l’aider. Mais ils ne pensaient pas que c’était si grave. Bizarre, peut-être, mais pas dangereux. Ils répétaient que Lynn devait faire une sorte de blague étrange. « Pour YouTube, peut-être ? » a dit Rebecca, sans trop y croire."
     },
     {
       "type": "paragraphe",
-      "texte": "Chris ne pensait pas qu’il fallait mêler la police à ça tout de suite. Il a plutôt offert de venir avec moi, et j’ai accepté sans hésiter. Selon lui, lui parler calmement et la convaincre de venir de son plein gré, c’était la meilleure chose à faire. J’ai accepté de faire à sa manière. Au moins, je n’entrerais pas seul dans cette maison."
+      "texte": "Chris ne voulait pas appeler la police tout de suite. Il m’a plutôt offert de venir avec moi, et j’ai accepté sans hésiter. Selon lui, le mieux, c’était de lui parler calmement et de la convaincre de venir d’elle-même. J’ai accepté de faire comme il disait. Au moins, je n’entrerais pas tout seul dans cette maison."
     },
     {
       "type": "pause"
     },
     {
       "type": "paragraphe",
-      "texte": "On y est allés ce matin, juste après le petit-déjeuner. Pas question que j’y aille de nuit. Quand on s’est engagés dans l’entrée, mon estomac s’est mis à faire des culbutes. Son auto n’était pas là, mais je n’ai pas baissé ma garde pour autant."
+      "texte": "On y est allés ce matin, juste après le déjeuner. Pas question que j’y aille de nuit. Quand on est arrivés dans l’entrée, j’avais l’estomac à l’envers. Sa voiture n’était pas là, mais je suis resté sur mes gardes."
     },
     {
       "type": "paragraphe",
-      "texte": "La porte d’entrée était entrouverte et, une fraction de seconde, j’ai cru qu’on allait voir ses yeux nous fixer par l’entrebâillement. Je tremblais et je commençais à suer. Chris, lui, allait très bien. Il attendait que j’ouvre la porte, les mains dans les poches, comme s’il partait se promener au parc. J’enviais son ignorance."
+      "texte": "La porte d’entrée était entrouverte et, une fraction de seconde, j’ai cru qu’on allait voir ses yeux nous regarder par l’ouverture. Je tremblais, et je commençais à transpirer. Chris, lui, était parfaitement calme. Il attendait que j’ouvre la porte, les mains dans les poches, comme s’il partait se promener au parc. J’aurais aimé être aussi ignorant que lui."
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai poussé la porte, et une odeur de pourriture m’a tout de suite pris à la gorge. Chris l’a sentie aussi, et il est entré derrière moi en plissant le nez."
+      "texte": "J’ai poussé la porte, et une odeur de pourriture nous a pris à la gorge. Chris l’a sentie aussi, et il est entré derrière moi en plissant le nez."
     },
     {
       "type": "paragraphe",
-      "texte": "« Vous lavez vos planchers avec quoi, ici ? De la merde ? » a marmonné Chris."
+      "texte": "« Vous lavez vos planchers avec quoi, ici ? Avec de la merde ? » a marmonné Chris."
     },
     {
       "type": "paragraphe",
-      "texte": "« Ta gueule », j’ai dit, les yeux à l’affût du moindre signe de Lynn."
+      "texte": "« Tais-toi », j’ai dit, en cherchant Lynn des yeux partout."
     },
     {
       "type": "paragraphe",
-      "texte": "La maison était silencieuse comme une tombe, et sombre, même s’il était dix heures du matin. Tous les rideaux étaient bien fermés et refusaient de laisser entrer la lumière du jour. Si je ne l’avais pas quittée deux jours plus tôt, j’aurais cru la maison abandonnée."
+      "texte": "La maison était silencieuse comme une tombe, et sombre, même s’il était dix heures du matin. Tous les rideaux étaient bien fermés et ne laissaient pas entrer la lumière du jour. Si je n’étais pas parti de là deux jours plus tôt, j’aurais cru que la maison était abandonnée."
     },
     {
       "type": "paragraphe",
-      "texte": "On a fait toutes les pièces, en vérifiant soigneusement tous les endroits où elle aurait pu se cacher, en l’appelant de temps en temps."
+      "texte": "On a fait toutes les pièces, en vérifiant chaque endroit où elle aurait pu se cacher, et en l’appelant de temps en temps."
     },
     {
       "type": "paragraphe",
-      "texte": "« Pourquoi tu regardes sous le divan, bordel ? a fini par demander Chris. C’est pas ta femme qu’on cherche ? » Il me regardait comme si j’étais un imbécile."
+      "texte": "« Pourquoi tu regardes en dessous du divan ? a fini par demander Chris. C’est bien ta femme qu’on cherche, non ? » Il me regardait comme si j’étais un idiot."
     },
     {
       "type": "paragraphe",
-      "texte": "« Montons, c’est tout », j’ai chuchoté. Il a secoué la tête, mais il m’a suivi dans l’escalier pour vérifier la salle de bain et la chambre d’amis. En montant, mes souliers ont crissé sur des éclats de verre qui semblaient éparpillés sur quelques marches."
+      "texte": "« On monte, c’est tout », j’ai chuchoté. Il a secoué la tête, mais il m’a suivi dans l’escalier pour vérifier la salle de bain et la chambre d’amis. En montant, j’ai entendu craquer sous mes chaussures des morceaux de verre éparpillés sur quelques marches."
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai remarqué qu’un de nos portraits de mariage, accroché au mur le long de l’escalier, avait été fracassé. Le cadre pendait de travers, tout le verre enlevé. J’ai fixé la photo, la gorge serrée. On l’avait prise juste à la sortie de l’église, après avoir prononcé nos vœux. Elle était tellement belle, dans sa robe blanche. J’ai regardé le beau visage de Lynn. Jamais je n’aurais imaginé que son visage deviendrait un jour une source de terreur pour moi."
+      "texte": "Une de nos photos de mariage, accrochée au mur le long de l’escalier, avait été fracassée. Le cadre pendait de travers, et il n’y avait plus de vitre. J’ai regardé la photo, la gorge serrée. On l’avait prise juste à la sortie de l’église, après nos vœux. Elle était tellement belle, dans sa robe blanche. J’ai regardé le beau visage de Lynn. Jamais je n’aurais imaginé que ce visage-là me ferait un jour aussi peur."
     },
     {
       "type": "paragraphe",
-      "texte": "On a monté le reste des marches et vérifié la chambre d’amis, mais elle semblait intacte."
+      "texte": "On a monté le reste des marches et vérifié la chambre d’amis, mais personne n’y avait touché."
     },
     {
       "type": "paragraphe",
-      "texte": "J’hésitais à entrer dans la salle de bain ; la peur de cette nuit-là me revenait d’un coup. Chris l’a remarqué et il m’a offert d’y aller seul, mais je ne pouvais pas le laisser faire ça. Alors on est entrés ensemble, on a vérifié le placard et la douche. La salle de bain semblait ne pas avoir été touchée depuis la nuit où j’étais parti."
+      "texte": "J’hésitais à entrer dans la salle de bain. Toute la peur de cette nuit-là me revenait d’un coup. Chris l’a remarqué et il m’a offert d’y aller seul, mais je ne pouvais pas le laisser faire ça. Alors on est entrés ensemble, et on a vérifié la garde-robe et la douche. La salle de bain avait l’air exactement comme la nuit où j’étais parti."
     },
     {
       "type": "paragraphe",
-      "texte": "« Je pense qu’elle est pas ici, Ben. Pourquoi tu prendrais pas quelques vêtements ? On réessaiera demain, ou quelque chose comme ça », a dit Chris. J’ai hoché la tête et je suis allé dans notre chambre fourrer quelques vêtements dans un sac de sport. Quand j’ai ouvert notre garde-robe, je suis tombé sur la source de l’odeur, et j’ai eu un haut-le-cœur."
+      "texte": "« Je pense qu’elle n’est pas ici, Ben. Va donc prendre quelques vêtements, et on reviendra demain ou un autre jour », a dit Chris. J’ai fait oui de la tête et je suis allé dans notre chambre mettre quelques vêtements dans un sac de sport. L’odeur était plus forte près de notre garde-robe."
+    },
+    {
+      "type": "geste",
+      "texte": "Ouvrir la garde-robe",
+      "mode": "maintenir",
+      "duree": 1800,
+      "son": "craquement"
     },
     {
       "type": "paragraphe",
-      "texte": "Chris a jeté un seul coup d’œil et il est devenu blanc comme un drap. Il a dû aller se placer près de l’escalier pour s’éloigner de la vue et de l’odeur."
+      "texte": "J’ai trouvé d’où venait l’odeur, et j’ai eu envie de vomir."
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai baissé les yeux, sous le choc, sur ce qui reposait dans la garde-robe de ma chambre. Imbibant le tapis, il y avait au moins une douzaine de globes oculaires, soigneusement disposés par paires. Certains étaient gros comme une pièce de vingt-cinq sous, d’autres petits comme une bille. J’ai fixé ces yeux qu’elle avait récoltés sur de petits animaux, je me suis demandé comment elle se les était procurés, et j’ai frissonné à cette pensée."
+      "texte": "Chris a jeté un seul coup d’œil, et il est devenu blanc comme un drap. Il a dû aller se mettre près de l’escalier pour ne plus voir ça et ne plus sentir l’odeur."
     },
     {
       "type": "paragraphe",
-      "texte": "« Et moi qui trouvais que Becca exagérait avec ses souliers. Mais bordel de merde… Ta femme collectionne des globes oculaires », a dit Chris, au bord du vomissement. « Ben, je pense qu’on devrait y aller, a-t-il lancé du couloir. J’ai mal au cœur. »"
+      "texte": "Sous le choc, j’ai baissé les yeux sur ce qu’il y avait dans la garde-robe de ma chambre. Sur le tapis, dans des taches mouillées, il y avait au moins une douzaine d’yeux, bien placés deux par deux. Certains étaient gros comme une pièce de vingt-cinq cents, d’autres petits comme une bille. Je regardais ces yeux qu’elle avait pris à de petits animaux, je me demandais comment elle les avait eus, et ça m’a donné un frisson."
     },
     {
       "type": "paragraphe",
-      "texte": "« D’accord. » J’ai attrapé mon sac et j’ai refermé la porte de la garde-robe sur mon nouveau cauchemar. Je suis sorti dans le couloir et j’ai pris une grande inspiration. Je goûtais la pourriture sur ma langue, et je n’ai pas pu m’empêcher d’avoir un haut-le-cœur."
+      "texte": "« Et moi qui trouvais que Becca exagérait avec ses chaussures. Mais là… Ta femme collectionne des yeux », a dit Chris, au bord de vomir. « Ben, je pense qu’on devrait s’en aller, a-t-il dit du couloir. J’ai mal au cœur. »"
     },
     {
       "type": "paragraphe",
-      "texte": "« Qui c’est qui aligne des globes oculaires dans sa garde-robe comme ça, bordel ? » a marmonné Chris."
+      "texte": "« D’accord. » J’ai pris mon sac et j’ai refermé la porte de la garde-robe sur mon nouveau cauchemar. Je suis sorti dans le couloir et j’ai pris une grande respiration. Je sentais encore le goût de la pourriture sur ma langue, et j’ai eu un autre haut-le-cœur."
+    },
+    {
+      "type": "paragraphe",
+      "texte": "« Qui met des yeux en rangée dans sa garde-robe comme ça ? » a marmonné Chris."
     },
     {
       "type": "paragraphe",
@@ -698,15 +762,25 @@
     },
     {
       "type": "paragraphe",
-      "texte": "« C’est pas d’aide qu’elle a besoin, Ben. C’est d’un maudit exorciste, a-t-il dit. Tu viens ou quoi ? Je supporte plus l’odeur, je… » Les mots sont morts dans sa gorge, et ses yeux se sont agrandis de peur."
+      "texte": "« Ce n’est pas d’aide qu’elle a besoin, Ben. C’est d’un exorciste, a-t-il dit. Tu viens ou quoi ? Je ne supporte plus l’odeur, je… » Les mots sont restés pris dans sa gorge, et ses yeux se sont agrandis de peur."
     },
     {
       "type": "paragraphe",
-      "texte": "Je ne lui ai pas demandé pourquoi. Je le sentais. Quelqu’un me regardait, et je ne pensais pas que c’étaient les yeux dans la garde-robe. Je me suis retourné, en balayant lentement la chambre du regard."
+      "texte": "Je ne lui ai pas demandé pourquoi. Je le sentais. Quelqu’un me regardait, et je ne pensais pas que c’étaient les yeux dans la garde-robe."
+    },
+    {
+      "type": "geste",
+      "texte": "Se retourner",
+      "mode": "maintenir",
+      "duree": 2400
     },
     {
       "type": "paragraphe",
-      "texte": "« Seigneur », j’ai murmuré quand j’ai enfin vu ce qu’on avait manqué. Sous le lit, couchée sur le côté, à nous regarder avec l’excitation d’une enfant le matin de Noël, il y avait ma femme."
+      "texte": "Lentement, j’ai regardé partout dans la chambre."
+    },
+    {
+      "type": "paragraphe",
+      "texte": "« Mon Dieu », j’ai murmuré quand j’ai enfin vu ce qu’on n’avait pas vu. Sous le lit, couchée sur le côté, à nous regarder avec l’excitation d’une enfant le matin de Noël, il y avait ma femme."
     },
     {
       "type": "evenement",
@@ -720,47 +794,47 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Maintenant qu’elle savait qu’on l’avait trouvée, j’entendais les petits bruits qu’elle faisait. Une sorte de hoquet au fond de la gorge, comme si l’excitation était trop forte pour elle. C’était déstabilisant, c’est le moins qu’on puisse dire. Les yeux écarquillés, et ce même sourire immense."
+      "texte": "Maintenant qu’elle savait qu’on l’avait trouvée, j’entendais les petits bruits qu’elle faisait. Une sorte de hoquet au fond de la gorge, comme si elle était trop excitée. C’était vraiment dérangeant. Les yeux grands ouverts, et ce même sourire immense."
     },
     {
       "type": "paragraphe",
-      "texte": "Tout en moi me criait de fuir, mais je me suis forcé à rester. C’était ma femme. Aussi tordue soit-elle, c’était encore la femme que j’avais épousée. Je devais l’aider."
+      "texte": "Tout en moi me criait de partir, mais je me suis forcé à rester. C’était ma femme. Même dans cet état, c’était encore la femme que j’avais mariée. Je devais l’aider."
     },
     {
       "type": "paragraphe",
-      "texte": "« Lynn… », j’ai dit doucement. Elle n’a pas répondu, mais sa tête a fait deux petits mouvements rapides de haut en bas, comme si elle hochait la tête."
+      "texte": "« Lynn… », j’ai dit doucement. Elle n’a pas répondu, mais sa tête a fait deux petits mouvements rapides de haut en bas, comme si elle disait oui."
     },
     {
       "type": "paragraphe",
-      "texte": "« Bébé. Je veux juste t’aider, OK ? Est-ce que tu… est-ce que tu veux bien me laisser faire ? » j’ai demandé. J’avais fait un seul pas en avant, en m’approchant d’elle comme d’un animal dangereux."
+      "texte": "« Mon amour. Je veux juste t’aider, OK ? Est-ce que tu… est-ce que tu veux bien me laisser faire ? » j’ai demandé. J’avais fait un seul pas vers elle, comme on s’approche d’un animal dangereux."
     },
     {
       "type": "paragraphe",
-      "texte": "« Je t’aime, Lynn », j’ai dit doucement, en faisant un autre pas. Elle a laissé échapper un petit gémissement de sa bouche grande ouverte, et j’ai dû résister à l’envie de m’enfuir. Ses épaules commençaient à trembler, et ses yeux sont devenus grands comme des soucoupes."
+      "texte": "« Je t’aime, Lynn », j’ai dit doucement, en faisant un autre pas. Un petit gémissement est sorti de sa bouche grande ouverte, et j’ai dû me retenir pour ne pas partir en courant. Ses épaules commençaient à trembler, et ses yeux sont devenus énormes."
     },
     {
       "type": "paragraphe",
-      "texte": "Je me suis accroupi pour mieux la voir, et j’ai tout de suite vu le sang. Ses mains en étaient couvertes. Elles tremblaient davantage à mesure que j’approchais, comme si elle arrivait à peine à se contenir."
+      "texte": "Je me suis accroupi pour mieux la voir, et j’ai tout de suite vu le sang. Ses mains en étaient couvertes. Elles tremblaient de plus en plus à mesure que je m’approchais, comme si elle avait du mal à se retenir."
     },
     {
       "type": "paragraphe",
-      "texte": "« Lynn. Es-tu blessée ? Tu saignes », j’ai dit. Elle a encore hoché la tête, ses doigts ensanglantés bougeant de haut en bas comme sur un piano invisible. Ils effleuraient parfois son menton et y laissaient des traînées de sang."
+      "texte": "« Lynn. Es-tu blessée ? Tu saignes », j’ai dit. Elle a encore fait oui de la tête, et ses doigts pleins de sang bougeaient de haut en bas, comme sur un piano invisible. Ils touchaient parfois son menton et y laissaient des traces de sang."
     },
     {
       "type": "paragraphe",
-      "texte": "J’avais envie de reculer de dégoût. L’odeur qui se dégageait d’elle était révoltante. Je sentais le vomi qui essayait de remonter dans ma gorge. Ses lèvres étaient sèches, étirées, minces, et du sang suintait entre les gerçures."
+      "texte": "J’avais envie de reculer, dégoûté. L’odeur qui sortait d’elle était horrible. Je sentais que j’allais vomir. Ses lèvres étaient sèches, étirées, minces, et du sang coulait entre les petites fentes de sa peau."
     },
     {
       "type": "paragraphe",
-      "texte": "Je savais qu’elle ne sortirait pas d’elle-même, mais je ne voulais pas la laisser dans cet état."
+      "texte": "Je savais qu’elle ne sortirait pas toute seule, mais je ne voulais pas la laisser dans cet état."
     },
     {
       "type": "paragraphe",
-      "texte": "Je me suis approché encore et j’ai tendu la main vers elle. Les petits hoquets excités sont devenus plus forts, et ses mains tremblaient, les doigts se crispant. C’est là que j’ai vu le sang qui suintait d’entre ses doigts."
+      "texte": "Je me suis approché encore et j’ai tendu la main vers elle. Ses petits hoquets excités sont devenus plus forts, et ses mains tremblaient, les doigts se serraient. C’est là que j’ai vu le sang qui coulait d’entre ses doigts."
     },
     {
       "type": "paragraphe",
-      "texte": "« Mon Dieu, Lynn. Tu saignes », j’ai dit. Instinctivement, j’ai voulu prendre sa main, mais avant même que je la touche, sa main a jailli vers moi. Une douleur vive m’a traversé le bras, et je suis tombé sur les fesses. Mon bras brûlait, et je voyais le sang dégoutter sur le tapis."
+      "texte": "« Mon Dieu, Lynn. Tu saignes », j’ai dit. Sans réfléchir, j’ai voulu prendre sa main, mais avant même que je la touche, sa main est partie d’un coup vers moi. J’ai senti une douleur vive dans le bras, et je suis tombé sur les fesses. Mon bras brûlait, et je voyais mon sang tomber goutte à goutte sur le tapis."
     },
     {
       "type": "evenement",
@@ -770,7 +844,7 @@
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai relevé les yeux vers elle, sous le choc, et je l’ai vue sourire comme une démente, les doigts serrés sur un gros éclat de verre."
+      "texte": "Sous le choc, j’ai relevé les yeux vers elle, et je l’ai vue sourire comme une folle, les doigts serrés sur un gros morceau de verre."
     },
     {
       "type": "paragraphe",
@@ -778,11 +852,11 @@
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai tourné légèrement la tête et je lui ai fait signe que oui, en serrant mon bras contre ma poitrine. Quand je me suis retourné vers Lynn, j’ai vu que son attention avait changé. Elle ne me regardait plus. Et elle ne souriait plus non plus."
+      "texte": "J’ai tourné un peu la tête et je lui ai fait signe que oui, en serrant mon bras contre ma poitrine. Quand je me suis retourné vers Lynn, j’ai vu qu’elle ne me regardait plus. Et elle ne souriait plus non plus."
     },
     {
       "type": "paragraphe",
-      "texte": "Elle fixait quelque chose derrière moi, les yeux braqués sur Chris comme un lion affamé fixe une antilope. Sa bouche pendait toujours, ouverte, mais tordue en un rictus."
+      "texte": "Elle regardait derrière moi. Elle fixait Chris comme un lion affamé fixe une antilope. Sa bouche était encore ouverte, mais tordue dans une grimace de rage."
     },
     {
       "type": "paragraphe",
@@ -790,55 +864,55 @@
     },
     {
       "type": "paragraphe",
-      "texte": "« Tu… tu saignes ? » a demandé Chris. À l’instant où les mots ont quitté sa bouche, Lynn s’est mise à ramper à toute vitesse pour sortir de sous le lit, l’éclat de verre toujours dans le poing."
+      "texte": "« Tu… tu saignes ? » a demandé Chris. Dès qu’il a dit ces mots, Lynn s’est mise à ramper très vite pour sortir de sous le lit, le morceau de verre toujours dans la main."
     },
     {
       "type": "paragraphe",
-      "texte": "« Chris. Cours. Va-t’en ! » j’ai crié. Il devait être trop terrifié pour bouger, parce qu’une seconde plus tard, mon dos est entré en collision avec lui. Il était encore planté en haut de l’escalier, à fixer l’horreur qu’était devenue ma femme."
+      "texte": "« Chris. Cours. Va-t’en ! » j’ai crié. Il devait avoir trop peur pour bouger, parce qu’une seconde plus tard, je lui suis rentré dedans à reculons. Il était encore planté en haut de l’escalier, à regarder ce que ma femme était devenue."
     },
     {
       "type": "paragraphe",
-      "texte": "Lynn était complètement sortie de sous le lit et se tenait dans l’embrasure de la porte de la chambre, le visage déformé par la rage. Tout son corps était visiblement tendu. Le sang coulait le long de ses doigts jusque sur le plancher."
+      "texte": "Lynn était complètement sortie de sous le lit et elle se tenait dans la porte de la chambre, le visage déformé par la rage. Tout son corps était tendu. Le sang coulait le long de ses doigts jusque sur le plancher."
     },
     {
       "type": "paragraphe",
-      "texte": "« Seigneur, Lynn… a dit Chris. Tu, euh… tu joues à la cachette ? » J’ai tendu la main derrière moi et je l’ai poussé vers les marches."
+      "texte": "« Mon Dieu, Lynn… a dit Chris. Tu, euh… tu joues à la cachette ? » J’ai mis ma main derrière moi et je l’ai poussé vers l’escalier."
     },
     {
       "type": "paragraphe",
-      "texte": "« Bouge-toi, Chris », j’ai dit, aussi bas mais aussi fermement que j’ai pu."
+      "texte": "« Grouille-toi, Chris », j’ai dit, le plus bas mais le plus fermement possible."
     },
     {
       "type": "paragraphe",
-      "texte": "Lynn a hoché la tête en mouvements rapides et secs, puis elle s’est mise à sourire, en étirant sa bouche de plus en plus grand, si bien que son menton semblait toucher sa poitrine. J’ai entendu Chris marmonner une prière, puis il a dévalé l’escalier. Je suis resté en haut des marches, déchiré entre l’amour pour une femme qui avait clairement besoin d’une aide sérieuse, et l’instinct de survie."
+      "texte": "Lynn a fait oui de la tête, par petits coups secs et rapides, et elle a recommencé à sourire. Elle ouvrait la bouche de plus en plus grand, si grand que son menton semblait toucher sa poitrine. J’ai entendu Chris murmurer une prière, puis il a descendu l’escalier en courant. Je suis resté en haut des marches, déchiré entre l’amour pour une femme qui avait vraiment besoin d’aide, et l’envie de sauver ma peau."
     },
     {
       "type": "paragraphe",
-      "texte": "« Je veux juste t’aider », j’ai dit en ravalant mes larmes. Ses yeux se sont de nouveau fixés sur moi pendant qu’elle levait lentement le morceau de verre et le tenait devant elle. Et puis elle s’est mise à sprinter vers moi, avec un sourire d’excitation pure. Heureusement, mon corps a pris le dessus, et j’ai dévalé l’escalier deux ou trois marches à la fois. J’avais atteint la porte d’entrée quand je l’ai sentie me sauter sur le dos, les bras autour de mon cou, sa bouche ouverte contre mon oreille, si bien que j’entendais ces horribles hoquets de tout près. Je l’ai secouée et elle est tombée par terre. J’ai senti une douleur fulgurante dans le dos au même moment, mais j’ai ouvert la porte d’un coup et j’ai couru jusqu’à mon auto."
+      "texte": "« Je veux juste t’aider », j’ai dit en retenant mes larmes. Ses yeux se sont fixés sur moi de nouveau, et elle a levé lentement le morceau de verre devant elle. Puis elle s’est mise à courir vers moi, avec un sourire plein d’excitation. Heureusement, mon corps a réagi tout seul, et j’ai descendu l’escalier deux ou trois marches à la fois. J’étais rendu à la porte d’entrée quand je l’ai sentie me sauter sur le dos. Ses bras se sont serrés autour de mon cou, et sa bouche ouverte était collée contre mon oreille. J’entendais ses horribles petits hoquets de tout près. Je l’ai secouée et elle est tombée par terre. Au même moment, j’ai senti une douleur terrible dans mon dos, mais j’ai ouvert la porte d’un coup et j’ai couru jusqu’à ma voiture."
     },
     {
       "type": "paragraphe",
-      "texte": "Chris était debout sur le terrain, au téléphone avec la police. Je n’ai pas dit un mot, j’ai juste couru jusqu’à mon auto et j’ai sauté dedans. Chris a compris et m’a suivi, toujours en ligne avec le 911."
+      "texte": "Chris était debout devant la maison, au téléphone avec la police. Je n’ai pas dit un mot. J’ai couru jusqu’à ma voiture et j’ai sauté dedans. Chris a compris et il est monté avec moi, toujours au téléphone avec le 911."
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai surveillé le rétroviseur, certain que j’allais la voir là, en train de nous courir après. Mais je ne l’ai jamais vue."
+      "texte": "Je regardais dans le rétroviseur, sûr de la voir là, en train de courir derrière nous. Mais je ne l’ai jamais vue."
     },
     {
       "type": "paragraphe",
-      "texte": "Je suis allé directement à l’urgence, où on m’a fait onze points de suture au bras et trois dans le dos. La police m’a posé plein de questions et elle est retournée fouiller la maison mais, évidemment, Lynn n’y était pas."
+      "texte": "Je suis allé directement à l’urgence, où on m’a fait onze points de suture au bras et trois dans le dos. La police m’a posé plein de questions et elle est retournée fouiller la maison mais, évidemment, Lynn n’était plus là."
     },
     {
       "type": "paragraphe",
-      "texte": "Ils m’ont conseillé de rester chez un ami ou chez un proche pendant quelque temps, et de demander une ordonnance de protection le plus vite possible, mais rien de tout ça n’aurait d’importance. Je ne sais pas comment, mais je le savais."
+      "texte": "Les policiers m’ont conseillé d’aller vivre chez un ami ou dans ma famille pendant un certain temps, et de demander le plus vite possible à un juge de lui interdire de m’approcher. Mais rien de tout ça ne changerait quoi que ce soit. Je ne sais pas comment, mais je le savais."
     },
     {
       "type": "paragraphe",
-      "texte": "J’ai déposé Chris chez lui, et je suis allé dans un motel à une heure de route. Je voulais mettre le plus de distance possible entre Lynn et moi."
+      "texte": "J’ai laissé Chris chez lui, et je suis allé dans un motel à une heure de route. Je voulais mettre le plus de distance possible entre Lynn et moi."
     },
     {
       "type": "paragraphe",
-      "texte": "C’est là que je suis depuis quatre heures. Je pensais que la police la trouverait peut-être, qu’on lui donnerait peut-être l’aide dont elle a désespérément besoin."
+      "texte": "Ça fait quatre heures que je suis ici. Je pensais que la police la trouverait peut-être, et qu’on lui donnerait enfin l’aide dont elle a tellement besoin."
     },
     {
       "type": "paragraphe",
@@ -846,9 +920,11 @@
     },
     {
       "type": "evenement",
-      "effet": "aucun",
+      "effet": "notification",
       "son": "vibration",
-      "nombre": 2
+      "titre": "Numéro inconnu",
+      "texte": "Je t’ai trouvé.\nPhoto jointe",
+      "duree": 7000
     },
     {
       "type": "sms",
@@ -857,11 +933,32 @@
     },
     {
       "type": "paragraphe",
-      "texte": "Avec une photo jointe. L’image était sombre et granuleuse, mais j’ai su tout de suite ce que c’était. Impossible de ne pas reconnaître l’œil de ma femme."
+      "texte": "Il y avait une photo avec le message."
+    },
+    {
+      "type": "geste",
+      "texte": "Ouvrir la photo",
+      "mode": "toucher",
+      "aide": "Toucher pour ouvrir"
+    },
+    {
+      "type": "image",
+      "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 220'><defs><filter id='bruit' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' seed='13'/><feColorMatrix type='saturate' values='0'/></filter><filter id='flou'><feGaussianBlur stdDeviation='1.6'/></filter><radialGradient id='peau' cx='.5' cy='.5' r='.6'><stop offset='0' stop-color='#4a4239'/><stop offset='.5' stop-color='#231e19'/><stop offset='1' stop-color='#040303'/></radialGradient><radialGradient id='blanc' cx='.5' cy='.48' r='.6'><stop offset='0' stop-color='#9a9184'/><stop offset='1' stop-color='#3f3a33'/></radialGradient><radialGradient id='iris' cx='.45' cy='.42' r='.6'><stop offset='0' stop-color='#2e261e'/><stop offset='1' stop-color='#080605'/></radialGradient><radialGradient id='coin' cx='.5' cy='.5' r='.72'><stop offset='.55' stop-color='#000' stop-opacity='0'/><stop offset='1' stop-color='#000' stop-opacity='.85'/></radialGradient></defs><rect width='320' height='220' fill='#050404'/><g filter='url(#flou)' transform='rotate(-7 160 110)'><ellipse cx='162' cy='112' rx='175' ry='122' fill='url(#peau)'/><path d='M48 116 Q120 54 214 64 Q262 74 284 112 Q226 168 150 166 Q86 162 48 116 Z' fill='url(#blanc)'/><path d='M70 108 l24 5 M80 128 l20 -7 M256 104 l-22 6 M250 128 l-18 -8 M126 74 l7 14' stroke='#5e211d' stroke-width='1.4' fill='none' opacity='.85'/><circle cx='166' cy='114' r='46' fill='url(#iris)'/><circle cx='166' cy='114' r='21' fill='#010101'/><ellipse cx='151' cy='100' rx='6' ry='4' fill='#efe6d4' opacity='.6'/><path d='M40 118 Q120 42 218 56 Q268 66 292 112' stroke='#060505' stroke-width='13' fill='none'/><path d='M60 92 l-6 -16 M84 76 l-4 -17 M110 64 l-2 -17 M138 57 l0 -17 M166 54 l2 -17 M194 56 l4 -16 M222 62 l6 -15 M250 74 l8 -13' stroke='#060505' stroke-width='2.5' stroke-linecap='round'/></g><rect width='320' height='220' filter='url(#bruit)' opacity='.2'/><rect width='320' height='220' fill='url(#coin)'/></svg>"
     },
     {
       "type": "paragraphe",
-      "texte": "Je me suis mis à écrire tout ça juste après. Je ne sais pas quoi faire."
+      "texte": "La photo était sombre, et pleine de grain, mais j’ai compris tout de suite ce que c’était. Impossible de ne pas reconnaître l’œil de ma femme."
+    },
+    {
+      "type": "paragraphe",
+      "texte": "J’ai commencé à écrire tout ça juste après. Je ne sais pas quoi faire."
+    },
+    {
+      "type": "evenement",
+      "effet": "epier",
+      "son": "aucun",
+      "cote": "haut",
+      "duree": 4800
     }
   ],
   "phraseFinale": "Je suis seul, j’ai peur, et je n’arrive pas à me défaire de l’impression __qu’on me regarde…__"
