@@ -487,6 +487,8 @@ Example: `{ "type": "paragraphe", "texte": "It's still here.", "style": "centre 
 | `son` | Description |
 |---|---|
 | `chute` | Someone falling down a long metal shaft (a garbage chute): bangs and scraping, faster and farther, then a heavy dull impact far below (about 2.5 s). |
+| `crac` | A small dry crack, muffled (something breaking inside a box). |
+| `garage` | An old garage door rolling up: rollers rattling in the track, metal screeching twice, a clunk at the top (about 2.6 s). |
 | `coup` | Knocks on wood (door, wall). |
 | `craquement` | A floor or door that creaks. |
 | `chuchotement` | An unintelligible whispered voice moving from left to right. |

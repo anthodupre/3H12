@@ -1,5 +1,5 @@
 {
-  "moteur": "2.0",
+  "moteur": "2.1",
   "version": 1,
   "histoires": [
     {
@@ -121,30 +121,30 @@
     {
       "date": "2026-10-21",
       "numero": 2,
-      "titre": "My girlfriend was up unusually early this morning. I wish I never found out why.",
-      "sousGenre": "domestic horror",
-      "lieu": "A sixth-floor apartment, in the United States",
+      "titre": "A Package Marked “Return to sender”",
+      "sousGenre": "dark comedy horror",
+      "lieu": "A suburban street, in the United States",
       "auQuebec": false,
       "epoque": "today",
-      "format": "A testimony, written the same day",
+      "format": "A first-person account",
       "miseEnPage": "recit",
-      "tonique": "F#",
-      "gamme": "phrygien",
+      "tonique": "C",
+      "gamme": "mineur",
       "effetFond": "aucun",
       "palette": {
-        "fond": "#0b0c0e",
-        "surface": "#0b0c0e",
-        "texte": "#dcd9d1",
-        "accent": "#a9c25f",
-        "secondaire": "#8a908c"
+        "fond": "#0e0d0b",
+        "surface": "#0e0d0b",
+        "texte": "#e2ddd2",
+        "accent": "#c8322a",
+        "secondaire": "#8c8678"
       },
       "polices": {
-        "titre": "Oswald",
-        "texte": "Newsreader",
+        "titre": "Anton",
+        "texte": "Source Serif 4",
         "notes": "Caveat"
       },
-      "evenements": 10,
-      "retournement": "she was already dead: it's her, in the bags, coming back to take herself out",
+      "evenements": 4,
+      "retournement": "the neighbor had mailed himself; the little crack when the box was dropped was his neck",
       "origine": "choisie"
     }
   ]

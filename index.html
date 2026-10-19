@@ -1539,7 +1539,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
    1. CONFIGURATION — les réglages faciles à modifier
    ===================================================================== */
 const CONFIG = {
-  version: '2.0',
+  version: '2.1',
   fuseau: 'America/Toronto',          // toutes les dates sont calculées à Toronto
   dossierHistoires: 'stories/',       // dossier des fichiers JSON
   cleSauvegarde: '3h12-sauvegarde-v1',// clé dans localStorage
@@ -1568,7 +1568,7 @@ const TYPES_BLOCS = ['paragraphe', 'titre', 'dialogue', 'sms', 'note', 'citation
 const EFFETS_FOND = ['pluie', 'neige', 'brouillard', 'poussiere', 'braises', 'statique', 'lucioles', 'cendres', 'etoiles', 'bulles', 'aucun'];
 const EFFETS_EVENEMENT = ['glitch', 'noir', 'flash', 'tremblement', 'epier', 'notification', 'appel', 'aucun'];
 const COTES_EPIER = ['droite', 'gauche', 'bas', 'haut'];
-const SONS_EVENEMENT = ['chute', 'coup', 'craquement', 'chuchotement', 'respiration', 'porte', 'silence', 'pas', 'grattement', 'coeur', 'statique', 'cloche', 'vibration', 'goutte', 'texto', 'mouches', 'aucun'];
+const SONS_EVENEMENT = ['chute', 'crac', 'garage', 'coup', 'craquement', 'chuchotement', 'respiration', 'porte', 'silence', 'pas', 'grattement', 'coeur', 'statique', 'cloche', 'vibration', 'goutte', 'texto', 'mouches', 'aucun'];
 // Ambiances : sons en boucle qui suivent le lieu de l'histoire (blocs « scene »)
 const NOMS_AMBIANCES = ['frigo', 'douche', 'gouttes', 'voiture', 'horloge', 'vent', 'climatiseur', 'neon', 'mouches', 'souffle'];
 // Entrée d'une « vue » (ce que le lecteur voit après un geste)
@@ -3973,6 +3973,50 @@ const SONS = {
     const cr = A.bruit(x + .03, .25), cb = A.filtre('bandpass', 900, 1.2), cg = A.gain(0);
     A.enveloppe(cg.gain, x + .03, .004, .5, .18);
     A.relier(cr, cb, cg, sortie);
+    o.onended = () => { try { sortie.disconnect(); } catch (e) {} };
+  },
+  // Un petit craquement sec, étouffé (quelque chose qui casse à l'intérieur d'une boîte)
+  crac(t) {
+    const sortie = sortieEffet(.1, .15);
+    const b = A.bruit(t, .08), bp = A.filtre('bandpass', 1700, 1.1), lp = A.filtre('lowpass', 2600), g = A.gain(0);
+    A.enveloppe(g.gain, t, .002, .9, .05);
+    A.relier(b, bp, lp, g, sortie);
+    const b2 = A.bruit(t + .018, .06), bp2 = A.filtre('bandpass', 2600, 1.4), g2 = A.gain(0);
+    A.enveloppe(g2.gain, t + .018, .002, .5, .035);
+    A.relier(b2, bp2, g2, sortie);
+    const o = A.osc('sine', 120), go = A.gain(0);
+    o.frequency.setValueAtTime(120, t); o.frequency.exponentialRampToValueAtTime(70, t + .08);
+    A.enveloppe(go.gain, t, .003, .35, .09);
+    A.relier(o, go, sortie); o.start(t); o.stop(t + .2);
+    o.onended = () => { try { sortie.disconnect(); } catch (e) {} };
+  },
+  // Une vieille porte de garage qui s'enroule : les roulettes qui claquent dans le rail, le métal qui
+  // hurle (deux fois, comme si elle protestait), puis le choc en haut
+  garage(t) {
+    const sortie = sortieEffet(0, .35), d = 2.6;
+    for (let x = t; x < t + d - .2; x += hasard(.045, .075)) {
+      const b = A.bruit(x, .03), bp = A.filtre('bandpass', hasard(700, 1100), 1.5), g = A.gain(0);
+      A.enveloppe(g.gain, x, .002, hasard(.12, .3), .025);
+      A.relier(b, bp, g, sortie);
+    }
+    [[.15, .9, 1250], [1.1, 1.2, 1550]].forEach(([d0, du, f]) => {
+      const x = t + d0, o = A.osc('sawtooth', f), o2 = A.osc('square', f * 1.502);
+      for (let y = x; y < x + du; y += .03) { o.frequency.setValueAtTime(f * hasard(.96, 1.05), y); o2.frequency.setValueAtTime(f * 1.5 * hasard(.97, 1.04), y); }
+      const bp = A.filtre('bandpass', f * 1.4, 6), g = A.gain(0), g2 = A.gain(.25);
+      g.gain.setValueAtTime(0, x);
+      g.gain.linearRampToValueAtTime(.16, x + .12);
+      g.gain.linearRampToValueAtTime(.09, x + du * .6);
+      g.gain.linearRampToValueAtTime(0, x + du);
+      A.relier(o, bp, g, sortie); A.relier(o2, g2, bp);
+      o.start(x); o2.start(x); o.stop(x + du + .05); o2.stop(x + du + .05);
+    });
+    const x = t + d - .15, o = A.osc('sine', 90), g = A.gain(0);
+    o.frequency.setValueAtTime(90, x); o.frequency.exponentialRampToValueAtTime(48, x + .3);
+    A.enveloppe(g.gain, x, .004, .8, .4);
+    A.relier(o, g, sortie); o.start(x); o.stop(x + .6);
+    const b = A.bruit(x, .2), bl = A.filtre('bandpass', 600, .8), bg = A.gain(0);
+    A.enveloppe(bg.gain, x, .003, .7, .15);
+    A.relier(b, bl, bg, sortie);
     o.onended = () => { try { sortie.disconnect(); } catch (e) {} };
   },
   porte(t) {
