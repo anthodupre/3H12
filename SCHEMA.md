@@ -30,6 +30,7 @@ Sommaire : [1. Fichiers](#1-fichiers) · [2. index.json](#2-storiesindexjson) ·
 
 ```json
 {
+  "moteur": "1.3",
   "version": 1,
   "histoires": [
     {
@@ -57,6 +58,7 @@ Sommaire : [1. Fichiers](#1-fichiers) · [2. index.json](#2-storiesindexjson) ·
 | Champ | Type | Obligatoire | Description |
 |---|---|---|---|
 | `version` | nombre | oui | Toujours `1`. |
+| `moteur` | chaîne | non | Version minimale du moteur (`index.html`) que les histoires demandent. Si le téléphone a gardé un moteur plus vieux en cache, l'app se recharge une fois toute seule. Ne pas modifier dans les routines. |
 | `histoires` | tableau | oui | Une entrée par histoire, **triée par date croissante**, aucune date en double. |
 | `date` | chaîne `AAAA-MM-JJ` | oui | Date de l'histoire = nom du fichier. |
 | `numero` | entier | oui | Numéro de l'histoire (1, 2, 3…). Toujours le plus grand numéro existant + 1. |
@@ -260,7 +262,7 @@ Palettes par défaut (utilisées si `theme.palette` est absent ; à titre d'insp
 | `grain` | 0 à 1 | 0.25 | Grain de film animé. |
 | `scintillement` | 0 à 1 | 0 | Baisses de lumière aléatoires (ampoule fatiguée). 0.1 à 0.3 = subtil. Adouci si l'utilisateur coupe les effets intenses. |
 | `svg` | chaîne | — | **Illustration originale** affichée derrière le texte, semi-transparente (voir ci-dessous). |
-| `svgOpacite` | 0 à 1 | 0.22 | Opacité de l'illustration pendant la lecture (elle est ~2× plus visible sur le carton d'ouverture). 0.15 à 0.3 conseillé. |
+| `svgOpacite` | 0 à 1 | 0.22 | Opacité de l'illustration pendant la lecture (elle est ~2× plus visible sur le carton d'ouverture). 0.15 à 0.3 sans scènes ; **0.35 à 0.5 avec des scènes** (le texte reçoit alors une ombre qui le garde lisible, et le décor s'illumine quelques secondes à chaque changement de lieu). |
 | `couleur` | `#rrggbb` | selon l'effet | (optionnel) Couleur des particules. |
 | `decors` | objet | `{}` | **Décors nommés** : `{ "nom": "<svg…>" }`. Utilisés par les blocs `scene` (le lieu change) et par les `vue` des gestes (ce que le personnage voit). Mêmes règles que `svg`. Un décor = un lieu ; une variante (`cuisine-elle`) = le même lieu, dessiné pareil, avec la créature en plus. |
 | `teinte`, `teinteOpacite` | `#rrggbb`, 0 à 0.8 | aucune, 0.25 | (optionnel) Couleur posée sur le décor, sous le texte, au début de l'histoire. |
