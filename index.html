@@ -1551,7 +1551,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
    1. CONFIGURATION — les réglages faciles à modifier
    ===================================================================== */
 const CONFIG = {
-  version: '2.6',
+  version: '2.7',
   fuseau: 'America/Toronto',          // toutes les dates sont calculées à Toronto
   dossierHistoires: 'stories/',       // dossier des fichiers JSON
   cleSauvegarde: '3h12-sauvegarde-v1',// clé dans localStorage
@@ -5360,7 +5360,9 @@ const Rendu = {
     // (le mot le plus long ne se coupe pas : c'est lui qui dépasse de la colonne)
     const largeur = t.parentElement.clientWidth;
     let taille = parseFloat(getComputedStyle(t).fontSize) || 48;
-    while (t.scrollWidth > largeur && taille > 22) { taille -= 2; t.style.fontSize = `${taille}px`; }
+    // (et il tient dans la hauteur : un long titre dans une police large ne doit pas sortir de l'écran)
+    const hauteur = window.innerHeight * .62;
+    while ((t.scrollWidth > largeur || t.scrollHeight > hauteur) && taille > 22) { taille -= 2; t.style.fontSize = `${taille}px`; }
   },
   // Le carton d'ouverture : le numéro et le titre, seuls (rien d'autre ne doit le distraire)
   carton(h) {

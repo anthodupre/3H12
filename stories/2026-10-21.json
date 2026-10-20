@@ -15,18 +15,19 @@
   "retournement": "the neighbor had mailed himself; the little crack when the box was dropped was his neck",
   "theme": {
     "palette": {
-      "fond": "#0e0d0b",
-      "surface": "#0e0d0b",
-      "texte": "#e2ddd2",
-      "accent": "#c8322a",
-      "secondaire": "#8c8678"
+      "fond": "#130f0a",
+      "surface": "#130f0a",
+      "texte": "#e8dfcb",
+      "accent": "#d0372e",
+      "secondaire": "#a68a5c"
     },
     "polices": {
-      "titre": "Anton",
-      "texte": "Source Serif 4",
-      "notes": "Caveat"
+      "titre": "Special Elite",
+      "texte": "Courier Prime",
+      "notes": "Rock Salt",
+      "secours": "monospace"
     },
-    "cssPersonnalise": ".carton-titre { text-transform: uppercase; letter-spacing: .01em; }"
+    "cssPersonnalise": ".carton-titre { font-family: var(--police-notes); color: #d0372e; text-transform: uppercase; rotate: -4deg; letter-spacing: .01em; line-height: 1.25; text-shadow: 0 2px 0 rgba(0,0,0,.45); font-size: clamp(1.8rem, 9vw, 3.2rem); } .carton-num { display: inline-block; font-family: var(--police-texte); font-weight: 700; letter-spacing: .3em; text-indent: .3em; color: #1a1712; background: #ece5d3; padding: .5em 1em .45em; rotate: 2.5deg; box-shadow: 0 3px 10px rgba(0,0,0,.5); } .carton-num::after { content: ''; display: block; height: 18px; margin-top: .45em; background: repeating-linear-gradient(90deg, #1a1712 0 2px, transparent 2px 4px, #1a1712 4px 5px, transparent 5px 8px, #1a1712 8px 11px, transparent 11px 13px); } .bloc-paragraphe p { text-indent: 0; margin-bottom: 1.05em; } .lettrine p:first-child::first-letter { font-family: var(--police-notes); color: #d0372e; } .geste-bouton { border-radius: 3px; border: 0; background: rgba(166, 134, 88, .94); color: #1a140c; font-family: var(--police-texte); font-weight: 700; text-transform: uppercase; letter-spacing: .1em; box-shadow: 0 3px 0 rgba(0, 0, 0, .4); } .fin-phrase p { font-family: var(--police-titre); color: #d0372e; border: 3px solid #d0372e; border-radius: 4px; padding: .6em .8em; rotate: -2deg; } "
   },
   "document": {},
   "fond": {

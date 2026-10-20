@@ -1,5 +1,5 @@
 {
-  "moteur": "2.6",
+  "moteur": "2.7",
   "version": 1,
   "histoires": [
     {
@@ -132,16 +132,16 @@
       "gamme": "mineur",
       "effetFond": "aucun",
       "palette": {
-        "fond": "#0e0d0b",
-        "surface": "#0e0d0b",
-        "texte": "#e2ddd2",
-        "accent": "#c8322a",
-        "secondaire": "#8c8678"
+        "fond": "#130f0a",
+        "surface": "#130f0a",
+        "texte": "#e8dfcb",
+        "accent": "#d0372e",
+        "secondaire": "#a68a5c"
       },
       "polices": {
-        "titre": "Anton",
-        "texte": "Source Serif 4",
-        "notes": "Caveat"
+        "titre": "Special Elite",
+        "texte": "Courier Prime",
+        "notes": "Rock Salt"
       },
       "evenements": 4,
       "retournement": "the neighbor had mailed himself; the little crack when the box was dropped was his neck",
