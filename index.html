@@ -402,6 +402,8 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
   font-size: clamp(3.2rem, 18vw, 6.4rem); line-height: .96; letter-spacing: -.01em; text-wrap: balance;
   animation: apparition-carton 2.4s ease both .2s;
 }
+/* (il attend sa police : sinon il apparaît dans une autre, puis ses lignes changent) */
+.carton-titre.attente { animation-play-state: paused; }
 .carton-titre.titre-long { font-size: clamp(2.3rem, 10.5vw, 4.2rem); line-height: 1; }
 .carton-titre.titre-tres-long { font-size: clamp(1.9rem, 8.2vw, 3.3rem); line-height: 1.06; }
 .carton-defiler {
@@ -411,7 +413,8 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
 }
 .carton .accent { color: var(--accent-fond); }
 .carton, .fin { text-shadow: 0 1px 14px rgba(var(--fond-rgb), .95), 0 0 3px rgba(var(--fond-rgb), .75); }
-@keyframes apparition-carton { from { opacity: 0; letter-spacing: .06em; filter: blur(6px); } to { opacity: 1; letter-spacing: normal; filter: none; } }
+/* (l'apparition ne touche pas à la mise en page : un espacement qui varie ferait sauter un mot d'une ligne à l'autre) */
+@keyframes apparition-carton { from { opacity: 0; transform: scale(1.04); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
 @keyframes defiler { 0%, 100% { transform: scaleY(.4); transform-origin: top; opacity: .2; } 50% { transform: scaleY(1); opacity: .6; } }
 
 .corps { position: relative; }
@@ -1551,7 +1554,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
    1. CONFIGURATION — les réglages faciles à modifier
    ===================================================================== */
 const CONFIG = {
-  version: '2.8',
+  version: '2.9',
   fuseau: 'America/Toronto',          // toutes les dates sont calculées à Toronto
   dossierHistoires: 'stories/',       // dossier des fichiers JSON
   cleSauvegarde: '3h12-sauvegarde-v1',// clé dans localStorage
@@ -5344,6 +5347,11 @@ const Rendu = {
     }
     ameliorerTexte(art);
     this.ajusterTitre();
+    // Le titre ne se montre qu'une fois sa police chargée et sa taille fixée (1,5 s au plus)
+    // (les polices de l'histoire : leur feuille Google Fonts, puis le fichier de la police elle-même)
+    const pret = () => { this.ajusterTitre(); const t = $('#histoire .carton-titre'); if (t) t.classList.remove('attente'); };
+    const polices = Promise.all([...Polices.chargees.values()]).then(() => document.fonts && document.fonts.ready);
+    Promise.race([polices, attendre(1500)]).then(pret, pret);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => this.ajusterTitre());
   },
   // Le titre du carton rapetisse s'il est trop large pour l'écran (mots longs, majuscules)
@@ -5362,7 +5370,7 @@ const Rendu = {
   carton(h) {
     return `<section class="carton">
         <div class="carton-num">No. ${h.numero || '—'}</div>
-        <h1 class="carton-titre ${classeTitre(h.titre)}">${formater(h.titre)}</h1>
+        <h1 class="carton-titre attente ${classeTitre(h.titre)}">${formater(h.titre)}</h1>
         <div class="carton-defiler" aria-hidden="true"></div>
       </section>`;
   },
