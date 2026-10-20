@@ -1,5 +1,5 @@
 {
-  "moteur": "2.7",
+  "moteur": "2.8",
   "version": 1,
   "histoires": [
     {
@@ -139,9 +139,9 @@
         "secondaire": "#a68a5c"
       },
       "polices": {
-        "titre": "Special Elite",
+        "titre": "Bebas Neue",
         "texte": "Courier Prime",
-        "notes": "Rock Salt"
+        "notes": "Special Elite"
       },
       "evenements": 4,
       "retournement": "the neighbor had mailed himself; the little crack when the box was dropped was his neck",

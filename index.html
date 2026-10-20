@@ -1551,7 +1551,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
    1. CONFIGURATION — les réglages faciles à modifier
    ===================================================================== */
 const CONFIG = {
-  version: '2.7',
+  version: '2.8',
   fuseau: 'America/Toronto',          // toutes les dates sont calculées à Toronto
   dossierHistoires: 'stories/',       // dossier des fichiers JSON
   cleSauvegarde: '3h12-sauvegarde-v1',// clé dans localStorage
@@ -4666,29 +4666,23 @@ const AMBIANCES = {
     minuterie = setTimeout(rafale, hasard(500, 2500));
     return () => { actif = false; clearTimeout(minuterie); try { fond.stop(); } catch (e) {} };
   },
-  // Le soir, dans une rue de banlieue : des criquets (des trilles, jamais pareils), la circulation au loin, à peine
+  // Le soir, dans une rue de banlieue : la ville au loin, très bas ; de temps en temps une voiture passe, loin
+  // (un souffle sourd qui enfle et repart). Rien d'aigu : pas d'insectes, pas de bips.
   soir(t, s) {
     let actif = true, minuterie = null;
-    const loin = sourceBruit(true), lp = A.filtre('lowpass', 160, .5), gl = A.gain(.35);
+    const loin = sourceBruit(true), lp = A.filtre('lowpass', 170, .5), gl = A.gain(.4);
     A.relier(loin, lp, gl, s); loin.start(t);
-    const criquet = (pan, f) => {
-      const p = A.pan(pan); p.connect(s);
-      const chante = () => {
-        if (!actif || !MoteurAudio.ctx) return;
-        let x = MoteurAudio.ctx.currentTime + .05;
-        const n = Math.floor(hasard(3, 7));
-        for (let k = 0; k < n; k++) {
-          const o = A.osc('sine', f * hasard(.995, 1.005)), g = A.gain(0), am = A.osc('square', hasard(26, 32)), ag = A.gain(.5);
-          A.relier(am, ag, g.gain);
-          g.gain.setValueAtTime(0, x); g.gain.linearRampToValueAtTime(.022, x + .01); g.gain.setValueAtTime(.022, x + .07); g.gain.linearRampToValueAtTime(0, x + .09);
-          A.relier(o, g, p); o.start(x); am.start(x); o.stop(x + .1); am.stop(x + .1);
-          x += hasard(.26, .34);
-        }
-        minuterie = setTimeout(chante, (x - MoteurAudio.ctx.currentTime + hasard(.4, 2.5)) * 1000);
-      };
-      setTimeout(chante, hasard(100, 1500));
+    const voiture = () => {
+      if (!actif || !MoteurAudio.ctx) return;
+      const x = MoteurAudio.ctx.currentTime + .05, d = hasard(5, 8);
+      const b = A.bruit(x, d, true), f = A.filtre('lowpass', 300, .6), g = A.gain(0), p = A.pan(hasard(-.6, .6));
+      f.frequency.setValueAtTime(260, x); f.frequency.linearRampToValueAtTime(520, x + d * .5); f.frequency.linearRampToValueAtTime(240, x + d);
+      g.gain.setValueAtTime(0, x); g.gain.linearRampToValueAtTime(hasard(.25, .4), x + d * .5); g.gain.linearRampToValueAtTime(0, x + d);
+      if (p.pan) { p.pan.setValueAtTime(-p.pan.value, x); p.pan.linearRampToValueAtTime(p.pan.value, x + d); }
+      A.relier(b, f, g, p, s);
+      minuterie = setTimeout(voiture, (d + hasard(10, 22)) * 1000);
     };
-    criquet(-.5, 4300); criquet(.6, 4650);
+    minuterie = setTimeout(voiture, hasard(3000, 8000));
     return () => { actif = false; clearTimeout(minuterie); try { loin.stop(); } catch (e) {} };
   },
   // La tension : un bourdon grave qui bat (deux notes trop proches), un souffle sombre, et parfois, très haut, une note
