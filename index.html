@@ -1554,7 +1554,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
    1. CONFIGURATION — les réglages faciles à modifier
    ===================================================================== */
 const CONFIG = {
-  version: '3.3',
+  version: '3.4',
   fuseau: 'America/Toronto',          // toutes les dates sont calculées à Toronto
   dossierHistoires: 'stories/',       // dossier des fichiers JSON
   cleSauvegarde: '3h12-sauvegarde-v1',// clé dans localStorage
@@ -5707,9 +5707,10 @@ const Vues = {
    revient. Avant la première scène : le « fond » de l'histoire.
    ===================================================================== */
 const Scenes = {
-  liste: [], courante: undefined, cible: undefined, env: null, minuterie: null,
+  liste: [], courante: undefined, cible: undefined, env: null, minuterie: null, vues: new Set(),
   preparer(art) {
     this.liste = $$('.bloc-scene', art).map(el => ({ el, i: +el.dataset.i }));
+    this.vues = new Set();
   },
   // Retour à l'écran d'entrée : tout sera réappliqué en revenant
   oublier() {
@@ -5734,9 +5735,31 @@ const Scenes = {
     this.cible = i;
     clearTimeout(this.minuterie);
     if (this.courante === undefined) { this.appliquer(i); return; }
-    // (un millimètre de défilement ne coupe pas une scène qui vient d'apparaître : elle va au bout)
+    this.planifier();
+  },
+  // (un millimètre de défilement ne coupe pas une scène qui vient d'apparaître : elle va au bout) ;
+  // en avançant, une scène où l'on voit la créature n'est jamais sautée, même si on défile vite :
+  // elle passe d'abord, le temps qu'on la voie, puis on rattrape le lecteur
+  planifier() {
+    clearTimeout(this.minuterie);
     const reste = Math.max(160, (this.tenirJusqua || 0) - Date.now());
-    this.minuterie = setTimeout(() => this.appliquer(this.cible), reste);
+    this.minuterie = setTimeout(() => {
+      let suivante = this.cible;
+      if (this.cible > this.courante) {
+        const etape = this.liste.find(s => s.i > this.courante && s.i < this.cible && this.creature(s.i) && !this.vues.has(s.i)
+          && s.el.getBoundingClientRect().top > -2 * window.innerHeight);      // (pas si le lecteur est déjà deux écrans plus loin)
+        if (etape) suivante = etape.i;
+      }
+      this.appliquer(suivante);
+      if (suivante !== this.cible) this.planifier();
+    }, reste);
+  },
+  // Une scène « où on la voit » : son décor la montre (…-elle, …-part, une silhouette, de la bave),
+  // ou son opacité est celle d'un décor habité (0,5 et plus, SCHEMA.md)
+  creature(i) {
+    const b = etat.histoire && etat.histoire.blocs[i];
+    if (!b || b.type !== 'scene') return false;
+    return /(^|-)(elle|lui|part|silhouette|bave|epie|creature)(-|$)/.test(b.decor || '') || (b.opacite || 0) >= .5;
   },
   // L'environnement complet d'une scène (i = -1 : le fond de l'histoire)
   environnement(i) {
@@ -5758,7 +5781,13 @@ const Scenes = {
     if (!etat.histoire) return;
     const e = this.environnement(i), avant = this.env, premiere = !avant;
     this.courante = i;
-    this.tenirJusqua = Date.now() + (i >= 0 ? etat.histoire.blocs[i].tenir || 0 : 0);
+    // Le temps minimum à l'écran : le fondu d'entrée, puis un peu (beaucoup plus quand on la voit : son
+    // apparition, son geste, sa sortie doivent avoir le temps de se jouer)
+    const bloc = i >= 0 ? etat.histoire.blocs[i] : null;
+    const entree = !bloc || bloc.transition === 'coupe' ? 0 : (bloc.fondu ?? 1800);
+    const minimum = bloc && this.creature(i) ? entree + 3600 : entree + 700;
+    if (bloc && this.creature(i)) this.vues.add(i);
+    this.tenirJusqua = Date.now() + Math.max(bloc ? bloc.tenir || 0 : 0, minimum);
     this.env = e;
     if (i >= 0) etat.journal.push({ i, effet: 'scene', son: e.ambiance.join('+') || 'aucune', heure: new Date().toISOString() });
     // En remontant, on revient avec le fondu de la scène qu'on quitte (une coupe sèche reste sèche)
@@ -5834,10 +5863,10 @@ const Lecture = {
           this.declenches.add(ev.i);
           this.dernierEvenement = Date.now();
           // Si le lecteur est déjà loin plus bas, on ne déclenche pas l'effet hors contexte
-          // (un visage qui épie doit arriver à sa place : sinon, rien). Le téléphone, lui (un appel, des
-          // textos), sonne même si on a un peu filé : on ne le perd que très loin (4 écrans)
+          // (un visage qui épie, un son : on ne les perd qu'à un écran et demi). Le téléphone, lui (un appel,
+          // des textos), sonne même si on a filé : on ne le perd que très loin (4 écrans)
           const b = etat.histoire.blocs[ev.i];
-          const limite = b.effet === 'epier' ? -.35 : (b.effet === 'appel' || b.effet === 'notification') ? -4 : -1;
+          const limite = b.effet === 'epier' ? -1.5 : (b.effet === 'appel' || b.effet === 'notification') ? -4 : -1.5;
           if (ev.el.getBoundingClientRect().top > limite * window.innerHeight) declencherEvenement(b, ev.i);
         },
       });
