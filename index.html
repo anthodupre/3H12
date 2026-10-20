@@ -1554,7 +1554,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
    1. CONFIGURATION — les réglages faciles à modifier
    ===================================================================== */
 const CONFIG = {
-  version: '3.2',
+  version: '3.3',
   fuseau: 'America/Toronto',          // toutes les dates sont calculées à Toronto
   dossierHistoires: 'stories/',       // dossier des fichiers JSON
   cleSauvegarde: '3h12-sauvegarde-v1',// clé dans localStorage
@@ -3454,13 +3454,37 @@ class Drone extends Couche {
     A.relier(lfo, profondeur, this.filtre.frequency);
     lfo.start(t);
     this.voix.push(lfo);
+    // Un haut-parleur de téléphone ne rend rien sous ~250 Hz : un bourdon grave y serait muet. On lui
+    // ajoute la même harmonie quelques octaves plus haut (vers 300–600 Hz), douce et voilée : au casque,
+    // le grave reste le même ; sur le téléphone, on entend enfin la musique (l'oreille reconstruit le grave)
+    if (this.cfg.octave <= 2) {
+      const octHaut = 4;
+      const presence = A.gain(.8), bp = A.filtre('bandpass', 520, .6), tremolo = A.gain(1);
+      const lt = A.osc('sine', hasard(.17, .29)), pt = A.gain(.22);
+      A.relier(lt, pt, tremolo.gain); lt.start(t); this.voix.push(lt);
+      A.relier(presence, bp, tremolo, this.gain);
+      degres.forEach((deg, k) => {
+        if (deg === 1) return;                                // (pas la seconde : en haut, elle grince trop)
+        const gv = A.gain(k === 0 ? 1 : .6);
+        gv.connect(presence);
+        for (const sens of [-1, 1]) {
+          const o = A.osc(k === 0 ? 'triangle' : 'sine', m.frequence(deg, octHaut));
+          o.detune.value = sens * (3 + m.p.desaccord * 10) + m.desaccord();
+          m.brancherWow(o.detune);
+          o.connect(gv);
+          o.start(t);
+          this.voix.push(o);
+          this.oscs.push({ o, deg, oct: octHaut });
+        }
+      });
+    }
     this.decalage = 0;
   }
   pas(n, t) {
     if (n === 0 || n % 64 !== 0) return;
     if (Math.random() > .25 + .35 * this.cfg.densite) return;
     this.decalage = this.decalage ? 0 : choisir([1, 3, 5, -2]);
-    this.oscs.forEach(({ o, deg }) => o.frequency.setTargetAtTime(this.m.frequence(deg + this.decalage, this.cfg.octave), t, 2.5));
+    this.oscs.forEach(({ o, deg, oct }) => o.frequency.setTargetAtTime(this.m.frequence(deg + this.decalage, oct ?? this.cfg.octave), t, 2.5));
   }
 }
 
@@ -3551,7 +3575,7 @@ class Pulsation extends Couche {
     A.enveloppe(g.gain, t, .005, v, .26);
     A.relier(o, g, this.entree);
     // Harmonique plus aiguë, pour qu'on l'entende même sur le haut-parleur du téléphone
-    const o2 = A.osc('triangle', f * 4);
+    const o2 = A.osc('triangle', f * (f < 80 ? 8 : 4));
     const g2 = A.gain(0);
     A.enveloppe(g2.gain, t, .004, v * .16, .1);
     A.relier(o2, g2, this.entree);
