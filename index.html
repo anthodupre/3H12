@@ -1554,7 +1554,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
    1. CONFIGURATION — les réglages faciles à modifier
    ===================================================================== */
 const CONFIG = {
-  version: '3.0',
+  version: '3.1',
   fuseau: 'America/Toronto',          // toutes les dates sont calculées à Toronto
   dossierHistoires: 'stories/',       // dossier des fichiers JSON
   cleSauvegarde: '3h12-sauvegarde-v1',// clé dans localStorage
@@ -3972,6 +3972,73 @@ function voixFemme(t, d, dest, { f0 = 240, fin = 160, v = .6, voyelles = [[330, 
   [o, vib, mod].forEach(x => { x.start(t); x.stop(t + d + .3); });
   o.onended = () => [fry, mg, gs, env, sortie, ...fs, ...gf].forEach(n => { try { n.disconnect(); } catch (e) {} });
 }
+// Une plainte de femme (un gémissement) : une vraie voix, pas un bourdonnement. Une onde de glotte douce
+// (les harmoniques décroissent vite : pas de dent de scie qui « grogne »), du souffle, des formants qui vont de
+// « mm » (bouche fermée) à « oh » puis à « ou », une hauteur qui monte un peu puis retombe en tremblant.
+// Aucune friture vocale (c'est elle qui faisait grogner). rauque : un souffle plus éraillé, une amplitude qui
+// tremble un peu, jamais un grondement. voyelle : 'o' (gémissement) ou 'a' (bouche grande ouverte)
+const ondesGlotte = new WeakMap();
+function ondeGlotte(c) {
+  if (ondesGlotte.has(c)) return ondesGlotte.get(c);
+  const n = 40, re = new Float32Array(n), im = new Float32Array(n);
+  for (let k = 1; k < n; k++) im[k] = Math.pow(k, -1.75);
+  const w = c.createPeriodicWave(re, im);
+  ondesGlotte.set(c, w);
+  return w;
+}
+const VOYELLES_PLAINTE = {
+  o: [[300, 1000, 2650], [520, 900, 2800], [440, 820, 2750], [360, 780, 2650]],
+  a: [[420, 1150, 2700], [860, 1250, 2900], [760, 1180, 2850], [560, 1000, 2750]],
+};
+function plainteFemme(t, d, dest, { f0 = 320, fin = .72, montee = 1.1, v = .7, souffle = .35, rauque = 0, voyelle = 'o', attaque = .22 } = {}) {
+  const c = MoteurAudio.ctx;
+  const o = c.createOscillator();
+  o.setPeriodicWave(ondeGlotte(c));
+  // la hauteur : elle monte un peu, puis retombe lentement
+  o.frequency.setValueAtTime(f0 * .93, t);
+  o.frequency.linearRampToValueAtTime(f0 * montee, t + Math.min(.4, d * .28));
+  o.frequency.exponentialRampToValueAtTime(f0 * fin, t + d);
+  // un vibrato lent qui s'élargit (la voix tremble de plus en plus), une dérive douce
+  const vib = A.osc('sine', hasard(4.8, 5.6)), vg = A.gain(0);
+  vg.gain.setValueAtTime(5, t); vg.gain.linearRampToValueAtTime(26, t + d);
+  A.relier(vib, vg, o.detune);
+  for (let x = t; x < t + d; x += .09) o.detune.setTargetAtTime(hasard(-12, 12), x, .05);
+  // le souffle (bruit rose), coloré par les mêmes formants ; plus présent à la fin (l'expiration)
+  const b = A.bruit(t, d + .6, true), gb = A.gain(0);
+  gb.gain.setValueAtTime(souffle * .6, t);
+  gb.gain.setValueAtTime(souffle * .6, t + d * .6);
+  gb.gain.linearRampToValueAtTime(souffle * 1.3, t + d * .95);
+  gb.gain.linearRampToValueAtTime(0, t + d + .45);
+  b.connect(gb);
+  // les formants (en parallèle) + le corps de la voix (les graves directs)
+  const V = VOYELLES_PLAINTE[voyelle] || VOYELLES_PLAINTE.o;
+  const fs = [A.filtre('bandpass', V[0][0], 5), A.filtre('bandpass', V[0][1], 8), A.filtre('bandpass', V[0][2], 12), A.filtre('bandpass', 3600, 14)];
+  const gf = [A.gain(1.1), A.gain(.55), A.gain(.2), A.gain(.08)];
+  const corps = A.filtre('lowpass', 700, .7), gc = A.gain(.22);
+  const bouche = A.filtre('lowpass', 750, .7), tremble = A.gain(1), env = A.gain(0);
+  fs.forEach((f, k) => { o.connect(f); gb.connect(f); f.connect(gf[k]); gf[k].connect(bouche); });
+  A.relier(o, corps, gc, bouche);
+  A.relier(bouche, tremble, env, dest);
+  V.forEach((voy, k) => { if (k) [0, 1, 2].forEach(j => fs[j].frequency.setTargetAtTime(voy[j] * hasard(.97, 1.03), t + d * [0, .18, .55, .85][k], d * .08)); });
+  // la bouche s'ouvre (« mm » → « oh »), puis se referme un peu
+  bouche.frequency.setValueAtTime(750, t);
+  bouche.frequency.setTargetAtTime(4200, t + d * .12, d * .06);
+  bouche.frequency.setTargetAtTime(2300, t + d * .7, d * .12);
+  // éraillée : un souffle aigu en plus, une amplitude qui tremble (lentement : pas de grésillement)
+  let rape = null;
+  if (rauque > 0) {
+    const hp = A.filtre('bandpass', 3200, .8), gr = A.gain(rauque * souffle * .9);
+    rape = [hp, gr];
+    A.relier(gb, hp, gr, env);
+    for (let x = t; x < t + d; x += .06) tremble.gain.setTargetAtTime(1 - hasard(0, rauque * .3), x, .03);
+  }
+  env.gain.setValueAtTime(0, t);
+  env.gain.linearRampToValueAtTime(v, t + attaque);
+  env.gain.setValueAtTime(v, t + d * .5);
+  env.gain.setTargetAtTime(0, t + d * .5, d * .2);
+  [o, vib].forEach(x => { x.start(t); x.stop(t + d + .6); });
+  o.onended = () => [gb, corps, gc, bouche, tremble, env, vg, ...fs, ...gf, ...(rape || [])].forEach(n => { try { n.disconnect(); } catch (e) {} });
+}
 // Le petit hoquet de gorge (l'excitation est trop forte pour elle) : une prise d'air sèche, une note qui monte, coupée
 function hoquets(t, n, dest, v = .6) {
   let x = t;
@@ -4365,23 +4432,23 @@ const SONS = {
     { const carton = A.filtre('lowpass', 2800, .7), gc = A.gain(1.3); A.relier(carton, gc, hautParleur); SONS.garage(T(21.0), { sortie: carton }); }   // … et ma porte de garage
     setTimeout(() => { try { sortie.disconnect(); hp.disconnect(); lp.disconnect(); sat.disconnect(); etouffe.disconnect(); } catch (e) {} }, 30000);
   },
-  // Lynn gémit : tout près, rauque, de la gorge (« deep and raw ») ; dans la salle de bain, ça résonne
+  // Lynn gémit : une plainte de femme, éraillée, qui monte et retombe en tremblant ; dans la salle de bain, ça résonne
   gemissement(t) {
     const sortie = sortieEffet(-.15, .5);
-    voixFemme(t, 2.1, sortie, { f0: 250, fin: 150, v: 1.3, voyelles: [[320, 860, 2600], [700, 1150, 2700], [520, 920, 2500], [380, 800, 2400]], craque: .8, souffle: .55 });
+    plainteFemme(t, 2.2, sortie, { f0: 290, fin: .7, montee: 1.12, v: .42, souffle: .42, rauque: .4 });
     setTimeout(() => { try { sortie.disconnect(); } catch (e) {} }, 4000);
   },
   // … le même, étouffé (à travers une porte, un mur) : on n'est pas sûr de l'avoir entendu
   'gemissement_loin'(t) {
-    const sortie = sortieEffet(.3, .35), lp = A.filtre('lowpass', 650, .7);
+    const sortie = sortieEffet(.3, .35), lp = A.filtre('lowpass', 700, .7);
     lp.connect(sortie);
-    voixFemme(t, 1.8, lp, { f0: 230, fin: 160, v: 1.1, craque: .6, souffle: .4 });
+    plainteFemme(t, 1.9, lp, { f0: 305, fin: .74, montee: 1.08, v: .26, souffle: .45, rauque: .15 });
     setTimeout(() => { try { sortie.disconnect(); lp.disconnect(); } catch (e) {} }, 3500);
   },
-  // … un tout petit gémissement, bouche ouverte
+  // … un tout petit gémissement, bouche grande ouverte
   'gemissement_bref'(t) {
     const sortie = sortieEffet(.1, .25);
-    voixFemme(t, .8, sortie, { f0: 290, fin: 210, v: 1, voyelles: [[700, 1200, 2700], [600, 1000, 2600]], craque: .85, souffle: .6, attaque: .06 });
+    plainteFemme(t, .95, sortie, { f0: 350, fin: .8, montee: 1.05, v: .75, souffle: .5, rauque: .2, voyelle: 'a', attaque: .08 });
     setTimeout(() => { try { sortie.disconnect(); } catch (e) {} }, 2000);
   },
   // Ses hoquets d'excitation, dans la gorge (o.nombre : combien)
