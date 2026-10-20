@@ -1554,7 +1554,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
    1. CONFIGURATION — les réglages faciles à modifier
    ===================================================================== */
 const CONFIG = {
-  version: '3.1',
+  version: '3.2',
   fuseau: 'America/Toronto',          // toutes les dates sont calculées à Toronto
   dossierHistoires: 'stories/',       // dossier des fichiers JSON
   cleSauvegarde: '3h12-sauvegarde-v1',// clé dans localStorage
@@ -5798,9 +5798,11 @@ const Lecture = {
         el: ev.el,
         ligne: CONFIG.ligneEvenements,
         delai: this.delaiLecture(precedent ? this.compterMots(precedent) : 0),
-        // Toujours dans l'ordre, au moins 1,2 s après l'événement précédent
+        rattrape: true,
+        // Toujours dans l'ordre, au moins 1,2 s après l'événement précédent (0,45 s si le lecteur l'a déjà
+        // dépassé : il parcourt vite, les effets le rattrapent au lieu de faire la queue)
         pret: () => avant.every(a => this.declenches.has(a.i))
-          && Date.now() - this.dernierEvenement > 1200
+          && Date.now() - this.dernierEvenement > (ev.el.getBoundingClientRect().top < 0 ? 450 : 1200)
           && this.calme()
           // (ou déjà passé au-dessus de l'écran : un défilement très rapide ne l'a jamais « vu »)
           && (!precedent || precedent.classList.contains('visible') || precedent.getBoundingClientRect().bottom < 0),
@@ -5808,8 +5810,10 @@ const Lecture = {
           this.declenches.add(ev.i);
           this.dernierEvenement = Date.now();
           // Si le lecteur est déjà loin plus bas, on ne déclenche pas l'effet hors contexte
-          // (un visage qui épie doit arriver à sa place : sinon, rien)
-          const b = etat.histoire.blocs[ev.i], limite = b.effet === 'epier' ? -.35 : -1;
+          // (un visage qui épie doit arriver à sa place : sinon, rien). Le téléphone, lui (un appel, des
+          // textos), sonne même si on a un peu filé : on ne le perd que très loin (4 écrans)
+          const b = etat.histoire.blocs[ev.i];
+          const limite = b.effet === 'epier' ? -.35 : (b.effet === 'appel' || b.effet === 'notification') ? -4 : -1;
           if (ev.el.getBoundingClientRect().top > limite * window.innerHeight) declencherEvenement(b, ev.i);
         },
       });
@@ -6057,8 +6061,9 @@ const Lecture = {
       if (haut >= h * d.ligne) continue;
       if (!d.depuis) d.depuis = Date.now(); // moment où le lecteur est arrivé à l'effet
       if (!d.minuterie && (!d.pret || d.pret())) {
-        // le délai de lecture compte depuis l'arrivée du lecteur, pas depuis que l'effet est prêt
-        const reste = Math.max(150, d.delai - (Date.now() - d.depuis));
+        // le délai de lecture compte depuis l'arrivée du lecteur, pas depuis que l'effet est prêt ;
+        // un effet que le lecteur a déjà dépassé (il parcourt vite) n'attend plus
+        const reste = d.rattrape && haut < 0 ? 150 : Math.max(150, d.delai - (Date.now() - d.depuis));
         d.minuterie = setTimeout(() => {
           d.minuterie = null;
           // Entre-temps, une vue s'est ouverte (ou un geste est tenu) : on attendra qu'elle se ferme
