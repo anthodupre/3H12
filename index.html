@@ -1551,7 +1551,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
    1. CONFIGURATION — les réglages faciles à modifier
    ===================================================================== */
 const CONFIG = {
-  version: '2.4',
+  version: '2.5',
   fuseau: 'America/Toronto',          // toutes les dates sont calculées à Toronto
   dossierHistoires: 'stories/',       // dossier des fichiers JSON
   cleSauvegarde: '3h12-sauvegarde-v1',// clé dans localStorage
@@ -4427,25 +4427,23 @@ const AMBIANCES = {
     src.forEach(x => x.start(t));
     return arreterTout(src);
   },
-  // Gouttes qui tombent dans le bain (résonne)
+  // Gouttes : de temps en temps seulement (toutes les 5 à 11 s, jamais au même rythme), petites et sèches : un « tic »
+  // sur la porcelaine, parfois un « plic » très bref dans un fond d'eau. Pas une boucle (une boucle de gouttes rend fou).
   gouttes(t, s) {
-    const b = tamponAmbiance('gouttes', 7, (d, sr) => {
-      const alea = aleaSeme(77);
-      [.3, 1.9, 2.6, 4.1, 5.8, 6.3].forEach(pos => {
-        const f0 = 520 + alea() * 300, n = Math.floor(sr * .16), debut = Math.floor(pos * sr);
-        let phase = 0;
-        for (let i = 0; i < n && debut + i < d.length; i++) {
-          const x = i / sr, f = f0 * (1 + 1.7 * Math.min(1, x / .04));
-          phase += 2 * Math.PI * f / sr;
-          d[debut + i] += Math.sin(phase) * Math.exp(-x * 34) * (.5 + alea() * .3);
-        }
-      });
-    });
-    const g = A.gain(.9), envoi = A.gain(.9);
-    A.relier(b, g, s);
-    A.relier(g, envoi, MoteurAudio.convolueur);
-    b.start(t);
-    return arreterTout([b], () => { try { envoi.disconnect(); } catch (e) {} });
+    let actif = true, minuterie = null;
+    const g = A.gain(.5);
+    g.connect(s);
+    const une = () => {
+      if (!actif || !MoteurAudio.pret) return;
+      const x = MoteurAudio.ctx.currentTime + .02;
+      const b = A.bruit(x, .02), bp = A.filtre('bandpass', hasard(3200, 5200), 2.2), gb = A.gain(0);
+      A.enveloppe(gb.gain, x, .001, hasard(.12, .25), .012);
+      A.relier(b, bp, gb, g);
+      if (Math.random() < .45) modesResonants(x + .002, [[hasard(1500, 2300), .06, .04], [hasard(3000, 3800), .025, .02]], g, { v: hasard(.5, 1), glisse: -.06 });
+      minuterie = setTimeout(une, hasard(5000, 11000));
+    };
+    minuterie = setTimeout(une, hasard(1500, 4000));
+    return () => { actif = false; clearTimeout(minuterie); setTimeout(() => { try { g.disconnect(); } catch (e) {} }, 400); };
   },
   // En voiture, la nuit : moteur et route
   voiture(t, s) {
@@ -4558,7 +4556,7 @@ const AMBIANCES = {
   },
 };
 // Volume relatif de chaque ambiance (pour qu'elles se mélangent bien à 60 %)
-const VOLUMES_AMBIANCE = { frigo: 1, douche: .58, gouttes: .7, voiture: .9, horloge: .55, vent: .8, climatiseur: .7, neon: .8, mouches: .9, souffle: .55 };
+const VOLUMES_AMBIANCE = { frigo: 1, douche: .58, gouttes: .5, voiture: .9, horloge: .55, vent: .8, climatiseur: .7, neon: .8, mouches: .9, souffle: .55 };
 
 const Ambiance = {
   actives: new Map(),

@@ -449,9 +449,7 @@
     {
       "type": "scene",
       "decor": "salle-de-bain",
-      "ambiance": [
-        "gouttes"
-      ],
+      "ambiance": [],
       "transition": "coupe",
       "volume": 0.6,
       "effet": "poussiere",
@@ -535,9 +533,7 @@
     {
       "type": "scene",
       "decor": "garde-robe-elle",
-      "ambiance": [
-        "gouttes"
-      ],
+      "ambiance": [],
       "opacite": 0.54,
       "transition": "coupe",
       "volume": 0.4,
