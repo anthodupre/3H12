@@ -1,5 +1,5 @@
 {
-  "moteur": "2.5",
+  "moteur": "2.6",
   "version": 1,
   "histoires": [
     {
@@ -114,7 +114,7 @@
         "texte": "Literata",
         "notes": "Caveat"
       },
-      "evenements": 12,
+      "evenements": 33,
       "retournement": "it isn't really her anymore; the hunt doesn't end: she found him",
       "origine": "choisie"
     },

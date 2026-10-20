@@ -112,7 +112,7 @@ File `stories/YYYY-MM-DD.json`:
 | `musique` | object | yes | drone + noise | Synthesized music (section 8). |
 | `blocs` | array | yes | — | The text, block by block (section 9). |
 | `phraseFinale` | string | yes | — | The last sentence, shown alone, large, after the story. For a story from the owner: the very last sentence of the original, removed from the last block. Markup allowed. |
-| `origine` | string | yes (new stories) | — | `"choisie"`: an existing story chosen by the owner and published verbatim, exactly as the author wrote it (its original length is kept; 3 to 14 events). Every story is one now. The legacy value `"traduction"` is still accepted. Never displayed. |
+| `origine` | string | yes (new stories) | — | `"choisie"`: an existing story chosen by the owner and published verbatim, exactly as the author wrote it (its original length is kept; 3 to 40 events). Every story is one now. The legacy value `"traduction"` is still accepted. Never displayed. |
 | `question` | object | **no longer used** | none | Old multiple-choice "question of the night" (`{ "texte", "choix" }`). The owner doesn't want it anymore: don't add it. The engine can still display it. |
 
 **End of the story**: after the `phraseFinale`, the app shows the end, the date of the next story, a line saying that this story disappears at 3:12 AM, then the **suggestion box** (a free-text field for the next night). The notes are sent by email (FormSubmit) to the owner of 3h12, who reads them and decides what to do with them; they change nothing automatically.
@@ -362,7 +362,7 @@ Ordered array. Each block has a `type` and, optionally, a `style` (section 10). 
 | `signature` | `texte` | Handwritten signature aligned to the right. |
 | `champs` | `titre` (optional), `champs`: `[{ "nom": "…", "valeur": "…" }]` | Table of official fields (form, record card). |
 | `tampon` | `texte`, `rotation` (-30 to 30, optional) | Ink stamp ("RECEIVED", "FILED", "DO NOT RELEASE"). |
-| `geste` | `texte` (the button), `mode` (`"toucher"` = tap or `"maintenir"` = hold), `duree` (hold: 400 to 6000 ms, default 1600), `son` (optional, played when done), `aide` (optional, small text under the button), **`vue`** (mandatory, see §9b) | **The reader must act**: a button in the style of the story. Everything that follows stays hidden until they tap it (or keep their finger on it: a gauge fills up, letting go too early starts over). Then the **view** opens full screen: you see what the character sees. Only then does the rest appear. In SMS, the conversation waits for the gesture. |
+| `geste` | `texte` (the button), `mode` (`"toucher"` = tap or `"maintenir"` = hold), `duree` (hold: 400 to 6000 ms, default 1600), `tension` (optional, hold only: `true` = a swell of dread rises while the finger is down, cut dead when the view opens), `son` (optional, played when done), `aide` (optional, small text under the button), **`vue`** (mandatory, see §9b) | **The reader must act**: a button in the style of the story. Everything that follows stays hidden until they tap it (or keep their finger on it: a gauge fills up, letting go too early starts over). Then the **view** opens full screen: you see what the character sees. Only then does the rest appear. In SMS, the conversation waits for the gesture. |
 | `scene` | `decor` (name in `fond.decors`) or `svg`; optional: `opacite`, `effet`, `intensite`, `couleur`, `scintillement`, `vignette`, `teinte`, `teinteOpacite`, `ambiance`, `volume`, `fondu`, `transition` | Invisible. **The place changes** when the reader gets there (§9a). |
 
 Examples:
@@ -394,7 +394,7 @@ A missing field takes the value of the story's `fond` (**not** the previous scen
 | `opacite` | 0 to 1 | `fond.svgOpacite` | Opacity of the decor behind the text (a bit more, 0.45 to 0.56, when the creature is in the decor). |
 | `effet`, `intensite`, `couleur`, `scintillement`, `vignette` | | those of `fond` | Animated background of the place (`brouillard` for the steam of a shower, `statique`, `poussiere`…). |
 | `teinte`, `teinteOpacite` | `#rrggbb`, 0 to 0.8 | none, 0.25 | Color of the place (cold blue of a fridge, red of a neon sign, green of a rotting house). 0.12 to 0.25. |
-| `ambiance` | string or array (3 at most) | none | Looping sounds: `frigo` (fridge hum), `douche` (running shower water), `gouttes` (an occasional drip, every 5 to 11 s, quiet and dry; never a loop), `voiture` (engine and road), `horloge` (clock ticking), `vent` (wind), `climatiseur` (air conditioner), `neon` (neon buzz), `mouches` (flies), `souffle` (someone breathing very close, in the dark), `aucune` (none). |
+| `ambiance` | string or array (3 at most) | none | Looping sounds: `frigo` (fridge hum), `douche` (running shower water), `gouttes` (an occasional drip, every 5 to 11 s, quiet and dry; never a loop), `voiture` (engine and road), `horloge` (clock ticking), `vent` (wind), `climatiseur` (air conditioner), `neon` (neon buzz), `mouches` (flies), `souffle` (someone breathing very close, in the dark), `soir` (a suburban evening: crickets, far traffic), `tension` (a low dread drone that beats, a faint high note now and then: for the build-up before a scare), `pouls` (his heartbeat, slowly speeding up), `aucune` (none). |
 | `volume` | 0 to 1 | 0.6 | Volume of the ambient sound. |
 | `fondu` | 0 to 6000 ms | 1800 | Duration of the crossfade to the new decor. **Slow** (3000 or more) so that she appears gently; **`0`** for a hard cut ("she was gone at once"). |
 | `transition` | string | `noir` | How the decor changes: `noir` (the old scene goes dark, then the new one lights up: every change of place), `coupe` (hard cut: the creature appears or leaves **by moving**, see below), `fondu` (crossfade, rarely: only for light or time passing on the same view). Never dissolve a person in or out: it looks cheap. |
@@ -490,6 +490,16 @@ Example: `{ "type": "paragraphe", "texte": "It's still here.", "style": "centre 
 | `crac` | A small dry crack, muffled (something breaking inside a box). |
 | `garage` | An old garage door: tugged and whacked (it rattles), it gives, springs creak, rollers clack over the track joints, a hinge squeals twice, it bangs at the top (about 4.3 s). |
 | `coups_garage` | Three kicks into a sheet-metal garage door (boom, wobble, rattle), then a heavy box slipping and landing flat on concrete (about 1.6 s). |
+| `gemissement` | A woman's raspy moan, close, from the throat (echoes in a small room). |
+| `gemissement_loin` | The same moan, muffled through a door or a wall: you're not sure you heard it. |
+| `gemissement_bref` | A tiny moan, mouth open. |
+| `hoquet` | Excited little hiccups in her throat (`nombre`: how many). |
+| `rire_aigu` | A shrill, breathy giggle, behind him, a little far. |
+| `choc` | The moment you see her: a deep hit and a dissonant string shriek (`nombre` 1 to 3: how hard). Silences the music for a few seconds. |
+| `choc_gemissement` | `choc`, then her moan. |
+| `choc_hoquet` | `choc`, then her hiccups. |
+| `montee` | A rising swell of tension (`duree`), cut dead at the end. |
+| `coup_couteau` | A stab (a glass shard): the swish, the skin giving way, his breath catching. |
 | `video_colis` | The soundtrack of the neighbor's footage in No. 2 (about 26 s, timed to the `vue-video` drawing): wind and a reversing truck, his muffled voice and laughs, flaps and tape, a truck, a warehouse, then three kicks, the drop, the crack, silence… and the garage door. Silences the music while it plays. |
 | `coup` | Knocks on wood (door, wall). |
 | `craquement` | A floor or door that creaks. |
@@ -508,7 +518,7 @@ Example: `{ "type": "paragraphe", "texte": "It's still here.", "style": "centre 
 | `mouches` | Flies buzzing and circling around (for `duree`). |
 | `aucun` | No sound. |
 
-Rules: **3 to 14 events per story** (every story is chosen by the owner; see DAILY.md), at key moments, **2 to 5 gestures** (each with its view) and a **scene** at each change of place. No gratuitous jump scares: an event must extend what the text has just said. `flash` and `tremblement` become very soft if the user has turned off intense effects.
+Rules: **3 to 40 events per story** (every story is chosen by the owner; see DAILY.md), at key moments, **2 to 5 gestures** (each with its view) and a **scene** at each change of place. No gratuitous jump scares: an event must extend what the text has just said. `flash` and `tremblement` become very soft if the user has turned off intense effects.
 
 ---
 
@@ -524,7 +534,7 @@ Rules: **3 to 14 events per story** (every story is chosen by the owner; see DAI
 
 ## 14. Full example
 
-Short but complete and valid example (a real story is the owner's whole text, verbatim, with 3 to 14 events, 2 to 5 gestures and its scenes):
+Short but complete and valid example (a real story is the owner's whole text, verbatim, with 3 to 40 events, 2 to 5 gestures and its scenes):
 
 ```json
 {

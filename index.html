@@ -1551,7 +1551,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
    1. CONFIGURATION — les réglages faciles à modifier
    ===================================================================== */
 const CONFIG = {
-  version: '2.5',
+  version: '2.6',
   fuseau: 'America/Toronto',          // toutes les dates sont calculées à Toronto
   dossierHistoires: 'stories/',       // dossier des fichiers JSON
   cleSauvegarde: '3h12-sauvegarde-v1',// clé dans localStorage
@@ -1580,9 +1580,9 @@ const TYPES_BLOCS = ['paragraphe', 'titre', 'dialogue', 'sms', 'note', 'citation
 const EFFETS_FOND = ['pluie', 'neige', 'brouillard', 'poussiere', 'braises', 'statique', 'lucioles', 'cendres', 'etoiles', 'bulles', 'aucun'];
 const EFFETS_EVENEMENT = ['glitch', 'noir', 'flash', 'tremblement', 'epier', 'notification', 'appel', 'aucun'];
 const COTES_EPIER = ['droite', 'gauche', 'bas', 'haut'];
-const SONS_EVENEMENT = ['chute', 'crac', 'garage', 'coups_garage', 'video_colis', 'coup', 'craquement', 'chuchotement', 'respiration', 'porte', 'silence', 'pas', 'grattement', 'coeur', 'statique', 'cloche', 'vibration', 'goutte', 'texto', 'mouches', 'aucun'];
+const SONS_EVENEMENT = ['chute', 'crac', 'garage', 'coups_garage', 'video_colis', 'gemissement', 'gemissement_loin', 'gemissement_bref', 'hoquet', 'rire_aigu', 'choc', 'choc_gemissement', 'choc_hoquet', 'montee', 'coup_couteau', 'coup', 'craquement', 'chuchotement', 'respiration', 'porte', 'silence', 'pas', 'grattement', 'coeur', 'statique', 'cloche', 'vibration', 'goutte', 'texto', 'mouches', 'aucun'];
 // Ambiances : sons en boucle qui suivent le lieu de l'histoire (blocs « scene »)
-const NOMS_AMBIANCES = ['frigo', 'douche', 'gouttes', 'voiture', 'horloge', 'vent', 'climatiseur', 'neon', 'mouches', 'souffle'];
+const NOMS_AMBIANCES = ['frigo', 'douche', 'gouttes', 'voiture', 'horloge', 'vent', 'soir', 'climatiseur', 'neon', 'mouches', 'souffle', 'tension', 'pouls'];
 // Entrée d'une « vue » (ce que le lecteur voit après un geste)
 const ENTREES_VUE = ['fondu', 'zoom', 'tourner', 'baisser', 'ouvrir', 'photo'];
 const TYPES_COUCHES = ['drone', 'pad', 'cloche', 'pulsation', 'bruit', 'boite_a_musique', 'cordes', 'choeur', 'piano'];
@@ -2216,6 +2216,7 @@ function normaliserBloc(b, i, r) {
       const son = normCle(b.son) || 'aucun';
       n.son = SONS_EVENEMENT.includes(son) ? son : 'aucun';
       n.aide = chaine(b.aide);
+      n.tension = b.tension === true;   // tenir : une montée de tension pendant qu'on appuie, coupée net à la fin
       n.vue = normaliserVue(b.vue, r, ou);
       if (!n.vue) r.av(`${ou}: gesture without "vue" (a gesture must show something).`);
       break;
@@ -2328,7 +2329,7 @@ function normaliserHistoire(d, dateFichier) {
   // Une traduction (histoire choisie par le créateur) garde sa longueur d'origine
   h.traduction = d.origine === 'traduction' || d.origine === 'choisie';   // histoire choisie par le créateur
   if (!h.traduction && (h.mots < 900 || h.mots > 1600)) r.av(`Length: ${h.mots} words (target: 900 to 1600).`);
-  if (nbEvenements > (h.traduction ? 14 : 8)) r.av(`${nbEvenements} events (suggested maximum: ${h.traduction ? 14 : 8}).`);
+  if (nbEvenements > (h.traduction ? 40 : 8)) r.av(`${nbEvenements} events (suggested maximum: ${h.traduction ? 40 : 8}).`);
   return { h, rapport: r };
 }
 
@@ -3941,6 +3942,102 @@ function claquement(t, v) {
 }
 
 
+/* --- Lynn : sa voix (gémissements, hoquets, rire), la tension (montée, choc), le coup de verre --- */
+// Une voix de femme, rauque : une source voisée qui glisse (dent de scie), du souffle, une voix craquée (des à-coups
+// irréguliers du volume, 30-70 Hz : la « fry »), dans des formants de voyelles qui passent l'une à l'autre (« mmh », « aah »)
+function voixFemme(t, d, dest, { f0 = 240, fin = 160, v = .6, voyelles = [[330, 880, 2600], [760, 1180, 2700], [480, 900, 2500]], craque = .7, souffle = .5, lp = 3800, attaque = .18 } = {}) {
+  const o = A.osc('sawtooth', f0);
+  o.frequency.setValueAtTime(f0, t);
+  o.frequency.exponentialRampToValueAtTime(Math.max(40, fin), t + d);
+  for (let x = t; x < t + d; x += .04) o.detune.setValueAtTime(hasard(-28, 28), x);   // une voix qui n'est jamais droite
+  const vib = lfo(hasard(4.6, 6), 9, o.detune);
+  const b = A.bruit(t, d + .2), gs = A.gain(souffle);
+  const fry = A.gain(1 - craque * .5), mod = A.osc('square', hasard(38, 52)), mg = A.gain(craque * .5);
+  A.relier(mod, mg, fry.gain);
+  for (let x = t; x < t + d; x += .07) mod.frequency.setValueAtTime(hasard(28, 70), x);
+  const fs = [A.filtre('bandpass', voyelles[0][0], 6), A.filtre('bandpass', voyelles[0][1], 8), A.filtre('bandpass', voyelles[0][2], 10)];
+  const gf = [A.gain(1), A.gain(.55), A.gain(.25)];
+  const env = A.gain(0), sortie = A.filtre('lowpass', lp, .7);
+  o.connect(fry); b.connect(gs);
+  fs.forEach((f, k) => { fry.connect(f); gs.connect(f); f.connect(gf[k]); gf[k].connect(env); });
+  A.relier(env, sortie, dest);
+  voyelles.forEach((voy, k) => fs.forEach((f, j) => f.frequency.setTargetAtTime(voy[j] * hasard(.95, 1.05), t + d * k / voyelles.length, .08)));
+  env.gain.setValueAtTime(0, t);
+  env.gain.linearRampToValueAtTime(v, t + attaque);
+  env.gain.setTargetAtTime(v * .8, t + d * .4, .2);
+  env.gain.setTargetAtTime(0, t + d * .82, d * .08);
+  [o, vib, mod].forEach(x => { x.start(t); x.stop(t + d + .3); });
+  o.onended = () => [fry, mg, gs, env, sortie, ...fs, ...gf].forEach(n => { try { n.disconnect(); } catch (e) {} });
+}
+// Le petit hoquet de gorge (l'excitation est trop forte pour elle) : une prise d'air sèche, une note qui monte, coupée
+function hoquets(t, n, dest, v = .6) {
+  let x = t;
+  for (let k = 0; k < n; k++) {
+    const c = A.bruit(x, .05), bp = A.filtre('bandpass', hasard(1000, 1500), 3), g = A.gain(0);
+    A.enveloppe(g.gain, x, .003, v * .9, .035); A.relier(c, bp, g, dest);
+    voixFemme(x + .03, hasard(.07, .1), dest, { f0: hasard(300, 360), fin: hasard(400, 470), v: v * .8, voyelles: [[420, 1600, 2700]], craque: .9, souffle: .7, attaque: .01 });
+    x += hasard(.17, .3) + (k % 3 === 2 ? hasard(.2, .4) : 0);
+  }
+  return x;
+}
+// Un choc (le moment où on la voit) : un coup sourd, et un cri de cordes dissonant qui se tord ; force 1 à 3
+function choc(t, dest, force = 2) {
+  const v = [0, .45, .7, .9][force] || .7;
+  const o = A.osc('sine', 58), g = A.gain(0);
+  o.frequency.setValueAtTime(70, t); o.frequency.exponentialRampToValueAtTime(30, t + 1.4);
+  A.enveloppe(g.gain, t, .005, 1.3 * v, 1.6); A.relier(o, g, dest); o.start(t); o.stop(t + 1.8);
+  const b = A.bruit(t, .3), bl = A.filtre('lowpass', 600), bg = A.gain(0);
+  A.enveloppe(bg.gain, t, .003, 1.2 * v, .25); A.relier(b, bl, bg, dest);
+  const cordes = A.gain(0), bp = A.filtre('bandpass', 1500, .9);
+  A.relier(cordes, bp, dest);
+  [880, 932, 1046, 1109, 1245].slice(0, 2 + force).forEach((f, k) => {
+    const s = A.osc('sawtooth', f * hasard(.99, 1.01));
+    s.frequency.setValueAtTime(f, t); s.frequency.linearRampToValueAtTime(f * (k % 2 ? 1.06 : .94), t + 2.2);
+    lfo(hasard(6, 8), 14, s.detune).start(t);
+    s.connect(cordes); s.start(t); s.stop(t + 2.6);
+  });
+  cordes.gain.setValueAtTime(0, t); cordes.gain.linearRampToValueAtTime(.12 * v, t + .02);
+  cordes.gain.setTargetAtTime(.05 * v, t + .1, .3); cordes.gain.setTargetAtTime(0, t + 1.2, .4);
+  modesResonants(t, [[2300, .12 * v, .5], [3170, .08 * v, .4], [4410, .05 * v, .3]], dest);
+  if (MoteurAudio.musique) MoteurAudio.musique.silence(4 + force * 2);
+}
+// Une montée (on retient son souffle) : un bourdon qui grimpe, des cordes qui serrent, de plus en plus fort ; coupée net
+function montee(t, d, dest) {
+  const sortie = A.gain(0);
+  sortie.connect(dest);
+  sortie.gain.setValueAtTime(.0001, t); sortie.gain.exponentialRampToValueAtTime(.9, t + d);
+  sortie.gain.setValueAtTime(.9, t + d); sortie.gain.linearRampToValueAtTime(0, t + d + .03);
+  const src = [];
+  [55, 58.3].forEach(f => { const o = A.osc('sawtooth', f), lp = A.filtre('lowpass', 300); o.frequency.exponentialRampToValueAtTime(f * 1.5, t + d); A.relier(o, lp, sortie); src.push(o); });
+  [660, 699, 740].forEach(f => { const o = A.osc('sawtooth', f), bp = A.filtre('bandpass', 1400, 1.2), g = A.gain(.08); o.frequency.setValueAtTime(f, t); o.frequency.exponentialRampToValueAtTime(f * 1.33, t + d); lfo(7, 12, o.detune).start(t); A.relier(o, bp, g, sortie); src.push(o); });
+  const b = A.bruit(t, d + .1), hp = A.filtre('bandpass', 800, .8), gb = A.gain(.5);
+  hp.frequency.setValueAtTime(400, t); hp.frequency.exponentialRampToValueAtTime(4000, t + d);
+  A.relier(b, hp, gb, sortie);
+  src.forEach(o => { o.start(t); o.stop(t + d + .05); });
+  return () => {
+    const n = MoteurAudio.ctx.currentTime;
+    sortie.gain.cancelScheduledValues(n); sortie.gain.setValueAtTime(sortie.gain.value, n); sortie.gain.linearRampToValueAtTime(0, n + .25);
+    src.forEach(o => { try { o.stop(n + .3); } catch (e) {} });
+  };
+}
+// Le coup : un éclat de verre dans le bras (ou le dos) — le geste qui siffle, la peau qui cède, sa respiration qui casse
+function coupDeVerre(t, dest, v = 1) {
+  const sw = A.bruit(t, .14), sb = A.filtre('bandpass', 2200, 1.4), sg = A.gain(0);
+  sb.frequency.setValueAtTime(2600, t); sb.frequency.exponentialRampToValueAtTime(700, t + .12);
+  sg.gain.setValueAtTime(0, t); sg.gain.linearRampToValueAtTime(.5 * v, t + .06); sg.gain.linearRampToValueAtTime(0, t + .13);
+  A.relier(sw, sb, sg, dest);
+  const x = t + .13;
+  const o = A.osc('sine', 130), og = A.gain(0);
+  o.frequency.setValueAtTime(130, x); o.frequency.exponentialRampToValueAtTime(55, x + .12);
+  A.enveloppe(og.gain, x, .002, 1.1 * v, .16); A.relier(o, og, dest); o.start(x); o.stop(x + .3);
+  const m = A.bruit(x, .22), mb = A.filtre('bandpass', 600, 4), mg = A.gain(0);
+  for (let y = x; y < x + .2; y += .02) mb.frequency.setValueAtTime(hasard(350, 1100), y);
+  A.enveloppe(mg.gain, x, .004, .9 * v, .18); A.relier(m, mb, mg, dest);
+  modesResonants(x, [[3900, .12 * v, .05], [5200, .07 * v, .035], [6800, .04 * v, .02]], dest);
+  haleine(x + .05, { dedans: true, duree: .32, v: 1.5 * v, dest });
+  haleine(x + .5, { dedans: false, duree: .9, v: 1.1 * v, rauque: .9, dest });
+}
+
 /* --- La vidéo du voisin (VID_0347.MP4) : voix étouffée, rire, ambiances, bruitages --- */
 // Une voix d'homme qu'on n'entend pas bien (un portable, à la police) : des syllabes, des voyelles qui changent,
 // une intonation qui descend en fin de phrase, des consonnes (petits souffles) ; chuchote : sans la voix, juste le souffle
@@ -4236,8 +4333,77 @@ const SONS = {
     modesResonants(T(19.479), [[900, .5, .03], [1500, .3, .02]], hautParleur, { v: .8 });
     modesResonants(T(19.47), [[120, .6, .09], [190, .25, .06]], hautParleur, { v: .7 });
     bruitFiltre(T(19.5), T(19.9), hautParleur, 'lowpass', 900, .7, .12);                                          // la lampe qui roule
-    SONS.garage(T(21.0), { sortie: etouffe });                                                                    // … et la porte de garage
+    { const carton = A.filtre('lowpass', 2800, .7), gc = A.gain(1.3); A.relier(carton, gc, hautParleur); SONS.garage(T(21.0), { sortie: carton }); }   // … et ma porte de garage
     setTimeout(() => { try { sortie.disconnect(); hp.disconnect(); lp.disconnect(); sat.disconnect(); etouffe.disconnect(); } catch (e) {} }, 30000);
+  },
+  // Lynn gémit : tout près, rauque, de la gorge (« deep and raw ») ; dans la salle de bain, ça résonne
+  gemissement(t) {
+    const sortie = sortieEffet(-.15, .5);
+    voixFemme(t, 2.1, sortie, { f0: 250, fin: 150, v: 1.3, voyelles: [[320, 860, 2600], [700, 1150, 2700], [520, 920, 2500], [380, 800, 2400]], craque: .8, souffle: .55 });
+    setTimeout(() => { try { sortie.disconnect(); } catch (e) {} }, 4000);
+  },
+  // … le même, étouffé (à travers une porte, un mur) : on n'est pas sûr de l'avoir entendu
+  'gemissement_loin'(t) {
+    const sortie = sortieEffet(.3, .35), lp = A.filtre('lowpass', 650, .7);
+    lp.connect(sortie);
+    voixFemme(t, 1.8, lp, { f0: 230, fin: 160, v: 1.1, craque: .6, souffle: .4 });
+    setTimeout(() => { try { sortie.disconnect(); lp.disconnect(); } catch (e) {} }, 3500);
+  },
+  // … un tout petit gémissement, bouche ouverte
+  'gemissement_bref'(t) {
+    const sortie = sortieEffet(.1, .25);
+    voixFemme(t, .8, sortie, { f0: 290, fin: 210, v: 1, voyelles: [[700, 1200, 2700], [600, 1000, 2600]], craque: .85, souffle: .6, attaque: .06 });
+    setTimeout(() => { try { sortie.disconnect(); } catch (e) {} }, 2000);
+  },
+  // Ses hoquets d'excitation, dans la gorge (o.nombre : combien)
+  hoquet(t, o) {
+    const sortie = sortieEffet(.05, .2);
+    const fin = hoquets(t, o.nombre || 6, sortie, 1.1);
+    setTimeout(() => { try { sortie.disconnect(); } catch (e) {} }, (fin - t + 2) * 1000);
+  },
+  // Son rire aigu, derrière lui, en bas des marches : des « hi » rapides qui montent, soufflés
+  'rire_aigu'(t) {
+    const sortie = sortieEffet(.4, .7), lp = A.filtre('lowpass', 2600, .7);
+    lp.connect(sortie);
+    let x = t;
+    for (let k = 0; k < 11; k++) {
+      const p = k / 10;
+      voixFemme(x, hasard(.09, .13), lp, { f0: 470 + 160 * Math.sin(p * Math.PI), fin: 430 + 120 * Math.sin(p * Math.PI), v: 1 * (1 - p * .3), voyelles: [[400, 2300, 3100]], craque: .5, souffle: .8, attaque: .01 });
+      x += hasard(.13, .17);
+    }
+    setTimeout(() => { try { sortie.disconnect(); lp.disconnect(); } catch (e) {} }, (x - t + 2) * 1000);
+  },
+  // Le moment où on la voit : choc (o.nombre 1 à 3 : la force)
+  choc(t, o) {
+    const sortie = sortieEffet(0, .45);
+    choc(t, sortie, o.nombre || 2);
+    setTimeout(() => { try { sortie.disconnect(); } catch (e) {} }, 4000);
+  },
+  // … le choc, puis elle gémit (la garde-robe)
+  'choc_gemissement'(t) {
+    const sortie = sortieEffet(0, .45);
+    choc(t, sortie, 3);
+    SONS.gemissement(t + .7);
+    setTimeout(() => { try { sortie.disconnect(); } catch (e) {} }, 4000);
+  },
+  // … le choc, puis ses hoquets (sous le lit)
+  'choc_hoquet'(t) {
+    const sortie = sortieEffet(0, .45);
+    choc(t, sortie, 3);
+    SONS.hoquet(t + .9, { nombre: 7 });
+    setTimeout(() => { try { sortie.disconnect(); } catch (e) {} }, 4000);
+  },
+  // Une montée de tension (o.duree), coupée net
+  montee(t, o) {
+    const sortie = sortieEffet(0, .3);
+    montee(t, Math.max(1, (o.duree || 3000) / 1000), sortie);
+    setTimeout(() => { try { sortie.disconnect(); } catch (e) {} }, (o.duree || 3000) + 1500);
+  },
+  // Le coup de verre (elle le frappe)
+  'coup_couteau'(t) {
+    const sortie = sortieEffet(0, .2);
+    coupDeVerre(t, sortie, 1);
+    setTimeout(() => { try { sortie.disconnect(); } catch (e) {} }, 3000);
   },
   porte(t) {
     SONS.craquement(t, { duree: 700, pan: .3 });
@@ -4480,13 +4646,93 @@ const AMBIANCES = {
   },
   // Vent dehors
   vent(t, s) {
+    // Du vent dehors : pas un bruit qui ondule régulièrement (ça sonne comme des vagues), mais un fond très bas, des
+    // rafales irrégulières (de temps en temps, jamais au même rythme) qui font bruisser des feuilles
+    let actif = true, minuterie = null;
+    const fond = sourceBruit(true), lp = A.filtre('lowpass', 260, .5), gf = A.gain(.55);
+    A.relier(fond, lp, gf, s); fond.start(t);
+    const rafale = () => {
+      if (!actif || !MoteurAudio.ctx) return;
+      const x = MoteurAudio.ctx.currentTime + .05, d = hasard(2.5, 5);
+      const b = A.bruit(x, d), bp = A.filtre('bandpass', hasard(350, 600), .6), g = A.gain(0);
+      g.gain.setValueAtTime(0, x); g.gain.linearRampToValueAtTime(hasard(.25, .45), x + d * hasard(.3, .5)); g.gain.linearRampToValueAtTime(0, x + d);
+      A.relier(b, bp, g, s);
+      for (let k = 0, n = Math.round(d * 30); k < n; k++) {   // les feuilles
+        const y = x + d * .2 + hasard(0, d * .6), f = A.bruit(y, .025), fh = A.filtre('bandpass', hasard(2500, 6000), 2), fg = A.gain(0);
+        A.enveloppe(fg.gain, y, .002, hasard(.02, .07), hasard(.01, .03)); A.relier(f, fh, fg, s);
+      }
+      minuterie = setTimeout(rafale, (d + hasard(3, 9)) * 1000);
+    };
+    minuterie = setTimeout(rafale, hasard(500, 2500));
+    return () => { actif = false; clearTimeout(minuterie); try { fond.stop(); } catch (e) {} };
+  },
+  // Le soir, dans une rue de banlieue : des criquets (des trilles, jamais pareils), la circulation au loin, à peine
+  soir(t, s) {
+    let actif = true, minuterie = null;
+    const loin = sourceBruit(true), lp = A.filtre('lowpass', 160, .5), gl = A.gain(.35);
+    A.relier(loin, lp, gl, s); loin.start(t);
+    const criquet = (pan, f) => {
+      const p = A.pan(pan); p.connect(s);
+      const chante = () => {
+        if (!actif || !MoteurAudio.ctx) return;
+        let x = MoteurAudio.ctx.currentTime + .05;
+        const n = Math.floor(hasard(3, 7));
+        for (let k = 0; k < n; k++) {
+          const o = A.osc('sine', f * hasard(.995, 1.005)), g = A.gain(0), am = A.osc('square', hasard(26, 32)), ag = A.gain(.5);
+          A.relier(am, ag, g.gain);
+          g.gain.setValueAtTime(0, x); g.gain.linearRampToValueAtTime(.022, x + .01); g.gain.setValueAtTime(.022, x + .07); g.gain.linearRampToValueAtTime(0, x + .09);
+          A.relier(o, g, p); o.start(x); am.start(x); o.stop(x + .1); am.stop(x + .1);
+          x += hasard(.26, .34);
+        }
+        minuterie = setTimeout(chante, (x - MoteurAudio.ctx.currentTime + hasard(.4, 2.5)) * 1000);
+      };
+      setTimeout(chante, hasard(100, 1500));
+    };
+    criquet(-.5, 4300); criquet(.6, 4650);
+    return () => { actif = false; clearTimeout(minuterie); try { loin.stop(); } catch (e) {} };
+  },
+  // La tension : un bourdon grave qui bat (deux notes trop proches), un souffle sombre, et parfois, très haut, une note
+  // qui apparaît et s'en va — on ne sait pas d'où elle vient
+  tension(t, s) {
+    let actif = true, minuterie = null;
     const src = [];
-    const b = sourceBruit(true), bp = A.filtre('bandpass', 520, .9), g = A.gain(1.2);
-    A.relier(b, bp, g, s); src.push(b, lfo(.07, 280, bp.frequency), lfo(.13, .5, g.gain));
-    const w = sourceBruit(), wb = A.filtre('bandpass', 1800, 7), wg = A.gain(.05);
-    A.relier(w, wb, wg, s); src.push(w, lfo(.05, 400, wb.frequency), lfo(.09, .04, wg.gain));
+    [[49, .22], [51.6, .2], [73.4, .08], [98.7, .04]].forEach(([f, v]) => { const o = A.osc('sine', f), g = A.gain(v); A.relier(o, g, s); src.push(o); });
+    [[196, .05], [207.7, .045], [293.7, .02]].forEach(([f, v]) => { const o = A.osc('triangle', f), lp2 = A.filtre('lowpass', 700, .5), g = A.gain(v); A.relier(o, lp2, g, s); src.push(o, lfo(hasard(.04, .09), v * .6, g.gain)); });
+    const m = sourceBruit(true), bm = A.filtre('bandpass', 320, 1.1), gm = A.gain(.18);
+    A.relier(m, bm, gm, s); src.push(m, lfo(.023, .1, gm.gain));
+    const b = sourceBruit(true), lp = A.filtre('lowpass', 200, .6), gb = A.gain(.5);
+    A.relier(b, lp, gb, s); src.push(b, lfo(.031, .2, gb.gain));
     src.forEach(x => x.start(t));
-    return arreterTout(src);
+    const aigu = () => {
+      if (!actif || !MoteurAudio.ctx) return;
+      const x = MoteurAudio.ctx.currentTime + .05, d = hasard(4, 7), f = choisir([1760, 1864, 2093, 2217]);
+      const o = A.osc('sine', f), o2 = A.osc('sine', f * 1.007), g = A.gain(0);
+      g.gain.setValueAtTime(0, x); g.gain.linearRampToValueAtTime(.012, x + d / 2); g.gain.linearRampToValueAtTime(0, x + d);
+      A.relier(o, g, s); o2.connect(g); o.start(x); o2.start(x); o.stop(x + d); o2.stop(x + d);
+      minuterie = setTimeout(aigu, (d + hasard(4, 10)) * 1000);
+    };
+    minuterie = setTimeout(aigu, hasard(2000, 5000));
+    return arreterTout(src, () => { actif = false; clearTimeout(minuterie); });
+  },
+  // Le pouls (le sien, dans ses oreilles) : il bat, et accélère lentement
+  pouls(t, s) {
+    let actif = true, minuterie = null, intervalle = .95;
+    const bat = () => {
+      if (!actif || !MoteurAudio.ctx) return;
+      const x = MoteurAudio.ctx.currentTime + .03;
+      [[0, 1], [.2, .65]].forEach(([dx, v]) => {
+        const o = A.osc('sine', 60), g = A.gain(0);
+        o.frequency.setValueAtTime(62, x + dx); o.frequency.exponentialRampToValueAtTime(42, x + dx + .1);
+        A.enveloppe(g.gain, x + dx, .004, .9 * v, .17); A.relier(o, g, s); o.start(x + dx); o.stop(x + dx + .3);
+        const h = A.osc('triangle', 128), hl = A.filtre('lowpass', 420), hg = A.gain(0);
+        h.frequency.setValueAtTime(128, x + dx); h.frequency.exponentialRampToValueAtTime(90, x + dx + .09);
+        A.enveloppe(hg.gain, x + dx, .004, .5 * v, .12); A.relier(h, hl, hg, s); h.start(x + dx); h.stop(x + dx + .25);
+      });
+      intervalle = Math.max(.55, intervalle * .985);
+      minuterie = setTimeout(bat, intervalle * 1000);
+    };
+    bat();
+    return () => { actif = false; clearTimeout(minuterie); };
   },
   // Climatiseur de motel : souffle et cliquetis
   climatiseur(t, s) {
@@ -4556,7 +4802,7 @@ const AMBIANCES = {
   },
 };
 // Volume relatif de chaque ambiance (pour qu'elles se mélangent bien à 60 %)
-const VOLUMES_AMBIANCE = { frigo: 1, douche: .58, gouttes: .5, voiture: .9, horloge: .55, vent: .8, climatiseur: .7, neon: .8, mouches: .9, souffle: .55 };
+const VOLUMES_AMBIANCE = { frigo: 1, douche: .58, gouttes: .5, voiture: .9, horloge: .55, vent: .7, soir: .9, tension: 1, pouls: .9, climatiseur: .7, neon: .8, mouches: .9, souffle: .55 };
 
 const Ambiance = {
   actives: new Map(),
@@ -5022,7 +5268,7 @@ const RENDUS = {
   tampon: b => `<div class="tampon" style="--rot:${(b.rotation ?? hasard(-12, 8)).toFixed(1)}deg">${formater(b.texte)}</div>`,
   geste: b => {
     const aide = b.aide || (b.mode === 'maintenir' ? 'Press and hold' : 'Tap');
-    return `<button class="geste-bouton" type="button" data-mode="${b.mode}" data-duree="${b.duree}" data-son="${b.son}" style="--duree:${b.duree}ms"><span>${formater(b.texte)}</span></button><p class="geste-aide">${formater(aide)}</p>`;
+    return `<button class="geste-bouton" type="button" data-mode="${b.mode}" data-duree="${b.duree}" data-son="${b.son}"${b.tension ? ' data-tension="1"' : ''} style="--duree:${b.duree}ms"><span>${formater(b.texte)}</span></button><p class="geste-aide">${formater(aide)}</p>`;
   },
 };
 
@@ -5246,9 +5492,17 @@ const Gestes = {
     return new Promise(ok => this.attentes.set(g, ok));
   },
   installer() {
-    let tenu = null, minuterie = null;
+    let tenu = null, minuterie = null, arreterMontee = null, debutTenu = 0;
     const lacher = () => {
       clearTimeout(minuterie);
+      // (presque au bout : ça compte — sinon un téléphone occupé, en retard d'une fraction de seconde, ferait tout recommencer)
+      if (tenu && !tenu.closest('.fait') && Date.now() - debutTenu >= (+tenu.dataset.duree || 1600) * .9) {
+        const b = tenu; tenu = null; arreterMontee = null; this.tenu = false;
+        this.terminer(b.closest('.bloc-geste'));
+        return;
+      }
+      if (arreterMontee && tenu && !tenu.closest('.fait')) { try { arreterMontee(); } catch (e) {} }
+      arreterMontee = null;
       if (tenu && !tenu.closest('.fait')) tenu.classList.remove('tient');
       tenu = null;
       this.tenu = false;
@@ -5260,9 +5514,13 @@ const Gestes = {
       if (b.dataset.mode !== 'maintenir') return;
       e.preventDefault();
       tenu = b;
+      debutTenu = Date.now();
       this.tenu = true;
       b.classList.add('tient');
-      minuterie = setTimeout(() => { tenu = null; this.tenu = false; this.terminer(b.closest('.bloc-geste')); }, +b.dataset.duree || 1600);
+      if (b.dataset.tension && MoteurAudio.pret) {
+        try { const sortie = sortieEffet(0, .3); arreterMontee = montee(MoteurAudio.ctx.currentTime + .02, (+b.dataset.duree || 1600) / 1000, sortie); } catch (e) { arreterMontee = null; }
+      }
+      minuterie = setTimeout(() => { tenu = null; arreterMontee = null; this.tenu = false; this.terminer(b.closest('.bloc-geste')); }, +b.dataset.duree || 1600);
     });
     ['pointerup', 'pointercancel', 'pointerleave'].forEach(t => document.addEventListener(t, lacher, true));
     document.addEventListener('click', e => {

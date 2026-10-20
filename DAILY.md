@@ -92,7 +92,7 @@ The text, the sub-genre, the place, the era and the twist belong to the original
 - Title: the original title, verbatim.
 - **One block per paragraph** of the original. A paragraph may be split into two blocks **only** to place a `scene`, a `geste` or an `evenement` between them, and only if the words stay identical and in the same order. A paragraph that is only a text message can be shown as an `sms` block (`"de": "eux"`), with the same words; when the character receives **several** texts or calls ("a flood of texts", "dozens of messages"), put them **all** in a burst `notification` (`messages`: word for word when the original quotes them; when it only describes them, short texts and missed calls that say nothing more than the original does, e.g. "Where are you?" for *all wondering where I'd gone*; `reste` for the rest of the flood). A few `pause` blocks at the story's big breaks (2 to 4).
 - **Text that looks like markup**: `*text*` in italics is fine, and wanted, when the author used asterisks. But `##`, `||`, `%%`, `^^`, `__`, `~~` and `[...]` are read by the engine as effects (SCHEMA.md §11), and there is no way to escape them. If one of these sequences appears by accident in the original (rare), keep the author's text and accept the effect, or ask the owner. If the validator then reports an unclosed tag, don't change the text on your own: ask the owner.
-- **3 to 14 events**, placed right after the sentence that justifies them (a noise, a door, a silence, a peeking face, texts arriving as notifications), **2 to 5 gestures with their view**, and **a scene at each change of place** (see step 4a, "Interactivity").
+- **3 to 40 events**, placed right after the sentence that justifies them (a noise, a door, a moan, a silence, a peeking face, texts arriving as notifications). **Build tension at the scary spots**: a `tension` (and `pouls`) ambiance and a music `silence` while it builds, a held gesture with `"tension": true`, then a `choc` when the creature is finally seen; her sounds (`gemissement`, `hoquet`, `rire_aigu`, `coup_couteau`) whenever the text describes them, **2 to 5 gestures with their view**, and **a scene at each change of place** (see step 4a, "Interactivity").
 - `retournement`: describe the original's twist in a few words.
 - Full dressing as usual (step 5): layout, palette, fonts, background, original illustration, music.
 - `phraseFinale`: the very last sentence of the original, removed from the last block (so that it isn't repeated).
@@ -138,7 +138,7 @@ A good twist **changes the meaning of everything before it**: the reader wants t
 - **Music never loops**: the engine plays the music box as a short phrase now and then and the heartbeat in brief bursts; keep melodic layers sparse anyway (above).
 - **Events** (`evenement`) at key moments, placed **right after** the sentence that justifies them (a knock right after "something knocked", a `silence` on the moment everything tips over, a `noir` before the end). No gratuitous jump scares.
 - **Interactivity (mandatory)**: the reader must live the story, not just read it.
-  - **The environment follows the story** (`scene` blocks, SCHEMA.md §9a): **every time the place changes** (kitchen, shower, car, motel…), a scene changes the scenery (the illustration crossfades), the tint, the animated background and the **looping ambient sound** (`frigo` fridge, `douche` shower, `gouttes` drips, `voiture` car, `horloge` clock, `vent` wind, `climatiseur` air conditioner, `neon` neon buzz, `mouches` flies, `souffle` breathing). And when the creature appears in the place, a **variant of the scenery where you can see it** (slow fade so that it appears gently; `"fondu": 0` so that it disappears at once). 4 to 20 scenes per story. The decors are drawn once in `fond.decors` and named.
+  - **The environment follows the story** (`scene` blocks, SCHEMA.md §9a): **every time the place changes** (kitchen, shower, car, motel…), a scene changes the scenery (the illustration crossfades), the tint, the animated background and the **looping ambient sound** (`frigo` fridge, `douche` shower, `gouttes` drips, `voiture` car, `horloge` clock, `vent` wind, `soir` evening crickets, `climatiseur` air conditioner, `neon` neon buzz, `mouches` flies, `souffle` breathing, `tension` dread drone, `pouls` heartbeat). And when the creature appears in the place, a **variant of the scenery where you can see it** (slow fade so that it appears gently; `"fondu": 0` so that it disappears at once). 4 to 20 scenes per story. The decors are drawn once in `fond.decors` and named.
   - **Transitions** (`"transition"` on a scene, SCHEMA.md §9a): a change of place goes **through black** (default). A person **never dissolves** in or out: hard cut (`"coupe"`) to a decor where she **moves in**, and another where she **moves out** when she leaves (snaps back behind the corner, scuttles off, glides out the door, drops out of sight). A discovery can be a slow camera push-in. No text windows (gaps in the text): the owner doesn't want them.
   - **The scenery acts out the text** (SVG animations in the decors, SCHEMA.md §9a): what the sentence describes, the decor does, slowly: she pulls her head back out of the shower and her blurry shape backs away, her face slides out from behind the island, the lid closes on her, drool runs down the glass, her body trembles with delight, her hands won't keep still. Draw **exactly what the text says** (a mouth that "hangs open" is drawn wide open, not as a closed grin).
   - **2 to 5 gestures** (`geste` block, SCHEMA.md §9) at moments when the character hesitates: "Look under the door", "Turn your head", "Open the closet", "Turn around", "Open the photo". **A gesture must always SHOW something**: every gesture has a `vue` (a full-screen image of what the character sees, with an `entree` of `baisser` (lean down), `tourner` (turn the head), `ouvrir` (open), `zoom`, `photo` or `fondu` (fade), and a sound). A button that only lets the reading continue is useless: no gesture without a `vue`. `"mode": "maintenir"` (hold the finger down, 1.5 to 2.5 s) for gestures the reader dreads; `"toucher"` (tap) for the others. The gesture goes **just before** the reveal; the text that follows tells what the view has just shown.
@@ -230,8 +230,8 @@ W = avert.append
 MEPS = ['manuscrit', 'journal_intime', 'rapport', 'sms', 'transcription', 'forum', 'lettre', 'recit', 'terminal', 'coupure']
 EFFETS_FOND = ['pluie', 'neige', 'brouillard', 'poussiere', 'braises', 'statique', 'lucioles', 'cendres', 'etoiles', 'bulles', 'aucun']
 EFFETS_EV = ['glitch', 'noir', 'flash', 'tremblement', 'epier', 'notification', 'appel', 'aucun']
-SONS = ['chute', 'crac', 'garage', 'coups_garage', 'video_colis', 'coup', 'craquement', 'chuchotement', 'respiration', 'porte', 'silence', 'pas', 'grattement', 'coeur', 'statique', 'cloche', 'vibration', 'goutte', 'texto', 'mouches', 'aucun']
-AMBIANCES = ['frigo', 'douche', 'gouttes', 'voiture', 'horloge', 'vent', 'climatiseur', 'neon', 'mouches', 'souffle', 'aucune']
+SONS = ['chute', 'crac', 'garage', 'coups_garage', 'video_colis', 'gemissement', 'gemissement_loin', 'gemissement_bref', 'hoquet', 'rire_aigu', 'choc', 'choc_gemissement', 'choc_hoquet', 'montee', 'coup_couteau', 'coup', 'craquement', 'chuchotement', 'respiration', 'porte', 'silence', 'pas', 'grattement', 'coeur', 'statique', 'cloche', 'vibration', 'goutte', 'texto', 'mouches', 'aucun']
+AMBIANCES = ['frigo', 'douche', 'gouttes', 'voiture', 'horloge', 'vent', 'soir', 'climatiseur', 'neon', 'mouches', 'souffle', 'tension', 'pouls', 'aucune']
 ENTREES = ['fondu', 'zoom', 'tourner', 'baisser', 'ouvrir', 'photo']
 COUCHES = ['drone', 'pad', 'cloche', 'pulsation', 'bruit', 'boite_a_musique', 'cordes', 'choeur', 'piano']
 GAMMES = ['mineur', 'phrygien', 'locrien', 'chromatique', 'pentatonique_mineure', 'ton_par_ton', 'harmonique_mineure', 'dorien', 'diminuee', 'hongroise_mineure', 'phrygien_dominant', 'lydien', 'majeur']
@@ -415,7 +415,7 @@ for i, b in enumerate(blocs):
         if b.get('effet', 'aucun') not in EFFETS_EV: E(f'{ou}: invalid effet: {b.get("effet")}')
         if b.get('son', 'aucun') not in SONS: E(f'{ou}: invalid son: {b.get("son")}')
         if b.get('effet', 'aucun') == 'aucun' and b.get('son', 'aucun') == 'aucun': E(f'{ou}: event with neither effet nor son')
-        if 'duree' in b and not num(b['duree'], 100, 15000): E(f'{ou}: duree in milliseconds (100 to 15000)')
+        if 'duree' in b and not num(b['duree'], 100, 60000): E(f'{ou}: duree in milliseconds (100 to 60000)')
         if 'nombre' in b and not num(b['nombre'], 1, 12): E(f'{ou}: nombre between 1 and 12')
         if b.get('effet') == 'notification':
             msgs = b.get('messages')
@@ -432,7 +432,7 @@ for i, b in enumerate(blocs):
             if b['visage'] not in decors: E(f'{ou}: visage "{b["visage"]}" not found in fond.decors')
         if b.get('effet') == 'appel' and not (isinstance(b.get('titre'), str) and b['titre'].strip()): E(f'{ou}: appel without titre (the name of who is calling)')
 mots += len(brut(h.get('phraseFinale', '')).split())
-if not 3 <= nb_ev <= (14 if choisie else 8): E(f'{nb_ev} events (3 to {14 if choisie else 8} required)')
+if not 3 <= nb_ev <= (40 if choisie else 8): E(f'{nb_ev} events (3 to {40 if choisie else 8} required)')
 if nb_gestes < 2: E(f'{nb_gestes} gesture(s): at least 2 are required (interactivity)')
 elif nb_gestes > 6: W(f'{nb_gestes} gestures: that’s a lot (2 to 5 recommended)')
 if nb_scenes < 4: E(f'{nb_scenes} scene(s): at least 4 are required (the scenery follows the story, one place = one scene)')
@@ -563,7 +563,7 @@ Your **final reply** (the message the owner will read) contains, in this order:
 - [ ] No story after October 31, 2026.
 - [ ] The owner's instructions (revisions, instructions for the next stories) applied if they were meant for this story.
 - [ ] The layout serves the text (the document looks like the document); `document` filled in from what the original gives.
-- [ ] 3 to 14 events, well placed; 2 to 5 gestures, **each with its view**; a scene at each change of place (decor + ambiance); `epier` when it serves the story; **every** burst of texts as a `notification` with `"son": "texto"`; block styles used sparingly, no markup added to the author's text.
+- [ ] 3 to 40 events, well placed (tension builds at the scary spots, then a `choc`); 2 to 5 gestures, **each with its view**; a scene at each change of place (decor + ambiance); `epier` when it serves the story; **every** burst of texts as a `notification` with `"son": "texto"`; block styles used sparingly, no markup added to the author's text.
 - [ ] Everything you wrote yourself (gesture labels, `resume`, `format`…) in natural, clear, readable English.
 - [ ] Layout different from the previous story (except `recit`, which can come back); varied palette, fonts, background and music.
 - [ ] Text/surface contrast ≥ 7; fonts from the verified list.
