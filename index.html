@@ -1254,7 +1254,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
   display: block; width: 100%; margin: 34px auto 0; padding: 10px 0; text-align: center;
   font-size: .72rem; line-height: 1.6; opacity: .32; cursor: default;
 }
-#zone-code-dev { display: flex; gap: 8px; align-items: center; }
+#zone-code-dev { display: flex; gap: 8px; align-items: center; margin-top: 10px; }
 #zone-code-dev.cache { display: none; }
 #zone-code-dev input { margin-top: 0; flex: 1; text-align: center; letter-spacing: .3em; }
 #zone-code-dev button { width: 50px; min-height: 48px; border: 1px solid rgba(var(--encre-fond-rgb), .2); border-radius: 2px; }
@@ -1465,19 +1465,22 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
       <button class="btn-plein" id="btn-installer">Add to Home Screen</button>
     </div>
 
-    <!-- Bouton DEV caché : toucher 3 fois le numéro de version fait apparaître le champ de code -->
-    <button class="panneau-version" id="panneau-version" aria-label="Version"></button>
+    <!-- Bouton DEV, bien visible : il demande le code (BURGER), puis ouvre le mode DEV
+         (toucher 3 fois le numéro de version marche toujours aussi) -->
+    <h3 class="section-titre">Developer</h3>
+    <button class="btn-plein" id="btn-dev">DEV</button>
     <div id="zone-code-dev" class="cache">
-      <input type="text" id="champ-code-dev" placeholder="· · ·" autocapitalize="characters" autocomplete="off" spellcheck="false" aria-label="Code">
+      <input type="text" id="champ-code-dev" placeholder="Code" autocapitalize="characters" autocomplete="off" spellcheck="false" aria-label="Code">
       <button id="btn-valider-dev" aria-label="Submit">→</button>
     </div>
+    <button class="panneau-version" id="panneau-version" aria-label="Version"></button>
   </div>
 </section>
 
 <!-- ===== Panneau : Mode DEV ===== -->
-<section class="panneau" id="panneau-dev" aria-label="Mode DEV" aria-hidden="true">
+<section class="panneau" id="panneau-dev" aria-label="DEV mode" aria-hidden="true">
   <div class="panneau-entete">
-    <h2>Mode DEV</h2>
+    <h2>DEV mode</h2>
     <button class="btn-icone" data-fermer aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   </div>
   <div class="panneau-corps">
@@ -1554,7 +1557,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
    1. CONFIGURATION — les réglages faciles à modifier
    ===================================================================== */
 const CONFIG = {
-  version: '3.4',
+  version: '3.5',
   fuseau: 'America/Toronto',          // toutes les dates sont calculées à Toronto
   dossierHistoires: 'stories/',       // dossier des fichiers JSON
   cleSauvegarde: '3h12-sauvegarde-v1',// clé dans localStorage
@@ -6950,8 +6953,8 @@ const Dev = {
     // Liste de toutes les histoires, y compris celles qui ne sont pas encore sorties
     // (les lecteurs, eux, n'ont accès qu'à l'histoire de la nuit en cours)
     $('#dev-histoires').innerHTML = etat.index.liste.slice().reverse().map(e =>
-      `<li><button data-ouvrir-date="${e.date}" class="${e.date > sortie ? 'futur' : ''}"><span>N° ${e.numero} · ${echapper(texteBrut(e.titre))}</span><span>${e.date}${e.essai ? ' (test)' : e.date > sortie ? ' (upcoming)' : e.date < sortie ? ' (disparue)' : ' (cette nuit)'}</span></button></li>`).join('')
-      || '<li class="dev-vide">index.json vide ou illisible.</li>';
+      `<li><button data-ouvrir-date="${e.date}" class="${e.date > sortie ? 'futur' : ''}"><span>No. ${e.numero} · ${echapper(texteBrut(e.titre))}</span><span>${e.date}${e.essai ? ' (test)' : e.date > sortie ? ' (upcoming)' : e.date < sortie ? ' (past)' : ' (tonight)'}</span></button></li>`).join('')
+      || '<li class="dev-vide">index.json empty or unreadable.</li>';
     // Boîte à suggestions
     $('#dev-boite').value = S.dev.boiteSuggestions || '';
     $('#dev-boite-etat').textContent = CONFIG.boiteSuggestions
@@ -6971,7 +6974,7 @@ const Dev = {
     }
     $('#dev-date').value = S.dev.dateSimulee || Dates.maintenant().date;
     $('#dev-sauter').checked = S.dev.sauterEntree;
-    $('#dev-mep').innerHTML = Object.entries(MISES_EN_PAGE).map(([cle, m]) => `<option value="${cle}"${cle === etat.mep ? ' selected' : ''}>${m.nom}${etat.histoire && cle === etat.histoire.miseEnPage ? ' (the story’se)' : ''}</option>`).join('');
+    $('#dev-mep').innerHTML = Object.entries(MISES_EN_PAGE).map(([cle, m]) => `<option value="${cle}"${cle === etat.mep ? ' selected' : ''}>${m.nom}${etat.histoire && cle === etat.histoire.miseEnPage ? ' (the story’s own)' : ''}</option>`).join('');
     const effet = etat.histoire ? Fond.effet : 'aucun';
     $('#dev-fond').innerHTML = EFFETS_FOND.map(e => `<option value="${e}"${e === effet ? ' selected' : ''}>${e}</option>`).join('');
     $('#dev-intensite').value = Math.round(Fond.intensite * 100);
@@ -7311,6 +7314,13 @@ function installerEcouteurs() {
     if (e.target.id !== 'boite') return;
     e.preventDefault();
     Suggestions.soumettre();
+  });
+  // Le bouton DEV : le champ de code (déjà en mode DEV : le panneau directement)
+  $('#btn-dev').addEventListener('click', () => {
+    if (estDev()) { ouvrirPanneau('dev'); return; }
+    const zone = $('#zone-code-dev');
+    zone.classList.toggle('cache');
+    if (!zone.classList.contains('cache')) $('#champ-code-dev').focus();
   });
   // Accès caché au mode DEV : 3 touchers rapides sur le numéro de version
   let touchersVersion = 0, minuterieVersion;
