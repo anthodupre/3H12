@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<!--
+  UNHARVEST — a reverse-farming incremental.
+  Drain the life from everything that grows. Infect, wither, upgrade your plagues,
+  and starve the world until nothing is left.
+
+  One file: HTML + CSS + JavaScript, no dependencies, no server.
+  Built for iPhone Safari (add to home screen). Works in any modern browser.
+
+  Save: automatic every 15 s + Save button (More tab). Export/Import as text.
+  DEV: More tab → DEV → code BURGER → god mode and test tools.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0b0a08">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Unharvest">
+<meta name="format-detection" content="telephone=no">
+<title>Unharvest</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0a08'/%3E%3Cpath d='M32 54V22' stroke='%23d9a640' stroke-width='3'/%3E%3Cellipse cx='32' cy='18' rx='7' ry='11' fill='%23d9a640'/%3E%3Cpath d='M22 40c6-4 8-10 10-14M42 40c-6-4-8-10-10-14' stroke='%236a8f3a' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230b0a08'/%3E%3Cpath d='M32 54V22' stroke='%23d9a640' stroke-width='3'/%3E%3Cellipse cx='32' cy='18' rx='7' ry='11' fill='%23d9a640'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0a08; --paper:#15120e; --paper2:#1d1912; --ink:#e8dcc4; --dim:#9a8c74; --faint:#5e5444;
+  --gold:#d9a640; --gold2:#f0c86a; --rot:#8a4a22; --blood:#a8321f; --green:#6a8f3a; --spore:#9bd16a; --dread:#b36bd6;
+  --line:#2b251d; --st:env(safe-area-inset-top,0px); --sb:env(safe-area-inset-bottom,0px);
+  --ftitle:'Pirata One',Georgia,serif; --fbody:'IM Fell English',Georgia,'Times New Roman',serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;width:100%;height:100%;background:var(--bg);color:var(--ink);font-family:var(--fbody);
+  overflow:hidden;position:fixed;-webkit-user-select:none;user-select:none;-webkit-text-size-adjust:100%;overscroll-behavior:none;
+  touch-action:manipulation;}
+button{font-family:inherit;color:inherit;}
+#app{position:absolute;inset:0;display:flex;flex-direction:column;padding-top:var(--st);padding-bottom:var(--sb);width:100%;overflow:hidden;}
+
+/* ---------- header ---------- */
+#top{flex:0 0 auto;display:flex;align-items:flex-end;justify-content:space-between;padding:6px 12px 5px;border-bottom:1px solid var(--line);
+  background:linear-gradient(#141108,#0b0a08);}
+#top .l{min-width:0;}
+#rot{font-family:var(--ftitle);font-size:30px;line-height:1;color:var(--gold);letter-spacing:.5px;white-space:nowrap;}
+#rot small{font-family:var(--fbody);font-size:13px;color:var(--dim);margin-left:4px;letter-spacing:0;}
+#rps{font-size:12px;color:var(--dim);margin-top:3px;white-space:nowrap;}
+#top .r{text-align:right;font-size:13px;line-height:1.35;white-space:nowrap;}
+#top .r b{font-weight:normal;}
+#spores{color:var(--spore);} #dread{color:var(--dread);}
+#title{font-size:11px;color:var(--faint);font-style:italic;}
+#mute{position:absolute;left:50%;transform:translateX(-50%);top:calc(var(--st) + 6px);width:34px;height:34px;border-radius:50%;
+  border:1px solid var(--line);background:#120f0b;font-size:15px;line-height:32px;text-align:center;padding:0;color:var(--dim);}
+
+/* ---------- field ---------- */
+#fieldWrap{flex:0 0 auto;position:relative;border-bottom:1px solid var(--line);background:#000;}
+#fieldHead{position:absolute;left:0;right:0;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:5px 6px;
+  pointer-events:none;}
+#fieldHead button{pointer-events:auto;width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:rgba(10,8,6,.55);
+  color:var(--ink);font-size:18px;padding:0;line-height:34px;}
+#fieldHead button[disabled]{opacity:.18;}
+#fieldName{text-align:center;text-shadow:0 1px 3px #000,0 0 8px #000;}
+#fieldName .n{font-family:var(--ftitle);font-size:19px;line-height:1.05;color:#fff;}
+#fieldName .s{font-size:12px;color:#e8dcc4;opacity:.9;}
+#farmer{position:absolute;left:8px;right:8px;bottom:6px;z-index:2;pointer-events:none;display:flex;align-items:center;gap:8px;font-size:11.5px;color:#f1e8d4;
+  text-shadow:0 1px 2px #000,0 0 6px #000;}
+#farmer .bar{flex:1;height:5px;border-radius:3px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.15);overflow:hidden;}
+#farmer .bar i{display:block;height:100%;width:0%;background:linear-gradient(90deg,#8ab35a,#e2b23f,#c23a2a);transition:width .3s;}
+#farmer .dead{min-width:70px;text-align:right;}
+canvas#cv{display:block;width:100%;height:38vh;min-height:230px;max-height:360px;touch-action:none;}
+#flash{position:absolute;inset:0;pointer-events:none;background:#fff;opacity:0;}
+
+/* ---------- skill bar ---------- */
+#skillBar{flex:0 0 auto;display:flex;gap:6px;padding:7px 10px;border-bottom:1px solid var(--line);min-height:62px;align-items:center;overflow-x:auto;overflow-y:hidden;
+  -webkit-overflow-scrolling:touch;background:#0e0c09;}
+#skillBar::-webkit-scrollbar{display:none;}
+#skillBar .hint{font-size:12px;color:var(--faint);font-style:italic;padding:0 4px;}
+.sk{position:relative;flex:0 0 auto;width:52px;height:48px;border-radius:10px;border:1px solid #4a3d22;background:#1b160f;overflow:hidden;padding:0;}
+.sk .ic{font-size:22px;line-height:30px;display:block;}
+.sk .nm{font-size:9px;line-height:1;color:var(--dim);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 2px;}
+.sk .cd{position:absolute;left:0;right:0;bottom:0;height:100%;background:rgba(0,0,0,.72);transform-origin:bottom;}
+.sk .ct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;text-shadow:0 0 4px #000;}
+.sk.on{border-color:var(--gold);box-shadow:0 0 10px rgba(217,166,64,.35);}
+.sk.act{border-color:var(--blood);box-shadow:0 0 12px rgba(168,50,31,.6);}
+
+/* ---------- tabs ---------- */
+#tabs{flex:0 0 auto;display:flex;border-bottom:1px solid var(--line);background:#0e0c09;}
+#tabs button{flex:1;padding:9px 0 8px;border:0;background:none;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);position:relative;}
+#tabs button.on{color:var(--gold);}
+#tabs button.on:after{content:'';position:absolute;left:18%;right:18%;bottom:0;height:2px;background:var(--gold);}
+#tabs button .dot{position:absolute;top:6px;right:14%;width:6px;height:6px;border-radius:50%;background:var(--blood);display:none;}
+#tabs button.new .dot{display:block;}
+
+/* ---------- panel ---------- */
+#panel{flex:1 1 auto;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:10px 12px 28px;overscroll-behavior:contain;}
+h2{font-family:var(--ftitle);font-weight:normal;font-size:22px;margin:4px 0 8px;color:var(--gold2);letter-spacing:.5px;}
+h2 small{font-family:var(--fbody);font-size:12.5px;color:var(--dim);font-style:italic;letter-spacing:0;margin-left:8px;}
+p.lead{margin:0 0 10px;font-size:13.5px;color:var(--dim);line-height:1.45;font-style:italic;}
+.row{display:flex;gap:8px;align-items:center;}
+.buyN{display:flex;gap:4px;margin:0 0 10px;align-items:center;font-size:12px;color:var(--dim);}
+.buyN button{padding:5px 9px;border-radius:7px;border:1px solid var(--line);background:#120f0b;color:var(--dim);font-size:12px;}
+.buyN button.on{border-color:var(--gold);color:var(--gold);}
+.card{display:flex;gap:10px;padding:9px 10px;border:1px solid var(--line);border-radius:11px;background:var(--paper);margin-bottom:8px;align-items:center;}
+.card.lock{opacity:.5;}
+.card .icon{font-size:26px;width:36px;flex:0 0 36px;text-align:center;line-height:1;}
+.card .info{flex:1 1 auto;min-width:0;}
+.card .nm{font-size:15px;line-height:1.15;}
+.card .nm .lv{color:var(--gold);font-size:12.5px;margin-left:6px;}
+.card .ds{font-size:12px;color:var(--dim);line-height:1.35;margin-top:2px;}
+.card .st{font-size:12px;color:#c9b996;margin-top:3px;}
+.card .st b{color:var(--gold2);font-weight:normal;}
+.buy{flex:0 0 auto;min-width:86px;max-width:110px;padding:7px 6px;border-radius:9px;border:1px solid #5c4a26;background:#201a12;color:var(--gold);font-size:12.5px;line-height:1.3;text-align:center;}
+.buy b{display:block;font-weight:normal;font-size:14px;color:var(--gold2);}
+.buy.no{opacity:.4;}
+.buy.sp{border-color:#3f6a2a;color:var(--spore);} .buy.sp b{color:#c7ec9f;}
+.buy.dr{border-color:#6b3f8a;color:var(--dread);} .buy.dr b{color:#dcb6f2;}
+.buy.max{border-color:var(--line);color:var(--dim);}
+.btn{display:block;width:100%;padding:12px;border-radius:11px;border:1px solid #5c4a26;background:#201a12;color:var(--gold2);font-size:15px;margin:8px 0;}
+.btn.red{border-color:#7a2a1d;background:#2a120e;color:#f0a090;}
+.btn.gray{border-color:var(--line);color:var(--dim);background:#120f0b;}
+.btn.no{opacity:.4;}
+.small{font-size:12px;color:var(--dim);}
+.meter{height:7px;border-radius:4px;background:#1a1611;border:1px solid var(--line);overflow:hidden;margin:6px 0;}
+.meter i{display:block;height:100%;background:linear-gradient(90deg,#6d3b8f,#b36bd6);width:0%;}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;font-size:12.5px;margin:8px 0;}
+.stats span{color:var(--dim);} .stats b{font-weight:normal;color:var(--ink);}
+.omens{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px;}
+.omen{aspect-ratio:1;border:1px solid var(--line);border-radius:10px;background:var(--paper);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:22px;opacity:.28;padding:2px;}
+.omen.got{opacity:1;border-color:#6b5a2b;background:#1e1810;}
+.omen span{font-size:9px;color:var(--dim);text-align:center;line-height:1.1;margin-top:3px;max-width:100%;overflow:hidden;}
+.setrow{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);font-size:14.5px;}
+.setrow input[type=range]{width:46%;}
+.tog{width:52px;height:30px;border-radius:15px;border:1px solid var(--line);background:#1a1611;position:relative;padding:0;}
+.tog:after{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#5e5444;transition:left .15s,background .15s;}
+.tog.on{border-color:var(--gold);} .tog.on:after{left:25px;background:var(--gold);}
+textarea{width:100%;height:90px;background:#0e0c09;color:var(--ink);border:1px solid var(--line);border-radius:8px;font-family:monospace;font-size:11px;padding:6px;-webkit-user-select:text;user-select:text;}
+.sep{height:1px;background:var(--line);margin:14px 0;}
+.tag{display:inline-block;font-size:10.5px;padding:2px 6px;border-radius:5px;border:1px solid var(--line);color:var(--dim);margin-left:4px;vertical-align:middle;}
+.tag.im{border-color:#3d5a7a;color:#8fb6e0;}
+
+/* ---------- toasts / modal ---------- */
+#toasts{position:absolute;left:10px;right:10px;top:calc(var(--st) + 86px + 38vh - 120px);z-index:30;pointer-events:none;display:flex;flex-direction:column;gap:6px;align-items:center;}
+.toast{background:rgba(20,16,10,.92);border:1px solid #5c4a26;color:var(--gold2);padding:8px 14px;border-radius:9px;font-size:13.5px;max-width:92%;text-align:center;
+  box-shadow:0 4px 14px rgba(0,0,0,.6);animation:tin .25s ease-out;}
+.toast.sp{border-color:#3f6a2a;color:var(--spore);} .toast.om{border-color:#6b5a2b;color:#fff;} .toast.dr{border-color:#6b3f8a;color:#dcb6f2;}
+.toast.out{opacity:0;transition:opacity .5s;}
+@keyframes tin{from{transform:translateY(-8px);opacity:0}to{transform:none;opacity:1}}
+#modal{position:absolute;inset:0;z-index:40;background:rgba(0,0,0,.78);display:none;align-items:center;justify-content:center;padding:18px;}
+#modal.on{display:flex;}
+#modal .box{width:100%;max-width:420px;max-height:88%;overflow-y:auto;background:#15120e;border:1px solid #5c4a26;border-radius:14px;padding:16px 16px 12px;
+  box-shadow:0 10px 40px #000;-webkit-overflow-scrolling:touch;}
+#modal h3{font-family:var(--ftitle);font-weight:normal;font-size:26px;margin:0 0 8px;color:var(--gold2);}
+#modal p{font-size:14px;line-height:1.5;margin:0 0 10px;color:var(--ink);}
+#modal p.i{font-style:italic;color:var(--dim);}
+
+/* ---------- intro ---------- */
+#intro{position:absolute;inset:0;z-index:50;background:radial-gradient(ellipse at 50% 35%,#2a2110 0%,#0b0a08 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;}
+#intro h1{font-family:var(--ftitle);font-weight:normal;font-size:64px;margin:0;color:var(--gold);letter-spacing:1px;text-shadow:0 0 30px rgba(217,166,64,.3);}
+#intro p{font-style:italic;color:var(--dim);font-size:15px;max-width:300px;line-height:1.5;}
+#intro .tap{margin-top:24px;color:var(--ink);font-size:14px;letter-spacing:.12em;text-transform:uppercase;animation:pulse 2.4s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+#intro .wheat{font-size:46px;margin-bottom:6px;filter:sepia(.4);}
+</style>
+</head>
+<body>
+<div id="app">
+  <header id="top">
+    <div class="l">
+      <div id="rot">0<small>rot</small></div>
+      <div id="rps">0 rot/s</div>
+    </div>
+    <button id="mute" aria-label="Sound">♪</button>
+    <div class="r">
+      <div id="spores">🍄 0 <b>spores</b></div>
+      <div id="dread">👁 0 <b>dread</b></div>
+      <div id="title">A Whisper in the Wheat</div>
+    </div>
+  </header>
+
+  <section id="fieldWrap">
+    <canvas id="cv"></canvas>
+    <div id="flash"></div>
+    <div id="fieldHead">
+      <button id="prevLand">‹</button>
+      <div id="fieldName"><div class="n">Hollow Farm</div><div class="s">wheat</div></div>
+      <button id="nextLand">›</button>
+    </div>
+    <div id="farmer"><span id="farmerTxt">Farmer: asleep</span><div class="bar"><i id="vigBar"></i></div><span class="dead" id="deadTxt">0 / 30</span></div>
+  </section>
+
+  <div id="skillBar"><span class="hint">Skills appear here once you buy them with spores.</span></div>
+
+  <nav id="tabs">
+    <button data-tab="touch" class="on">Touch<i class="dot"></i></button>
+    <button data-tab="plagues">Plagues<i class="dot"></i></button>
+    <button data-tab="skills">Skills<i class="dot"></i></button>
+    <button data-tab="lands">Lands<i class="dot"></i></button>
+    <button data-tab="famine">Famine<i class="dot"></i></button>
+    <button data-tab="more">More<i class="dot"></i></button>
+  </nav>
+  <main id="panel"></main>
+
+  <div id="toasts"></div>
+  <div id="modal"><div class="box" id="modalBox"></div></div>
+
+  <div id="intro">
+    <div class="wheat">🌾</div>
+    <h1>Unharvest</h1>
+    <p>Something is wrong with the wheat tonight. It is you.</p>
+    <p>Drain the life from everything that grows. Infect the fields, raise your plagues, and wither the world until nothing is left.</p>
+    <div class="tap">Touch the field to begin</div>
+  </div>
+</div>
+<script>
+'use strict';
+/* =====================================================================
+   1. UTILITIES
+   ===================================================================== */
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const clamp=(v,a,b)=>v<a?a:v>b?b:v, lerp=(a,b,t)=>a+(b-a)*t, rnd=(a,b)=>a+Math.random()*(b-a), ri=n=>Math.floor(Math.random()*n);
+const SUF=['','K','M','B','T','Qa','Qi','Sx','Sp','Oc','No','Dc','Ud','Dd','Td','Qad','Qid'];
+function fmt(n){
+  if(n===undefined||n===null||isNaN(n)) return '0';
+  if(!isFinite(n)) return '∞';
+  if(n<0) return '-'+fmt(-n);
+  if(n<1000){ if(n<10&&n%1) return n.toFixed(1); return Math.floor(n).toString(); }
+  const e=Math.floor(Math.log10(n)/3);
+  if(e>=SUF.length) return n.toExponential(2).replace('e+','e');
+  const m=n/Math.pow(10,3*e);
+  return (m<10?m.toFixed(2):m<100?m.toFixed(1):Math.floor(m).toString())+SUF[e];
+}
+function fmtTime(s){ s=Math.max(0,Math.round(s)); if(s<60) return s+'s'; const m=Math.floor(s/60), h=Math.floor(m/60); if(h<1) return m+'m '+(s%60)+'s'; const d=Math.floor(h/24); if(d<1) return h+'h '+(m%60)+'m'; return d+'d '+(h%24)+'h'; }
+function pct(x){ return Math.round(x*100)+'%'; }
+function lerp3(a,b,t){ return [lerp(a[0],b[0],t),lerp(a[1],b[1],t),lerp(a[2],b[2],t)]; }
+function rgb(c,a){ return a===undefined?`rgb(${c[0]|0},${c[1]|0},${c[2]|0})`:`rgba(${c[0]|0},${c[1]|0},${c[2]|0},${a})`; }
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+/* cost of buying n levels starting at level L: base*g^L*(g^n-1)/(g-1) */
+function costN(base,g,L,n){ return base*Math.pow(g,L)*(Math.pow(g,n)-1)/(g-1); }
+function maxN(base,g,L,money){ const c0=base*Math.pow(g,L); if(money<c0) return 0; return Math.floor(Math.log(money*(g-1)/c0+1)/Math.log(g)); }
+
+/* =====================================================================
+   2. GAME DATA
+   ===================================================================== */
+const LANDS=[
+ {id:'hollow',  name:'Hollow Farm',     crop:'wheat',        cost:0,     cols:6,rows:5,value:1,    hp:1,  grow:20, replant:8,  spores:1, style:'stalk',immune:[],
+  desc:'A tired man, a tired field. Nobody will notice at first.'},
+ {id:'miller',  name:"Miller's Acre",   crop:'barley',       cost:250,   cols:7,rows:5,value:4,    hp:1.6,grow:25, replant:9,  spores:2, style:'stalk',immune:[],
+  desc:'The miller feeds the village. The village can learn to go without.'},
+ {id:'crowhill',name:'Crow Hill',       crop:'corn',         cost:3000,  cols:7,rows:6,value:15,   hp:2.5,grow:35, replant:12, spores:3, style:'cob',immune:[],
+  desc:'Tall and proud, right up until it isn\'t.'},
+ {id:'orchard', name:'Sorrow Orchard',  crop:'apple trees',  cost:25000, cols:5,rows:4,value:120,  hp:12, grow:70, replant:30, spores:5, style:'tree',immune:[],
+  desc:'Trees take years to grow. Watch them die in minutes.'},
+ {id:'paddy',   name:'Paddy of Sighs',  crop:'rice',         cost:2e5,   cols:8,rows:7,value:60,   hp:2,  grow:30, replant:10, spores:6, style:'stalk',immune:['drought'],
+  desc:'Flooded fields fear no drought. They should fear you.'},
+ {id:'vineyard',name:'The Vineyard',    crop:'grapes',       cost:1.5e6, cols:6,rows:5,value:600,  hp:8,  grow:60, replant:25, spores:8, style:'vine',immune:[],
+  desc:'Wine for the feast. There will be no feast.'},
+ {id:'glass',   name:'Glass Houses',    crop:'tomatoes',     cost:5e7,   cols:6,rows:6,value:1500, hp:4,  grow:25, replant:8,  spores:10,style:'bush',immune:['frost','drought','crows'],
+  desc:'Under glass, safe from frost, drought and crows. Not from you.'},
+ {id:'granary', name:'Granary Plains',  crop:'wheat',        cost:1e9,   cols:9,rows:8,value:3000, hp:3,  grow:30, replant:10, spores:12,style:'stalk',immune:[],
+  desc:'A sea of gold feeding three cities. Make it a sea of ash.'},
+ {id:'coast',   name:'Sunflower Coast', crop:'sunflowers',   cost:3e10,  cols:7,rows:6,value:20000,hp:6,  grow:45, replant:15, spores:15,style:'sun',immune:[],
+  desc:'They turn to follow the sun. Teach them to bow.'},
+ {id:'vault',   name:'The Seed Vault',  crop:'the last seeds',cost:1e12, cols:4,rows:4,value:1e6,  hp:100,grow:200,replant:120,spores:40,style:'vault',immune:['crows','frost','drought'],
+  desc:'Every seed left on earth, under ice and stone. The end of growing things.'},
+];
+const LAND_IX={}; LANDS.forEach((l,i)=>LAND_IX[l.id]=i);
+
+const PLAGUES=[
+ {id:'mildew', name:'Mildew',         icon:'🌫', cost:15,   g:1.16, base:0.05, desc:'A grey film on every leaf, in every field. Slow, patient, everywhere.',
+  stat:e=>`<b>${fmt(e*0.05)}</b> damage/s to every living plant`},
+ {id:'locusts',name:'Locusts',        icon:'🦗', cost:120,  g:1.17, base:0.6,  desc:'A swarm that picks one plant at a time and strips it to the stem.',
+  stat:e=>`<b>${fmt(e*0.6)}</b> damage/s to one plant per field`},
+ {id:'crows',  name:'Crows',          icon:'🐦', cost:900,  g:1.18, base:0.8,  desc:'They go for the ripest heads first. Clever birds.',
+  stat:e=>`<b>${fmt(e*0.8)}</b> damage/s to the ripest plant per field`},
+ {id:'rats',   name:'Rats',           icon:'🐀', cost:6000, g:1.19, base:0.4,  desc:'They gnaw the roots and eat the seed bags. The farmer replants in a panic.',
+  stat:e=>`<b>${fmt(e*0.4)}</b> damage/s to one plant per field · the farmer replants <b>+${Math.round(Math.min(60,4*rawLevel('rats')))}%</b> faster`},
+ {id:'drought',name:'Drought',        icon:'☀️', cost:4e4,  g:1.20, base:0.03, desc:'The sky forgets how to rain. Ripe plants wilt fastest, and the farmer hauls water all night.',
+  stat:e=>`<b>${fmt(e*0.03)}</b> damage/s × ripeness, every plant · growth <b>+${Math.round(Math.min(50,3*rawLevel('drought')))}%</b>`},
+ {id:'blight', name:'Blight',         icon:'🦠', cost:3e5,  g:1.21, base:0.1,  desc:'Death spreads. Each dead plant rots its four neighbours.',
+  stat:e=>`<b>${fmt(e*0.1)}</b> damage/s from each dead plant to each neighbour`},
+ {id:'frost',  name:'Black Frost',    icon:'❄️', cost:2.5e6,g:1.22, base:0.5,  desc:'Every half minute, a killing frost settles over every open field.',
+  stat:e=>`<b>${fmt(e*0.5)}</b> damage to every plant, every 30 s`},
+ {id:'rider',  name:'The Pale Rider', icon:'🐎', cost:5e7,  g:1.25, base:0.5,  desc:'Famine itself walks the rows. Every plague grows stronger in its shadow.',
+  stat:e=>`withers <b>${fmt(rawLevel('rider')*0.5)}</b> plants/s per field · all plagues <b>×${(1+0.1*rawLevel('rider')).toFixed(1)}</b>`},
+];
+const PLAGUE_IX={}; PLAGUES.forEach(p=>PLAGUE_IX[p.id]=p);
+
+const TOUCH=[
+ {id:'touch',  name:'Withering Touch', icon:'🖐', cost:10,   g:1.45,max:300,desc:'Your fingers rot what they touch. Harder, each time.',
+  stat:l=>`tap damage <b>${fmt(tapDmg())}</b>`},
+ {id:'hunger', name:'Greedy Hunger',   icon:'🩸', cost:60,   g:1.7, max:80, desc:'+15% rot from every drop of life you drain.',
+  stat:l=>`rot <b>+${l*15}%</b>`},
+ {id:'seeds',  name:'Restless Seeds',  icon:'🪱', cost:300,  g:1.9, max:20, desc:'The soil itches. Seeds come back 10% faster, so there is always something to kill.',
+  stat:l=>`replanting <b>+${l*10}%</b> faster`},
+ {id:'fertile',name:'Fertile Curse',   icon:'🌱', cost:500,  g:1.9, max:25, desc:'The fields grow 20% faster. Let them. Ripe plants are worth the most.',
+  stat:l=>`growth <b>+${l*20}%</b>`},
+ {id:'splash', name:'Spreading Touch', icon:'🫳', cost:2500, g:4,   max:4,  desc:'Each tap also bruises the four neighbouring plants for 25% damage.',
+  stat:l=>`splash <b>${l*25}%</b> to neighbours`},
+ {id:'nails',  name:'Iron Nails',      icon:'⚡', cost:8000, g:3,   max:10, desc:'5% chance per level that a tap tears ten times deeper.',
+  stat:l=>`<b>${l*5}%</b> chance of ×10`},
+ {id:'sporer', name:'Spore Lungs',     icon:'🍄', cost:20000,g:3.5, max:10, desc:'+1 spore every time a field collapses.',
+  stat:l=>`<b>+${l}</b> spores per collapse`},
+];
+const TOUCH_IX={}; TOUCH.forEach(t=>TOUCH_IX[t.id]=t);
+
+const SKILLS=[
+ {id:'wind',   name:'Black Wind',       icon:'🌬️', unlock:3,   max:10, up:l=>Math.ceil(4*Math.pow(1.8,l-1)),  cd:l=>45-2*(l-1),
+  desc:'A wind from nowhere. Every living plant in this field loses 30% of its life (+5% per level).',
+  stat:l=>`<b>${30+5*(l-1)}%</b> of max life · cooldown <b>${fmtTime(skillCd('wind',l))}</b>`},
+ {id:'frenzy', name:'Swarm Frenzy',     icon:'🦗', unlock:10,  max:10, up:l=>Math.ceil(8*Math.pow(1.8,l-1)),  cd:l=>120-5*(l-1), dur:l=>12+2*(l-1),
+  desc:'Every plague, in every field, works four times as hard for a while.',
+  stat:l=>`×4 plagues for <b>${12+2*(l-1)} s</b> · cooldown <b>${fmtTime(skillCd('frenzy',l))}</b>`},
+ {id:'eclipse',name:'Eclipse',          icon:'🌑', unlock:25,  max:10, up:l=>Math.ceil(15*Math.pow(1.8,l-1)), cd:l=>180-8*(l-1), dur:l=>20+3*(l-1),
+  desc:'The sun goes out. The farmers panic in the dark: they replant twice as fast, and rot is doubled while it lasts.',
+  stat:l=>`×2 replanting · ×2 rot for <b>${20+3*(l-1)} s</b> · cooldown <b>${fmtTime(skillCd('eclipse',l))}</b>`},
+ {id:'finger', name:'Finger of Famine', icon:'☝️', unlock:60,  max:10, up:l=>Math.ceil(30*Math.pow(1.8,l-1)), cd:l=>90-4*(l-1), charges:l=>10+3*(l-1),
+  desc:'Your next taps kill whatever they touch, whatever it is.',
+  stat:l=>`<b>${10+3*(l-1)}</b> killing taps · cooldown <b>${fmtTime(skillCd('finger',l))}</b>`},
+ {id:'ash',    name:'Harvest of Ash',   icon:'🔥', unlock:150, max:10, up:l=>Math.ceil(80*Math.pow(1.8,l-1)), cd:l=>600-30*(l-1),
+  desc:'This whole field dies at once. The collapse, the rot, the spores: all of it, now.',
+  stat:l=>`instant collapse · cooldown <b>${fmtTime(skillCd('ash',l))}</b>`},
+];
+const SKILL_IX={}; SKILLS.forEach(s=>SKILL_IX[s.id]=s);
+
+const ASPECTS=[
+ {id:'hunger', name:'Aspect of Hunger',        icon:'🩸', max:40, cost:l=>Math.ceil(Math.pow(1.6,l)),     desc:'+30% rot per level.',               stat:l=>`rot <b>+${l*30}%</b>`},
+ {id:'pest',   name:'Aspect of Pestilence',    icon:'🦠', max:40, cost:l=>Math.ceil(Math.pow(1.6,l)),     desc:'+30% plague damage per level.',     stat:l=>`plagues <b>+${l*30}%</b>`},
+ {id:'hand',   name:'Aspect of the Hand',      icon:'🖐', max:30, cost:l=>Math.ceil(2*Math.pow(1.7,l)),   desc:'+25% tap damage per level.',        stat:l=>`taps <b>+${l*25}%</b>`},
+ {id:'dust',   name:'Aspect of Dust',          icon:'🏜️', max:6,  cost:l=>Math.ceil(3*Math.pow(3,l)),     desc:'Begin every Famine with one more land already yours.', stat:l=>`start with <b>${1+l}</b> lands`},
+ {id:'silence',name:'Aspect of Silence',       icon:'🤫', max:4,  cost:l=>Math.ceil(4*Math.pow(2.5,l)),   desc:'A vigilant farmer weakens your plagues 25% less per level. At four, not at all.', stat:l=>`vigilance penalty <b>-${l*25}%</b>`},
+ {id:'night',  name:'Aspect of the Long Night',icon:'🌙', max:8,  cost:l=>Math.ceil(3*Math.pow(2,l)),     desc:'+2 hours of withering while you are away (base 4 h).', stat:l=>`offline <b>${4+2*l} h</b>`},
+ {id:'memory', name:'Aspect of Memory',        icon:'🧠', max:5,  cost:l=>Math.ceil(5*Math.pow(2.5,l)),   desc:'Plagues keep 15% of their levels through a Famine, per level.', stat:l=>`plagues keep <b>${l*15}%</b>`},
+ {id:'bloom',  name:'Aspect of Bloom',         icon:'🍄', max:10, cost:l=>Math.ceil(3*Math.pow(2,l)),     desc:'+1 spore from every collapse, and +10% spores, per level.', stat:l=>`<b>+${l}</b> spores, <b>+${l*10}%</b>`},
+ {id:'omen',   name:'Aspect of Omens',         icon:'👁', max:5,  cost:l=>Math.ceil(10*Math.pow(3,l)),    desc:'Skills cool down 10% faster per level.', stat:l=>`cooldowns <b>-${l*10}%</b>`},
+];
+const ASPECT_IX={}; ASPECTS.forEach(a=>ASPECT_IX[a.id]=a);
+
+const OMENS=[
+ {id:'k1',    icon:'🌾', name:'First Rot',          desc:'Wither one plant.',                      cond:()=>S.killsAll>=1},
+ {id:'k100',  icon:'🍂', name:'A Hundred Stalks',   desc:'Wither 100 plants.',                     cond:()=>S.killsAll>=100},
+ {id:'k10k',  icon:'🥀', name:'Ten Thousand',       desc:'Wither 10,000 plants.',                  cond:()=>S.killsAll>=1e4},
+ {id:'k1m',   icon:'💀', name:'A Million Mouths',   desc:'Wither 1,000,000 plants.',               cond:()=>S.killsAll>=1e6},
+ {id:'c1',    icon:'🏚️', name:'First Collapse',     desc:'Leave a field with nothing alive.',      cond:()=>S.collapsesAll>=1},
+ {id:'c25',   icon:'⚰️', name:'Twenty-five Graves', desc:'25 collapses.',                          cond:()=>S.collapsesAll>=25},
+ {id:'c250',  icon:'🪦', name:'A Field of Graves',  desc:'250 collapses.',                         cond:()=>S.collapsesAll>=250},
+ {id:'r1k',   icon:'🩸', name:'A Taste',            desc:'Earn 1K rot in total.',                  cond:()=>S.rotAll>=1e3},
+ {id:'r1m',   icon:'🫙', name:'A Million Rot',      desc:'Earn 1M rot in total.',                  cond:()=>S.rotAll>=1e6},
+ {id:'r1b',   icon:'🌋', name:'A Billion Rot',      desc:'Earn 1B rot in total.',                  cond:()=>S.rotAll>=1e9},
+ {id:'r1t',   icon:'🌑', name:'A Trillion Rot',     desc:'Earn 1T rot in total.',                  cond:()=>S.rotAll>=1e12},
+ {id:'t500',  icon:'👆', name:'Busy Fingers',       desc:'Tap 500 times.',                         cond:()=>S.taps>=500},
+ {id:'t5k',   icon:'🖐', name:'Calloused',          desc:'Tap 5,000 times.',                       cond:()=>S.taps>=5000},
+ {id:'pl8',   icon:'🐎', name:'Four Horsemen Short',desc:'Own every plague.',                      cond:()=>PLAGUES.every(p=>rawLevel(p.id)>=1)},
+ {id:'l3',    icon:'🗺️', name:'Spreading',          desc:'Own 3 lands.',                           cond:()=>landsOwned()>=3},
+ {id:'l6',    icon:'🧭', name:'Half the World',     desc:'Own 6 lands.',                           cond:()=>landsOwned()>=6},
+ {id:'l10',   icon:'🌍', name:'All of It',          desc:'Own every land.',                        cond:()=>landsOwned()>=LANDS.length},
+ {id:'f1',    icon:'🕯️', name:'The First Famine',   desc:'Declare a Famine.',                      cond:()=>S.famines>=1},
+ {id:'f5',    icon:'🔔', name:'Five Winters',       desc:'Declare 5 Famines.',                     cond:()=>S.famines>=5},
+ {id:'s1',    icon:'🌬️', name:'A Skill',            desc:'Learn a skill.',                         cond:()=>SKILLS.some(s=>(S.skills[s.id]||0)>=1)},
+ {id:'s5',    icon:'📜', name:'Every Skill',        desc:'Learn all five skills.',                 cond:()=>SKILLS.every(s=>(S.skills[s.id]||0)>=1)},
+ {id:'m5',    icon:'🧬', name:'Mutant',             desc:'Mutate a plague 5 times.',               cond:()=>PLAGUES.some(p=>(S.mut[p.id]||0)>=5)},
+ {id:'d100',  icon:'👁', name:'Dread Incarnate',    desc:'Hold 100 Dread at once.',                cond:()=>S.dread>=100},
+ {id:'vault', icon:'🧊', name:'Nothing Grows',      desc:'Collapse the Seed Vault.',               cond:()=>!!(S.lands.vault&&S.lands.vault.col>=1)},
+];
+const TITLES=[[0,'A Whisper in the Wheat'],[100,'Blight-Bringer'],[2000,'Lord of Locusts'],[25000,'Bane of Harvests'],[200000,'God of Famine'],[2e6,'The Pale Rider']];
+
+/* =====================================================================
+   3. STATE
+   ===================================================================== */
+const SAVE_KEY='unharvest.save.v1';
+let S=null;
+function newState(){
+  return {
+    v:1, rot:0, spores:0, dread:0, dreadTotal:0,
+    rotRun:0, rotAll:0, killsRun:0, killsAll:0, taps:0, collapsesAll:0, famines:0, played:0,
+    plagues:{}, mut:{}, touch:{}, skills:{}, aspects:{}, omens:{},
+    lands:{}, cur:0, frostT:30, cds:{}, fx:{frenzy:0,eclipse:0,finger:0},
+    lastTick:Date.now(), created:Date.now(), buyN:1, tab:'touch',
+    set:{sound:true,music:true,vol:0.6,particles:true}, dev:false, god:false, ended:false, seen:{}
+  };
+}
+function initLand(id,fresh){
+  const L=LANDS[LAND_IX[id]], n=L.cols*L.rows;
+  const F={u:true,g:[],hp:[],t:[],vig:0,col:0,des:0,loc:-1,rat:-1,rAcc:0,collapsed:false,kills:0,deadT:0};
+  for(let i=0;i<n;i++){ F.g.push(fresh?rnd(0.15,1):rnd(0.3,0.9)); F.hp.push(L.hp); F.t.push(-1); }
+  S.lands[id]=F; return F;
+}
+function landsOwned(){ return LANDS.filter(l=>S.lands[l.id]&&S.lands[l.id].u).length; }
+function ownedLands(){ return LANDS.filter(l=>S.lands[l.id]&&S.lands[l.id].u); }
+function curLand(){ return LANDS[S.cur]; }
+function curF(){ return S.lands[curLand().id]; }
+/* neighbours cache */
+const NB={};
+function nbrs(L){ if(NB[L.id]) return NB[L.id]; const a=[]; for(let r=0;r<L.rows;r++)for(let c=0;c<L.cols;c++){ const o=[]; if(c>0)o.push(r*L.cols+c-1); if(c<L.cols-1)o.push(r*L.cols+c+1); if(r>0)o.push((r-1)*L.cols+c); if(r<L.rows-1)o.push((r+1)*L.cols+c); a.push(o);} NB[L.id]=a; return a; }
+
+/* ---------- derived numbers ---------- */
+function rawLevel(id){ return S.plagues[id]||0; }
+function effLevel(id){ const l=rawLevel(id); if(!l) return 0; return l*Math.pow(2,Math.floor(l/25))*Math.pow(1.6,S.mut[id]||0); }
+function omenMult(){ return 1+0.02*Object.keys(S.omens).length; }
+function plagueMult(){ return (1+0.3*(S.aspects.pest||0))*(1+0.1*rawLevel('rider'))*(S.fx.frenzy>0?4:1)*omenMult()*(S.god?50:1); }
+function plagueLevels(){ let n=0,m=0; for(const p of PLAGUES){ n+=rawLevel(p.id); m+=S.mut[p.id]||0; } return (1+0.005*n)*(1+0.05*m); }
+function rotMult(F){ return (1+0.15*(S.touch.hunger||0))*(1+0.3*(S.aspects.hunger||0))*(1+0.02*S.dreadTotal)*omenMult()*plagueLevels()*(S.fx.eclipse>0?2:1)*(1+(F?F.des:0)); }
+function vigPenalty(F){ return 1-0.5*F.vig*(1-0.25*(S.aspects.silence||0)); }
+function landYield(L){ const F=S.lands[L.id]; const n=L.cols*L.rows; return n*L.value*rotMult(F)/(L.grow/growMult(L)+L.replant/replantMult(F||{vig:0})); }
+function tapDmg(){ const l=S.touch.touch||0; return 0.4*(1+0.6*l)*Math.pow(1.08,l)*(1+0.25*(S.aspects.hand||0))*omenMult(); }
+function growMult(L){ let m=1+0.2*(S.touch.fertile||0); if(rawLevel('drought')&&!L.immune.includes('drought')) m*=1+Math.min(0.5,0.03*rawLevel('drought')); return m; }
+function replantMult(F){ let m=1+0.1*(S.touch.seeds||0); m*=1+Math.min(0.6,0.04*rawLevel('rats')); return m*(1+F.vig)*(S.fx.eclipse>0?2:1); }
+function skillCd(id,l){ return Math.max(5,SKILL_IX[id].cd(l)*(1-0.1*(S.aspects.omen||0))); }
+function dreadGain(){ return Math.floor(Math.pow(S.rotRun/1e5,0.4)); }
+function titleFor(k){ let t=TITLES[0][1]; for(const [n,s] of TITLES) if(k>=n) t=s; return t; }
+function worldDecay(){ let d=0,n=0; for(const L of ownedLands()){ const F=S.lands[L.id]; for(let i=0;i<F.t.length;i++){ n++; if(F.t[i]>=0) d++; } } return n?d/n:0; }
+
+/* =====================================================================
+   4. SIMULATION
+   ===================================================================== */
+let rpsAcc=0, rps=0, rpsT=0, offlineMode=false;
+function addRot(v){ S.rot+=v; S.rotRun+=v; S.rotAll+=v; rpsAcc+=v; }
+function alive(F,i){ return F.t[i]<0; }
+/* Rot is drained as life leaves a plant: value × ripeness × (life taken / full life). Overkill is wasted. */
+function hurt(F,L,i,dmg,src){
+  if(F.t[i]>=0||dmg<=0) return 0;
+  const took=Math.min(dmg,F.hp[i]); const v=L.value*(0.25+0.75*F.g[i])*rotMult(F)*(took/L.hp);
+  addRot(v); F.hp[i]-=took; if(F.hp[i]<=1e-9) die(F,L,i,src); return v;
+}
+function kill(F,L,i,src){ if(F.t[i]>=0) return 0; return hurt(F,L,i,F.hp[i]+1,src); }
+function die(F,L,i,src){
+  F.t[i]=L.replant; F.hp[i]=0; F.kills++; S.killsRun++; S.killsAll++;
+  F.vig=Math.min(1,F.vig+0.004*(S.god?0:1));
+  if(F.loc===i) F.loc=-1; if(F.rat===i) F.rat=-1;
+  if(!offlineMode && F===curF()) fxDeath(i,src);
+}
+function pickLiving(F){ const n=F.t.length; let s=ri(n); for(let k=0;k<n;k++){ const i=(s+k)%n; if(F.t[i]<0) return i; } return -1; }
+function ripest(F){ let b=-1,bg=-1; for(let i=0;i<F.t.length;i++) if(F.t[i]<0&&F.g[i]>bg){bg=F.g[i];b=i;} return b; }
+function tick(dt){
+  S.played+=dt;
+  for(const k in S.fx) if(k!=='finger') S.fx[k]=Math.max(0,S.fx[k]-dt);
+  for(const k in S.cds) S.cds[k]=Math.max(0,S.cds[k]-dt);
+  const pm=plagueMult();
+  const mild=effLevel('mildew')*0.05, loc=effLevel('locusts')*0.6, crow=effLevel('crows')*0.8, rat=effLevel('rats')*0.4,
+        dro=effLevel('drought')*0.03, bli=effLevel('blight')*0.1, fro=effLevel('frost')*0.5, rid=rawLevel('rider')*0.5;
+  let wave=false;
+  if(rawLevel('frost')){ S.frostT-=dt; if(S.frostT<=0){ S.frostT=30; wave=true; if(!offlineMode) fxFrost(); } }
+  for(const L of ownedLands()){
+    const F=S.lands[L.id], n=F.t.length, NBR=nbrs(L);
+    const gm=growMult(L)/L.grow, rm=replantMult(F);
+    for(let i=0;i<n;i++){
+      if(F.t[i]>=0){ F.t[i]-=dt*rm; if(F.t[i]<=0){ F.t[i]=-1; F.g[i]=0; F.hp[i]=L.hp; } }
+      else if(F.g[i]<1){ F.g[i]=Math.min(1,F.g[i]+dt*gm); }
+    }
+    const pmF=pm*vigPenalty(F)*dt;
+    if(mild>0){ const d=mild*pmF; for(let i=0;i<n;i++) hurt(F,L,i,d,'mildew'); }
+    if(dro>0&&!L.immune.includes('drought')){ const d=dro*pmF; for(let i=0;i<n;i++) if(F.t[i]<0) hurt(F,L,i,d*F.g[i],'drought'); }
+    if(loc>0){ if(F.loc<0||F.t[F.loc]>=0) F.loc=pickLiving(F); if(F.loc>=0) hurt(F,L,F.loc,loc*pmF,'locusts'); }
+    if(crow>0&&!L.immune.includes('crows')){ const i=ripest(F); if(i>=0){ F.crow=i; hurt(F,L,i,crow*pmF,'crows'); } }
+    if(rat>0){ if(F.rat<0||F.t[F.rat]>=0) F.rat=pickLiving(F); if(F.rat>=0) hurt(F,L,F.rat,rat*pmF,'rats'); }
+    if(bli>0){ const d=bli*pmF; for(let i=0;i<n;i++) if(F.t[i]>=0){ const o=NBR[i]; for(let k=0;k<o.length;k++) hurt(F,L,o[k],d,'blight'); } }
+    if(wave&&fro>0&&!L.immune.includes('frost')){ const d=fro*pm*vigPenalty(F); for(let i=0;i<n;i++) hurt(F,L,i,d,'frost'); }
+    if(rid>0){ F.rAcc+=rid*dt; let guard=0; while(F.rAcc>=1&&guard++<200){ F.rAcc-=1; const i=pickLiving(F); if(i<0){F.rAcc=0;break;} kill(F,L,i,'rider'); } }
+    F.vig=Math.max(0,F.vig-dt*0.012);
+    /* collapse: the field dies to the last stalk (once per recovery), or is held nearly dead for 30 s straight */
+    let aliveN=0; for(let i=0;i<n;i++) if(F.t[i]<0) aliveN++;
+    if(aliveN===0&&!F.collapsed){ F.collapsed=true; F.deadT=0; collapse(F,L,false); }
+    else if(aliveN>=n*0.5) F.collapsed=false;
+    if(aliveN<=n*0.1){ F.deadT=(F.deadT||0)+dt; if(F.deadT>=45){ F.deadT-=45; collapse(F,L,true); } } else F.deadT=0;
+  }
+  rpsT+=dt; if(rpsT>=1){ rps=rps*0.6+(rpsAcc/rpsT)*0.4; rpsAcc=0; rpsT=0; }
+}
+let lastColFx=-1e9;
+function collapse(F,L,held){
+  F.col++; F.des=Math.min(1,F.des+0.02); S.collapsesAll++;
+  const sp=Math.max(1,Math.round((L.spores+(S.touch.sporer||0)+(S.aspects.bloom||0))*(1+0.1*(S.aspects.bloom||0))*(held?0.25:1)));
+  S.spores+=sp; if(!held) F.vig=1;
+  if(!offlineMode){ const now=S.played; if(F===curF()||now-lastColFx>8){ lastColFx=now; toast(`${L.name} ${held?'held dead':'collapsed'}: +${sp} spores`,'sp'); AU.play('collapse'); } if(F===curF()&&!held) flash(0.35,'#c8c0a8'); if(S.collapsesAll===1) markNew('skills'); }
+  if(L.id==='vault'&&!S.ended){ S.ended=true; if(!offlineMode) setTimeout(showEnding,600); }
+  checkOmens();
+}
+
+/* ---------- tapping ---------- */
+function tapPlant(i){
+  const L=curLand(), F=curF();
+  S.taps++;
+  if(F.t[i]>=0){ fxPuff(i); return; }
+  let dmg=tapDmg(); let crit=false;
+  if((S.touch.nails||0)>0&&Math.random()<0.05*S.touch.nails){ dmg*=10; crit=true; }
+  if(S.fx.finger>0){ dmg=1e300; S.fx.finger--; }
+  if(S.god) dmg=1e300;
+  AU.play(crit?'crit':'tap');
+  fxTap(i,crit);
+  let v=hurt(F,L,i,dmg,'tap');
+  const sp=S.touch.splash||0;
+  if(sp>0){ const o=nbrs(L)[i]; for(const j of o) v+=hurt(F,L,j,dmg*0.25*sp,'splash'); }
+  if(v>0) fxFloat(i,v);
+  checkOmensSoon();
+}
+
+/* ---------- buying ---------- */
+function quote(kind,id){
+  /* returns {n, cost, can, maxed, cur} for the current buy amount */
+  if(kind==='plague'||kind==='touch'){
+    const D=kind==='plague'?PLAGUE_IX[id]:TOUCH_IX[id]; const L=kind==='plague'?rawLevel(id):(S.touch[id]||0);
+    const cap=D.max||Infinity; if(L>=cap) return {n:0,cost:0,can:false,maxed:true};
+    let n=S.buyN==='max'?Math.max(1,maxN(D.cost,D.g,L,S.rot)):S.buyN; n=Math.min(n,cap-L);
+    const cost=costN(D.cost,D.g,L,n); return {n,cost,can:S.god||S.rot>=cost,maxed:false,cur:'rot'};
+  }
+  if(kind==='mut'){ const m=S.mut[id]||0; if(m>=8) return {n:0,cost:0,can:false,maxed:true}; const cost=Math.ceil(5*Math.pow(2.2,m)); return {n:1,cost,can:S.god||S.spores>=cost,maxed:false,cur:'spores'}; }
+  if(kind==='skill'){ const D=SKILL_IX[id], l=S.skills[id]||0; if(l>=D.max) return {n:0,cost:0,can:false,maxed:true}; const cost=l?D.up(l):D.unlock; return {n:1,cost,can:S.god||S.spores>=cost,maxed:false,cur:'spores'}; }
+  if(kind==='aspect'){ const D=ASPECT_IX[id], l=S.aspects[id]||0; if(l>=D.max) return {n:0,cost:0,can:false,maxed:true}; const cost=D.cost(l); return {n:1,cost,can:S.god||S.dread>=cost,maxed:false,cur:'dread'}; }
+  if(kind==='land'){ const L=LANDS[LAND_IX[id]]; if(S.lands[id]&&S.lands[id].u) return {n:0,cost:0,can:false,maxed:true}; return {n:1,cost:L.cost,can:S.god||S.rot>=L.cost,maxed:false,cur:'rot'}; }
+  return {n:0,cost:0,can:false,maxed:true};
+}
+function pay(cur,c){ if(S.god) return; if(cur==='rot') S.rot-=c; else if(cur==='spores') S.spores-=c; else if(cur==='dread') S.dread-=c; }
+function buy(kind,id){
+  const q=quote(kind,id); if(q.maxed||!q.can) return false;
+  pay(q.cur,q.cost);
+  if(kind==='plague'){ S.plagues[id]=rawLevel(id)+q.n; }
+  else if(kind==='touch'){ S.touch[id]=(S.touch[id]||0)+q.n; }
+  else if(kind==='mut'){ S.mut[id]=(S.mut[id]||0)+1; }
+  else if(kind==='skill'){ S.skills[id]=(S.skills[id]||0)+1; renderSkillBar(); }
+  else if(kind==='aspect'){ S.aspects[id]=(S.aspects[id]||0)+1; }
+  else if(kind==='land'){ initLand(id,false); S.cur=LAND_IX[id]; toast(`${LANDS[LAND_IX[id]].name} is yours.`); AU.play('land'); landChanged(); }
+  AU.play('buy'); checkOmens(); return true;
+}
+
+/* ---------- skills ---------- */
+function useSkill(id){
+  const l=S.skills[id]||0; if(!l) return; if((S.cds[id]||0)>0) return;
+  const L=curLand(), F=curF(), D=SKILL_IX[id];
+  if(id==='wind'){ const d=L.hp*(0.3+0.05*(l-1)); for(let i=0;i<F.t.length;i++) hurt(F,L,i,d,'wind'); fxWind(); }
+  else if(id==='frenzy'){ S.fx.frenzy=D.dur(l); }
+  else if(id==='eclipse'){ S.fx.eclipse=D.dur(l); }
+  else if(id==='finger'){ S.fx.finger=D.charges(l); }
+  else if(id==='ash'){ for(let i=0;i<F.t.length;i++) kill(F,L,i,'ash'); flash(0.5,'#ff6a2a'); }
+  S.cds[id]=skillCd(id,l); AU.play('skill'); renderSkillBar();
+}
+
+/* ---------- prestige ---------- */
+function declareFamine(){
+  const d=dreadGain()*(S.ended?2:1); if(d<1) return;
+  S.dread+=d; S.dreadTotal+=d; S.famines++;
+  const keep=0.15*(S.aspects.memory||0);
+  for(const p of PLAGUES) S.plagues[p.id]=Math.floor(rawLevel(p.id)*keep);
+  S.rot=0; S.spores=0; S.rotRun=0; S.killsRun=0; S.touch={}; S.cds={}; S.fx={frenzy:0,eclipse:0,finger:0}; S.frostT=30; S.ended=false;
+  S.lands={}; const n=1+(S.aspects.dust||0); for(let i=0;i<Math.min(n,LANDS.length);i++) initLand(LANDS[i].id,true);
+  S.cur=0; landChanged(); renderSkillBar(); checkOmens(); AU.play('famine');
+  toast(`Famine declared. +${d} Dread.`,'dr'); flash(0.8,'#000');
+}
+
+/* ---------- omens ---------- */
+let omenDirty=false;
+function checkOmensSoon(){ omenDirty=true; }
+function checkOmens(){
+  for(const o of OMENS){ if(!S.omens[o.id]&&o.cond()){ S.omens[o.id]=1; if(!offlineMode){ toast(`${o.icon} Omen: ${o.name}`,'om'); AU.play('omen'); markNew('more'); } } }
+  omenDirty=false;
+}
+
+/* =====================================================================
+   5. RENDERING (canvas)
+   ===================================================================== */
+const CV=$('#cv'), CX=CV.getContext('2d');
+let W=0,H=0,DPR=1,pos=[],layoutKey='',HOR=0,unitH=0,unitW=0;
+let parts=[], floats=[], flashA=0, flashC='#fff', frostA=0, windT=0, tms=0;
+let locusts=[], crowsA=[], ratsA=[];
+function resize(){
+  const r=CV.getBoundingClientRect(); DPR=Math.min(2,window.devicePixelRatio||1);
+  W=Math.max(1,r.width); H=Math.max(1,r.height); CV.width=Math.round(W*DPR); CV.height=Math.round(H*DPR); CX.setTransform(DPR,0,0,DPR,0,0); layoutKey='';
+}
+function layout(L){
+  const key=L.id+'|'+W+'x'+H; if(key===layoutKey) return; layoutKey=key; pos=[];
+  HOR=H*0.26; const rows=L.rows, cols=L.cols;
+  for(let r=0;r<rows;r++){ const t=(r+0.5)/rows; const y=HOR+(H-HOR)*(0.14+0.84*Math.pow(t,1.15)); const s=lerp(0.52,1,t); const fw=lerp(W*0.74,W*1.02,t);
+    for(let c=0;c<cols;c++){ const x=W/2+((c+0.5)/cols-0.5)*fw; pos.push({x,y,s}); } }
+  unitH=Math.min((H-HOR)/rows*1.45, 64); unitW=Math.min(W/cols*0.62, 44);
+  locusts=[]; crowsA=[]; ratsA=[];
+}
+function plantAt(x,y){
+  const L=curLand(); let best=-1,bd=1e9;
+  for(let i=0;i<pos.length;i++){ const p=pos[i]; const cy=p.y-unitH*p.s*0.45; const dx=(x-p.x)/(unitW*p.s*0.9+10), dy=(y-cy)/(unitH*p.s*0.75+10); const d=dx*dx+dy*dy; if(d<bd){bd=d;best=i;} }
+  return bd<=1.3?best:-1;
+}
+const RIPE={wheat:[222,176,66],barley:[214,172,82],corn:[236,196,74],'apple trees':[72,122,52],rice:[205,192,112],grapes:[112,52,122],tomatoes:[88,138,54],sunflowers:[240,200,40],'the last seeds':[120,230,140]};
+const SPROUT=[96,150,60], BROWN=[108,74,38], BLACK=[26,21,17];
+function tint(c,h){ const t=1-h; let r=lerp3(c,BROWN,Math.min(1,t*1.35)); if(t>0.6) r=lerp3(r,BLACK,(t-0.6)/0.4); return r; }
+function skyColor(d){ /* d = world decay */
+  const a=[118,168,218], b=[196,128,70], c=[58,40,44];
+  const top=d<0.5?lerp3(a,b,d*2):lerp3(b,c,(d-0.5)*2);
+  const hz=d<0.5?lerp3([205,214,200],[224,170,110],d*2):lerp3([224,170,110],[92,58,50],(d-0.5)*2);
+  return [top,hz];
+}
+function draw(){
+  const L=curLand(), F=curF(); layout(L);
+  const n=F.t.length; let deadN=0; for(let i=0;i<n;i++) if(F.t[i]>=0) deadN++;
+  const fieldDead=deadN/n, wd=worldDecay(), ecl=S.fx.eclipse>0;
+  /* sky */
+  const [top,hz]=skyColor(wd);
+  let g=CX.createLinearGradient(0,0,0,HOR); g.addColorStop(0,rgb(ecl?lerp3(top,[10,8,14],0.85):top)); g.addColorStop(1,rgb(ecl?lerp3(hz,[30,20,30],0.8):hz));
+  CX.fillStyle=g; CX.fillRect(0,0,W,HOR+2);
+  /* sun / eclipse */
+  const sx=W*0.78, sy=HOR*0.42, sr=HOR*0.22;
+  if(ecl){ CX.fillStyle='rgba(255,230,200,.35)'; CX.beginPath(); CX.arc(sx,sy,sr*1.25,0,7); CX.fill(); CX.fillStyle='#07060a'; CX.beginPath(); CX.arc(sx,sy,sr,0,7); CX.fill(); }
+  else { const sc=lerp3([255,246,215],[220,90,60],wd); CX.fillStyle=rgb(sc,0.9); CX.beginPath(); CX.arc(sx,sy,sr*(1+0.3*wd),0,7); CX.fill(); CX.fillStyle=rgb(sc,0.18); CX.beginPath(); CX.arc(sx,sy,sr*1.8,0,7); CX.fill(); }
+  /* clouds */
+  CX.fillStyle=ecl?'rgba(40,30,40,.5)':`rgba(${255-wd*120|0},${250-wd*150|0},${245-wd*160|0},.55)`;
+  for(let k=0;k<3;k++){ const cx=((tms*0.004*(1+k*0.3)+k*160)%(W+160))-80, cy=HOR*(0.18+k*0.17); CX.beginPath(); CX.ellipse(cx,cy,34+k*8,8+k*2,0,0,7); CX.ellipse(cx+22,cy-5,22,9,0,0,7); CX.fill(); }
+  /* distant hills + farm silhouettes */
+  const hill=lerp3([86,122,70],[70,52,44],wd); CX.fillStyle=rgb(hill);
+  CX.beginPath(); CX.moveTo(0,HOR); CX.quadraticCurveTo(W*0.25,HOR-18,W*0.5,HOR-4); CX.quadraticCurveTo(W*0.75,HOR-22,W,HOR-6); CX.lineTo(W,HOR+3); CX.lineTo(0,HOR+3); CX.fill();
+  drawFarm(W*0.14,HOR+1,wd);
+  if(rawLevel('rider')) drawRider(W*0.9,HOR+1);
+  /* ground */
+  const gTop=lerp3([96,116,56],[88,78,66],fieldDead), gBot=lerp3([60,46,28],[44,38,34],fieldDead);
+  g=CX.createLinearGradient(0,HOR,0,H); g.addColorStop(0,rgb(gTop)); g.addColorStop(1,rgb(gBot)); CX.fillStyle=g; CX.fillRect(0,HOR,W,H-HOR);
+  if(L.id==='paddy'){ CX.fillStyle='rgba(120,160,190,.22)'; CX.fillRect(0,HOR+8,W,H-HOR-8); }
+  if(L.id==='glass'){ CX.strokeStyle='rgba(200,230,255,.25)'; CX.lineWidth=1; for(let k=1;k<6;k++){ CX.beginPath(); CX.moveTo(W*k/6,HOR-20); CX.lineTo(W*k/6,H); CX.stroke(); } CX.fillStyle='rgba(170,210,240,.08)'; CX.fillRect(0,HOR-20,W,H); }
+  if(L.id==='vault'){ CX.fillStyle='rgba(150,190,220,.12)'; CX.fillRect(0,HOR,W,H-HOR); }
+  /* furrows */
+  CX.strokeStyle='rgba(0,0,0,.13)'; CX.lineWidth=1;
+  for(let r=0;r<L.rows;r++){ const p=pos[r*L.cols]; CX.beginPath(); CX.moveTo(0,p.y+3); CX.lineTo(W,p.y+3); CX.stroke(); }
+  if(rawLevel('drought')&&!L.immune.includes('drought')){ CX.strokeStyle='rgba(60,40,20,.35)'; for(let k=0;k<7;k++){ CX.beginPath(); CX.moveTo(W*(k+0.5)/7,H); CX.lineTo(W*(k+0.5)/7+14,H*0.7); CX.lineTo(W*(k+0.5)/7+4,HOR+30); CX.stroke(); } }
+  /* plants, back to front */
+  for(let i=0;i<n;i++) drawPlant(L,F,i,pos[i]);
+  /* critters */
+  drawCritters(L,F);
+  /* overlays */
+  const mil=rawLevel('mildew'); if(mil){ CX.fillStyle=`rgba(190,195,180,${Math.min(0.22,0.02+mil*0.004)})`; CX.fillRect(0,HOR*0.6,W,H); }
+  if(rawLevel('drought')&&!L.immune.includes('drought')){ CX.fillStyle='rgba(230,170,60,.08)'; CX.fillRect(0,0,W,H); }
+  if(S.fx.frenzy>0){ CX.fillStyle=`rgba(160,40,20,${0.08+0.05*Math.sin(tms/90)})`; CX.fillRect(0,0,W,H); }
+  if(frostA>0){ CX.fillStyle=`rgba(220,240,255,${frostA})`; CX.fillRect(0,0,W,H); frostA=Math.max(0,frostA-0.012); }
+  if(windT>0){ CX.strokeStyle=`rgba(230,225,210,${windT*0.5})`; CX.lineWidth=1.5; for(let k=0;k<8;k++){ const y=HOR+(H-HOR)*(k+0.5)/8, o=((1-windT)*W*2+k*60)%(W+200)-100; CX.beginPath(); CX.moveTo(o,y); CX.quadraticCurveTo(o+40,y-6,o+90,y); CX.stroke(); } windT=Math.max(0,windT-0.02); }
+  /* particles */
+  drawParts();
+  if(flashA>0){ CX.fillStyle=flashC; CX.globalAlpha=flashA; CX.fillRect(0,0,W,H); CX.globalAlpha=1; flashA=Math.max(0,flashA-0.03); }
+  /* vignette */
+  g=CX.createRadialGradient(W/2,H*0.5,H*0.35,W/2,H*0.5,H*0.95); g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(1,`rgba(0,0,0,${0.35+0.3*wd})`); CX.fillStyle=g; CX.fillRect(0,0,W,H);
+}
+function drawFarm(x,y,wd){
+  const c=lerp3([110,60,40],[40,30,28],wd); CX.fillStyle=rgb(c);
+  CX.fillRect(x-14,y-16,28,16); CX.beginPath(); CX.moveTo(x-17,y-16); CX.lineTo(x,y-28); CX.lineTo(x+17,y-16); CX.fill();
+  CX.fillStyle=rgb(lerp3([150,110,70],[50,38,34],wd)); CX.fillRect(x+18,y-11,14,11); CX.beginPath(); CX.moveTo(x+16,y-11); CX.lineTo(x+25,y-19); CX.lineTo(x+34,y-11); CX.fill();
+  /* farmer */
+  const F=curF(), v=F.vig, fx=x+44, fy=y-1; CX.strokeStyle='#1a1410'; CX.lineWidth=1.6; CX.fillStyle='#1a1410';
+  if(v<0.15){ CX.beginPath(); CX.moveTo(fx-6,fy-2); CX.lineTo(fx+6,fy-2); CX.stroke(); CX.beginPath(); CX.arc(fx+8,fy-2,2.2,0,7); CX.fill(); }
+  else { const wob=v>0.6?Math.sin(tms/60)*4:0; CX.beginPath(); CX.moveTo(fx,fy); CX.lineTo(fx,fy-9); CX.stroke(); CX.beginPath(); CX.arc(fx,fy-11,2.2,0,7); CX.fill();
+    CX.beginPath(); CX.moveTo(fx-5,fy-(v>0.4?12:6)+wob); CX.lineTo(fx,fy-8); CX.lineTo(fx+5,fy-(v>0.4?12:6)-wob); CX.stroke(); CX.beginPath(); CX.moveTo(fx-3,fy+1); CX.lineTo(fx,fy-3); CX.lineTo(fx+3,fy+1); CX.stroke(); }
+}
+function drawRider(x,y){
+  const sw=Math.sin(tms/400)*1.5; CX.fillStyle='#120e10'; CX.strokeStyle='#120e10'; CX.lineWidth=2;
+  CX.beginPath(); CX.ellipse(x,y-9+sw*0.3,13,5,0,0,7); CX.fill();
+  CX.beginPath(); CX.moveTo(x-10,y-6); CX.lineTo(x-11,y); CX.moveTo(x-4,y-6); CX.lineTo(x-5,y); CX.moveTo(x+4,y-6); CX.lineTo(x+5,y); CX.moveTo(x+10,y-6); CX.lineTo(x+11,y); CX.stroke();
+  CX.beginPath(); CX.moveTo(x+12,y-11); CX.lineTo(x+17,y-17); CX.lineTo(x+15,y-10); CX.stroke();
+  CX.beginPath(); CX.moveTo(x-2,y-12); CX.lineTo(x-4,y-26+sw); CX.lineTo(x+3,y-26+sw); CX.lineTo(x+3,y-12); CX.fill();
+  CX.beginPath(); CX.arc(x,y-28+sw,2.6,0,7); CX.fill();
+  CX.beginPath(); CX.moveTo(x+3,y-22+sw); CX.lineTo(x+14,y-30+sw); CX.stroke();
+  CX.fillStyle='rgba(60,20,20,.25)'; CX.beginPath(); CX.ellipse(x,y-14,26,20,0,0,7); CX.fill();
+}
+function drawPlant(L,F,i,p){
+  const s=p.s, x=p.x, y=p.y, ph=unitH*s, pw=unitW*s, dead=F.t[i]>=0, g=F.g[i];
+  if(dead){
+    CX.fillStyle='rgba(40,34,28,.85)'; CX.beginPath(); CX.ellipse(x,y+1,pw*0.4,3*s,0,0,7); CX.fill();
+    CX.strokeStyle='#1c1813'; CX.lineWidth=1.5*s; CX.beginPath(); CX.moveTo(x,y); CX.lineTo(x+1*s,y-ph*0.18); CX.stroke();
+    CX.fillStyle='rgba(120,112,100,.5)'; CX.beginPath(); CX.ellipse(x-2*s,y,pw*0.25,2*s,0,0,7); CX.fill();
+    const k=1-F.t[i]/L.replant; /* sprouting back */
+    if(k>0.45){ const sh=(k-0.45)/0.55*9*s; CX.strokeStyle='#8cc45a'; CX.lineWidth=1.4*s; CX.beginPath(); CX.moveTo(x+3*s,y); CX.lineTo(x+3*s,y-sh); CX.moveTo(x+3*s,y-sh*0.6); CX.lineTo(x+3*s+2.5*s,y-sh*0.8); CX.stroke(); }
+    return;
+  }
+  const h=clamp(F.hp[i]/L.hp,0,1);
+  const ripe=RIPE[L.crop]||RIPE.wheat; const head=tint(lerp3(SPROUT,ripe,g),h); const stem=tint(lerp3([70,118,40],[150,138,56],g),h);
+  const hl=0.25+0.75*g; /* height factor by growth */
+  CX.lineWidth=Math.max(1,1.8*s);
+  switch(L.style){
+    case 'stalk':{ const top=y-ph*hl; CX.strokeStyle=rgb(stem); CX.beginPath(); CX.moveTo(x,y); CX.lineTo(x,top+ph*0.12); CX.stroke();
+      CX.beginPath(); CX.moveTo(x,y-ph*hl*0.45); CX.quadraticCurveTo(x-pw*0.35,y-ph*hl*0.55,x-pw*0.45,y-ph*hl*0.85); CX.moveTo(x,y-ph*hl*0.35); CX.quadraticCurveTo(x+pw*0.3,y-ph*hl*0.45,x+pw*0.4,y-ph*hl*0.7); CX.stroke();
+      if(g>0.3){ CX.fillStyle=rgb(head); CX.beginPath(); CX.ellipse(x,top+ph*0.1,pw*0.17*(0.5+g*0.5),ph*0.16*g,0,0,7); CX.fill(); } break; }
+    case 'cob':{ const top=y-ph*hl*1.1; CX.strokeStyle=rgb(stem); CX.lineWidth=Math.max(1.2,2.6*s); CX.beginPath(); CX.moveTo(x,y); CX.lineTo(x,top); CX.stroke();
+      CX.lineWidth=Math.max(1,1.6*s); CX.beginPath(); CX.moveTo(x,y-ph*hl*0.4); CX.quadraticCurveTo(x-pw*0.4,y-ph*hl*0.4,x-pw*0.55,y-ph*hl*0.9); CX.moveTo(x,y-ph*hl*0.6); CX.quadraticCurveTo(x+pw*0.4,y-ph*hl*0.6,x+pw*0.5,y-ph*hl*1.05); CX.stroke();
+      if(g>0.5){ CX.fillStyle=rgb(head); CX.beginPath(); CX.ellipse(x+pw*0.22,y-ph*hl*0.55,pw*0.13,ph*0.14,0.3,0,7); CX.fill(); } break; }
+    case 'tree':{ const tr=tint([96,64,34],h); CX.fillStyle=rgb(tr); CX.fillRect(x-pw*0.08,y-ph*0.5*hl-2,pw*0.16,ph*0.5*hl+2);
+      CX.fillStyle=rgb(head); const cr=pw*0.45*(0.4+0.6*g); CX.beginPath(); CX.arc(x,y-ph*0.5*hl-cr*0.7,cr,0,7); CX.arc(x-cr*0.6,y-ph*0.5*hl-cr*0.3,cr*0.7,0,7); CX.arc(x+cr*0.6,y-ph*0.5*hl-cr*0.3,cr*0.7,0,7); CX.fill();
+      if(g>0.6&&h>0.3){ CX.fillStyle=rgb(tint([200,40,40],h)); for(let k=0;k<3;k++){ CX.beginPath(); CX.arc(x+(k-1)*cr*0.5,y-ph*0.5*hl-cr*0.6+(k%2)*cr*0.4,2.2*s,0,7); CX.fill(); } } break; }
+    case 'vine':{ CX.strokeStyle='#5a4a3a'; CX.lineWidth=Math.max(1,2*s); CX.beginPath(); CX.moveTo(x,y); CX.lineTo(x,y-ph*0.9); CX.moveTo(x-pw*0.5,y-ph*0.65); CX.lineTo(x+pw*0.5,y-ph*0.65); CX.stroke();
+      CX.fillStyle=rgb(head); for(let k=0;k<3;k++){ CX.beginPath(); CX.ellipse(x+(k-1)*pw*0.35,y-ph*0.65-(k%2?6:0)*s,pw*0.22*(0.3+0.7*g),ph*0.12*(0.3+0.7*g),0,0,7); CX.fill(); }
+      if(g>0.5){ CX.fillStyle=rgb(tint([120,50,130],h)); CX.beginPath(); CX.arc(x-3*s,y-ph*0.5,2.5*s,0,7); CX.arc(x+3*s,y-ph*0.5,2.5*s,0,7); CX.arc(x,y-ph*0.42,2.5*s,0,7); CX.fill(); } break; }
+    case 'bush':{ CX.fillStyle=rgb(head); const r=pw*0.42*(0.35+0.65*g); CX.beginPath(); CX.arc(x,y-r*0.8,r,0,7); CX.arc(x-r*0.7,y-r*0.5,r*0.7,0,7); CX.arc(x+r*0.7,y-r*0.5,r*0.7,0,7); CX.fill();
+      if(g>0.55){ CX.fillStyle=rgb(tint([205,50,38],h)); CX.beginPath(); CX.arc(x-r*0.4,y-r*0.7,2.6*s,0,7); CX.arc(x+r*0.45,y-r*0.9,2.6*s,0,7); CX.arc(x,y-r*1.2,2.3*s,0,7); CX.fill(); } break; }
+    case 'sun':{ const top=y-ph*hl; CX.strokeStyle=rgb(stem); CX.lineWidth=Math.max(1.2,2.4*s); CX.beginPath(); CX.moveTo(x,y); CX.lineTo(x,top); CX.stroke();
+      CX.beginPath(); CX.moveTo(x,y-ph*hl*0.4); CX.quadraticCurveTo(x-pw*0.3,y-ph*hl*0.5,x-pw*0.4,y-ph*hl*0.4); CX.stroke();
+      const r=pw*0.36*(0.3+0.7*g); const droop=(1-h)*r*0.8; CX.fillStyle=rgb(head); CX.beginPath(); CX.arc(x,top+droop,r,0,7); CX.fill(); CX.fillStyle=rgb(tint([90,50,20],h)); CX.beginPath(); CX.arc(x,top+droop,r*0.5,0,7); CX.fill(); break; }
+    case 'vault':{ CX.fillStyle='#4a5560'; CX.fillRect(x-pw*0.6,y-6*s,pw*1.2,6*s); CX.fillStyle='#2b333a'; CX.fillRect(x-pw*0.6,y-8*s,pw*1.2,2*s);
+      const r=pw*0.3*(0.4+0.6*g); const glow=h*(0.3+0.7*g); CX.fillStyle=`rgba(120,240,150,${glow*0.35})`; CX.beginPath(); CX.arc(x,y-10*s-r,r*2.2,0,7); CX.fill();
+      CX.fillStyle=rgb(head); CX.beginPath(); CX.ellipse(x,y-10*s-r,r*0.8,r*1.2,0,0,7); CX.fill(); break; }
+  }
+}
+function drawCritters(L,F){
+  const lv=rawLevel('locusts');
+  if(lv&&F.loc>=0){ const want=Math.min(36,3+lv); while(locusts.length<want) locusts.push({x:rnd(0,W),y:rnd(0,H),vx:0,vy:0}); const p=pos[F.loc], tx=p.x, ty=p.y-unitH*p.s*0.5;
+    CX.fillStyle='rgba(30,26,16,.85)'; for(const l of locusts){ l.vx+=(tx+rnd(-20,20)-l.x)*0.02+rnd(-1,1); l.vy+=(ty+rnd(-16,16)-l.y)*0.02+rnd(-1,1); l.vx*=0.85; l.vy*=0.85; l.x+=l.vx; l.y+=l.vy; CX.fillRect(l.x,l.y,2.2,1.4); } }
+  else locusts.length=0;
+  const cv=rawLevel('crows');
+  if(cv&&!L.immune.includes('crows')&&F.crow>=0&&F.crow<pos.length){ const want=1+Math.min(3,Math.floor(cv/10)); while(crowsA.length<want) crowsA.push({a:rnd(0,6.28),r:rnd(18,40),sp:rnd(0.02,0.04)}); const p=pos[F.crow];
+    CX.strokeStyle='#120f0c'; CX.lineWidth=1.8; for(const c of crowsA){ c.a+=c.sp; const cx=p.x+Math.cos(c.a)*c.r, cy=p.y-unitH*p.s-14+Math.sin(c.a*2)*6; const w=Math.sin(tms/70+c.a)*4; CX.beginPath(); CX.moveTo(cx-7,cy+w); CX.lineTo(cx,cy); CX.lineTo(cx+7,cy+w); CX.stroke(); } }
+  else crowsA.length=0;
+  const rv=rawLevel('rats');
+  if(rv&&F.rat>=0){ const want=1+Math.min(3,Math.floor(rv/12)); while(ratsA.length<want) ratsA.push({o:rnd(0,6.28)}); const p=pos[F.rat];
+    CX.fillStyle='#2a2320'; for(const r of ratsA){ r.o+=0.05; const rx=p.x+Math.sin(r.o)*unitW*p.s*0.8, ry=p.y+1; CX.beginPath(); CX.ellipse(rx,ry,5*p.s,2.5*p.s,0,0,7); CX.fill(); CX.beginPath(); CX.moveTo(rx+(Math.cos(r.o)>0?-5:5)*p.s,ry); CX.lineTo(rx+(Math.cos(r.o)>0?-11:11)*p.s,ry-2); CX.stroke(); } }
+  else ratsA.length=0;
+}
+/* ---------- particles / effects ---------- */
+function fxTap(i,crit){ if(!S.set.particles||!pos[i]) return; const p=pos[i]; for(let k=0;k<(crit?14:5);k++) parts.push({x:p.x+rnd(-6,6),y:p.y-unitH*p.s*0.5,vx:rnd(-0.6,0.6),vy:rnd(-1.6,-0.4),l:1,c:crit?'255,200,80':'40,30,20',r:rnd(1.2,2.4)}); }
+function fxDeath(i,src){ if(!pos[i]) return; if(S.set.particles){ const p=pos[i]; for(let k=0;k<9;k++) parts.push({x:p.x+rnd(-8,8),y:p.y-rnd(0,unitH*p.s*0.6),vx:rnd(-0.8,0.8),vy:rnd(-1.2,-0.2),l:1,c:'120,110,95',r:rnd(1,2.6)}); }
+  if(src==='tap'||src==='splash') AU.play('kill'); else if(Math.random()<0.15) AU.play('kill'); }
+function fxFloat(i,v){ if(!pos[i]) return; const p=pos[i]; if(floats.length>12) floats.shift(); floats.push({x:p.x+rnd(-4,4),y:p.y-unitH*p.s*0.75,t:'+'+fmt(v),l:1}); }
+function fxPuff(i){ if(!S.set.particles||!pos[i]) return; const p=pos[i]; for(let k=0;k<3;k++) parts.push({x:p.x+rnd(-4,4),y:p.y,vx:rnd(-0.4,0.4),vy:rnd(-0.6,-0.2),l:0.6,c:'120,110,95',r:1.6}); }
+function fxFrost(){ frostA=0.45; AU.play('frost'); }
+function fxWind(){ windT=1; }
+function flash(a,c){ flashA=a; flashC=c; }
+function drawParts(){
+  for(let k=parts.length-1;k>=0;k--){ const p=parts[k]; p.x+=p.vx; p.y+=p.vy; p.vy-=0.01; p.l-=0.025; if(p.l<=0){parts.splice(k,1);continue;} CX.fillStyle=`rgba(${p.c},${p.l})`; CX.fillRect(p.x,p.y,p.r,p.r); }
+  CX.font='bold 12px '+'Georgia,serif'; CX.textAlign='center';
+  for(let k=floats.length-1;k>=0;k--){ const f=floats[k]; f.y-=0.7; f.l-=0.02; if(f.l<=0){floats.splice(k,1);continue;} CX.fillStyle=`rgba(0,0,0,${f.l*0.8})`; CX.fillText(f.t,f.x+1,f.y+1); CX.fillStyle=`rgba(240,200,110,${f.l})`; CX.fillText(f.t,f.x,f.y); }
+  if(parts.length>400) parts.splice(0,parts.length-400);
+}
+
+/* =====================================================================
+   6. UI
+   ===================================================================== */
+const PANEL=$('#panel');
+function toast(msg,cls){ const t=document.createElement('div'); t.className='toast'+(cls?' '+cls:''); t.textContent=msg; const box=$('#toasts'); box.appendChild(t); while(box.children.length>4) box.removeChild(box.firstChild); setTimeout(()=>t.classList.add('out'),2600); setTimeout(()=>t.remove(),3200); }
+function markNew(tab){ if(S.tab===tab) return; const b=$(`#tabs button[data-tab="${tab}"]`); if(b) b.classList.add('new'); }
+function modal(html,buttons){
+  const box=$('#modalBox'); box.innerHTML=html+(buttons||[]).map((b,i)=>`<button class="btn ${b.cls||''}" data-mb="${i}">${b.t}</button>`).join('');
+  $('#modal').classList.add('on');
+  box.querySelectorAll('[data-mb]').forEach(el=>el.onclick=()=>{ const b=buttons[+el.dataset.mb]; $('#modal').classList.remove('on'); if(b.f) b.f(); });
+}
+function closeModal(){ $('#modal').classList.remove('on'); }
+function buyBtn(kind,id,cls){ return `<button class="buy ${cls||''}" data-act="buy" data-kind="${kind}" data-id="${id}"></button>`; }
+function fillBuy(el){
+  const q=quote(el.dataset.kind,el.dataset.id); let html;
+  if(q.maxed){ html='MAX'; el.classList.add('max'); el.classList.remove('no'); }
+  else { const cur=q.cur==='rot'?'rot':q.cur==='spores'?'🍄':'👁'; html=(el.dataset.kind==='land'?'Claim':el.dataset.kind==='skill'&&!(S.skills[el.dataset.id]||0)?'Learn':'+'+q.n)+`<b>${fmt(q.cost)} ${cur}</b>`; el.classList.toggle('no',!q.can); el.classList.remove('max'); }
+  if(el.innerHTML!==html) el.innerHTML=html;
+}
+function refreshBuys(){ PANEL.querySelectorAll('.buy[data-act="buy"]').forEach(fillBuy); }
+function buyNHtml(){ return `<div class="buyN">Buy ${[1,10,25,'max'].map(n=>`<button data-act="buyn" data-n="${n}" class="${S.buyN===n?'on':''}">${n==='max'?'MAX':'×'+n}</button>`).join('')}</div>`; }
+
+function panelTouch(){
+  return `<h2>Your Touch<small>what your own hands can do</small></h2>
+  <p class="lead">Tap a plant to drain its life into rot. Ripe plants give the most. The land only has so much life in it: make it grow back faster, make every drop worth more, and take more land.</p>
+  ${buyNHtml()}`+TOUCH.map(t=>{ const l=S.touch[t.id]||0; return `<div class="card"><div class="icon">${t.icon}</div><div class="info"><div class="nm">${t.name}<span class="lv">${l?'Lv '+l:''}</span></div><div class="ds">${t.desc}</div><div class="st">${t.stat(l)}</div></div>${buyBtn('touch',t.id)}</div>`; }).join('');
+}
+function panelPlagues(){
+  const vis=PLAGUES.filter((p,i)=>i===0||rawLevel(PLAGUES[i-1].id)>0||rawLevel(p.id)>0||S.rotAll>=p.cost*0.5||S.god);
+  let h=`<h2>Plagues<small>they work while you rest</small></h2>
+  <p class="lead">Plagues drain every land you own, all at once, even while you are away. Every plague level also adds <b>+0.5% rot</b>, and every 25 levels a plague doubles. Mutations (spores) multiply its damage ×1.6 and add +5% rot.</p>${buyNHtml()}`;
+  h+=vis.map(p=>{ const l=rawLevel(p.id), e=effLevel(p.id), m=S.mut[p.id]||0;
+    return `<div class="card"><div class="icon">${p.icon}</div><div class="info"><div class="nm">${p.name}<span class="lv">${l?'Lv '+l:''}${m?` <span class="tag">mut ${m}</span>`:''}</span></div><div class="ds">${p.desc}</div><div class="st">${l?p.stat(e):'<i>not yet loosed</i>'}</div></div>${buyBtn('plague',p.id)}</div>`+
+    (l>=10?`<div class="card" style="margin-top:-4px;padding-top:6px;padding-bottom:6px"><div class="icon" style="font-size:18px">🧬</div><div class="info"><div class="ds">Mutate ${p.name}: ×1.6 effect per mutation (${m}/8).</div></div>${buyBtn('mut',p.id,'sp')}</div>`:''); }).join('');
+  if(vis.length<PLAGUES.length) h+=`<p class="small" style="text-align:center;font-style:italic">Something worse waits further down the road…</p>`;
+  return h;
+}
+function panelSkills(){
+  return `<h2>Skills<small>paid in spores</small></h2>
+  <p class="lead">A field that dies to the last stalk <b style="color:var(--spore)">collapses</b> and gives spores. A field held nearly dead gives a quarter of them again every 45 seconds. Spores buy skills: powers you use yourself, from the bar above.</p>`+
+  SKILLS.map(s=>{ const l=S.skills[s.id]||0; return `<div class="card ${l?'':'lock'}"><div class="icon">${s.icon}</div><div class="info"><div class="nm">${s.name}<span class="lv">${l?'Lv '+l:''}</span></div><div class="ds">${s.desc}</div><div class="st">${s.stat(Math.max(1,l))}</div></div>${buyBtn('skill',s.id,'sp')}</div>`; }).join('');
+}
+function panelLands(){
+  let h=`<h2>Lands<small>the world, piece by piece</small></h2><p class="lead">Each land is a field of its own. Your plagues work on all of them at once. Tap the arrows above the field to move between them.</p>`;
+  let nextLocked=true;
+  h+=LANDS.map((L,i)=>{ const F=S.lands[L.id], own=F&&F.u; const im=L.immune.length?L.immune.map(x=>`<span class="tag im">no ${x}</span>`).join(''):'';
+    if(own) return `<div class="card ${i===S.cur?'':''}" style="${i===S.cur?'border-color:#6b5a2b':''}"><div class="icon">${{stalk:'🌾',cob:'🌽',tree:'🍎',vine:'🍇',bush:'🍅',sun:'🌻',vault:'🧊'}[L.style]}</div><div class="info"><div class="nm">${L.name}${im}</div><div class="ds">${L.crop} · ${L.cols*L.rows} plants · worth <b>${fmt(L.value)}</b> each</div><div class="st">up to <b>${fmt(landYield(L))}</b> rot/s · collapses <b>${F.col}</b> · despair <b>+${Math.round(F.des*100)}%</b> · withered <b>${fmt(F.kills)}</b></div></div><button class="buy ${i===S.cur?'max':''}" data-act="goto" data-i="${i}">${i===S.cur?'Here':'Go'}</button></div>`;
+    if(nextLocked){ nextLocked=false; return `<div class="card"><div class="icon">🔒</div><div class="info"><div class="nm">${L.name}${im}</div><div class="ds">${L.desc}</div><div class="st">${L.crop} · ${L.cols*L.rows} plants · worth <b>${fmt(L.value)}</b> each · ${L.spores} spores per collapse</div></div>${buyBtn('land',L.id)}</div>`; }
+    return `<div class="card lock"><div class="icon">🔒</div><div class="info"><div class="nm">${L.name}</div><div class="ds">${fmt(L.cost)} rot. Later.</div></div></div>`; }).join('');
+  return h;
+}
+function panelFamine(){
+  const g=dreadGain(), need=1e5, p=clamp(S.rotRun/need,0,1), can=g>=1&&S.rotRun>=need;
+  let h=`<h2>Famine<small>begin again, hungrier</small></h2>
+  <p class="lead">When you have taken enough, declare a <b style="color:var(--dread)">Famine</b>. The world starves and resets: rot, spores, lands, your touch and your plagues. You keep your skills, your mutations, your omens, and you gain <b style="color:var(--dread)">Dread</b>. Each Dread ever earned gives +2% rot, forever, and Dread buys Aspects.</p>
+  <div class="stats"><span>Rot this famine</span><b>${fmt(S.rotRun)}</b><span>Dread if declared now</span><b style="color:var(--dread)">${fmt(g*(S.ended?2:1))}${S.ended?' (×2: the world is dead)':''}</b><span>Dread held</span><b style="color:var(--dread)">${fmt(S.dread)}</b><span>Dread ever earned</span><b>${fmt(S.dreadTotal)} (+${Math.round(S.dreadTotal*2)}% rot)</b><span>Famines declared</span><b>${S.famines}</b></div>
+  ${can?'':`<div class="small">First Famine needs ${fmt(need)} rot in one run.</div><div class="meter"><i style="width:${p*100}%"></i></div>`}
+  <button class="btn ${can?'red':'gray no'}" data-act="famine">Declare Famine${can?` (+${fmt(g*(S.ended?2:1))} Dread)`:''}</button>
+  <div class="sep"></div><h2>Aspects<small>bought with Dread, kept forever</small></h2>`;
+  h+=ASPECTS.map(a=>{ const l=S.aspects[a.id]||0; return `<div class="card"><div class="icon">${a.icon}</div><div class="info"><div class="nm">${a.name}<span class="lv">${l?'Lv '+l:''}</span></div><div class="ds">${a.desc}</div><div class="st">${a.stat(l)}</div></div>${buyBtn('aspect',a.id,'dr')}</div>`; }).join('');
+  return h;
+}
+function panelMore(){
+  const got=Object.keys(S.omens).length;
+  let h=`<h2>Omens<small>${got}/${OMENS.length} · each +2% rot</small></h2><div class="omens">`+OMENS.map(o=>`<div class="omen ${S.omens[o.id]?'got':''}" title="${esc(o.desc)}">${o.icon}<span>${S.omens[o.id]?o.name:'?'}</span></div>`).join('')+`</div>
+  <div class="sep"></div><h2>Ledger</h2><div class="stats">
+   <span>Title</span><b>${titleFor(S.killsAll)}</b><span>Plants withered</span><b>${fmt(S.killsAll)}</b><span>Rot, all time</span><b>${fmt(S.rotAll)}</b><span>Collapses</span><b>${fmt(S.collapsesAll)}</b><span>Taps</span><b>${fmt(S.taps)}</b><span>World withered</span><b>${pct(worldDecay())}</b><span>Time played</span><b>${fmtTime(S.played)}</b><span>Famines</span><b>${S.famines}</b></div>
+  <div class="sep"></div><h2>Settings</h2>
+  <div class="setrow"><span>Sound</span><button class="tog ${S.set.sound?'on':''}" data-act="set" data-k="sound"></button></div>
+  <div class="setrow"><span>Music</span><button class="tog ${S.set.music?'on':''}" data-act="set" data-k="music"></button></div>
+  <div class="setrow"><span>Volume</span><input type="range" min="0" max="1" step="0.05" value="${S.set.vol}" data-act="vol"></div>
+  <div class="setrow"><span>Particles</span><button class="tog ${S.set.particles?'on':''}" data-act="set" data-k="particles"></button></div>
+  <div class="sep"></div><h2>Save</h2>
+  <p class="small">The game saves itself every 15 seconds and whenever you leave. Away from the game, your plagues keep working for up to ${4+2*(S.aspects.night||0)} hours.</p>
+  <button class="btn" data-act="save">Save now</button>
+  <button class="btn gray" data-act="export">Export save (text)</button>
+  <button class="btn gray" data-act="import">Import save</button>
+  <button class="btn red" data-act="reset">Wipe everything</button>
+  <div class="sep"></div>
+  <button class="btn gray" data-act="dev">DEV</button>
+  ${S.dev?devHtml():''}
+  <p class="small" style="text-align:center;margin-top:18px;font-style:italic">Unharvest · a reverse-farming incremental · v1.0</p>`;
+  return h;
+}
+function devHtml(){
+  return `<div class="card" style="display:block"><div class="nm" style="color:var(--blood)">DEV mode</div>
+  <div class="setrow"><span>God mode (free buys, instant kills, ×50 plagues, no vigilance)</span><button class="tog ${S.god?'on':''}" data-act="god"></button></div>
+  <div class="row" style="flex-wrap:wrap;margin-top:8px">
+   <button class="buy" data-act="give" data-w="rot">+rot ×10</button><button class="buy" data-act="give" data-w="rot1m">+1M rot</button><button class="buy sp" data-act="give" data-w="sp">+100 spores</button><button class="buy dr" data-act="give" data-w="dr">+100 dread</button>
+   <button class="buy" data-act="give" data-w="warp">warp +1 h</button><button class="buy" data-act="give" data-w="lands">all lands</button><button class="buy" data-act="give" data-w="cd">clear cooldowns</button><button class="buy" data-act="give" data-w="kill">kill field</button>
+  </div><button class="btn gray" data-act="devoff">Leave DEV mode</button></div>`;
+}
+function renderPanel(){
+  const t=S.tab; $$('#tabs button').forEach(b=>{ b.classList.toggle('on',b.dataset.tab===t); if(b.dataset.tab===t) b.classList.remove('new'); });
+  PANEL.innerHTML={touch:panelTouch,plagues:panelPlagues,skills:panelSkills,lands:panelLands,famine:panelFamine,more:panelMore}[t]();
+  refreshBuys();
+}
+function renderSkillBar(){
+  const bar=$('#skillBar'); const owned=SKILLS.filter(s=>(S.skills[s.id]||0)>0);
+  if(!owned.length){ bar.innerHTML='<span class="hint">Skills appear here once you buy them with spores (collapse a field).</span>'; return; }
+  bar.innerHTML=owned.map(s=>`<button class="sk" data-sk="${s.id}"><span class="ic">${s.icon}</span><span class="nm">${s.name}</span><div class="cd"></div><div class="ct"></div></button>`).join('');
+}
+function updateSkillBar(){
+  $$('.sk').forEach(el=>{ const id=el.dataset.sk, l=S.skills[id]||0, cd=S.cds[id]||0, tot=skillCd(id,l); const c=el.querySelector('.cd'), t=el.querySelector('.ct');
+    const active=(id==='frenzy'&&S.fx.frenzy>0)||(id==='eclipse'&&S.fx.eclipse>0)||(id==='finger'&&S.fx.finger>0);
+    c.style.transform=`scaleY(${cd>0?cd/tot:0})`; t.textContent=cd>0?fmtTime(cd):(id==='finger'&&S.fx.finger>0?S.fx.finger:'');
+    el.classList.toggle('on',cd<=0&&!active); el.classList.toggle('act',active); });
+}
+const FARMER_TXT=[[0,'asleep'],[0.12,'uneasy'],[0.3,'suspicious'],[0.5,'alarmed'],[0.7,'praying'],[0.9,'in despair']];
+function updateHeader(){
+  $('#rot').innerHTML=fmt(S.rot)+'<small>rot</small>'; $('#rps').textContent=fmt(rps)+' rot/s'+(S.fx.eclipse>0?' · ECLIPSE ×2':'')+(S.fx.frenzy>0?' · FRENZY ×4':'');
+  $('#spores').innerHTML='🍄 '+fmt(S.spores)+' <b>spores</b>'; $('#dread').innerHTML='👁 '+fmt(S.dread)+' <b>dread</b>'; $('#title').textContent=titleFor(S.killsAll)+(S.god?' · GOD':'');
+  const L=curLand(), F=curF(); let d=0; for(let i=0;i<F.t.length;i++) if(F.t[i]>=0) d++;
+  $('#deadTxt').textContent=d+' / '+F.t.length; $('#vigBar').style.width=(F.vig*100)+'%';
+  let ft='asleep'; for(const [v,t] of FARMER_TXT) if(F.vig>=v) ft=t; $('#farmerTxt').textContent='Farmer: '+ft;
+  const own=ownedLands(); const ix=own.indexOf(L); $('#prevLand').disabled=ix<=0; $('#nextLand').disabled=ix>=own.length-1;
+}
+function landChanged(){ const L=curLand(); $('#fieldName .n').textContent=L.name; $('#fieldName .s').textContent=L.crop+(L.immune.length?' · no '+L.immune.join(', '):''); layoutKey=''; parts=[]; floats=[]; if(W>0) layout(L); if(S.tab==='lands') renderPanel(); updateHeader(); }
+function switchLand(dir){ const own=ownedLands(); let ix=own.indexOf(curLand())+dir; ix=clamp(ix,0,own.length-1); S.cur=LAND_IX[own[ix].id]; landChanged(); AU.play('page'); }
+
+/* ---------- events ---------- */
+$('#tabs').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; S.tab=b.dataset.tab; renderPanel(); PANEL.scrollTop=0; AU.play('page'); });
+$('#prevLand').addEventListener('click',()=>switchLand(-1)); $('#nextLand').addEventListener('click',()=>switchLand(1));
+$('#skillBar').addEventListener('click',e=>{ const b=e.target.closest('.sk'); if(b) useSkill(b.dataset.sk); });
+$('#mute').addEventListener('click',()=>{ S.set.sound=!S.set.sound; S.set.music=S.set.sound; AU.apply(); $('#mute').textContent=S.set.sound?'♪':'✕'; if(S.tab==='more') renderPanel(); });
+PANEL.addEventListener('click',e=>{
+  const el=e.target.closest('[data-act]'); if(!el) return; const a=el.dataset.act;
+  if(a==='buy'){ if(buy(el.dataset.kind,el.dataset.id)) renderPanel(); else if(!quote(el.dataset.kind,el.dataset.id).can) AU.play('no'); }
+  else if(a==='buyn'){ S.buyN=el.dataset.n==='max'?'max':+el.dataset.n; renderPanel(); }
+  else if(a==='goto'){ S.cur=+el.dataset.i; landChanged(); renderPanel(); }
+  else if(a==='famine'){ const g=dreadGain()*(S.ended?2:1); if(g<1||S.rotRun<1e5) return;
+    modal(`<h3>Declare Famine?</h3><p>The fields go quiet. The granaries empty. Everyone starts over, including you.</p><p>You lose your rot, spores, lands, touch upgrades and plague levels${(S.aspects.memory||0)?' (plagues keep '+15*S.aspects.memory+'%)':''}.</p><p>You gain <b style="color:var(--dread)">${fmt(g)} Dread</b>, and keep your skills, mutations, aspects and omens.</p>`,
+      [{t:'Let them starve',cls:'red',f:()=>{declareFamine();renderPanel();}},{t:'Not yet',cls:'gray'}]); }
+  else if(a==='set'){ S.set[el.dataset.k]=!S.set[el.dataset.k]; AU.apply(); renderPanel(); }
+  else if(a==='save'){ save(); toast('Saved.'); }
+  else if(a==='export'){ modal(`<h3>Export</h3><p class="i">Copy this text somewhere safe. Import it to restore.</p><textarea readonly>${esc(exportSave())}</textarea>`,[{t:'Close',cls:'gray'}]); setTimeout(()=>{ const t=$('#modalBox textarea'); if(t){ t.focus(); t.select(); } },50); }
+  else if(a==='import'){ modal(`<h3>Import</h3><p class="i">Paste an exported save. This replaces your current game.</p><textarea id="impTxt"></textarea>`,[{t:'Import',cls:'red',f:()=>{ const t=$('#impTxt'); importSave(t?t.value:''); }},{t:'Cancel',cls:'gray'}]); }
+  else if(a==='reset'){ modal(`<h3>Wipe everything?</h3><p>Every field, every plague, every Famine. Gone. The world grows back, green and stupid.</p>`,[{t:'Wipe it all',cls:'red',f:()=>{ localStorage.removeItem(SAVE_KEY); S=newState(); initLand('hollow',true); boot(true); }},{t:'Keep playing',cls:'gray'}]); }
+  else if(a==='dev'){ if(S.dev){ renderPanel(); return; }
+    modal(`<h3>DEV</h3><p class="i">Enter the code.</p><input id="devCode" type="text" autocapitalize="characters" autocomplete="off" style="width:100%;padding:10px;font-size:18px;font-family:monospace;background:#0e0c09;color:var(--ink);border:1px solid var(--line);border-radius:8px;-webkit-user-select:text;user-select:text">`,
+      [{t:'Enter',f:()=>{ const c=($('#devCode')||{}).value||''; if(c.trim().toUpperCase()==='BURGER'){ S.dev=true; toast('DEV mode on.'); } else toast('No.'); renderPanel(); }},{t:'Cancel',cls:'gray'}]);
+    setTimeout(()=>{ const i=$('#devCode'); if(i) i.focus(); },50); }
+  else if(a==='devoff'){ S.dev=false; S.god=false; renderPanel(); }
+  else if(a==='god'){ S.god=!S.god; renderPanel(); }
+  else if(a==='give'){ const w=el.dataset.w;
+    if(w==='rot') addRot(Math.max(1000,S.rot*9)); else if(w==='rot1m') addRot(1e6); else if(w==='sp') S.spores+=100; else if(w==='dr'){ S.dread+=100; S.dreadTotal+=100; }
+    else if(w==='warp'){ simulate(3600,true); } else if(w==='lands'){ for(const L of LANDS) if(!S.lands[L.id]) initLand(L.id,false); landChanged(); } else if(w==='cd'){ for(const k in S.cds) S.cds[k]=0; }
+    else if(w==='kill'){ const L=curLand(),F=curF(); for(let i=0;i<F.t.length;i++) kill(F,L,i,'dev'); }
+    checkOmens(); renderPanel(); }
+});
+PANEL.addEventListener('input',e=>{ const el=e.target; if(el.dataset.act==='vol'){ S.set.vol=+el.value; AU.apply(); } });
+/* canvas taps: pointer events, with touch fallback for old WebKit */
+let lastTapT=0;
+function canvasTap(cx,cy){ const r=CV.getBoundingClientRect(); const i=plantAt(cx-r.left,cy-r.top); if(i>=0) tapPlant(i); }
+if(window.PointerEvent){ CV.addEventListener('pointerdown',e=>{ e.preventDefault(); AU.unlock(); canvasTap(e.clientX,e.clientY); },{passive:false}); }
+else { CV.addEventListener('touchstart',e=>{ e.preventDefault(); AU.unlock(); for(const t of e.changedTouches) canvasTap(t.clientX,t.clientY); },{passive:false}); CV.addEventListener('mousedown',e=>{ AU.unlock(); canvasTap(e.clientX,e.clientY); }); }
+CV.addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
+document.addEventListener('gesturestart',e=>e.preventDefault());
+document.addEventListener('touchend',e=>{ const now=Date.now(); if(now-lastTapT<300&&e.target.closest('#fieldWrap,#skillBar,#top')) e.preventDefault(); lastTapT=now; },{passive:false});
+document.addEventListener('pointerdown',()=>AU.unlock(),{passive:true});
+document.addEventListener('touchend',()=>AU.unlock(),{passive:true});
+
+/* =====================================================================
+   7. AUDIO (synthesized, no files)
+   ===================================================================== */
+const AU={
+  ctx:null, master:null, noise:null, musicT:0, unlocked:false,
+  init(){ if(this.ctx) return; const C=window.AudioContext||window.webkitAudioContext; if(!C) return; try{ this.ctx=new C(); }catch(e){ return; }
+    this.master=this.ctx.createGain(); this.master.connect(this.ctx.destination);
+    const sr=this.ctx.sampleRate, b=this.ctx.createBuffer(1,sr,sr), d=b.getChannelData(0); for(let i=0;i<sr;i++) d[i]=Math.random()*2-1; this.noise=b; this.apply(); },
+  unlock(){ this.init(); if(!this.ctx) return; if(this.ctx.state!=='running') this.ctx.resume().catch(()=>{}); this.unlocked=true; },
+  apply(){ if(!this.master) return; this.master.gain.value=S.set.sound?S.set.vol:0; },
+  env(g,t,a,h,r,peak){ g.gain.setValueAtTime(0.0001,t); g.gain.linearRampToValueAtTime(peak,t+a); g.gain.setValueAtTime(peak,t+a+h); g.gain.exponentialRampToValueAtTime(0.0001,t+a+h+r); },
+  nz(t,dur,f,q,peak,type){ const c=this.ctx, s=c.createBufferSource(); s.buffer=this.noise; s.loop=true; const fl=c.createBiquadFilter(); fl.type=type||'bandpass'; fl.frequency.value=f; fl.Q.value=q; const g=c.createGain(); this.env(g,t,0.005,dur*0.3,dur*0.7,peak); s.connect(fl); fl.connect(g); g.connect(this.master); s.start(t); s.stop(t+dur+0.1); return fl; },
+  tone(t,dur,f0,f1,type,peak,a){ const c=this.ctx, o=c.createOscillator(); o.type=type||'sine'; o.frequency.setValueAtTime(f0,t); if(f1) o.frequency.exponentialRampToValueAtTime(f1,t+dur); const g=c.createGain(); this.env(g,t,a||0.01,dur*0.2,dur*0.8,peak); o.connect(g); g.connect(this.master); o.start(t); o.stop(t+dur+0.2); return o; },
+  play(name){ if(!this.ctx||!S||!S.set.sound||offlineMode) return; const t=this.ctx.currentTime;
+    try{ switch(name){
+      case 'tap': this.nz(t,0.07,1400+Math.random()*600,1.5,0.18); break;
+      case 'crit': this.nz(t,0.16,900,1.2,0.3); this.tone(t,0.15,500,180,'triangle',0.12); break;
+      case 'kill': this.nz(t,0.18,420,0.9,0.22,'lowpass'); this.tone(t,0.2,110,60,'sine',0.14); break;
+      case 'collapse': this.tone(t,1.4,70,32,'sine',0.35,0.02); this.nz(t,1.2,180,0.7,0.25,'lowpass'); this.tone(t+0.1,0.8,220,110,'triangle',0.06); break;
+      case 'buy': this.tone(t,0.07,520,700,'triangle',0.07); break;
+      case 'no': this.tone(t,0.12,180,120,'square',0.04); break;
+      case 'page': this.nz(t,0.05,3000,1,0.05); break;
+      case 'skill': { const f=this.nz(t,0.6,300,2,0.2); f.frequency.exponentialRampToValueAtTime(3200,t+0.5); this.tone(t,0.5,160,320,'sawtooth',0.05); break; }
+      case 'frost': this.tone(t,0.5,2400,2000,'sine',0.06,0.05); this.tone(t+0.05,0.6,3600,3000,'sine',0.04,0.05); this.nz(t,0.5,6000,1,0.05,'highpass'); break;
+      case 'land': this.tone(t,0.6,220,330,'triangle',0.1,0.05); this.tone(t+0.15,0.6,330,440,'triangle',0.08,0.05); break;
+      case 'omen': this.tone(t,0.9,660,660,'sine',0.08,0.01); this.tone(t+0.12,0.9,990,990,'sine',0.05,0.01); break;
+      case 'famine': this.tone(t,3,55,28,'sawtooth',0.18,0.4); this.tone(t+0.5,2.5,440,440,'sine',0.06,0.5); this.nz(t,2.5,120,0.5,0.15,'lowpass'); break;
+    } }catch(e){} },
+  /* music: sparse, random, never a loop. A low note every 8–16 s, sometimes a bell above it. */
+  music(dt){ if(!this.ctx||!S.set.music||!S.set.sound||document.hidden) return; this.musicT-=dt; if(this.musicT>0) return; this.musicT=rnd(8,16);
+    const t=this.ctx.currentTime, wd=worldDecay(); const scale=wd<0.5?[0,3,5,7,10]:[0,1,3,6,8]; const root=55*Math.pow(2,(wd>0.7?-2:0)/12);
+    const n=scale[ri(scale.length)]; const f=root*Math.pow(2,n/12)*(Math.random()<0.5?1:2);
+    try{ const c=this.ctx, o=c.createOscillator(); o.type='sawtooth'; o.frequency.value=f; const fl=c.createBiquadFilter(); fl.type='lowpass'; fl.frequency.value=220+200*(1-wd); fl.Q.value=2; const g=c.createGain();
+      g.gain.setValueAtTime(0.0001,t); g.gain.linearRampToValueAtTime(0.09,t+2.5); g.gain.exponentialRampToValueAtTime(0.0001,t+9); o.connect(fl); fl.connect(g); g.connect(this.master); o.start(t); o.stop(t+9.5);
+      if(Math.random()<0.3){ const o2=c.createOscillator(); o2.type='sine'; o2.frequency.value=f*4*(Math.random()<0.5?1:1.5); const g2=c.createGain(); g2.gain.setValueAtTime(0.0001,t+1); g2.gain.linearRampToValueAtTime(0.035,t+1.05); g2.gain.exponentialRampToValueAtTime(0.0001,t+5); o2.connect(g2); g2.connect(this.master); o2.start(t+1); o2.stop(t+5.2); }
+    }catch(e){} }
+};
+
+/* =====================================================================
+   8. SAVE / LOAD / OFFLINE
+   ===================================================================== */
+function save(){ if(!S) return; S.lastTick=Date.now(); try{ localStorage.setItem(SAVE_KEY,JSON.stringify(S)); }catch(e){} }
+function exportSave(){ S.lastTick=Date.now(); try{ return btoa(unescape(encodeURIComponent(JSON.stringify(S)))); }catch(e){ return ''; } }
+function importSave(txt){ try{ const o=JSON.parse(decodeURIComponent(escape(atob(txt.trim())))); if(!o||o.v!==1||!o.lands) throw 0; S=migrate(o); save(); boot(true); toast('Save imported.'); }catch(e){ toast('That is not a save.'); } }
+function migrate(o){ const d=newState(); for(const k in d) if(o[k]===undefined) o[k]=d[k]; for(const k in d.set) if(o.set[k]===undefined) o.set[k]=d.set[k]; for(const k in d.fx) if(o.fx[k]===undefined) o.fx[k]=d.fx[k];
+  for(const id in o.lands){ const F=o.lands[id]; if(!LAND_IX.hasOwnProperty(id)){ delete o.lands[id]; continue; } const n=LANDS[LAND_IX[id]].cols*LANDS[LAND_IX[id]].rows; if(!F.g||F.g.length!==n){ o.lands[id]=null; } }
+  for(const id in o.lands) if(!o.lands[id]) delete o.lands[id];
+  if(!o.lands.hollow&&Object.keys(o.lands).length===0){ S=o; initLand('hollow',true); }
+  if(!LANDS[o.cur]||!o.lands[LANDS[o.cur].id]) o.cur=LAND_IX[Object.keys(o.lands)[0]]||0;
+  for(const id in o.lands){ const F=o.lands[id]; if(F.deadT===undefined) F.deadT=0; if(F.rAcc===undefined) F.rAcc=0; } if(o.touch&&o.touch.roots!==undefined){ o.touch.seeds=o.touch.roots; delete o.touch.roots; }
+  o.god=false; o.dev=false; return o; }
+function load(){ try{ const r=localStorage.getItem(SAVE_KEY); if(!r) return null; const o=JSON.parse(r); if(!o||o.v!==1) return null; return migrate(o); }catch(e){ return null; } }
+function simulate(seconds,quiet){
+  /* offline / warp: run the same tick in coarse steps */
+  offlineMode=true; const rot0=S.rotAll, k0=S.killsAll, c0=S.collapsesAll, sp0=S.spores;
+  const steps=Math.min(3000,Math.ceil(seconds/2)); const dt=seconds/steps;
+  for(let i=0;i<steps;i++) tick(dt);
+  offlineMode=false; checkOmens();
+  return {rot:S.rotAll-rot0,kills:S.killsAll-k0,col:S.collapsesAll-c0,sp:S.spores-sp0,sec:seconds};
+}
+function offline(){
+  const el=(Date.now()-S.lastTick)/1000; if(el<60) return;
+  const cap=(4+2*(S.aspects.night||0))*3600; const sim=Math.min(el,cap);
+  const r=simulate(sim,true);
+  modal(`<h3>While you were away</h3><p class="i">${fmtTime(el)} passed${el>cap?' (your plagues worked for '+fmtTime(cap)+' of it)':''}.</p>
+   <div class="stats"><span>Rot gained</span><b>${fmt(r.rot)}</b><span>Plants withered</span><b>${fmt(r.kills)}</b><span>Collapses</span><b>${r.col}</b><span>Spores</span><b>+${fmt(r.sp)}</b></div>`,[{t:'Good.',cls:''}]);
+}
+function showEnding(){
+  modal(`<h3>Nothing grows now.</h3><p>The last seeds are dust. The Vault is a cold room with a broken light. Somewhere a child asks what bread was, and nobody remembers the word for green.</p>
+  <p class="i">You did this with your fingers.</p><div class="stats"><span>Rot this famine</span><b>${fmt(S.rotRun)}</b><span>Plants withered</span><b>${fmt(S.killsAll)}</b><span>Time</span><b>${fmtTime(S.played)}</b></div>
+  <p>A Famine declared now earns <b style="color:var(--dread)">double Dread</b>. Or stay, and keep the fields from ever coming back.</p>`,
+  [{t:'Declare Famine (×2 Dread)',cls:'red',f:()=>{declareFamine();renderPanel();}},{t:'Stay in the dark',cls:'gray'}]);
+}
+
+/* =====================================================================
+   9. MAIN LOOP & BOOT
+   ===================================================================== */
+let last=0, uiT=0, saveT=0, started=false;
+function frame(ts){
+  requestAnimationFrame(frame); if(!started) return;
+  if(!last) last=ts; let dt=(ts-last)/1000; last=ts; tms=ts; if(dt>0.5) dt=0.5; if(dt<=0) return;
+  tick(dt); AU.music(dt);
+  uiT+=dt; if(uiT>=0.2){ uiT=0; updateHeader(); refreshBuys(); if(omenDirty) checkOmens(); }
+  updateSkillBar();
+  saveT+=dt; if(saveT>=15){ saveT=0; save(); }
+  draw();
+}
+function boot(fromReset){
+  resize(); landChanged(); renderSkillBar(); $('#mute').textContent=S.set.sound?'♪':'✕'; AU.apply(); S.tab=S.tab||'touch'; renderPanel(); updateHeader(); closeModal();
+  if(fromReset){ started=true; }
+}
+window.addEventListener('resize',()=>{ resize(); });
+window.addEventListener('orientationchange',()=>setTimeout(resize,300));
+document.addEventListener('visibilitychange',()=>{ if(document.hidden){ save(); } else { last=0; const el=(Date.now()-S.lastTick)/1000; if(el>60) offline(); S.lastTick=Date.now(); } });
+window.addEventListener('pagehide',save); window.addEventListener('beforeunload',save);
+
+S=load(); const fresh=!S; if(fresh){ S=newState(); initLand('hollow',true); }
+boot(false);
+$('#intro').addEventListener('click',()=>{ AU.unlock(); $('#intro').style.display='none'; started=true; last=0; if(!fresh) offline(); S.lastTick=Date.now(); if(fresh) setTimeout(()=>toast('Tap the wheat. Ripe heads give the most rot.'),400); });
+requestAnimationFrame(frame);
+window.UNH={get S(){return S},tick,simulate,buy,quote,fmt,LANDS,PLAGUES,save};
+</script>
+</body>
+</html>
